@@ -5,7 +5,6 @@ import { Login } from '../components/Authentication/Login';
 function HomePage() {
   return (
     <div>
-      <Login />
         <Appbar />
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -13,6 +13,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
+import { Login } from '../Authentication/Login';
+
+export const LoginContext = createContext()
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -59,6 +62,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+  const [loginForm, setLoginForm] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl);
 
@@ -69,6 +73,10 @@ export default function PrimarySearchAppBar() {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
+
+  const openLoginForm = () => {
+    setLoginForm(true);
+  }
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -85,14 +93,15 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      
-      <MenuItem onClick={handleMenuClose}>Login</MenuItem>
+        <MenuItem onClick={openLoginForm}>Login</MenuItem>
       <MenuItem onClick={handleMenuClose}>My Profile</MenuItem>
     </Menu>
+    
   );
 
   return (
     <Box sx={{ flexGrow: 1 }} marginLeft={40} marginRight={40} color="primary">
+      
       <AppBar position="static" sx={{ bgcolor: "#fa4902" }}>
         <Toolbar >
           <Typography
@@ -143,6 +152,7 @@ export default function PrimarySearchAppBar() {
         </Toolbar>
       </AppBar>
       {renderMenu}
+      {loginForm && <Login />}
     </Box>
   );
 }
