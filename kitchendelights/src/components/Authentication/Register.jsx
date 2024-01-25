@@ -35,6 +35,10 @@ const Register = () => {
     setForgotPasswordForm(true);
   }
 
+  const closeForm = () => {
+    setRegisterForm(false);
+  }
+
   return (
     <div>
         {registerForm && (

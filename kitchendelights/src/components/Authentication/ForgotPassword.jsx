@@ -16,6 +16,10 @@ const ForgotPassword = () => {
     setForgotPasswordForm(false);
     setLoginForm(true);
   }
+
+  const closeForm = () => {
+    setForgotPasswordForm(false);
+  }
   return (
     <div>
         {forgotPasswordForm && (

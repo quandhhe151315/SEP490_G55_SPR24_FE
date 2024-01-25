@@ -6,7 +6,7 @@ import Cookies from 'js-cookie';
 import '/SEP490_G55_SPR24_FE/SEP490_G55_SPR24_FE/kitchendelights/src/assets/css/Login.css';
 import { Register } from './Register';
 import { ForgotPassword } from './ForgotPassword';
-import CancelPresentationIcon from '@mui/icons-material/CancelPresentation';
+// import CancelPresentationIcon from '@mui/icons-material/CancelPresentation';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -63,7 +63,7 @@ const Login = () => {
                 <Button variant="contained" onClick={handleLogin}>Login</Button>
                 <div className="bottom-text">
                   No account yet? <Button color="secondary" onClick={openRegisterForm}>Register</Button>
-                  <CancelPresentationIcon onClick={closeForm}/>
+                  {/* <CancelPresentationIcon onClick={closeForm}/> */}
                   <h4><Button variant="text" onClick={openForgotPasswordForm}>Forgot your password?</Button></h4>
                 </div>
               </div>

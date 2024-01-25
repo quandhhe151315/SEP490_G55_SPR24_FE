@@ -61,9 +61,23 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+const Overlay = styled('div')(({ theme }) => ({
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  width: '100%',
+  height: '100%',
+  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  zIndex: 10,
+}));
+
+
 export default function PrimarySearchAppBar() {
   const [loginForm, setLoginForm] = useState(false);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const isMenuOpen = Boolean(anchorEl);
 
   const handleProfileMenuOpen = (event) => {
@@ -75,8 +89,13 @@ export default function PrimarySearchAppBar() {
   };
 
   const openLoginForm = () => {
+    handleMenuClose();
     setLoginForm(true);
   }
+
+  const closeLoginForm = () => {
+    setLoginForm(false);
+  };
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -152,7 +171,12 @@ export default function PrimarySearchAppBar() {
         </Toolbar>
       </AppBar>
       {renderMenu}
-      {loginForm && <Login />}
+      {loginForm && (
+        <>
+          <Overlay onClick={closeLoginForm} />
+          <Login />
+        </>
+      )}
     </Box>
   );
 }
