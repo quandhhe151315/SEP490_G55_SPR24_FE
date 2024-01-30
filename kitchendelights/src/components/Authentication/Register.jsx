@@ -49,7 +49,8 @@ const Register = () => {
                 <input type="text" value={username} placeholder="Enter your email" onChange={(e) => setUsername(e.target.value)} />
                 <input type="password" value={password} placeholder="Enter your password" onChange={(e) => setPassword(e.target.value)} />
                 <input type="password" value={repassword} placeholder="Re-enter your password" onChange={(e) => setRepassword(e.target.value)} />
-                <Button variant="contained" onClick={handleRegister}>Register</Button>
+                <br />
+                <Button sx={{ marginTop: "20px", marginLeft: "6px", width: "96%" }} variant="contained" onClick={handleRegister}>Register</Button>
                 <div className="bottom-text">
                   Have account? <Button color="secondary" onClick={openLoginForm}>Sign in</Button>
                   <h4><Button variant="text" onClick={openForgotPasswordForm}>Forgot your password?</Button></h4>

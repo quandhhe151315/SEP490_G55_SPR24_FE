@@ -28,7 +28,7 @@ const ForgotPassword = () => {
             <div className="login-form">
               <div className="login-container">
                 <input type="text" value={username} placeholder="Enter your email" onChange={(e) => setUsername(e.target.value)} />
-                <Button variant="contained" onClick={handleForgotPassword}>Get code by your email</Button>
+                <Button sx={{ marginTop: "20px", marginLeft: "6px", width: "96%" }} variant="contained" onClick={handleForgotPassword}>Get code by your email</Button>
                 <div className="bottom-text">
                   Remember your password? <Button color="secondary" onClick={openLoginForm}>Sign in</Button>
                 </div>

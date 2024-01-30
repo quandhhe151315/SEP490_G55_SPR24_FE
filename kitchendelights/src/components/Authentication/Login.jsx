@@ -60,7 +60,8 @@ const Login = () => {
               <div className="login-container">
                 <input type="text" value={username} placeholder="Email" onChange={(e) => setUsername(e.target.value)} />
                 <input type="password" value={password} placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
-                <Button variant="contained" onClick={handleLogin}>Login</Button>
+                <br />
+                <Button sx={{ marginTop: "20px", marginLeft: "6px", width: "96%" }} variant="contained" onClick={handleLogin}>Login</Button>
                 <div className="bottom-text">
                   No account yet? <Button color="secondary" onClick={openRegisterForm}>Register</Button>
                   {/* <CancelPresentationIcon onClick={closeForm}/> */}
