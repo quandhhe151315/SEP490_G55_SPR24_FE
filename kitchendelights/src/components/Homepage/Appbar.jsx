@@ -9,13 +9,11 @@ import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SearchIcon from '@mui/icons-material/Search';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import { Login } from '../Authentication/Login';
-
-export const LoginContext = createContext()
+import Button from '@mui/material/Button';
+import { useNavigate } from "react-router-dom";
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -24,34 +22,26 @@ const Search = styled('div')(({ theme }) => ({
   '&:hover': {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
-  marginRight: theme.spacing(2),
+  border: '2px solid gray',
+  marginRight: theme.spacing(-6),
   marginLeft: 0,
   marginTop: 10,
   marginBottom: 10,
   width: '100%',
+  borderRadius: '15px',
   [theme.breakpoints.up('sm')]: {
     marginLeft: theme.spacing(3),
-    width: 400,
+    width: 280,
     height: 40,
   },
 }));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
+  color: 'black',
   '& .MuiInputBase-input': {
     padding: theme.spacing(0, 1, 1, 0),
     // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    paddingLeft: `calc(1em + ${theme.spacing(1)})`,
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('md')]: {
@@ -79,6 +69,7 @@ export default function PrimarySearchAppBar() {
   const [loginForm, setLoginForm] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const isMenuOpen = Boolean(anchorEl);
+  const navigate = useNavigate();
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -97,6 +88,14 @@ export default function PrimarySearchAppBar() {
     setLoginForm(false);
   };
 
+  const goToHomePage = () => {
+    navigate('/KitchenDelights');
+  }
+
+  const goToNews = () => {
+    navigate('/ViewListNews');
+  }
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -111,51 +110,98 @@ export default function PrimarySearchAppBar() {
       }}
       open={isMenuOpen}
       onClose={handleMenuClose}
-    >
-        <MenuItem onClick={openLoginForm}>Login</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My Profile</MenuItem>
+      >
+      <MenuItem onClick={openLoginForm}>Đăng nhập</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Thông tin cá nhân</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Đổi mật khẩu</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Công thức yêu thích</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Công thức của tôi</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Đánh giá</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Blog</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Trở thành đầu bếp</MenuItem>
     </Menu>
     
   );
 
   return (
-    <Box sx={{ flexGrow: 1 }} marginLeft={40} marginRight={40} color="primary">
+    <Box sx={{ flexGrow: 1 }} marginLeft={35} marginRight={35} color="primary">
       
-      <AppBar position="static" sx={{ bgcolor: "#fa4902" }}>
-        <Toolbar >
+      <AppBar position="static" sx={{ bgcolor: "#ffffff", height: "120px", borderRadius: "5px" }}>
+        <Toolbar  >
           <Typography
             variant="h6"
             noWrap
             component="div"
-            sx={{ display: { xs: 'none', sm: 'block' } }}
+            sx={{ display: { xs: 'none', sm: 'block', color: "#000000", fontSize: "20px", } }}
+            
           >
             Kitchen Delights
           </Typography>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
+          
+          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+          <Button
+              color="secondary"
+              size="large"
+              variant="text"
+              sx={{color: "#000000", fontWeight: "bold", marginLeft: "50px"}}
+              onClick={goToHomePage}
+            >
+            Trang chủ
+            </Button>
+            <Button
+              color="secondary"
+              size="large"
+              variant="text"
+              sx={{color: "#000000", fontWeight: "bold", }}
+            >
+            Công thức
+            </Button>
+            <Button
+              color="secondary"
+              size="large"
+              variant="text"
+              sx={{color: "#000000", fontWeight: "bold", }}
+            >
+            Blog
+            </Button>
+            <Button
+              color="secondary"
+              size="large"
+              variant="text"
+              sx={{color: "#000000", fontWeight: "bold"}}
+              onClick={goToNews}
+            >
+            Tin tức
+            </Button>
+            <Button
+              color="secondary"
+              size="large"
+              variant="text"
+              sx={{color: "#000000", fontWeight: "bold"}}
+              onClick={goToNews}
+            >
+            Bán chạy nhất
+            </Button>
+            <Button
+              color="secondary"
+              size="large"
+              variant="text"
+              sx={{color: "#000000", fontWeight: "bold", marginRight: "50px" }}
+            >
+            Đánh giá cao
+            </Button>
+            <Search>
             <StyledInputBase
               placeholder="Tìm những gì bạn thích"
               inputProps={{ 'aria-label': 'search' }}
+              sx={{ color: "rgba(0, 0, 0, 0.54)" }}
             />
           </Search>
-          <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-              <Badge color="error">
-                <FavoriteIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
-              <Badge color="error">
-                <ShoppingBasketIcon />
-              </Badge>
-            </IconButton>
+          <Box sx={{ flexGrow: 1 }}>
+          <SearchIcon 
+            sx={{bgcolor: "#ff5e00", borderRadius: '15px', width: '48px', height: '42px', marginTop: '10px'}}
+            />
+          </Box>
             <IconButton
               size="large"
               edge="end"
@@ -163,12 +209,74 @@ export default function PrimarySearchAppBar() {
               aria-controls={menuId}
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
-              color="inherit"
+              sx={{ marginLeft: '10px'}}
             >
-              <AccountCircle />
+              <AccountCircleIcon fontSize="large" />
+              
             </IconButton>
           </Box>
         </Toolbar>
+
+        <Toolbar>
+            <Button
+              color="secondary"
+              size="large"
+              variant="text"
+              sx={{color: "#000000", fontWeight: "bold", marginLeft: "100px" }}
+            >
+            Thịt Gà
+            </Button>
+            <Button
+              color="secondary"
+              size="large"
+              variant="text"
+              sx={{color: "#000000", fontWeight: "bold"}}
+            >
+            Thịt Bò
+            </Button>
+            <Button
+              color="secondary"
+              size="large"
+              variant="text"
+              sx={{color: "#000000", fontWeight: "bold"}}
+            >
+            Bánh ngọt
+            </Button>
+            <Button
+              color="secondary"
+              size="large"
+              variant="text"
+              sx={{color: "#000000", fontWeight: "bold"}}
+            >
+            Món ăn dinh dưỡng
+            </Button>
+            <Button
+              color="secondary"
+              size="large"
+              variant="text"
+              sx={{color: "#000000", fontWeight: "bold"}}
+            >
+            Món ăn chay
+            </Button>
+            <Button
+              color="secondary"
+              size="large"
+              variant="text"
+              sx={{color: "#000000", fontWeight: "bold"}}
+            >
+            Rau củ
+            </Button>
+            <Button
+              color="secondary"
+              size="large"
+              variant="text"
+              sx={{color: "#000000", fontWeight: "bold"}}
+            >
+            Món ăn truyền thống
+            </Button>
+            
+        </Toolbar>
+
       </AppBar>
       {renderMenu}
       {loginForm && (

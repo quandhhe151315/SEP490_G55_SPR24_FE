@@ -1,7 +1,7 @@
 import React from 'react';
 import Appbar from '../components/Homepage/Appbar';
 
-function HomePage() {
+function ViewListNews() {
   return (
     <div>
         <Appbar />
@@ -9,4 +9,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default ViewListNews;
