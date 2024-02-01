@@ -62,6 +62,7 @@ const Overlay = styled('div')(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'center',
   zIndex: 10,
+  cursor: 'pointer',
 }));
 
 
@@ -124,7 +125,7 @@ export default function PrimarySearchAppBar() {
   );
 
   return (
-    <Box sx={{ flexGrow: 1 }} marginLeft={35} marginRight={35} color="primary">
+    <Box sx={{ flexGrow: 1, minWidth: '1350px' }} marginLeft={35} marginRight={35} color="primary" >
       
       <AppBar position="static" sx={{ bgcolor: "#ffffff", height: "120px", borderRadius: "5px" }}>
         <Toolbar  >
