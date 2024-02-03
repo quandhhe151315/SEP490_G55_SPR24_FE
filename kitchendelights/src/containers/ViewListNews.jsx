@@ -63,6 +63,10 @@ function ViewListNews() {
     navigate('/KitchenDelights');
   }
 
+  const goToCreateNews = () => {
+    navigate('/CreateNews');
+  }
+
   return (
     <div>
         <Appbar />
@@ -76,8 +80,9 @@ function ViewListNews() {
             sx={{ bgcolor: "#ff5e00", borderRadius: '15px', marginLeft: '16px', width: '48px', height: '42px', color: 'white'}}
             onClick = {SearchNews}
             />
+            
           </DisplaySearchNews>
-          
+          <Button variant="contained" sx={{ bgcolor: "#ff5e00", borderRadius: '15px', marginLeft: '1430px', width: '180px', height: '42px', color: 'white'}} onClick={goToCreateNews}>Tạo tin tức mới</Button>
           <Typography sx={{ marginLeft: '320px', fontSize: '16px', marginRight: '255px'}}>
             <h1> Tin tức </h1>
             Đây là chuyên mục bạn có thể đọc những mẩu tin về chuyên ngành ẩm thực.

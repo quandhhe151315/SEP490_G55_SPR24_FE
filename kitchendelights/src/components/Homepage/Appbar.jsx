@@ -179,7 +179,6 @@ export default function PrimarySearchAppBar() {
               size="large"
               variant="text"
               sx={{color: "#000000", fontWeight: "bold"}}
-              onClick={goToNews}
             >
             Bán chạy nhất
             </Button>
