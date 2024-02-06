@@ -14,7 +14,6 @@ import {
 } from "@mui/material";
 import { useCallback, useMemo, useState } from "react";
 import Editor from '../Richtext/Editor.tsx';
-import { orange } from "@mui/material/colors";
 
 export default function App() {
   const systemSettingsPrefersDarkMode = useMediaQuery(
