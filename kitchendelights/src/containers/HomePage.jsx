@@ -5,6 +5,7 @@ function HomePage() {
   return (
     <div>
         <Appbar />
+        <h1>Trang chủ</h1>
     </div>
   );
 }

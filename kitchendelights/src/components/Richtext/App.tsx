@@ -1,13 +1,5 @@
-import Brightness4Icon from "@mui/icons-material/Brightness4";
-import Brightness7Icon from "@mui/icons-material/Brightness7";
 import {
-  AppBar,
   Box,
-  CssBaseline,
-  IconButton,
-  ThemeProvider,
-  Toolbar,
-  Typography,
   createTheme,
   useMediaQuery,
   type PaletteMode,
@@ -22,11 +14,7 @@ export default function App() {
   const [paletteMode, setPaletteMode] = useState<PaletteMode>(
     systemSettingsPrefersDarkMode ? "dark" : "light"
   );
-  const togglePaletteMode = useCallback(
-    () =>
-      setPaletteMode((prevMode) => (prevMode === "light" ? "dark" : "light")),
-    []
-  );
+  
   const theme = useMemo(
     () =>
       createTheme({

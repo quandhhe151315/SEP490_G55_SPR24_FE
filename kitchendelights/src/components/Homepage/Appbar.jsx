@@ -97,6 +97,10 @@ export default function PrimarySearchAppBar() {
     navigate('/ViewListNews');
   }
 
+  const goToMyProfile = () => {
+    navigate('/MyProfile');
+  }
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -113,7 +117,7 @@ export default function PrimarySearchAppBar() {
       onClose={handleMenuClose}
       >
       <MenuItem onClick={openLoginForm}>Đăng nhập</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Thông tin cá nhân</MenuItem>
+      <MenuItem onClick={goToMyProfile}>Thông tin cá nhân</MenuItem>
       <MenuItem onClick={handleMenuClose}>Đổi mật khẩu</MenuItem>
       <MenuItem onClick={handleMenuClose}>Công thức yêu thích</MenuItem>
       <MenuItem onClick={handleMenuClose}>Công thức của tôi</MenuItem>

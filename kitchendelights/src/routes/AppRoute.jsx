@@ -3,6 +3,7 @@ import { RouterProvider, createBrowserRouter, Navigate } from "react-router-dom"
 import HomePage from "../containers/HomePage";
 import CreateNews from "../containers/CreateNews";
 import ViewListNews from "../containers/ViewListNews";
+import MyProfile from "../containers/MyProfile";
 
 function AppRoute() {
   const router = createBrowserRouter([
@@ -18,7 +19,10 @@ function AppRoute() {
       path: "/ViewListNews",
       element: <ViewListNews />,
     },
-
+    {
+      path: "/MyProfile",
+      element: <MyProfile />,
+    },
 
     {path: "/", element: <Navigate to="/KitchenDelights" /> },
   ]);
