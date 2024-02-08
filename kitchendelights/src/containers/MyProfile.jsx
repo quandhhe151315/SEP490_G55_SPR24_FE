@@ -9,7 +9,16 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import image1 from '/SEP490_G55_SPR24_FE/SEP490_G55_SPR24_FE/kitchendelights/src/assets/images/news1.jpg';
 import Button from '@mui/material/Button';
+import { useNavigate } from "react-router-dom";
+
+
 function MyProfile() {
+  const navigate = useNavigate();
+
+  const goToChangeMyProfile = () => {
+    navigate('/ChangeMyProfile');
+  }
+
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
@@ -45,8 +54,8 @@ function MyProfile() {
                     </Grid>
 
                     <Grid item xs container direction="row">
-                      <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '70px' }}>Tên: </Typography>
-                      <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '135px' }}>Phan Tuấn Linh </Typography>
+                      <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '70px' }}>Họ và tên: </Typography>
+                      <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '90px' }}>Phan Tuấn Linh </Typography>
                     </Grid>
 
                     <Grid item xs container direction="row">
@@ -75,7 +84,7 @@ function MyProfile() {
                 </Grid>
               </Grid>
               <Grid item xs container direction="row">
-                    <Button variant="contained" sx={{ bgcolor: "#ff5e00", marginTop:'50px', borderRadius: '15px', marginLeft: '370px', width: '180px', height: '42px', color: 'white'}}>Đổi thông tin</Button>
+                    <Button variant="contained" sx={{ bgcolor: "#ff5e00", marginTop:'58px', borderRadius: '15px', marginLeft: '370px', width: '180px', height: '42px', color: 'white'}} onClick={goToChangeMyProfile}>Đổi thông tin</Button>
                     </Grid>
             </Paper>
           </Grid>

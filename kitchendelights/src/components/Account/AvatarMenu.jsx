@@ -14,76 +14,88 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import CommentIcon from '@mui/icons-material/Comment';
 import ArtTrackIcon from '@mui/icons-material/ArtTrack';
 import ContactsIcon from '@mui/icons-material/Contacts';
+import { useNavigate } from "react-router-dom";
+
 function AvatarMenu() {
+    const navigate = useNavigate();
+
+    const goToMyProfile = () => {
+        navigate('/MyProfile');
+    }
+
+    const goToChangePassword = () => {
+        navigate('/ChangePassword');
+    }
+
     return (
-      <div>
-        <Paper sx={{ width: 280, maxWidth: '100%', marginTop: '30px', marginLeft: '280px', border: '1px solid #bfb8b8' }}>
-        <MenuList>
-            <MenuItem>
-            <ListItemIcon>
-                <AccountCircleIcon fontSize="small" sx={{ color: "#ff5e00" }}/>
-            </ListItemIcon>
-            <ListItemText>Xin chào ...</ListItemText>
-            </MenuItem>
-            <Divider />
-            <MenuItem>
-            <ListItemIcon>
-                <ContactEmergencyIcon fontSize="small" sx={{ color: "#ff5e00" }}/>
-            </ListItemIcon>
-            <ListItemText sx={{  fontWeight: 'bold'}}>Thông tin cá nhân</ListItemText>
-            </MenuItem>
+        <div>
+            <Paper sx={{ width: 280, maxWidth: '100%', marginTop: '30px', marginLeft: '280px', border: '1px solid #bfb8b8' }}>
+                <MenuList>
+                    <MenuItem>
+                        <ListItemIcon>
+                            <AccountCircleIcon fontSize="small" sx={{ color: "#ff5e00" }} />
+                        </ListItemIcon>
+                        <ListItemText>Xin chào ...</ListItemText>
+                    </MenuItem>
+                    <Divider />
+                    <MenuItem onClick={goToMyProfile}>
+                        <ListItemIcon>
+                            <ContactEmergencyIcon fontSize="small" sx={{ color: "#ff5e00" }} />
+                        </ListItemIcon>
+                        <ListItemText sx={{ fontWeight: 'bold' }}>Thông tin cá nhân</ListItemText>
+                    </MenuItem>
 
-            <MenuItem>
-            <ListItemIcon>
-                <PasswordIcon fontSize="small" sx={{ color: "#ff5e00" }}/>
-            </ListItemIcon>
-            <ListItemText>Đổi mật khẩu</ListItemText>
-            </MenuItem>
-        </MenuList>
-        </Paper>
-        <Paper sx={{ width: 280, maxWidth: '100%', marginTop: '20px', marginLeft: '280px', border: '1px solid #bfb8b8' }}>
-        <MenuList>
-            <MenuItem>
-            <ListItemIcon>
-                <FavoriteIcon fontSize="small" sx={{ color: "#ff5e00" }}/>
-            </ListItemIcon>
-            <ListItemText>Công thức yêu thích</ListItemText>
-            </MenuItem>
+                    <MenuItem onClick={goToChangePassword}>
+                        <ListItemIcon>
+                            <PasswordIcon fontSize="small" sx={{ color: "#ff5e00" }} />
+                        </ListItemIcon>
+                        <ListItemText>Đổi mật khẩu</ListItemText>
+                    </MenuItem>
+                </MenuList>
+            </Paper>
+            <Paper sx={{ width: 280, maxWidth: '100%', marginTop: '20px', marginLeft: '280px', border: '1px solid #bfb8b8' }}>
+                <MenuList>
+                    <MenuItem>
+                        <ListItemIcon>
+                            <FavoriteIcon fontSize="small" sx={{ color: "#ff5e00" }} />
+                        </ListItemIcon>
+                        <ListItemText>Công thức yêu thích</ListItemText>
+                    </MenuItem>
 
-            <MenuItem>
-            <ListItemIcon>
-                <LocalPizzaIcon fontSize="small" sx={{ color: "#ff5e00" }}/>
-            </ListItemIcon>
-            <ListItemText>Công thức của tôi</ListItemText>
-            </MenuItem>
+                    <MenuItem>
+                        <ListItemIcon>
+                            <LocalPizzaIcon fontSize="small" sx={{ color: "#ff5e00" }} />
+                        </ListItemIcon>
+                        <ListItemText>Công thức của tôi</ListItemText>
+                    </MenuItem>
 
-            <MenuItem>
-            <ListItemIcon>
-                <CommentIcon fontSize="small" sx={{ color: "#ff5e00" }}/>
-            </ListItemIcon>
-            <ListItemText>Đánh giá</ListItemText>
-            </MenuItem>
+                    <MenuItem>
+                        <ListItemIcon>
+                            <CommentIcon fontSize="small" sx={{ color: "#ff5e00" }} />
+                        </ListItemIcon>
+                        <ListItemText>Đánh giá</ListItemText>
+                    </MenuItem>
 
-            <MenuItem>
-            <ListItemIcon>
-                <ArtTrackIcon fontSize="small" sx={{ color: "#ff5e00" }}/>
-            </ListItemIcon>
-            <ListItemText>Blog</ListItemText>
-            </MenuItem>
-        </MenuList>
-        </Paper>
-        <Paper sx={{ width: 280, maxWidth: '100%', marginTop: '20px', marginLeft: '280px', border: '1px solid #bfb8b8' }}>
-        <MenuList>
-            <MenuItem>
-            <ListItemIcon>
-                <ContactsIcon fontSize="small" sx={{ color: "#ff5e00" }}/>
-            </ListItemIcon>
-            <ListItemText>Trở thành đầu bếp</ListItemText>
-            </MenuItem>
-        </MenuList>
-        </Paper>
-      </div>
+                    <MenuItem>
+                        <ListItemIcon>
+                            <ArtTrackIcon fontSize="small" sx={{ color: "#ff5e00" }} />
+                        </ListItemIcon>
+                        <ListItemText>Blog</ListItemText>
+                    </MenuItem>
+                </MenuList>
+            </Paper>
+            <Paper sx={{ width: 280, maxWidth: '100%', marginTop: '20px', marginLeft: '280px', border: '1px solid #bfb8b8' }}>
+                <MenuList>
+                    <MenuItem>
+                        <ListItemIcon>
+                            <ContactsIcon fontSize="small" sx={{ color: "#ff5e00" }} />
+                        </ListItemIcon>
+                        <ListItemText>Trở thành đầu bếp</ListItemText>
+                    </MenuItem>
+                </MenuList>
+            </Paper>
+        </div>
     );
-  }
-  
-  export default AvatarMenu;
+}
+
+export default AvatarMenu;

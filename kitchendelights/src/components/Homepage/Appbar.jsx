@@ -101,6 +101,10 @@ export default function PrimarySearchAppBar() {
     navigate('/MyProfile');
   }
 
+  const goToChangePassword = () => {
+    navigate('/ChangePassword');
+  }
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -118,7 +122,7 @@ export default function PrimarySearchAppBar() {
       >
       <MenuItem onClick={openLoginForm}>Đăng nhập</MenuItem>
       <MenuItem onClick={goToMyProfile}>Thông tin cá nhân</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Đổi mật khẩu</MenuItem>
+      <MenuItem onClick={goToChangePassword}>Đổi mật khẩu</MenuItem>
       <MenuItem onClick={handleMenuClose}>Công thức yêu thích</MenuItem>
       <MenuItem onClick={handleMenuClose}>Công thức của tôi</MenuItem>
       <MenuItem onClick={handleMenuClose}>Đánh giá</MenuItem>

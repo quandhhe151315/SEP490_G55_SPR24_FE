@@ -1,5 +1,5 @@
 import Button from '@mui/material/Button'
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -47,10 +47,6 @@ const Login = () => {
     setForgotPasswordForm(true);
   }
 
-  const closeForm = () => {
-    setLoginForm(false);
-  }
-
   return (
     <div>
       {loginForm && (
@@ -64,7 +60,6 @@ const Login = () => {
                 <Button sx={{ marginTop: "20px", marginLeft: "6px", width: "96%" }} variant="contained" onClick={handleLogin}>Login</Button>
                 <div className="bottom-text">
                   No account yet? <Button color="secondary" onClick={openRegisterForm}>Register</Button>
-                  {/* <CancelPresentationIcon onClick={closeForm}/> */}
                   <h4><Button variant="text" onClick={openForgotPasswordForm}>Forgot your password?</Button></h4>
                 </div>
               </div>
