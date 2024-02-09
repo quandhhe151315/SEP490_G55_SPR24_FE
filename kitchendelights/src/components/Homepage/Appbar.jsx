@@ -128,6 +128,7 @@ export default function PrimarySearchAppBar() {
       <MenuItem onClick={handleMenuClose}>Đánh giá</MenuItem>
       <MenuItem onClick={handleMenuClose}>Blog</MenuItem>
       <MenuItem onClick={handleMenuClose}>Trở thành đầu bếp</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Đăng xuất</MenuItem>
     </Menu>
     
   );
