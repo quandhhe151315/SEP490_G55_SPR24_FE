@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
-import image1 from '/SEP490_G55_SPR24_FE/SEP490_G55_SPR24_FE/kitchendelights/src/assets/images/news1.jpg';
+import image1 from '../assets/images/news1.jpg';
 import ForwardIcon from '@mui/icons-material/Forward';
 
 const DisplaySearchNews = styled('div')(({ theme }) => ({

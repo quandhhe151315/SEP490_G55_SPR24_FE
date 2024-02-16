@@ -6,7 +6,6 @@ import MenuItem from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import PasswordIcon from '@mui/icons-material/Password';
-import ContentCopy from '@mui/icons-material/ContentCopy';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LocalPizzaIcon from '@mui/icons-material/LocalPizza';
 import ContactEmergencyIcon from '@mui/icons-material/ContactEmergency';

@@ -1,6 +1,6 @@
 import Button from '@mui/material/Button'
 import React, { useState, useContext, useEffect } from 'react';
-import '/SEP490_G55_SPR24_FE/SEP490_G55_SPR24_FE/kitchendelights/src/assets/css/Login.css';
+import '../../assets/css/Login.css';
 import { Login } from './Login';
 
 const ForgotPassword = () => {

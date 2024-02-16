@@ -6,11 +6,16 @@ import Typography from '@mui/material/Typography';
 
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import image1 from '/SEP490_G55_SPR24_FE/SEP490_G55_SPR24_FE/kitchendelights/src/assets/images/news1.jpg';
+import image1 from '../assets/images/news1.jpg';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
 
 function MyProfile() {
     const [firstName, setFirstName] = useState('');
@@ -20,18 +25,36 @@ function MyProfile() {
     const [address, setAddress] = useState('');
 
     const navigate = useNavigate();
-    
+    const [openDialog, setOpenDialog] = useState(false);
+    const [avatarImage, setAvatarImage] = useState(null);
+
+    const handleOpenDialog = () => {
+        setOpenDialog(true);
+    };
+
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
+    };
+
+    const handleImageChange = (event) => {
+        const selectedImage = event.target.files[0];
+        setAvatarImage(URL.createObjectURL(selectedImage));
+        handleCloseDialog();
+    };
+
     const getProfileInformation = async () => {
         setFirstName('Linh');
         setMiddleName('Tuấn');
         setLastName('Phan');
         setPhoneNumber('0923166218');
         setAddress('Hanoi');
+        setAvatarImage(image1);
     };
 
     useEffect(() => {
         getProfileInformation();
-    }, []);
+        console.log('useEffect has been called! / ' + firstName);
+    }, [firstName]);
 
     const changeProfile = async () => {
         try {
@@ -107,9 +130,9 @@ function MyProfile() {
 
                                 <Grid item xs={6}>
                                     <Typography sx={{ marginLeft: '50px', marginTop: '50px' }}>
-                                        <img src={image1} alt="Image news" />
+                                        <img src={avatarImage} alt="Image news" />
                                         <br />
-                                        <Button variant="contained" sx={{ bgcolor: "#ff5e00", borderRadius: '15px', marginLeft: '130px', width: '130px', height: '42px', color: 'white' }}>Đổi Avatar</Button>
+                                        <Button variant="contained" onClick={handleOpenDialog} sx={{ bgcolor: "#ff5e00", borderRadius: '15px', marginLeft: '130px', width: '130px', height: '42px', color: 'white' }}>Đổi Avatar</Button>
                                         <Grid item xs container direction="row">
 
                                         </Grid>
@@ -125,7 +148,18 @@ function MyProfile() {
                 </Grid>
             </Box>
 
+            <Dialog open={openDialog} onClose={handleCloseDialog} >
+                <DialogTitle>Chọn ảnh mới</DialogTitle>
+                <DialogContent>
+                <input type="file" onChange={handleImageChange}/>
+                {/* <Button variant="contained"  sx={{ bgcolor: "#ff5e00", borderRadius: '15px', color: 'white' }}>Chọn ảnh</Button> */}
 
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseDialog}>Hủy</Button>
+                </DialogActions>
+            </Dialog>
+            
         </div>
     );
 }

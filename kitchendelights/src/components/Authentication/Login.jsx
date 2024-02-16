@@ -3,10 +3,9 @@ import React, { useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import '/SEP490_G55_SPR24_FE/SEP490_G55_SPR24_FE/kitchendelights/src/assets/css/Login.css';
+import '../../assets/css/Login.css'
 import { Register } from './Register';
 import { ForgotPassword } from './ForgotPassword';
-// import CancelPresentationIcon from '@mui/icons-material/CancelPresentation';
 
 const Login = () => {
   const [username, setUsername] = useState('');
