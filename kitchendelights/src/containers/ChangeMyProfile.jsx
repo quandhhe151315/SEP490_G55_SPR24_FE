@@ -16,6 +16,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
+import UploadAvatar from '../components/UploadAvatar/UploadAvatar';
 
 function MyProfile() {
     const [firstName, setFirstName] = useState('');
@@ -27,6 +28,7 @@ function MyProfile() {
     const navigate = useNavigate();
     const [openDialog, setOpenDialog] = useState(false);
     const [avatarImage, setAvatarImage] = useState(null);
+    const [newAvatarImage, setNewAvatarImage] = useState(null);
 
     const handleOpenDialog = () => {
         setOpenDialog(true);
@@ -36,11 +38,10 @@ function MyProfile() {
         setOpenDialog(false);
     };
 
-    const handleImageChange = (event) => {
-        const selectedImage = event.target.files[0];
-        setAvatarImage(URL.createObjectURL(selectedImage));
+    const changeAvatarImage = () => {
+        setAvatarImage(newAvatarImage);
         handleCloseDialog();
-    };
+    }
 
     const getProfileInformation = async () => {
         setFirstName('Linh');
@@ -85,7 +86,7 @@ function MyProfile() {
                         <AvatarMenu />
                     </Grid>
 
-                    <Grid item xs container direction="column" sx={{ fontSize: '30px', fontWeight: 'bold', marginLeft: '50px' }}>
+                    <Grid item xs container direction="column" sx={{ position: 'fixed' ,fontSize: '30px', fontWeight: 'bold', marginLeft: '627px' }}>
                         <Grid item>
                             <Typography sx={{ fontSize: '30px', fontWeight: 'bold', marginTop: '20px' }}>Chỉnh sửa thông tin cá nhân</Typography>
                         </Grid>
@@ -129,18 +130,17 @@ function MyProfile() {
                                 </Grid>
 
                                 <Grid item xs={6}>
-                                    <Typography sx={{ marginLeft: '50px', marginTop: '50px' }}>
-                                        <img src={avatarImage} alt="Image news" />
+                                    <Typography sx={{marginLeft: '50px', marginTop: '50px' }}>
+                                    <img src={avatarImage} alt="Image news" style={{width: '250px', height: '250px', overflow: 'hidden', marginLeft: '0px', marginLeft: '70px' }} />
                                         <br />
-                                        <Button variant="contained" onClick={handleOpenDialog} sx={{ bgcolor: "#ff5e00", borderRadius: '15px', marginLeft: '130px', width: '130px', height: '42px', color: 'white' }}>Đổi Avatar</Button>
+                                        <Button variant="contained" onClick={handleOpenDialog} sx={{bgcolor: "#ff5e00", borderRadius: '15px', marginLeft: '130px', marginTop: '30px' ,width: '130px', height: '42px', color: 'white' }}>Đổi Avatar</Button>
                                         <Grid item xs container direction="row">
-
                                         </Grid>
                                     </Typography>
                                 </Grid>
                             </Grid>
                             <Grid item xs container direction="row">
-                                <Button variant="contained" onClick={changeProfile} sx={{ bgcolor: "#ff5e00", marginTop: '50px', borderRadius: '15px', marginLeft: '370px', width: '180px', height: '42px', color: 'white' }}>Đổi thông tin</Button>
+                                <Button variant="contained" onClick={changeProfile} sx={{ bgcolor: "#ff5e00", marginTop: '20px', borderRadius: '15px', marginLeft: '370px', width: '180px', height: '42px', color: 'white' }}>Đổi thông tin</Button>
                             </Grid>
                         </Paper>
                     </Grid>
@@ -148,15 +148,16 @@ function MyProfile() {
                 </Grid>
             </Box>
 
-            <Dialog open={openDialog} onClose={handleCloseDialog} >
-                <DialogTitle>Chọn ảnh mới</DialogTitle>
+            <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="lg">
+                <DialogTitle>Đổi Avatar</DialogTitle>
                 <DialogContent>
-                <input type="file" onChange={handleImageChange}/>
-                {/* <Button variant="contained"  sx={{ bgcolor: "#ff5e00", borderRadius: '15px', color: 'white' }}>Chọn ảnh</Button> */}
+                <UploadAvatar setNewAvatarImage={setNewAvatarImage}/>
 
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleCloseDialog}>Hủy</Button>
+                    <Button onClick={handleCloseDialog} sx={{ marginRight: '250px' }}>Hủy</Button>
+                    <Button variant="contained" onClick={changeAvatarImage} sx={{ width: '100px' ,bgcolor: "#ff5e00", borderRadius: '15px', color: 'white', marginRight: '15px'}}>Đổi</Button>
+                    
                 </DialogActions>
             </Dialog>
             

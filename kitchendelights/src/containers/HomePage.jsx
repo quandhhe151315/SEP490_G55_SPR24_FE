@@ -1,6 +1,5 @@
 import React from 'react';
 import Appbar from '../components/Homepage/Appbar';
-import UploadImage from './UploadImage';
 
 function HomePage() {
   return (

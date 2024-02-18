@@ -45,7 +45,7 @@ function UploadImage() {
     position: relative;
     width: 370px;
     height: 270px;
-    border: 3px dashed #ff5e00;
+    border: 3px dotted #ff5e00;
     border-radius: 10px;
     text-align: center;
     margin: 50px auto;

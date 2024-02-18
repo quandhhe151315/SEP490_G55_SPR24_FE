@@ -77,7 +77,7 @@ function MyProfile() {
 
                 <Grid item xs={6}>
                   <Typography sx={{ marginLeft: '50px', marginTop: '50px' }}>
-                    <img src={image1} alt="Image news" />
+                    <img src={image1} alt="Image news" style={{width: '250px', height: '250px', overflow: 'hidden', marginLeft: '0px', marginLeft: '70px' }}/>
                     <br/>
                     <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '10px', marginLeft: '165px' }}>Avatar</Typography>
                   </Typography>
