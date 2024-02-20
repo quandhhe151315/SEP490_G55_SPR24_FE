@@ -6,6 +6,7 @@ import ViewListNews from "../containers/ViewListNews";
 import MyProfile from "../containers/MyProfile";
 import ChangeMyProfile from "../containers/ChangeMyProfile";
 import ChangePassword from "../containers/ChangePassword";
+import BlogList from "../containers/blog/blogList";
 
 function AppRoute() {
   const router = createBrowserRouter([
@@ -32,6 +33,10 @@ function AppRoute() {
     {
       path: "/ChangePassword",
       element: <ChangePassword />,
+    },
+    {
+      path: "/blog",
+      element: <BlogList />,
     },
     {path: "/", element: <Navigate to="/KitchenDelights" /> },
   ]);
