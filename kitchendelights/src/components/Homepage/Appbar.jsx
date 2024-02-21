@@ -95,6 +95,9 @@ export default function PrimarySearchAppBar() {
   const goToNews = () => {
     navigate('/ViewListNews');
   }
+  const goToRepice = () => {
+    navigate('/ViewListRepice');
+  }
 
   const goToMyProfile = () => {
     navigate('/MyProfile');
@@ -162,6 +165,7 @@ export default function PrimarySearchAppBar() {
               size="large"
               variant="text"
               sx={{color: "#000000", fontWeight: "bold", }}
+              onClick={goToRepice}
             >
             Công thức
             </Button>
