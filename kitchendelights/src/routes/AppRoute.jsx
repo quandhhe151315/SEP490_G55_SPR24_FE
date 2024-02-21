@@ -1,12 +1,12 @@
 import React from "react";
 import { RouterProvider, createBrowserRouter, Navigate } from "react-router-dom";
 import HomePage from "../containers/HomePage";
-import CreateNews from "../containers/CreateNews";
-import ViewListNews from "../containers/ViewListNews";
+import CreateNews from "../containers/News/CreateNews";
+import ViewListNews from "../containers/News/ViewListNews";
 import ViewListRepice from "../containers/ViewListRepice";
-import MyProfile from "../containers/MyProfile";
-import ChangeMyProfile from "../containers/ChangeMyProfile";
-import ChangePassword from "../containers/ChangePassword";
+import MyProfile from "../containers/Account/MyProfile";
+import ChangeMyProfile from "../containers/Account/ChangeMyProfile";
+import ChangePassword from "../containers/Authentication/ChangePassword";
 import BlogList from "../containers/blog/blogList";
 
 function AppRoute() {
