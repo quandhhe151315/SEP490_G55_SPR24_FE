@@ -9,7 +9,7 @@ import ChangeMyProfile from "../containers/Account/ChangeMyProfile";
 import ChangePassword from "../containers/Authentication/ChangePassword";
 import BlogList from "../containers/blog/blogList";
 import BlogListUser from "../containers/blog/blogListUser/BlogListUser";
-
+import CreateAccount from "../containers/Account/CreateAccount";
 
 function AppRoute() {
   const router = createBrowserRouter([
@@ -50,7 +50,10 @@ function AppRoute() {
       path: "/myblog",
       element: <BlogListUser />,
     },
-    
+    {
+      path: "/CreateAccount",
+      element: <CreateAccount />,
+    },
     {path: "/", element: <Navigate to="/KitchenDelights" /> },
   ]);
   return <RouterProvider router={router}/>;
