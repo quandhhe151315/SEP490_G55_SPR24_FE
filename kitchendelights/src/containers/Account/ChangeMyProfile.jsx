@@ -124,7 +124,7 @@ function MyProfile() {
 
                                         <Grid item xs container direction="row">
                                             <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '70px' }}>Địa chỉ: </Typography>
-                                            <TextField size='small' type="input" value={address} onChange={(e) => setAddress(e.target.value)} sx={{ height: '10px', fontSize: '16px', fontWeight: 'bold', marginTop: '30px', marginLeft: '95px' }} />
+                                            <TextField size='small' type="input" value={address} onChange={(e) => setAddress(e.target.value)} sx={{  height: '10px', fontSize: '16px', fontWeight: 'bold', marginTop: '30px', marginLeft: '95px' }} />
                                         </Grid>
                                     </Grid>
                                 </Grid>

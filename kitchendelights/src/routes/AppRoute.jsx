@@ -9,7 +9,7 @@ import ChangeMyProfile from "../containers/Account/ChangeMyProfile";
 import ChangePassword from "../containers/Authentication/ChangePassword";
 import BlogList from "../containers/blog/blogList";
 import BlogListUser from "../containers/blog/blogListUser/BlogListUser";
-
+import CreateCategory from "../containers/Category/CreateCategory";
 
 function AppRoute() {
   const router = createBrowserRouter([
@@ -49,6 +49,10 @@ function AppRoute() {
     {
       path: "/myblog",
       element: <BlogListUser />,
+    },
+    {
+      path: "/CreateCategory",
+      element: <CreateCategory/>
     },
     
     {path: "/", element: <Navigate to="/KitchenDelights" /> },
