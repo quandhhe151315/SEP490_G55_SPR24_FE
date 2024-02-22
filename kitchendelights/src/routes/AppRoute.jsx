@@ -8,6 +8,8 @@ import MyProfile from "../containers/Account/MyProfile";
 import ChangeMyProfile from "../containers/Account/ChangeMyProfile";
 import ChangePassword from "../containers/Authentication/ChangePassword";
 import BlogList from "../containers/blog/blogList";
+import BlogListUser from "../containers/blog/blogListUser/BlogListUser";
+
 
 function AppRoute() {
   const router = createBrowserRouter([
@@ -44,6 +46,11 @@ function AppRoute() {
       path: "/blog",
       element: <BlogList />,
     },
+    {
+      path: "/myblog",
+      element: <BlogListUser />,
+    },
+    
     {path: "/", element: <Navigate to="/KitchenDelights" /> },
   ]);
   return <RouterProvider router={router}/>;
