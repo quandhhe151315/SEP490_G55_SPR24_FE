@@ -9,6 +9,9 @@ import ChangeMyProfile from "../containers/Account/ChangeMyProfile";
 import ChangePassword from "../containers/Authentication/ChangePassword";
 import BlogList from "../containers/blog/blogList";
 import BlogListUser from "../containers/blog/blogListUser/BlogListUser";
+import CreateCategory from "../containers/Category/CreateCategory";
+import UpdateCategory from "../containers/Category/UpdateCategory";
+
 import CreateAccount from "../containers/Account/CreateAccount";
 
 function AppRoute() {
@@ -49,6 +52,14 @@ function AppRoute() {
     {
       path: "/myblog",
       element: <BlogListUser />,
+    },
+    {
+      path: "/CreateCategory",
+      element: <CreateCategory/>
+    },
+    {
+      path: "/UpdateCategory",
+      element: <UpdateCategory/>
     },
     {
       path: "/CreateAccount",
