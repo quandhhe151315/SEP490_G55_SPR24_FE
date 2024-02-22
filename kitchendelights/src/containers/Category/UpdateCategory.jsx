@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import { Paper, TextField } from "@mui/material";
@@ -6,21 +6,35 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Link from "@mui/material/Link";
+import Button from "@mui/material/Button";
 
-function CreateCategory() {
+function UpdateCategory(){
     
-    return (
+    const [categoryName, setCategoryName] = useState('');
+    
+
+
+    const getCategoryInformation = async () => {
+        setCategoryName('Món nướng');
+    }
+    
+    useEffect(() =>{
+        getCategoryInformation();
+        console.log('useEffect has been called! / ')
+    });
+
+    return(
         <div>
             <Grid >
                 <Paper sx={{ marginLeft: '400px', marginTop: '30px', borderRadius: '15px', border: '1px solid #bfb8b8', width: '1000px', height: '570px', backgroundColor: '#D9D9D9' }}>
                     <Typography sx={{ fontSize: '40px', fontWeight: 'bold', marginLeft: '20%', marginTop: '20px', color: '#0B488F' }}>
-                        Tạo Category
+                        Cập nhật Category
                     </Typography>
                     <Grid container sx={{ marginTop: '30px', marginLeft: '30px' }}>
                         <Grid item xs={8} >
                             <Grid container direction="column">
                                 <Grid item xs container direction="row">
-                                    <TextField size="small" type="input" placeholder="Category Name" sx={{ width: '100%', height: '55%', fontSize: '16px', fontWeight: 'bold', marginTop: '30px', marginLeft: '45px', backgroundColor: '#FFFFFF' }}>
+                                    <TextField size="small" type="input" value={categoryName} onChange={(e) => setCategoryName(e.target.value)} placeholder="Category Name" sx={{ width: '100%', height: '55%', fontSize: '16px', fontWeight: 'bold', marginTop: '30px', marginLeft: '45px', backgroundColor: '#FFFFFF' }}>
                                     </TextField>
                                 </Grid>
                                 <Grid item xs container direction="row" sx={{ marginTop: '30px' }}>
@@ -49,6 +63,7 @@ function CreateCategory() {
                                 
                             </Grid>
                         </Grid>
+                        
                     </Grid>
                 </Paper>
             </Grid>
@@ -56,4 +71,4 @@ function CreateCategory() {
     );
 }
 
-export default CreateCategory;
+export default UpdateCategory;
