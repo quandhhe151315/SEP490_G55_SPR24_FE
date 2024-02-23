@@ -19,6 +19,7 @@ import CreateCategory from "../containers/Category/CreateCategory";
 import UpdateCategory from "../containers/Category/UpdateCategory";
 
 import CreateAccount from "../containers/Account/CreateAccount";
+import ListAccount from "../containers/Account/ListAccount";
 
 function AppRoute() {
   const router = createBrowserRouter([
@@ -79,6 +80,10 @@ function AppRoute() {
     {
       path: "/CreateAccount",
       element: <CreateAccount />,
+    },
+    {
+      path: "/ListAccount",
+      element: <ListAccount />,
     },
     {path: "/", element: <Navigate to="/KitchenDelights" /> },
   ]);
