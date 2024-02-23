@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import AvatarMenu from '../components/Account/AvatarMenu';
-import Appbar from '../components/Homepage/Appbar';
+import AvatarMenu from '../../components/Account/AvatarMenu';
+import Appbar from '../../components/Homepage/Appbar';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 

@@ -1,7 +1,7 @@
 import React from 'react';
-import Appbar from '../components/Homepage/Appbar';
+import Appbar from '../../components/Homepage/Appbar.jsx';
 import Typography from '@mui/material/Typography';
-import AppCreateNews from '../components/Richtext/App.tsx'
+import AppCreateNews from '../../components/Richtext/App.tsx'
 import { useNavigate } from "react-router-dom";
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';

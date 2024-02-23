@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import AvatarMenu from '../components/Account/AvatarMenu';
-import Appbar from '../components/Homepage/Appbar';
+import AvatarMenu from '../../components/Account/AvatarMenu';
+import Appbar from '../../components/Homepage/Appbar';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import image1 from '../assets/images/news1.jpg';
+import image1 from '../../assets/images/news1.jpg';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { useNavigate } from 'react-router-dom';
@@ -16,7 +16,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
-import UploadAvatar from '../components/UploadAvatar/UploadAvatar';
+import UploadAvatar from '../../components/UploadAvatar/UploadAvatar';
 
 function MyProfile() {
     const [firstName, setFirstName] = useState('');
@@ -124,7 +124,7 @@ function MyProfile() {
 
                                         <Grid item xs container direction="row">
                                             <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '70px' }}>Địa chỉ: </Typography>
-                                            <TextField size='small' type="input" value={address} onChange={(e) => setAddress(e.target.value)} sx={{ height: '10px', fontSize: '16px', fontWeight: 'bold', marginTop: '30px', marginLeft: '95px' }} />
+                                            <TextField size='small' type="input" value={address} onChange={(e) => setAddress(e.target.value)} sx={{  height: '10px', fontSize: '16px', fontWeight: 'bold', marginTop: '30px', marginLeft: '95px' }} />
                                         </Grid>
                                     </Grid>
                                 </Grid>

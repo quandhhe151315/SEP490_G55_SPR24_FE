@@ -5,8 +5,8 @@ import {
   Navigate,
 } from "react-router-dom";
 import HomePage from "../containers/HomePage";
-import CreateNews from "../containers/CreateNews";
-import ViewListNews from "../containers/ViewListNews";
+import CreateNews from "../containers/News/CreateNews";
+import ViewListNews from "../containers/News/ViewListNews";
 import ViewListRepice from "../containers/ViewListRepice";
 import ShoppingCart from "../containers/ShoppingCart";
 import MyProfile from "../containers/MyProfile";
@@ -14,6 +14,12 @@ import ChangeMyProfile from "../containers/ChangeMyProfile";
 import ChangePassword from "../containers/ChangePassword";
 import BlogList from "../containers/blog/blogList";
 import RepiceDetail from "../containers/RepiceDetail";
+import BlogListUser from "../containers/blog/blogListUser/BlogListUser";
+import CreateCategory from "../containers/Category/CreateCategory";
+import UpdateCategory from "../containers/Category/UpdateCategory";
+
+import CreateAccount from "../containers/Account/CreateAccount";
+
 function AppRoute() {
   const router = createBrowserRouter([
     {
@@ -58,6 +64,23 @@ function AppRoute() {
       element: <RepiceDetail />,
     },
     { path: "/", element: <Navigate to="/KitchenDelights" /> },
+    { 
+      path: "/myblog",
+      element: <BlogListUser />,
+    },
+    {
+      path: "/CreateCategory",
+      element: <CreateCategory/>
+    },
+    {
+      path: "/UpdateCategory",
+      element: <UpdateCategory/>
+    },
+    {
+      path: "/CreateAccount",
+      element: <CreateAccount />,
+    },
+    {path: "/", element: <Navigate to="/KitchenDelights" /> },
   ]);
   return <RouterProvider router={router} />;
 }

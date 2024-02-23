@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 import { styled, alpha } from '@mui/material/styles';
-import Appbar from '../components/Homepage/Appbar';
+import Appbar from '../../components/Homepage/Appbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
-import image1 from '../assets/images/news1.jpg';
+import image1 from '../../assets/images/news1.jpg';
 import ForwardIcon from '@mui/icons-material/Forward';
 
 const DisplaySearchNews = styled('div')(({ theme }) => ({

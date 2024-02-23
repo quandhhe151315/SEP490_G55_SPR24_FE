@@ -1,13 +1,13 @@
 import React from 'react';
-import AvatarMenu from '../components/Account/AvatarMenu';
-import Appbar from '../components/Homepage/Appbar';
+import AvatarMenu from '../../components/Account/AvatarMenu';
+import Appbar from '../../components/Homepage/Appbar';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import image1 from '../assets/images/news1.jpg';
+import image1 from '../../assets/images/news1.jpg';
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
 
