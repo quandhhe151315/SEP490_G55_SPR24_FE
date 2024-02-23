@@ -5,7 +5,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
 import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
+import image from "../assets/images/news1.jpg";
 import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
@@ -18,8 +18,9 @@ import Grid from "@mui/material/Unstable_Grid2";
 import image1 from "../assets/images/news1.jpg";
 import ForwardIcon from "@mui/icons-material/Forward";
 import ShoingCartIconpp from "@mui/icons-material/ShoppingCart";
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import Rating from "@mui/material/Rating";
 
 const DisplaySearchNews = styled("div")(({ theme }) => ({
   display: "flex",
@@ -51,6 +52,64 @@ const DisplayStyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+const data = [
+  {
+    image: image,
+    title: "Cong thuc free",
+    rating: 3,
+    vote: 103,
+  },
+  {
+    image: image,
+    title: "Cong thuc free",
+    rating: 3,
+    vote: 103,
+  },
+  {
+    image: image,
+    title: "Cong thuc free",
+    rating: 3,
+    vote: 103,
+  },
+  {
+    image: image,
+    title: "Cong thuc free",
+    rating: 3,
+    vote: 103,
+  },
+];
+
+const data1 = [
+  {
+    image: image,
+    title: "Cong thuc tra phi",
+    rating: 3,
+    vote: 103,
+    gia: "100.000 VND",
+  },
+  {
+    image: image,
+    title: "Cong thuc tra phi",
+    rating: 3,
+    vote: 312,
+    gia: "100.000 VND",
+  },
+  {
+    image: image,
+    title: "Cong thuc tra phi",
+    rating: 3,
+    vote: 124,
+    gia: "100.000 VND",
+  },
+  {
+    image: image,
+    title: "Cong thuc tra phi",
+    rating: 3,
+    vote: 453,
+    gia: "100.000 VND",
+  },
+];
+
 const DisplayItemNews = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -65,6 +124,12 @@ function ViewListRepice() {
 
   const SearchNews = () => {
     navigate("/KitchenDelights");
+  };
+  const GoToCart = () => {
+    navigate("/ShoppingCart");
+  };
+  const RepiceDetail = () => {
+    navigate("/RepiceDetail");
   };
 
   return (
@@ -83,7 +148,6 @@ function ViewListRepice() {
           color="#ff5e00"
           sx={{ fontSize: "30px", fontWeight: "bold" }}
         >
-         
           Công thức nấu ăn
         </Typography>
 
@@ -108,106 +172,80 @@ function ViewListRepice() {
           </DisplaySearchNews>
         </Box>
         <Typography
-        sx={{
-          marginLeft: "320px",
-          fontSize: "16px",
-          marginRight: "255px",
-          marginTop: "50px",
-        }}
-      ></Typography>
-      <Typography
+          sx={{
+            marginLeft: "320px",
+            fontSize: "16px",
+            marginRight: "255px",
+            marginTop: "50px",
+          }}
+        ></Typography>
+        <Typography
           color="#ff5e00"
           sx={{ fontSize: "20px", fontWeight: "bold" }}
         >
-         
-          Công thức miễn phí 
+          Công thức miễn phí
         </Typography>
         <Box>
           <Grid container spacing={3}>
-            <Grid item xs={3}>
-              <Card sx={{ maxWidth: 345 }}>
-                <CardMedia
-                  sx={{ height: 140 }}
-                  img
-                  src="/assets/images/news1.jpg'"
-                  alt="Image news"
-                  title="green iguana"
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h6" component="div">
-                    Công thức nấu thịt bò
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                <Button size="small" endIcon={<FavoriteIcon />}>Like</Button>
-                  <Button size="small"endIcon={<VisibilityIcon  />}>Xem</Button>
-                </CardActions>
-              </Card>
-            </Grid>
-            <Grid item xs={3}>
-              <Card sx={{ maxWidth: 345 }}>
-                <CardMedia
-                  sx={{ height: 140 }}
-                  img
-                  src={image1}
-                  alt="Image news"
-                  title="green iguana"
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h6" component="div">
-                    Công thức nấu thịt bò
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button size="small">Like</Button>
-                  <Button size="small">Xem</Button>
-                </CardActions>
-              </Card>
-            </Grid>
-            <Grid item xs={3}>
-              <Card sx={{ maxWidth: 345 }}>
-                <CardMedia
-                  sx={{ height: 140 }}
-                  img
-                  src={image1}
-                  alt="Image news"
-                  title="green iguana"
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h6" component="div">
-                    Công thức nấu thịt bò
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                <Button size="small" endIcon={<FavoriteIcon />}>Like</Button>
-                  <Button size="small"endIcon={<VisibilityIcon  />}>Xem</Button>
-                </CardActions>
-              </Card>
-            </Grid>
-            <Grid item xs={3}>
-              <Card sx={{ maxWidth: 345 }}>
-                <CardMedia
-                  sx={{ height: 140 }}
-                  img
-                  src={image1}
-                  alt="Image news"
-                  title="green iguana"
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h6" component="div">
-                    Công thức nấu thịt bò
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                <Button size="small" endIcon={<FavoriteIcon />}>Like</Button>
-                  <Button size="small"endIcon={<VisibilityIcon  />}>Xem</Button>
-                </CardActions>
-              </Card>
-            </Grid>
+            {data.map((item) => {
+              return (
+                <Grid item lg={3} md={6} xs={12}>
+                  <Card sx={{ maxWidth: 345 }}>
+                    <CardMedia
+                      component={"img"}
+                      height={140}
+                      image={item.image}
+                      alt="green iguana"
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h6" component="div">
+                        {item.title}
+                      </Typography>
+
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        {" "}
+                        <Rating
+                          name="simple-controlled"
+                          value={item.rating}
+                          size="small"
+                        />
+                        <Typography component="legend" fontSize={11}>
+                          {item.vote} votes
+                        </Typography>
+                      </Box>
+                    </CardContent>
+                    <CardActions
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        marginTop: -2,
+                      }}
+                    >
+                      <Button size="small" endIcon={<FavoriteIcon />}>
+                        Like
+                      </Button>
+                      <Button
+                        size="small"
+                        endIcon={<VisibilityIcon />}
+                        onClick={RepiceDetail}
+                      >
+                        Xem
+                      </Button>
+                    </CardActions>
+                  </Card>
+                </Grid>
+              );
+            })}
           </Grid>
         </Box>
-        
-       
+
         <Typography
           sx={{
             display: "flex",
@@ -245,7 +283,6 @@ function ViewListRepice() {
         </Typography>
       </Typography>
 
-     
       <Typography
         sx={{
           marginLeft: "320px",
@@ -253,108 +290,96 @@ function ViewListRepice() {
           marginRight: "255px",
           marginTop: "50px",
         }}
-      >        
-       <Typography
-        sx={{
-          marginLeft: "320px",
-          fontSize: "16px",
-          marginRight: "255px",
-          marginTop: "50px",
-        }}
-      ></Typography>
-      <Typography
+      >
+        <Typography
+          sx={{
+            marginLeft: "320px",
+            fontSize: "16px",
+            marginRight: "255px",
+            marginTop: "50px",
+          }}
+        ></Typography>
+        <Typography
           color="#ff5e00"
           sx={{ fontSize: "20px", fontWeight: "bold" }}
         >
-         
           Công thức trả phí
         </Typography>
         <Box>
           <Grid container spacing={3}>
-            <Grid item xs={3}>
-              <Card sx={{ maxWidth: 345 }}>
-                <CardMedia
-                  sx={{ height: 140 }}
-                  img
-                  src="/assets/images/news1.jpg'"
-                  alt="Image news"
-                  title="green iguana"
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h6" component="div">
-                    Công thức nấu thịt bò
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                <Button size="small" endIcon={<FavoriteIcon />}>Like</Button>
-                  <Button size="small"endIcon={<ShoingCartIconpp  />}>Mua</Button>
-                </CardActions>
-              </Card>
-            </Grid>
-            <Grid item xs={3}>
-              <Card sx={{ maxWidth: 345 }}>
-                <CardMedia
-                  sx={{ height: 140 }}
-                  img
-                  src={image1}
-                  alt="Image news"
-                  title="green iguana"
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h6" component="div">
-                    Công thức nấu thịt bò
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                <Button size="small" endIcon={<FavoriteIcon />}>Like</Button>
-                  <Button size="small"endIcon={<ShoingCartIconpp  />}>Mua</Button>
-                </CardActions>
-              </Card>
-            </Grid>
-            <Grid item xs={3}>
-              <Card sx={{ maxWidth: 345 }}>
-                <CardMedia
-                  sx={{ height: 140 }}
-                  img
-                  src={image1}
-                  alt="Image news"
-                  title="green iguana"
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h6" component="div">
-                    Công thức nấu thịt bò
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                <Button size="small" endIcon={<FavoriteIcon />}>Like</Button>
-                  <Button size="small"endIcon={<ShoingCartIconpp  />}>Mua</Button>
-                </CardActions>
-              </Card>
-            </Grid>
-            <Grid item xs={3}>
-              <Card sx={{ maxWidth: 345 }}>
-                <CardMedia
-                  sx={{ height: 140 }}
-                  img
-                  src={image1}
-                  alt="Image news"
-                  title="green iguana"
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h6" component="div">
-                    Công thức nấu thịt bò
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button size="small" endIcon={<FavoriteIcon />}>Like</Button>
-                  <Button size="small"endIcon={<ShoingCartIconpp  />}>Mua</Button>
-                </CardActions>
-              </Card>
-            </Grid>
+            {data1.map((item) => {
+              return (
+                <Grid item lg={3} md={6} xs={12}>
+                  <Card sx={{ maxWidth: 345 }}>
+                    <CardMedia
+                      component={"img"}
+                      height={140}
+                      image={item.image}
+                      alt="green iguana"
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h6" component="div">
+                        {item.title}
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        {" "}
+                        <Rating
+                          name="simple-controlled"
+                          value={item.rating}
+                          size="small"
+                        />
+                        <Typography component="legend" fontSize={11}>
+                          {item.vote} votes
+                        </Typography>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          marginTop: 1,
+                        }}
+                      >
+                        <Typography component="legend" fontSize={15}>
+                          Giá:
+                        </Typography>
+                        <Typography component="legend" fontSize={15}>
+                          {item.gia}
+                        </Typography>
+                      </Box>
+                    </CardContent>
+                    <CardActions
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        marginTop: -2.5,
+                      }}
+                    >
+                      <Button size="small" endIcon={<FavoriteIcon />}>
+                        Like
+                      </Button>
+                      <Button
+                        size="small"
+                        endIcon={<ShoingCartIconpp />}
+                        onClick={GoToCart}
+                      >
+                        Buy
+                      </Button>
+                    </CardActions>
+                  </Card>
+                </Grid>
+              );
+            })}
           </Grid>
         </Box>
-        
-       
+
         <Typography
           sx={{
             display: "flex",
@@ -390,8 +415,6 @@ function ViewListRepice() {
           </Button>
         </Typography>
       </Typography>
-      
-      
     </div>
   );
 }

@@ -1,14 +1,19 @@
 import React from "react";
-import { RouterProvider, createBrowserRouter, Navigate } from "react-router-dom";
+import {
+  RouterProvider,
+  createBrowserRouter,
+  Navigate,
+} from "react-router-dom";
 import HomePage from "../containers/HomePage";
 import CreateNews from "../containers/CreateNews";
 import ViewListNews from "../containers/ViewListNews";
 import ViewListRepice from "../containers/ViewListRepice";
+import ShoppingCart from "../containers/ShoppingCart";
 import MyProfile from "../containers/MyProfile";
 import ChangeMyProfile from "../containers/ChangeMyProfile";
 import ChangePassword from "../containers/ChangePassword";
 import BlogList from "../containers/blog/blogList";
-
+import RepiceDetail from "../containers/RepiceDetail";
 function AppRoute() {
   const router = createBrowserRouter([
     {
@@ -25,9 +30,9 @@ function AppRoute() {
     },
     {
       path: "/ViewListRepice",
-      element: <ViewListRepice/>,
+      element: <ViewListRepice />,
     },
-    
+
     {
       path: "/MyProfile",
       element: <MyProfile />,
@@ -44,9 +49,17 @@ function AppRoute() {
       path: "/blog",
       element: <BlogList />,
     },
-    {path: "/", element: <Navigate to="/KitchenDelights" /> },
+    {
+      path: "/ShoppingCart",
+      element: <ShoppingCart />,
+    },
+    {
+      path: "/RepiceDetail",
+      element: <RepiceDetail />,
+    },
+    { path: "/", element: <Navigate to="/KitchenDelights" /> },
   ]);
-  return <RouterProvider router={router}/>;
+  return <RouterProvider router={router} />;
 }
 
 export default AppRoute;
