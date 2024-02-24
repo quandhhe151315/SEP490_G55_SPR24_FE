@@ -13,6 +13,7 @@ import CreateCategory from "../containers/Category/CreateCategory";
 import UpdateCategory from "../containers/Category/UpdateCategory";
 
 import CreateAccount from "../containers/Account/CreateAccount";
+import ListCategoryDashboard from "../containers/Category/ListCategory";
 
 function AppRoute() {
   const router = createBrowserRouter([
@@ -55,15 +56,19 @@ function AppRoute() {
     },
     {
       path: "/CreateCategory",
-      element: <CreateCategory/>
+      element: <CreateCategory/>,
     },
     {
       path: "/UpdateCategory",
-      element: <UpdateCategory/>
+      element: <UpdateCategory/>,
     },
     {
       path: "/CreateAccount",
       element: <CreateAccount />,
+    },
+    {
+      path: "/ViewListCategory",
+      element: <ListCategoryDashboard/>,
     },
     {path: "/", element: <Navigate to="/KitchenDelights" /> },
   ]);
