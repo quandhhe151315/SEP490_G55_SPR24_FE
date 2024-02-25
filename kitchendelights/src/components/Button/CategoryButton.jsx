@@ -2,19 +2,16 @@ import { Button } from "@mui/material";
 import React from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 function CategoryButton(props){
-    const{text,marginLeft,marginRight,marginTop,marginBottom,onclick}=props;
-    const navigate = useNavigate();
-    const goToCreateCategory = () => {
-        navigate('/CreateCategory')
-      }
+    const{text,height,width,marginLeft,marginRight,marginTop,marginBottom,onClick}=props;
+    
     return(
         <Button
             variant="contained"
             sx={{
                 backgroundColor:'#553C9A',
                 borderRadius:'10px',
-                width: 'auto' ,
-                height: 'auto' ,
+                width: width ,
+                height: height ,
                 color:'#FFFFFF',
                 marginLeft:marginLeft,
                 marginRight: marginRight,
@@ -23,7 +20,7 @@ function CategoryButton(props){
                 fontSize:'14px',
                 textAlign:'center'
             }}
-            onClick={onclick}
+            onClick={onClick}
         >
             {text}
         </Button>
