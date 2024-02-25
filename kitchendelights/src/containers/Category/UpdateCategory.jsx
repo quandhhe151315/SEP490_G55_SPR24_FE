@@ -5,14 +5,17 @@ import { Paper, TextField } from "@mui/material";
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import Link from "@mui/material/Link";
+import CategoryButton from "../../components/Button/CategoryButton";
+import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 
 function UpdateCategory(){
-    
+    const navigate = useNavigate();
     const [categoryName, setCategoryName] = useState('');
     
-
+    const GoToListCategory = () => {
+        navigate('/ViewListCategory');
+    }
 
     const getCategoryInformation = async () => {
         setCategoryName('Món nướng');
@@ -49,16 +52,17 @@ function UpdateCategory(){
                                             <MenuItem value="">
                                                 <em>None</em>
                                             </MenuItem>
-                                            <MenuItem value={10}>Bữa ăn cho trẻ</MenuItem>
-                                            <MenuItem value={20}>Món nướng</MenuItem>
-                                            <MenuItem value={30}>Món ăn chay</MenuItem>
+                                            <MenuItem value={10}>Món nướng</MenuItem>
+                                            <MenuItem value={20}>Bữa sáng</MenuItem>
+                                            <MenuItem value={30}>Bữa ăn nhẹ</MenuItem>
                                         </Select>
                                     </FormControl>
                                 </Grid>
+                                <Grid item >
+                                <CategoryButton text='Cập nhật' height='auto' width='120px' marginLeft='10%' marginTop='80px' ></CategoryButton>
+                                </Grid>
                                 <Grid item xs container direction="row">
-                                <Link href="#" underline="hover" sx={{marginTop:'30%',marginLeft:'10%'}}>
-                                    {'Quay về category list'}
-                                </Link>
+                                    <Button onClick={GoToListCategory} sx={{ fontSize: '10px', marginTop: '10%', marginLeft: '10%' }}>Quay lại list category</Button>
                                 </Grid>
                                 
                             </Grid>
