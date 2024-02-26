@@ -13,13 +13,15 @@ import RepiceDetail from "../containers/RepiceDetail";
 import MyProfile from "../containers/Account/MyProfile";
 import ChangeMyProfile from "../containers/Account/ChangeMyProfile";
 import ChangePassword from "../containers/Authentication/ChangePassword";
-import BlogList from "../containers/Blog/blogList";
+
 import CreateCategory from "../containers/Category/CreateCategory";
 import UpdateCategory from "../containers/Category/UpdateCategory";
 import CreateAccount from "../containers/Account/CreateAccount";
 import ListAccount from "../containers/Account/ListAccount";
 import ListCategoryDashboard from "../containers/Category/ListCategory";
 import BlogDetail from "../containers/Blog/blogDetail";
+import CreateBlog from "../containers/Blog/createBlog";
+import BlogList from "../containers/Blog/blogList";
 
 function AppRoute() {
   const router = createBrowserRouter([
@@ -54,7 +56,7 @@ function AppRoute() {
     },
     {
       path: "/blog",
-      element: <BlogList />,
+      element: <BlogList/>,
     },
     {
       path: "/ShoppingCart",
@@ -69,7 +71,10 @@ function AppRoute() {
       path: "/blog/:slug",
       element: <BlogDetail />,
     },
-    
+    { 
+      path: "/blog/create",
+      element: <CreateBlog />,
+    },
     
     {
       path: "/CreateCategory",
