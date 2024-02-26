@@ -13,14 +13,13 @@ import RepiceDetail from "../containers/RepiceDetail";
 import MyProfile from "../containers/Account/MyProfile";
 import ChangeMyProfile from "../containers/Account/ChangeMyProfile";
 import ChangePassword from "../containers/Authentication/ChangePassword";
-import BlogList from "../containers/blog/blogList";
-import BlogListUser from "../containers/blog/blogListUser/BlogListUser";
+import BlogList from "../containers/Blog/blogList";
 import CreateCategory from "../containers/Category/CreateCategory";
 import UpdateCategory from "../containers/Category/UpdateCategory";
-
 import CreateAccount from "../containers/Account/CreateAccount";
 import ListAccount from "../containers/Account/ListAccount";
 import ListCategoryDashboard from "../containers/Category/ListCategory";
+import BlogDetail from "../containers/Blog/blogDetail";
 
 function AppRoute() {
   const router = createBrowserRouter([
@@ -67,9 +66,11 @@ function AppRoute() {
     },
     { path: "/", element: <Navigate to="/KitchenDelights" /> },
     { 
-      path: "/myblog",
-      element: <BlogListUser />,
+      path: "/blog/:slug",
+      element: <BlogDetail />,
     },
+    
+    
     {
       path: "/CreateCategory",
       element: <CreateCategory/>,
