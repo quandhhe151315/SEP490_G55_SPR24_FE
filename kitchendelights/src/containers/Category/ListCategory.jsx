@@ -1,5 +1,5 @@
 import { Dialog, List, Paper, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -20,7 +20,7 @@ function ListCategoryDashboard() {
   const navigate = useNavigate();
 
   const [open, setOpen] = React.useState(false);
-
+  const [categories, setCategories] = useState([]);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -59,14 +59,29 @@ function ListCategoryDashboard() {
   function createData(id, name, parent) {
     return { id, name, parent };
   }
+  //fake data
+  // const rows = [
+  //   createData(1, 'Món nướng', '#'),
+  //   createData(2, 'Bữa sáng', '#'),
+  //   createData(3, 'Bữa ăn nhẹ', '#'),
+  //   createData(4, 'các món ăn vặt', 'bữa ăn nhẹ'),
+  //   createData(5, 'các bữa sáng cho trẻ', 'bữa sáng'),
+  // ];
+  
+  const fetchCategories = async() =>{
+    try {
+      const response = await fetch('');
+      const data = await response.json();
 
-  const rows = [
-    createData(1, 'Món nướng', '#'),
-    createData(2, 'Bữa sáng', '#'),
-    createData(3, 'Bữa ăn nhẹ', '#'),
-    createData(4, 'các món ăn vặt', 'bữa ăn nhẹ'),
-    createData(5, 'các bữa sáng cho trẻ', 'bữa sáng'),
-  ];
+      setCategories(data);
+    } catch (error) {
+      console.error('lỗi khi tải danh sách category',error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  },[]);
 
   return (
     <div>
@@ -86,12 +101,12 @@ function ListCategoryDashboard() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
-                <StyledTableRow key={row.id}>
+              {categories.map((category) => (
+                <StyledTableRow key={category.id}>
 
-                  <StyledTableCell align="left">{row.id}</StyledTableCell>
-                  <StyledTableCell align="left">{row.name}</StyledTableCell>
-                  <StyledTableCell align="left">{row.parent}</StyledTableCell>
+                  <StyledTableCell align="left">{category.id}</StyledTableCell>
+                  <StyledTableCell align="left">{category.name}</StyledTableCell>
+                  <StyledTableCell align="left">{category.parent}</StyledTableCell>
                   <StyledTableCell>
                     <Button href="#text-buttons" onClick={goToUpdateCategory}>Update</Button>
                     <Button href="#text-buttons" onClick={handleClickOpen}>Delete</Button>
