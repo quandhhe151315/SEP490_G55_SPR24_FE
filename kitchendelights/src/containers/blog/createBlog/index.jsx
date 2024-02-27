@@ -1,54 +1,43 @@
-// BlogForm.js
-import React, { useState } from 'react';
-import { TextField, Button, Container, Typography, FormControl } from '@mui/material';
 
-const BlogForm = () => {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-
-  const handleTitleChange = (event) => {
-    setTitle(event.target.value);
-  };
-
-  const handleContentChange = (event) => {
-    setContent(event.target.value);
-  };
-
-  const handleSubmit = () => {
-    // Handle form submission here, e.g., send data to server
-    console.log('Title:', title);
-    console.log('Content:', content);
-    // You can perform further actions, like sending data to a server, here
-  };
-
+import { TextField, Typography, Stack,Box,Select,MenuItem } from '@mui/material';
+import React from 'react';
+import QuillEditor from '../../../components/QuillEditor';
+export default function CreateBlog(){
   return (
-    <Container maxWidth="sm">
-      <Typography variant="h4" gutterBottom>
-        Add Blog
+    <form>
+    <Box>
+    <Stack sx={{ backgroundColor: '#f0f0f0', padding: 2 }}>
+      <Typography variant="h1" sx={{color: "#ff5e00"}}>Tạo Blog mới</Typography>
+      <Typography variant="h8">
+        Chia sẻ bí quyết nấu ăn ngon và các câu chuyện ẩm thực đến mọi người
       </Typography>
-      <FormControl onSubmit={handleSubmit}>
-        <TextField
-          label="Title"
-          fullWidth
-          margin="normal"
-          value={title}
-          onChange={handleTitleChange}
-        />
-        <TextField
-          label="Content"
-          fullWidth
-          multiline
-          rows={4}
-          margin="normal"
-          value={content}
-          onChange={handleContentChange}
-        />
-        <Button type="submit" variant="contained" color="primary">
-          Add Blog
-        </Button>
-      </FormControl>
-    </Container>
-  );
-};
+    </Stack>
+    <Stack>
+      <Typography variant="h5">Chọn chủ đề</Typography>
+      <Select
+          labelId="select-label"
+          id="select"
+          label="Select Option"
+        >
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+          <MenuItem value="option1">Option 1</MenuItem>
+          <MenuItem value="option2">Option 2</MenuItem>
+          <MenuItem value="option3">Option 3</MenuItem>
+        </Select>
+      <TextField
+      label="Tiêu đề bài viết"
+      variant="outlined"
+      fullWidth
+      margin="normal"
+    />
+    </Stack>
+    <Stack>
+      <QuillEditor/>
+    </Stack>
+  </Box>
+  </form>
+  )
+  }
 
-export default BlogForm;
