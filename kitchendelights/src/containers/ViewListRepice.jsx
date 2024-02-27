@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import Appbar from "../components/Homepage/Appbar";
@@ -21,6 +22,7 @@ import ShoingCartIconpp from "@mui/icons-material/ShoppingCart";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Rating from "@mui/material/Rating";
+import { Stack } from "@mui/material";
 
 const DisplaySearchNews = styled("div")(({ theme }) => ({
   display: "flex",
@@ -109,6 +111,16 @@ const data1 = [
     gia: "100.000 VND",
   },
 ];
+const data3 = [
+  {
+    name1: "Thịt bò",
+    name2: "Rau củ",
+    name3: "Món ăn giàu dinh dưỡng ",
+    name4: "Thịt gà",
+    name5: "Thịt vịt",
+    name6: "Đồ ăn tốt cho sức khoẻ"
+  }
+]
 
 const DisplayItemNews = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -415,8 +427,89 @@ function ViewListRepice() {
           </Button>
         </Typography>
       </Typography>
+      <Typography sx={{ marginTop: 3 }} />
+      <Typography sx={{marginLeft:40 , color: "#ff5e00",fontSize:15,fontWeight:'bold'}}>Có thể bạn sẽ thích</Typography>
+      <Typography sx={{ marginTop: 2}} />
+      <Typography sx ={{marginLeft:40}} >
+      <Stack direction="row" spacing={2} >
+                 <Button  sx={{
+              bgcolor: "#ff5e00",
+              borderRadius: "15px",
+              width: "150px",
+              height: "42px",
+              color: "white",
+            }}>Thịt bò</Button>
+               <Button  sx={{
+              bgcolor: "#ff5e00",
+              borderRadius: "15px",
+              width: "150px",
+              height: "42px",
+              color: "white",
+            }}>Thịt gà</Button>
+               <Button  sx={{
+              bgcolor: "#ff5e00",
+              borderRadius: "15px",
+              width: "200px",
+              height: "42px",
+              color: "white",
+            }}>Món ăn dinh dưỡng</Button>
+               <Button  sx={{
+              bgcolor: "#ff5e00",
+              borderRadius: "15px",
+              width: "150px",
+              height: "42px",
+              color: "white",
+            }}>Thịt lợn</Button>
+               <Button  sx={{
+              bgcolor: "#ff5e00",
+              borderRadius: "15px",
+              width: "150px",
+              height: "42px",
+              color: "white",
+            }}>Rau sạch</Button>
+                </Stack>
+                <Typography sx={{ marginTop: 1}} />
+                <Stack direction="row" spacing={2} >
+                 <Button  sx={{
+              bgcolor: "#ff5e00",
+              borderRadius: "15px",
+              width: "150px",
+              height: "42px",
+              color: "white",
+            }}>Bánh mì</Button>
+               <Button  sx={{
+              bgcolor: "#ff5e00",
+              borderRadius: "15px",
+              width: "150px",
+              height: "42px",
+              color: "white",
+            }}>Món ăn chay</Button>
+               <Button  sx={{
+              bgcolor: "#ff5e00",
+              borderRadius: "15px",
+              width: "150px",
+              height: "42px",
+              color: "white",
+            }}>Đồ ăn healthy</Button>
+               <Button  sx={{
+              bgcolor: "#ff5e00",
+              borderRadius: "15px",
+              width: "150px",
+              height: "42px",
+              color: "white",
+            }}>Phở</Button>
+               <Button  sx={{
+              bgcolor: "#ff5e00",
+              borderRadius: "15px",
+              width: "150px",
+              height: "42px",
+              color: "white",
+            }}>Bánh ngọt</Button>
+                </Stack>
+                </Typography>
     </div>
   );
 }
 
 export default ViewListRepice;
+
