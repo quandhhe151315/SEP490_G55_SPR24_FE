@@ -68,6 +68,14 @@ const Overlay = styled('div')(({ theme }) => ({
 export default function PrimarySearchAppBar() {
   const [loginForm, setLoginForm] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+
+  const [isOverlayOpen, setIsOverlayOpen] = useState(true);
+
+  const loginSuccess = () => {
+    setIsOverlayOpen(false);
+    closeLoginForm();
+  };
+
   const isMenuOpen = Boolean(anchorEl);
   const navigate = useNavigate();
 
@@ -82,6 +90,7 @@ export default function PrimarySearchAppBar() {
   const openLoginForm = () => {
     handleMenuClose();
     setLoginForm(true);
+    setIsOverlayOpen(true);
   }
 
   const closeLoginForm = () => {
@@ -293,8 +302,8 @@ export default function PrimarySearchAppBar() {
       {renderMenu}
       {loginForm && (
         <>
-          <Overlay onClick={closeLoginForm} />
-          <Login />
+          {isOverlayOpen && <Overlay onClick={closeLoginForm} />}
+          <Login loginSuccess={loginSuccess}/>
         </>
       )}
     </Box>
