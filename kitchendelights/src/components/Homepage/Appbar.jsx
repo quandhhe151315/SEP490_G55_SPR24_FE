@@ -13,6 +13,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Login } from '../Authentication/Login';
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
+import GetInformationJWT from '../JWT/GetInformationJWT';
+import Cookies from 'js-cookie';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
