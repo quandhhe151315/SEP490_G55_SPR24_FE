@@ -1,20 +1,21 @@
-import React from 'react';
+import React, { useEffect , useState } from 'react';
 import AvatarMenu from '../../components/Account/AvatarMenu';
 import Appbar from '../../components/Homepage/Appbar';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import image1 from '../../assets/images/news1.jpg';
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
-
+import GetInformationJWT from '../../components/JWT/GetInformationJWT';
 
 function MyProfile() {
-  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [role, setRole] = useState('');
 
+  const navigate = useNavigate();
   const goToChangeMyProfile = () => {
     navigate('/ChangeMyProfile');
   }
@@ -30,6 +31,7 @@ function MyProfile() {
   return (
     <div>
       <Appbar />
+      <GetInformationJWT setEmail={setEmail} setRole={setRole}/>
       <Box sx={{ display: 'flex' }}>
         <Grid container spacing={2}>
           <Grid item>
@@ -44,13 +46,14 @@ function MyProfile() {
               <Typography sx={{ fontSize: '16px', marginTop: '10px' }}>Đây là nơi hiển thị những thông tin cá nhân</Typography>
             </Grid>
 
-            <Paper item sx={{ marginTop: '30px', borderRadius: '15px', border: '1px solid #bfb8b8', width: '1000px', height: '470px' }}>
+            <Grid container spacing={2}>
+            <Paper item sx={{ marginTop: '30px', borderRadius: '15px', border: '1px solid #bfb8b8', width: '1000px', height: '470px'}}>
               <Grid container>
                 <Grid item xs={6}>
                   <Grid container direction="column">
                     <Grid item xs container direction="row">
                       <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '70px' }}>Email: </Typography>
-                      <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '120px' }}>faskdk@gmail.com </Typography>
+                      <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '120px' }}>{email} </Typography>
                     </Grid>
 
                     <Grid item xs container direction="row">
@@ -87,6 +90,7 @@ function MyProfile() {
                     <Button variant="contained" sx={{ bgcolor: "#ff5e00", marginTop:'58px', borderRadius: '15px', marginLeft: '370px', width: '180px', height: '42px', color: 'white'}} onClick={goToChangeMyProfile}>Đổi thông tin</Button>
                     </Grid>
             </Paper>
+            </Grid>
           </Grid>
 
         </Grid>
