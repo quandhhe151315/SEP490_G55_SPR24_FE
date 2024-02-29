@@ -7,27 +7,23 @@ import '../../assets/css/Login.css'
 import { Register } from './Register';
 import { ForgotPassword } from './ForgotPassword';
 
-const Login = () => {
-  const [username, setUsername] = useState('');
+const Login = ({ loginSuccess }) => {
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const [loginForm, setLoginForm] = useState(true);
-
   const [registerForm, setRegisterForm] = useState(false);
   const [forgotPasswordForm, setForgotPasswordForm] = useState(false);
-  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
       const response = await axios.post(process.env.REACT_APP_API_URL_LOGIN, {
-        username: username,
+        email: email,
         password: password,
       });
-
-      if (response.data.jwt) {
-        //check cookis -> mai lam
-        Cookies.set('jwt', response.data.jwt);
-        navigate(response.data.redirectUrl);
+      if (response.status === 200) {
+        Cookies.set('jwt', response.data);
+        loginSuccess();
       } else {
         console.error('Username or password is not correct! ');
       }
@@ -53,7 +49,7 @@ const Login = () => {
           <div className="login-form-container-overlay">
             <div className="login-form">
               <div className="login-container">
-                <input type="text" value={username} placeholder="Email" onChange={(e) => setUsername(e.target.value)} />
+                <input type="text" value={email} placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
                 <input type="password" value={password} placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
                 <br />
                 <Button sx={{ marginTop: "20px", marginLeft: "6px", width: "96%" }} variant="contained" onClick={handleLogin}>Login</Button>

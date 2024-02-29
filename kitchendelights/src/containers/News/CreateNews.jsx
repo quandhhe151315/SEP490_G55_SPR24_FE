@@ -1,17 +1,43 @@
-import React from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import Appbar from '../../components/Homepage/Appbar.jsx';
 import Typography from '@mui/material/Typography';
 import AppCreateNews from '../../components/Richtext/App.tsx'
 import { useNavigate } from "react-router-dom";
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
+import TextField from '@mui/material/TextField';
+import axios from 'axios';
 
 function CreateNews() {
+  const [content, setContent] = useState('');
+  const [title, setTitle] = useState('');
   const navigate = useNavigate();
+
+  const handleTextFieldChange = (event) => {
+    setTitle(event.target.value);
+  };
 
   const goToNews = () => {
     navigate('/ViewListNews');
   }
+
+  const handleCreateNews = async () => {
+    try {
+      const response = await axios.post(process.env.REACT_APP_API_URL_CREATE_NEWS, {
+        userId: 1,
+        userName: "qjrc1df3",
+        newsTitle: title,
+        newsContent: content,
+      });
+      if (response.status === 200) {
+        console.log('Create news successful! ');
+      } else {
+        console.error('Can not create news! ');
+      }
+    } catch (error) {
+      console.error('Create news error:', error);
+    }
+  };
 
   return (
     <div>
@@ -23,7 +49,25 @@ function CreateNews() {
             </Breadcrumbs>
             Đây là những bạn tạo những mẩu tin về chuyên ngành ẩm thực. Nơi mà người dùng có thể nhìn thấy bài viết của bạn.
           </Typography>
-          <AppCreateNews/>
+          <Typography sx={{ color: '#ff5e00', fontWeight: 'bold', marginLeft: '320px', fontSize: '20px', marginRight: '255px', marginTop: '50px'}}>
+            Tiêu đề *
+          </Typography>
+          <TextField
+            required
+            id="outlined-required"
+            value={title}
+            sx={{marginLeft: '340px', marginTop: '20px', width: '1207px'}}
+            InputProps={{
+              sx: {
+                borderRadius: '15px',
+              },
+            }}  
+            onChange={handleTextFieldChange}
+          />
+          <Typography sx={{ color: '#ff5e00', fontWeight: 'bold', marginLeft: '320px', fontSize: '20px', marginRight: '255px', marginTop: '50px'}}>
+            Nội dung *
+          </Typography>
+          <AppCreateNews title={title} setContent={setContent} handleCreateNews={handleCreateNews}/>
     </div>
   );
 }
