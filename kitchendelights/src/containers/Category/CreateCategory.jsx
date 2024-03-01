@@ -19,6 +19,8 @@ function CreateCategory() {
     const GoToListCategory = () => {
         navigate('/ViewListCategory');
     }
+
+    
     return (
         <div>
             <Grid >
