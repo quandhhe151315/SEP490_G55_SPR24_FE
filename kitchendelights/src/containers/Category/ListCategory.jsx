@@ -14,7 +14,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-
+import UpdateCategory from "./UpdateCategory";
 
 
 
@@ -25,6 +25,7 @@ function ListCategoryDashboard() {
   const [open, setOpen] = React.useState(false);
   const [categories, setCategories] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   const handleOpen = () => {
     setOpen(true);
@@ -79,13 +80,13 @@ function ListCategoryDashboard() {
 
   const deleteCategory = async () =>{
     try {
-      const response = await fetch('http://localhost:4200/api/Category/DeleteCategory?${selectedCategoryId}',{
+      const response = await fetch(`http://localhost:4200/api/Category/DeleteCategory?categoryId=${selectedCategoryId}`,{
       method: 'DELETE'
     });
     if(!response.ok){
       throw new Error('Failed to delete category');
     }
-    setCategories(categories.filter(category => category.categoryId!==selectedCategoryId));
+    setCategories(categories.filter(category => category.categoryId !== selectedCategoryId));
     setOpen(false);
   } catch (error) {
       console.error('Error deleting category:', error);
@@ -123,10 +124,12 @@ function ListCategoryDashboard() {
                   <StyledTableCell align="left">{category.categoryName}</StyledTableCell>
                   <StyledTableCell align="left">{category.parentId}</StyledTableCell>
                   <StyledTableCell>
-                    <Button href="#text-buttons" onClick={goToUpdateCategory}>Update</Button>
+                    <Button href="#text-buttons"onClick={()=>{
+                      //đang sửa
+                      goToUpdateCategory();
+                    }}>Update</Button>
                     <Button href="#text-buttons"onClick={()=>{
                       setSelectedCategoryId(category.categoryId);
-                      console.log(selectedCategoryId);
                       handleOpen(true);
                     }}>Delete</Button>
                   </StyledTableCell>
