@@ -13,7 +13,7 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
 import image1 from '../../assets/images/news1.jpg';
 import ForwardIcon from '@mui/icons-material/Forward';
-import axios from 'axios';
+import { getNewsById } from '../../services/ApiServices';
 
 const DisplaySearchNews = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -61,7 +61,7 @@ function ViewListNews() {
 
   const getNewsById = async (id) => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_NEWS}?id=${id}`);
+      const response = await getNewsById(1);
 
       if (response.status === 200) {
         setData(response.data);
