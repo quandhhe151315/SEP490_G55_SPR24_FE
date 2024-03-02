@@ -3,34 +3,36 @@ import AvatarMenu from '../../components/Account/AvatarMenu';
 import Appbar from '../../components/Homepage/Appbar';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import Cookies from 'js-cookie';
+import SuccessSnackbar from '../../components/Snackbar/SuccessSnackbar';
+import FailSnackbar from '../../components/Snackbar/FailSnackbar';
+import { changePassword } from '../../services/ApiServices';
 
 function MyProfile() {
     const [password, setPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [reNewPassword, setReNewPassword] = useState('');
 
+    const [openSuccessSnackbar, setOpenSuccessSnackbar] = useState(false);
+    const [openFailSnackbar, setOpenFailSnackbar] = useState(false);
+
     const navigate = useNavigate();
 
-    const changePassword = async () => {
+    const handleChangePassword = async () => {
         try {
-          const response = await axios.post(process.env.REACT_APP_API_URL_LOGIN, {
-            password: password,
-            newpassword: newPassword,
-            renewpassword: reNewPassword,
-
-          });
-    
-          if (response.data.jwt) {
-            navigate(response.data.redirectUrl);
+          const response = await changePassword(Cookies.get('userId'), password, newPassword);
+          if (response.status === 200) {
+            setOpenSuccessSnackbar(true);
+            navigate('/KitchenDelights');
           } else {
-            console.error('Your password is not change! ');
+            console.log('Old password is not correct! ');
+            setOpenFailSnackbar(true);
+            console.error('Change error! ');
           }
         } catch (error) {
           console.error('Change error:', error);
@@ -40,6 +42,8 @@ function MyProfile() {
     return (
         <div>
             <Appbar />
+            <FailSnackbar open={openFailSnackbar} text="Change password error!" />
+            <SuccessSnackbar open={openSuccessSnackbar} text="Change password successful!" />
             <Box sx={{ display: 'flex' }}>
                 <Grid container spacing={2}>
                     <Grid item>
@@ -77,7 +81,7 @@ function MyProfile() {
 
                             </Grid>
                             <Grid item xs container direction="row">
-                                <Button variant="contained" onClick={changePassword} sx={{ bgcolor: "#ff5e00", marginTop: '199px', borderRadius: '15px', marginLeft: '370px', width: '180px', height: '42px', color: 'white' }}>Đổi mật khẩu</Button>
+                                <Button variant="contained" onClick={handleChangePassword} sx={{ bgcolor: "#ff5e00", marginTop: '199px', borderRadius: '15px', marginLeft: '370px', width: '180px', height: '42px', color: 'white' }}>Đổi mật khẩu</Button>
                             </Grid>
                         </Paper>
                     </Grid>

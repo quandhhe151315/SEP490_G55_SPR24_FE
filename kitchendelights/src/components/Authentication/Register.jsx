@@ -5,6 +5,7 @@ import '../../assets/css/Login.css';
 import { Login } from './Login';
 import { ForgotPassword } from './ForgotPassword';
 import { useNavigate } from "react-router-dom";
+import {register} from '../../services/ApiServices'
 
 const Register = () => {
   const navigate = useNavigate();
@@ -19,11 +20,7 @@ const Register = () => {
   const [registerForm, setRegisterForm] = useState(true);
   const handleRegister = async () => {
     try {
-      const response = await axios.post(process.env.REACT_APP_API_URL_REGISTER, {
-        username: username,
-        email: email,
-        password: password,
-      });
+      const response = await register(username, email, password);
       if (response.status === 200) {
         openLoginForm();
         navigate('/KitchenDelights');

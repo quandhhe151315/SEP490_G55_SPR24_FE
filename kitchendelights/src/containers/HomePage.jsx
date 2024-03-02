@@ -10,8 +10,6 @@ function HomePage() {
     <div>
         <Appbar />
         <h1>Trang chủ</h1>
-        <GetInformationJWT setEmail={setEmail} setRole={setRole}/>
-        {email} {role}
     </div>
   );
 }

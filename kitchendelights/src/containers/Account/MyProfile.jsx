@@ -10,10 +10,17 @@ import image1 from '../../assets/images/news1.jpg';
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
 import GetInformationJWT from '../../components/JWT/GetInformationJWT';
+import {myProfile} from '../../services/ApiServices'
 
 function MyProfile() {
+  const [id, setId] = useState('');
   const [email, setEmail] = useState('');
-  const [role, setRole] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [middleName, setMiddleName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [address, setAddress] = useState('');
+  const [avatar, setAvatar] = useState('');
 
   const navigate = useNavigate();
   const goToChangeMyProfile = () => {
@@ -28,10 +35,37 @@ function MyProfile() {
     color: theme.palette.text.secondary,
   }));
 
+  useEffect(() => {
+    if (id) {
+      getInformationProfile();
+    }
+  }, [id]);
+
+  const getInformationProfile = async () => {
+    try {
+      const response = await myProfile(id);
+
+      if (response.status === 200) {
+        setEmail(response.data?.email);
+        setFirstName(response.data?.firstName);
+        setMiddleName(response.data?.middleName);
+        setLastName(response.data?.lastName);
+        setPhoneNumber(response.data?.phone);
+        // setAddress(response.data?.addresses);
+        setAvatar(response.data?.avatar);
+        console.log(response.data);
+      } else {
+        console.error('Can not get news!');
+      }
+    } catch (error) {
+      console.error('Can not load MyProfile data!', error);
+    }
+  }
+
   return (
     <div>
       <Appbar />
-      <GetInformationJWT setEmail={setEmail} setRole={setRole}/>
+      <GetInformationJWT setId={setId}/>
       <Box sx={{ display: 'flex' }}>
         <Grid container spacing={2}>
           <Grid item>
@@ -58,7 +92,7 @@ function MyProfile() {
 
                     <Grid item xs container direction="row">
                       <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '70px' }}>Họ và tên: </Typography>
-                      <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '90px' }}>Phan Tuấn Linh </Typography>
+                      <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '90px' }}>{lastName} {middleName} {firstName} </Typography>
                     </Grid>
 
                     <Grid item xs container direction="row">
@@ -68,12 +102,12 @@ function MyProfile() {
 
                     <Grid item xs container direction="row">
                       <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '70px' }}>Số điện thoại: </Typography>
-                      <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '61px' }}>0923166218 </Typography>
+                      <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '61px' }}>{phoneNumber} </Typography>
                     </Grid>
 
                     <Grid item xs container direction="row">
                       <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '70px' }}>Địa chỉ: </Typography>
-                      <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '110px' }}>Hanoi </Typography>
+                      <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '110px' }}>{address} </Typography>
                     </Grid>
                   </Grid>
                 </Grid>

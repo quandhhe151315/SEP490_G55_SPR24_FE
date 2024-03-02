@@ -6,15 +6,16 @@ import { useNavigate } from "react-router-dom";
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
-import axios from 'axios';
+import { createNews } from '../../services/ApiServices.jsx';
+import Cookies from 'js-cookie';
 
 function CreateNews() {
-  const [content, setContent] = useState('');
-  const [title, setTitle] = useState('');
+  const [newsContent, setNewsContent] = useState('');
+  const [newsTitle, setNewsTitle] = useState('');
   const navigate = useNavigate();
 
   const handleTextFieldChange = (event) => {
-    setTitle(event.target.value);
+    setNewsTitle(event.target.value);
   };
 
   const goToNews = () => {
@@ -23,12 +24,8 @@ function CreateNews() {
 
   const handleCreateNews = async () => {
     try {
-      const response = await axios.post(process.env.REACT_APP_API_URL_CREATE_NEWS, {
-        userId: 1,
-        userName: "qjrc1df3",
-        newsTitle: title,
-        newsContent: content,
-      });
+      // Cookies.get('username')
+      const response = await createNews(Cookies.get('userId'), 'userName', newsTitle, newsContent);
       if (response.status === 200) {
         console.log('Create news successful! ');
       } else {
@@ -55,7 +52,7 @@ function CreateNews() {
           <TextField
             required
             id="outlined-required"
-            value={title}
+            value={newsTitle}
             sx={{marginLeft: '340px', marginTop: '20px', width: '1207px'}}
             InputProps={{
               sx: {
@@ -67,7 +64,7 @@ function CreateNews() {
           <Typography sx={{ color: '#ff5e00', fontWeight: 'bold', marginLeft: '320px', fontSize: '20px', marginRight: '255px', marginTop: '50px'}}>
             Nội dung *
           </Typography>
-          <AppCreateNews title={title} setContent={setContent} handleCreateNews={handleCreateNews}/>
+          <AppCreateNews title={newsTitle} setContent={setNewsContent} handleCreateNews={handleCreateNews}/>
     </div>
   );
 }

@@ -9,6 +9,8 @@ function GetInformationJWT(props) {
         const token = Cookies.get('jwt');
         const decoded = jwtDecode(token);
         if (setId) setId(decoded.id);
+        Cookies.set('userId', decoded.id);
+        // Cookies.set('username', decoded.username);
     if (setEmail) setEmail(decoded.email);
     if (setRole) setRole(decoded.role);
     if (setName) setName(decoded.name);

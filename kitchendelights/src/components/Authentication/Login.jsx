@@ -6,6 +6,9 @@ import Cookies from 'js-cookie';
 import '../../assets/css/Login.css'
 import { Register } from './Register';
 import { ForgotPassword } from './ForgotPassword';
+import SuccessSnackbar from '../Snackbar/SuccessSnackbar';
+import FailSnackbar from '../Snackbar/FailSnackbar';
+import {login} from '../../services/ApiServices'
 
 const Login = ({ loginSuccess }) => {
   const [email, setEmail] = useState('');
@@ -15,19 +18,21 @@ const Login = ({ loginSuccess }) => {
   const [registerForm, setRegisterForm] = useState(false);
   const [forgotPasswordForm, setForgotPasswordForm] = useState(false);
 
+  const [openSuccessSnackbar, setOpenSuccessSnackbar] = React.useState(false);
+  const [openFailSnackbar, setOpenFailSnackbar] = React.useState(false);
   const handleLogin = async () => {
     try {
-      const response = await axios.post(process.env.REACT_APP_API_URL_LOGIN, {
-        email: email,
-        password: password,
-      });
+      const response = await login(email, password);
       if (response.status === 200) {
         Cookies.set('jwt', response.data);
+        setOpenSuccessSnackbar(true);
         loginSuccess();
       } else {
+        setOpenFailSnackbar(true);
         console.error('Username or password is not correct! ');
       }
     } catch (error) {
+      setOpenFailSnackbar(true);
       console.error('Login error:', error);
     }
   };
@@ -44,6 +49,8 @@ const Login = ({ loginSuccess }) => {
 
   return (
     <div>
+      <FailSnackbar open={openFailSnackbar} text="Username or password is not correct!" />
+      <SuccessSnackbar open={openSuccessSnackbar} text="Login successful!" />
       {loginForm && (
         <div className="login-overlay">
           <div className="login-form-container-overlay">
