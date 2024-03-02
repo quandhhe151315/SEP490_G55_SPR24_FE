@@ -1,5 +1,5 @@
 import { Dialog, List, Paper, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -14,20 +14,31 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import UpdateCategory from "./UpdateCategory";
+
+
 
 function ListCategoryDashboard() {
 
   const navigate = useNavigate();
 
   const [open, setOpen] = React.useState(false);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
-  const handleClickOpen = () => {
+  const handleOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
   };
+
+  const handleConfirmDelete = () => {
+    deleteCategory();
+  }
+
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: '#EDF2F7',
@@ -56,17 +67,37 @@ function ListCategoryDashboard() {
     navigate('/CreateCategory')
   }
 
-  function createData(id, name, parent) {
-    return { id, name, parent };
-  }
+  
+  const fetchCategories = async() =>{
+    try {
+      const response = await fetch('http://localhost:4200/api/Category/GetAllCategoy');
+      const data = await response.json();
+      setCategories(data);
+    } catch (error) {
+      console.error('lỗi khi tải danh sách category',error);
+    }
+  };
 
-  const rows = [
-    createData(1, 'Món nướng', '#'),
-    createData(2, 'Bữa sáng', '#'),
-    createData(3, 'Bữa ăn nhẹ', '#'),
-    createData(4, 'các món ăn vặt', 'bữa ăn nhẹ'),
-    createData(5, 'các bữa sáng cho trẻ', 'bữa sáng'),
-  ];
+  const deleteCategory = async () =>{
+    try {
+      const response = await fetch(`http://localhost:4200/api/Category/DeleteCategory?categoryId=${selectedCategoryId}`,{
+      method: 'DELETE'
+    });
+    if(!response.ok){
+      throw new Error('Failed to delete category');
+    }
+    setCategories(categories.filter(category => category.categoryId !== selectedCategoryId));
+    setOpen(false);
+  } catch (error) {
+      console.error('Error deleting category:', error);
+    }
+  }
+  
+  useEffect(() => {
+    fetchCategories();
+  },[]);
+
+  
 
   return (
     <div>
@@ -86,15 +117,21 @@ function ListCategoryDashboard() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
-                <StyledTableRow key={row.id}>
+              {categories.map((category) => (
+                <StyledTableRow key={category.categoryId}>
 
-                  <StyledTableCell align="left">{row.id}</StyledTableCell>
-                  <StyledTableCell align="left">{row.name}</StyledTableCell>
-                  <StyledTableCell align="left">{row.parent}</StyledTableCell>
+                  <StyledTableCell align="left">{category.categoryId}</StyledTableCell>
+                  <StyledTableCell align="left">{category.categoryName}</StyledTableCell>
+                  <StyledTableCell align="left">{category.parentId}</StyledTableCell>
                   <StyledTableCell>
-                    <Button href="#text-buttons" onClick={goToUpdateCategory}>Update</Button>
-                    <Button href="#text-buttons" onClick={handleClickOpen}>Delete</Button>
+                    <Button href="#text-buttons"onClick={()=>{
+                      //đang sửa
+                      goToUpdateCategory();
+                    }}>Update</Button>
+                    <Button href="#text-buttons"onClick={()=>{
+                      setSelectedCategoryId(category.categoryId);
+                      handleOpen(true);
+                    }}>Delete</Button>
                   </StyledTableCell>
                 </StyledTableRow>
               ))}
@@ -103,27 +140,27 @@ function ListCategoryDashboard() {
         </TableContainer>
       </Paper>
 
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">
-            {"Xác nhận xóa category"}
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Bạn có chắc chắn muốn xóa category này?
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Có</Button>
-            <Button onClick={handleClose} autoFocus>
-              Không
-            </Button>
-          </DialogActions>
-        </Dialog>
+      <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {"Xác nhận xóa category"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                Bạn có chắc chắn muốn xóa category này?
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleConfirmDelete}>Có</Button>
+              <Button onClick={handleClose} autoFocus>
+                Không
+              </Button>
+            </DialogActions>
+          </Dialog>
     </div>
   );
 }
