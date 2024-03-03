@@ -1,36 +1,36 @@
-import React, { createContext, useContext, useState } from 'react';
-import { styled, alpha } from '@mui/material/styles';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import SearchIcon from '@mui/icons-material/Search';
-import { Login } from '../Authentication/Login';
-import Button from '@mui/material/Button';
+import React, { createContext, useContext, useState } from "react";
+import { styled, alpha } from "@mui/material/styles";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import InputBase from "@mui/material/InputBase";
+import MenuItem from "@mui/material/MenuItem";
+import Menu from "@mui/material/Menu";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import SearchIcon from "@mui/icons-material/Search";
+import { Login } from "../Authentication/Login";
+import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import GetInformationJWT from '../JWT/GetInformationJWT';
 import Cookies from 'js-cookie';
 
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
+const Search = styled("div")(({ theme }) => ({
+  position: "relative",
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
+  "&:hover": {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
-  border: '2px solid gray',
+  border: "2px solid gray",
   marginRight: theme.spacing(-6),
   marginLeft: 0,
   marginTop: 10,
   marginBottom: 10,
-  width: '100%',
-  borderRadius: '15px',
-  [theme.breakpoints.up('sm')]: {
+  width: "100%",
+  borderRadius: "15px",
+  [theme.breakpoints.up("sm")]: {
     marginLeft: theme.spacing(3),
     width: 280,
     height: 40,
@@ -38,32 +38,32 @@ const Search = styled('div')(({ theme }) => ({
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'black',
-  '& .MuiInputBase-input': {
+  color: "black",
+  "& .MuiInputBase-input": {
     padding: theme.spacing(0, 1, 1, 0),
     // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(1)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
-      marginTop: '1ch',
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: "20ch",
+      marginTop: "1ch",
     },
   },
 }));
 
-const Overlay = styled('div')(({ theme }) => ({
-  position: 'fixed',
+const Overlay = styled("div")(({ theme }) => ({
+  position: "fixed",
   top: 0,
   left: 0,
-  width: '100%',
-  height: '100%',
-  backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
+  width: "100%",
+  height: "100%",
+  backgroundColor: "rgba(0, 0, 0, 0.5)",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
   zIndex: 10,
-  cursor: 'pointer',
+  cursor: "pointer",
 }));
 
 const CategoryButton = ({goToPage, text, left}) => {
@@ -114,23 +114,23 @@ export default function PrimarySearchAppBar() {
   };
 
   const goToHomePage = () => {
-    navigate('/KitchenDelights');
-  }
+    navigate("/KitchenDelights");
+  };
 
   const goToNews = () => {
-    navigate('/ViewListNews');
-  }
+    navigate("/ViewListNews");
+  };
   const goToRepice = () => {
-    navigate('/ViewListRepice');
-  }
+    navigate("/ViewListRepice");
+  };
 
   const goToMyProfile = () => {
-    navigate('/MyProfile');
-  }
+    navigate("/MyProfile");
+  };
 
   const goToChangePassword = () => {
-    navigate('/ChangePassword');
-  }
+    navigate("/ChangePassword");
+  };
 
   const goToBlog = () => {
     navigate('/blog');
@@ -141,16 +141,16 @@ export default function PrimarySearchAppBar() {
     <Menu
       anchorEl={anchorEl}
       anchorOrigin={{
-        vertical: 'top',
+        vertical: "top",
       }}
       id={menuId}
       keepMounted
       transformOrigin={{
-        vertical: 'top',
+        vertical: "top",
       }}
       open={isMenuOpen}
       onClose={handleMenuClose}
-      >
+    >
       <MenuItem onClick={openLoginForm}>Đăng nhập</MenuItem>
       <MenuItem onClick={goToMyProfile}>Thông tin cá nhân</MenuItem>
       <MenuItem onClick={goToChangePassword}>Đổi mật khẩu</MenuItem>
@@ -161,7 +161,6 @@ export default function PrimarySearchAppBar() {
       <MenuItem onClick={handleMenuClose}>Trở thành đầu bếp</MenuItem>
       <MenuItem onClick={handleMenuClose}>Đăng xuất</MenuItem>
     </Menu>
-    
   );
 
   return (
@@ -224,7 +223,6 @@ export default function PrimarySearchAppBar() {
           <CategoryButton text={"Tráng miệng"}/>
           <CategoryButton text={"Đồ uống"}/>
         </Toolbar>
-
       </AppBar>
       {renderMenu}
       {loginForm && (

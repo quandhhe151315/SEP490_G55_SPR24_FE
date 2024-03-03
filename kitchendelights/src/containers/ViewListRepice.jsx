@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import Appbar from "../components/Homepage/Appbar";
@@ -88,6 +87,7 @@ const data1 = [
     rating: 3,
     vote: 103,
     gia: "100.000 VND",
+    damua: false,
   },
   {
     image: image,
@@ -95,6 +95,7 @@ const data1 = [
     rating: 3,
     vote: 312,
     gia: "100.000 VND",
+    damua: false,
   },
   {
     image: image,
@@ -102,6 +103,7 @@ const data1 = [
     rating: 3,
     vote: 124,
     gia: "100.000 VND",
+    damua: false,
   },
   {
     image: image,
@@ -109,6 +111,7 @@ const data1 = [
     rating: 3,
     vote: 453,
     gia: "100.000 VND",
+    damua: true,
   },
 ];
 const data3 = [
@@ -118,9 +121,9 @@ const data3 = [
     name3: "Món ăn giàu dinh dưỡng ",
     name4: "Thịt gà",
     name5: "Thịt vịt",
-    name6: "Đồ ăn tốt cho sức khoẻ"
-  }
-]
+    name6: "Đồ ăn tốt cho sức khoẻ",
+  },
+];
 
 const DisplayItemNews = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -377,13 +380,23 @@ function ViewListRepice() {
                       <Button size="small" endIcon={<FavoriteIcon />}>
                         Like
                       </Button>
-                      <Button
-                        size="small"
-                        endIcon={<ShoingCartIconpp />}
-                        onClick={GoToCart}
-                      >
-                        Buy
-                      </Button>
+                      {item.damua === true ? (
+                        <Button
+                          size="small"
+                          endIcon={<VisibilityIcon />}
+                          onClick={RepiceDetail}
+                        >
+                          Xem
+                        </Button>
+                      ) : (
+                        <Button
+                          size="small"
+                          endIcon={<ShoingCartIconpp />}
+                          onClick={GoToCart}
+                        >
+                          Buy
+                        </Button>
+                      )}
                     </CardActions>
                   </Card>
                 </Grid>
@@ -428,88 +441,136 @@ function ViewListRepice() {
         </Typography>
       </Typography>
       <Typography sx={{ marginTop: 3 }} />
-      <Typography sx={{marginLeft:40 , color: "#ff5e00",fontSize:15,fontWeight:'bold'}}>Có thể bạn sẽ thích</Typography>
-      <Typography sx={{ marginTop: 2}} />
-      <Typography sx ={{marginLeft:40}} >
-      <Stack direction="row" spacing={2} >
-                 <Button  sx={{
+      <Typography
+        sx={{
+          marginLeft: 40,
+          color: "#ff5e00",
+          fontSize: 15,
+          fontWeight: "bold",
+        }}
+      >
+        Có thể bạn sẽ thích
+      </Typography>
+      <Typography sx={{ marginTop: 2 }} />
+      <Typography sx={{ marginLeft: 40 }}>
+        <Stack direction="row" spacing={2}>
+          <Button
+            sx={{
               bgcolor: "#ff5e00",
               borderRadius: "15px",
               width: "150px",
               height: "42px",
               color: "white",
-            }}>Thịt bò</Button>
-               <Button  sx={{
+            }}
+          >
+            Thịt bò
+          </Button>
+          <Button
+            sx={{
               bgcolor: "#ff5e00",
               borderRadius: "15px",
               width: "150px",
               height: "42px",
               color: "white",
-            }}>Thịt gà</Button>
-               <Button  sx={{
+            }}
+          >
+            Thịt gà
+          </Button>
+          <Button
+            sx={{
               bgcolor: "#ff5e00",
               borderRadius: "15px",
               width: "200px",
               height: "42px",
               color: "white",
-            }}>Món ăn dinh dưỡng</Button>
-               <Button  sx={{
+            }}
+          >
+            Món ăn dinh dưỡng
+          </Button>
+          <Button
+            sx={{
               bgcolor: "#ff5e00",
               borderRadius: "15px",
               width: "150px",
               height: "42px",
               color: "white",
-            }}>Thịt lợn</Button>
-               <Button  sx={{
+            }}
+          >
+            Thịt lợn
+          </Button>
+          <Button
+            sx={{
               bgcolor: "#ff5e00",
               borderRadius: "15px",
               width: "150px",
               height: "42px",
               color: "white",
-            }}>Rau sạch</Button>
-                </Stack>
-                <Typography sx={{ marginTop: 1}} />
-                <Stack direction="row" spacing={2} >
-                 <Button  sx={{
+            }}
+          >
+            Rau sạch
+          </Button>
+        </Stack>
+        <Typography sx={{ marginTop: 1 }} />
+        <Stack direction="row" spacing={2}>
+          <Button
+            sx={{
               bgcolor: "#ff5e00",
               borderRadius: "15px",
               width: "150px",
               height: "42px",
               color: "white",
-            }}>Bánh mì</Button>
-               <Button  sx={{
+            }}
+          >
+            Bánh mì
+          </Button>
+          <Button
+            sx={{
               bgcolor: "#ff5e00",
               borderRadius: "15px",
               width: "150px",
               height: "42px",
               color: "white",
-            }}>Món ăn chay</Button>
-               <Button  sx={{
+            }}
+          >
+            Món ăn chay
+          </Button>
+          <Button
+            sx={{
               bgcolor: "#ff5e00",
               borderRadius: "15px",
               width: "150px",
               height: "42px",
               color: "white",
-            }}>Đồ ăn healthy</Button>
-               <Button  sx={{
+            }}
+          >
+            Đồ ăn healthy
+          </Button>
+          <Button
+            sx={{
               bgcolor: "#ff5e00",
               borderRadius: "15px",
               width: "150px",
               height: "42px",
               color: "white",
-            }}>Phở</Button>
-               <Button  sx={{
+            }}
+          >
+            Phở
+          </Button>
+          <Button
+            sx={{
               bgcolor: "#ff5e00",
               borderRadius: "15px",
               width: "150px",
               height: "42px",
               color: "white",
-            }}>Bánh ngọt</Button>
-                </Stack>
-                </Typography>
+            }}
+          >
+            Bánh ngọt
+          </Button>
+        </Stack>
+      </Typography>
     </div>
   );
 }
 
 export default ViewListRepice;
-

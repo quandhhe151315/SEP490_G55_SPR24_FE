@@ -1,10 +1,11 @@
-import React from "react";
+import * as React from "react";
 import Appbar from "../components/Homepage/Appbar";
 import Typography from "@mui/material/Typography";
 import image from "../assets/images/news1.jpg";
 import { Box, Button, Icon } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
+import { Navigate, useNavigate } from "react-router-dom";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import Rating from "@mui/material/Rating";
 import ClassicButton from "../components/Button/ClassicButton";
@@ -20,8 +21,17 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import CommentBox from "../components/BoxComment/BoxComent";
+import Modal from "@mui/material/Modal";
 
 function RepiceDetail() {
+  const navigate = useNavigate();
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const GoToBookMark = () => {
+    navigate("/BookMark");
+  };
+
   const data = [
     {
       image: image,
@@ -88,10 +98,79 @@ function RepiceDetail() {
               height: "35px",
               color: "white",
             }}
+            onClick={handleOpen}
             endIcon={<FavoriteIcon />}
           >
             Lưu
           </Button>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box
+              sx={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                width: 300,
+                bgcolor: "background.paper",
+                border: "2px solid #000",
+                boxShadow: 24,
+                p: 4,
+              }}
+            >
+              <Typography
+                id="modal-modal-title"
+                variant="h6"
+                component="h2"
+                sx={{ textAlign: "center" }}
+              >
+                Đã lưu vào danh sách yêu thích
+              </Typography>
+              <Typography marginTop={5} />
+              <Stack
+                direction="row"
+                spacing={5}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Button
+                  size="small"
+                  variant="contained"
+                  sx={{
+                    bgcolor: "#ff5e00",
+                    borderRadius: "15px",
+                    width: "100px",
+                    height: "35px",
+                    color: "white",
+                  }}
+                  onClick={GoToBookMark}
+                >
+                  Xem
+                </Button>
+                <Button
+                  size="small"
+                  variant="contained"
+                  sx={{
+                    bgcolor: "#ff5e00",
+                    borderRadius: "15px",
+                    width: "100px",
+                    height: "35px",
+                    color: "white",
+                  }}
+                  onClick={handleClose}
+                >
+                  Huỷ
+                </Button>
+              </Stack>
+            </Box>
+          </Modal>
           <Button
             size="small"
             variant="contained"

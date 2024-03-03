@@ -13,15 +13,15 @@ import RepiceDetail from "../containers/RepiceDetail";
 import MyProfile from "../containers/Account/MyProfile";
 import ChangeMyProfile from "../containers/Account/ChangeMyProfile";
 import ChangePassword from "../containers/Authentication/ChangePassword";
-
+import BookMark from "../containers/BookMark/BookMark";
 import CreateCategory from "../containers/Category/CreateCategory";
 import UpdateCategory from "../containers/Category/UpdateCategory";
 import CreateAccount from "../containers/Account/CreateAccount";
 import ListAccount from "../containers/Account/ListAccount";
 import ListCategoryDashboard from "../containers/Category/ListCategory";
-import BlogDetail from "../containers/Blog/blogDetail";
-import CreateBlog from "../containers/Blog/createBlog";
-import BlogList from "../containers/Blog/blogList";
+import BlogDetail from "../containers/blog/blogDetail";
+import CreateBlog from "../containers/blog/createBlog";
+import BlogList from "../containers/blog/blogList";
 import DashboardMenu from "../components/Dashboard/Menu/DashboardMenu";
 
 function AppRoute() {
@@ -88,6 +88,10 @@ function AppRoute() {
     {
       path: "/CreateAccount",
       element: <CreateAccount />,
+    },
+    {
+      path: "/BookMark",
+      element: <BookMark />,
     },
     {
       path: "/ListAccount",
