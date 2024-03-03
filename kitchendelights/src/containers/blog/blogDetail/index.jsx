@@ -9,6 +9,7 @@ import {
   import React from "react";
   import BlogContent from "./BlogContent";
   import BlogSearch from "./BlogSearch";
+import BlogComment from "./BlogComment";
   
   export default function BlogDetail() {
     const breadcrumbs = [
@@ -54,6 +55,7 @@ import {
           <Grid container columnSpacing={4}>
             <Grid item xs={8}>
               <BlogContent />
+              <BlogComment/>
             </Grid>
             <Grid item xs={4}>
               <BlogSearch />
