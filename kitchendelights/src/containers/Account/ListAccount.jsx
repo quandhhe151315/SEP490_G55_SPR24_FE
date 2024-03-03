@@ -4,8 +4,11 @@ import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import EditIcon from '@mui/icons-material/Edit';
 import Button from '@mui/material/Button';
+import { useNavigate } from "react-router-dom";
 
 export default function ListAccount() {
+  const navigate = useNavigate();
+
     const handleEdit = (id) => {
         console.log(`Chỉnh sửa ID: ${id}`);
       };
@@ -13,6 +16,10 @@ export default function ListAccount() {
       const handleBan = (id) => {
         console.log(`Ban ID: ${id}`);
       };
+
+      const goToCreateAccount = () => {
+        navigate('/CreateAccount');
+      }
 
     const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
@@ -112,6 +119,7 @@ export default function ListAccount() {
                     marginLeft: '1720px',
                     color: 'white' 
                 }}
+                onClick={goToCreateAccount}
                 >
                 Tạo tài khoản mới
             </Button>

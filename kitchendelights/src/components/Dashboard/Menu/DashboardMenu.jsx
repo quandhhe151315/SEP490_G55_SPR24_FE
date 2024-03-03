@@ -13,7 +13,8 @@ import Badge from '@mui/material/Badge';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import {dashboardItems ,mainListItems, secondaryListItems } from '../Menu/ListItems';
+import {DashboardItems ,MainListItems, SecondaryListItems } from '../Menu/ListItems';
+import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -66,10 +67,15 @@ const defaultTheme = createTheme();
 
 export default function DashboardMenu({ dashboardTitle }) {
   const [open, setOpen] = React.useState(true);
+  const navigate = useNavigate();
+
   const toggleDrawer = () => {
     setOpen(!open);
   };
-
+  const goToAccountManager = () => {
+    navigate('/ListAccount');
+  }
+  
   return (
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: 'flex' }}>
@@ -123,11 +129,11 @@ export default function DashboardMenu({ dashboardTitle }) {
           </Toolbar>
           <Divider />
           <List component="nav">
-            {dashboardItems}
+            {DashboardItems()}
             <Divider sx={{ my: 1 }} />
-            {mainListItems}
+            {MainListItems()}
             <Divider sx={{ my: 1 }} />
-            {secondaryListItems}
+            {SecondaryListItems()}
           </List>
         </Drawer>
         
