@@ -1,7 +1,6 @@
 
 import { TextField, Typography, Stack,Box,Select,MenuItem } from '@mui/material';
 import React from 'react';
-import QuillEditor from '../../../components/QuillEditor';
 export default function CreateBlog(){
   return (
     <form>
@@ -34,7 +33,7 @@ export default function CreateBlog(){
     />
     </Stack>
     <Stack>
-      <QuillEditor/>
+   
     </Stack>
   </Box>
   </form>
