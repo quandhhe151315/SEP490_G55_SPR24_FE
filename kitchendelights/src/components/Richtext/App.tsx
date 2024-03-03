@@ -6,8 +6,9 @@ import {
 } from "@mui/material";
 import { useCallback, useMemo, useState } from "react";
 import Editor from '../Richtext/Editor.tsx';
+import React from 'react';
 
-export default function App() {
+const App = ({title, setContent, handleCreateNews}) => {
   const systemSettingsPrefersDarkMode = useMediaQuery(
     "(prefers-color-scheme: dark)"
   );
@@ -29,7 +30,9 @@ export default function App() {
   );
   return (
       <Box sx={{ p: 3, maxWidth: 1207, margin: "0 auto" }}>
-        <Editor />
+        <Editor title={title} setContent={setContent} handleCreateNews={handleCreateNews}/>
       </Box>
   );
-}
+};
+
+export default App;

@@ -1,24 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import { Button, Paper, TextField } from "@mui/material";
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import Link from "@mui/material/Link";
 import CategoryButton from "../../components/Button/CategoryButton";
 import { Navigate, useNavigate } from "react-router-dom";
+
 function CreateCategory() {
     const navigate = useNavigate();
-    const [selectedValue, setSelectedValue] = useState('0');
+
+    const [categoryName, setName] = useState('');
+    const [parentCategory, setParentCategory] = useState([]);
+    const [parentId, setParentId] = useState('0');
 
     const handleChange = (event) => {
-        setSelectedValue(event.target.value);
+        setParentId(event.target.value);
 
     };
     const GoToListCategory = () => {
         navigate('/ViewListCategory');
     }
+
+    const fetchParentCategory = async () => {
+        try {
+            const response = await fetch('');
+            const data = await response.json();
+            setParentCategory(data);
+        } catch (error) {
+            console.error('lỗi khi tải danh sách parent category', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchParentCategory();
+    }, []);
+
+
     return (
         <div>
             <Grid >
@@ -30,24 +49,22 @@ function CreateCategory() {
                         <Grid item xs={8} >
                             <Grid container direction="column">
                                 <Grid item xs container direction="row">
-                                    <TextField size="small" type="input" placeholder="Category Name" sx={{ width: '100%', height: '55%', fontSize: '16px', fontWeight: 'bold', marginTop: '30px', marginLeft: '45px', backgroundColor: '#FFFFFF' }}>
+                                    <TextField onChange={(e) => setName(e.target.value)} size="small" type="input" placeholder="Category Name" sx={{ width: '100%', height: '55%', fontSize: '16px', fontWeight: 'bold', marginTop: '30px', marginLeft: '45px', backgroundColor: '#FFFFFF' }}>
                                     </TextField>
                                 </Grid>
                                 <Grid item xs container direction="row" sx={{ marginTop: '30px' }}>
                                     <Typography sx={{ fontSize: '18px', marginTop: '40px', marginLeft: '70px' }}>Chọn Category cha: </Typography>
                                     <FormControl sx={{ marginTop: '5px', marginLeft: '30px', minWidth: '60%', textAlign: 'center' }}>
-                                        <Select value={selectedValue} onChange={handleChange} sx={{ marginTop: '20px', width: '100%', borderRadius: '30px', height: '70%', backgroundColor: '#FFFFFF' }}
-                                            //value={age}
-                                            //onChange={handleChange}
+                                        <Select value={parentId} onChange={handleChange} sx={{ marginTop: '20px', width: '100%', borderRadius: '30px', height: '70%', backgroundColor: '#FFFFFF' }}
                                             displayEmpty
                                             inputProps={{ 'aria-label': 'Without label' }}
                                         >
                                             <MenuItem value={0}>
                                                 <em>None</em>
                                             </MenuItem>
-                                            <MenuItem value={10}>Món nướng</MenuItem>
-                                            <MenuItem value={20}>Bữa sáng</MenuItem>
-                                            <MenuItem value={30}>Bữa ăn nhẹ</MenuItem>
+                                            {parentCategory.map((parent) => {
+                                                <MenuItem key={parent.id} value={parent.id}>{parent.name}</MenuItem>
+                                            })};
                                         </Select>
                                     </FormControl>
                                 </Grid>

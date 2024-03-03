@@ -13,6 +13,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Login } from "../Authentication/Login";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
+import GetInformationJWT from '../JWT/GetInformationJWT';
+import Cookies from 'js-cookie';
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -64,9 +66,32 @@ const Overlay = styled("div")(({ theme }) => ({
   cursor: "pointer",
 }));
 
+const CategoryButton = ({goToPage, text, left}) => {
+  return (
+    <Button
+              color="secondary"
+              size="large"
+              variant="text"
+              sx={{color: "#000000", fontWeight: "bold", marginLeft: left}}
+              onClick={goToPage}
+            >
+            {text}
+            </Button>
+  );
+};
+
+
 export default function PrimarySearchAppBar() {
   const [loginForm, setLoginForm] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+
+  const [isOverlayOpen, setIsOverlayOpen] = useState(true);
+
+  const loginSuccess = () => {
+    setIsOverlayOpen(false);
+    closeLoginForm();
+  };
+
   const isMenuOpen = Boolean(anchorEl);
   const navigate = useNavigate();
 
@@ -81,7 +106,8 @@ export default function PrimarySearchAppBar() {
   const openLoginForm = () => {
     handleMenuClose();
     setLoginForm(true);
-  };
+    setIsOverlayOpen(true);
+  }
 
   const closeLoginForm = () => {
     setLoginForm(false);
@@ -106,7 +132,11 @@ export default function PrimarySearchAppBar() {
     navigate("/ChangePassword");
   };
 
-  const menuId = "primary-search-account-menu";
+  const goToBlog = () => {
+    navigate('/blog');
+  }
+
+  const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -134,105 +164,40 @@ export default function PrimarySearchAppBar() {
   );
 
   return (
-    <Box
-      sx={{ flexGrow: 1, minWidth: "1350px" }}
-      marginLeft="auto"
-      marginRight="auto"
-      paddingLeft={35}
-      paddingRight={35}
-      color="primary"
-    >
-      <AppBar
-        position="static"
-        sx={{ bgcolor: "#ffffff", height: "120px", borderRadius: "5px" }}
-      >
+    <Box sx={{ flexGrow: 1, minWidth: '70%',  marginLeft: { xs: '3%', sm: '6%', md: '10%', lg: '15%' }, marginRight: { xs: '3%', sm: '6%', md: '10%', lg: '15%' }}}  color="primary" >
+      
+      <AppBar position="static" sx={{ bgcolor: "#ffffff", height: "120px", borderRadius: "5px" }}>
         <Toolbar>
           <Typography
             variant="h6"
             noWrap
             component="div"
-            sx={{
-              display: {
-                xs: "none",
-                sm: "block",
-                color: "#000000",
-                fontSize: "20px",
-              },
-            }}
+            sx={{ display: { xs: 'none', sm: 'block', color: "#000000", fontSize: "20px"}, marginRight: { xs: '1%', sm: '2%', md: '3%', lg: '5%' } }}
           >
             Kitchen Delights
           </Typography>
+          
+          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+            <CategoryButton goToPage={goToHomePage} text={"Trang chủ"}/>
+            <CategoryButton goToPage={goToRepice} text={"Công thức"}/>
+            <CategoryButton goToPage={goToBlog} text={"Blog"}/>
+            <CategoryButton goToPage={goToNews} text={"Tin tức"}/>
+            <CategoryButton text={"Bán chạy nhất"}/>
+            <CategoryButton text={"Đánh giá cao"}/>
 
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <Button
-              color="secondary"
-              size="large"
-              variant="text"
-              sx={{ color: "#000000", fontWeight: "bold", marginLeft: "50px" }}
-              onClick={goToHomePage}
-            >
-              Trang chủ
-            </Button>
-            <Button
-              color="secondary"
-              size="large"
-              variant="text"
-              sx={{ color: "#000000", fontWeight: "bold" }}
-              onClick={goToRepice}
-            >
-              Công thức
-            </Button>
-            <Button
-              color="secondary"
-              size="large"
-              variant="text"
-              sx={{ color: "#000000", fontWeight: "bold" }}
-            >
-              Blog
-            </Button>
-            <Button
-              color="secondary"
-              size="large"
-              variant="text"
-              sx={{ color: "#000000", fontWeight: "bold" }}
-              onClick={goToNews}
-            >
-              Tin tức
-            </Button>
-            <Button
-              color="secondary"
-              size="large"
-              variant="text"
-              sx={{ color: "#000000", fontWeight: "bold" }}
-            >
-              Bán chạy nhất
-            </Button>
-            <Button
-              color="secondary"
-              size="large"
-              variant="text"
-              sx={{ color: "#000000", fontWeight: "bold", marginRight: "50px" }}
-            >
-              Đánh giá cao
-            </Button>
             <Search>
-              <StyledInputBase
-                placeholder="Tìm những gì bạn thích"
-                inputProps={{ "aria-label": "search" }}
-                sx={{ color: "rgba(0, 0, 0, 0.54)" }}
-              />
+            <StyledInputBase
+              placeholder="Tìm những gì bạn thích"
+              inputProps={{ 'aria-label': 'search' }}
+              sx={{ color: "rgba(0, 0, 0, 0.54)" }}
+            />
             </Search>
             <Box sx={{ flexGrow: 1 }}>
-              <SearchIcon
-                sx={{
-                  bgcolor: "#ff5e00",
-                  borderRadius: "15px",
-                  width: "48px",
-                  height: "42px",
-                  marginTop: "10px",
-                }}
+            <SearchIcon 
+              sx={{bgcolor: "#ff5e00", borderRadius: '15px', width: '48px', height: '42px', marginTop: '10px'}}
               />
             </Box>
+
             <IconButton
               size="large"
               edge="end"
@@ -240,77 +205,30 @@ export default function PrimarySearchAppBar() {
               aria-controls={menuId}
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
-              sx={{ marginLeft: "10px" }}
+              sx={{ marginLeft: '20px'}}
             >
               <AccountCircleIcon fontSize="large" />
             </IconButton>
+            
           </Box>
         </Toolbar>
 
         <Toolbar>
-          <Button
-            color="secondary"
-            size="large"
-            variant="text"
-            sx={{ color: "#000000", fontWeight: "bold", marginLeft: "100px" }}
-          >
-            Thịt Gà
-          </Button>
-          <Button
-            color="secondary"
-            size="large"
-            variant="text"
-            sx={{ color: "#000000", fontWeight: "bold" }}
-          >
-            Thịt Bò
-          </Button>
-          <Button
-            color="secondary"
-            size="large"
-            variant="text"
-            sx={{ color: "#000000", fontWeight: "bold" }}
-          >
-            Bánh ngọt
-          </Button>
-          <Button
-            color="secondary"
-            size="large"
-            variant="text"
-            sx={{ color: "#000000", fontWeight: "bold" }}
-          >
-            Món ăn dinh dưỡng
-          </Button>
-          <Button
-            color="secondary"
-            size="large"
-            variant="text"
-            sx={{ color: "#000000", fontWeight: "bold" }}
-          >
-            Món ăn chay
-          </Button>
-          <Button
-            color="secondary"
-            size="large"
-            variant="text"
-            sx={{ color: "#000000", fontWeight: "bold" }}
-          >
-            Rau củ
-          </Button>
-          <Button
-            color="secondary"
-            size="large"
-            variant="text"
-            sx={{ color: "#000000", fontWeight: "bold" }}
-          >
-            Món ăn truyền thống
-          </Button>
+          <CategoryButton text={"Thịt"} left="12%"/>
+          <CategoryButton text={"Đồ ăn chay"}/>
+          <CategoryButton text={"Dinh dưỡng"}/>
+          <CategoryButton text={"Truyền thống"}/>
+          <CategoryButton text={"Quốc gia"}/>
+          <CategoryButton text={"Rau & Salad"}/>
+          <CategoryButton text={"Tráng miệng"}/>
+          <CategoryButton text={"Đồ uống"}/>
         </Toolbar>
       </AppBar>
       {renderMenu}
       {loginForm && (
         <>
-          <Overlay onClick={closeLoginForm} />
-          <Login />
+          {isOverlayOpen && <Overlay onClick={closeLoginForm} />}
+          <Login loginSuccess={loginSuccess}/>
         </>
       )}
     </Box>

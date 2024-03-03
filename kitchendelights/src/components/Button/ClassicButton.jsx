@@ -2,7 +2,7 @@ import React from 'react'
 import { Button } from '@mui/material'
 
 function ClassicButton(props) {
-    const { text, width, height, top, left, right, bot } = props;
+    const { text, width, height, top, left, right, bot, onClick } = props;
 
     return (
         <Button 
@@ -18,6 +18,7 @@ function ClassicButton(props) {
                 marginRight: right,
                 marginBottom: bot,
             }}
+            onClick={onClick}
         >
             {text}
         </Button>

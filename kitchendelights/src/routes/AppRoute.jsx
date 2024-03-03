@@ -19,10 +19,11 @@ import UpdateCategory from "../containers/Category/UpdateCategory";
 import CreateAccount from "../containers/Account/CreateAccount";
 import ListAccount from "../containers/Account/ListAccount";
 import ListCategoryDashboard from "../containers/Category/ListCategory";
-import BlogDetail from "../containers/blog/blogDetail";
-import CreateBlog from "../containers/blog/createBlog";
-import BlogList from "../containers/blog/blogList";
-import BookMark from "../containers/BookMark/BookMark";
+import BlogDetail from "../containers/Blog/blogDetail";
+import CreateBlog from "../containers/Blog/createBlog";
+import BlogList from "../containers/Blog/blogList";
+import DashboardMenu from "../components/Dashboard/Menu/DashboardMenu";
+
 function AppRoute() {
   const router = createBrowserRouter([
     {
@@ -95,9 +96,16 @@ function AppRoute() {
     {
       path: "/ListAccount",
       element: <ListAccount />,
+    },
+    {
       path: "/ViewListCategory",
       element: <ListCategoryDashboard/>,
     },
+    {
+      path: "/DashboardMenu",
+      element: <DashboardMenu />,
+    },
+
     {path: "/", element: <Navigate to="/KitchenDelights" /> },
   ]);
   return <RouterProvider router={router} />;

@@ -6,87 +6,112 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import PeopleIcon from '@mui/icons-material/People';
 import ArtTrackIcon from '@mui/icons-material/ArtTrack';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
-import SubtitlesIcon from '@mui/icons-material/Subtitles';
 import CategoryIcon from '@mui/icons-material/Category';
 import SellIcon from '@mui/icons-material/Sell';
 import DiscountIcon from '@mui/icons-material/Discount';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import ContactsIcon from '@mui/icons-material/Contacts';
 import ListIcon from '@mui/icons-material/List';
-export const dashboardItems = (
+import { useNavigate } from "react-router-dom";
+
+const ItemButton = ({goToManager, text, Icon}) => {
+  return (
+  <ListItemButton onClick={goToManager}>
+      <ListItemIcon>
+        {Icon}
+      </ListItemIcon>
+      <ListItemText primary={text} />
+    </ListItemButton>
+  );
+};
+
+const DashboardItems = () => {
+  const navigate = useNavigate();
+
+  const goToDashboardManager = () => {
+    // Link toi duong dan
+    // navigate('/ListAccount');
+  }
+
+  return(
     <React.Fragment>
-      <ListItemButton>
-        <ListItemIcon>
-          <DashboardIcon />
-        </ListItemIcon>
-        <ListItemText primary="Dashboard" />
-      </ListItemButton>
+      <ItemButton goToManager={goToDashboardManager} text="Dashboard" Icon={<DashboardIcon/>}/>
     </React.Fragment>
   );
+};
 
-export const mainListItems = (
-  <React.Fragment>
-    <ListItemButton>
-      <ListItemIcon>
-        <PeopleIcon/>
-      </ListItemIcon>
-      <ListItemText primary="Quản lý Người dùng" />
-    </ListItemButton>
-    <ListItemButton>
-      <ListItemIcon>
-        <ContactsIcon/>
-      </ListItemIcon>
-      <ListItemText primary="Quản lý Đầu bếp" />
-    </ListItemButton>
-    <ListItemButton>
-      <ListItemIcon>
-        <SellIcon />
-      </ListItemIcon>
-      <ListItemText primary="Quản lý Công thức" />
-    </ListItemButton>
-    <ListItemButton>
-      <ListItemIcon>
-        <CategoryIcon />
-      </ListItemIcon>
-      <ListItemText primary="Quản lý Category" />
-    </ListItemButton>
-    <ListItemButton>
-      <ListItemIcon>
-        <ListIcon />
-      </ListItemIcon>
-      <ListItemText primary="Quản lý SubCategory" />
-    </ListItemButton>
-    <ListItemButton>
-      <ListItemIcon>
-        <NewspaperIcon/>
-      </ListItemIcon>
-      <ListItemText primary="Quản lý Tin tức" />
-    </ListItemButton>
-    <ListItemButton>
-      <ListItemIcon>
-        <ArtTrackIcon/>
-      </ListItemIcon>
-      <ListItemText primary="Quản lý Blog" />
-    </ListItemButton>
-  </React.Fragment>
-);
+const MainListItems = () => {
+  const navigate = useNavigate();
 
-export const secondaryListItems = (
-  <React.Fragment>
+  const goToAccountManager = () => {
+    navigate('/ListAccount');
+  }
+
+  const goToChefManager = () => {
+    // Link toi duong dan
+    // navigate('/ListAccount');
+  }
+
+  const goToRecipeManager = () => {
+    // Link toi duong dan
+    // navigate('/ListAccount');
+  }
+
+  const goToCategoryManager = () => {
+    // Link toi duong dan
+    // navigate('/ListAccount');
+  }
+
+  const goToSubCategoryManager = () => {
+    // Link toi duong dan
+    // navigate('/ListAccount');
+  }
+
+  const goToNewsManager = () => {
+    // Link toi duong dan
+    // navigate('/ListAccount');
+  }
+  
+  const goToBlogsManager = () => {
+    // Link toi duong dan
+    // navigate('/ListAccount');
+  }
+
+  return(
+    <React.Fragment>
+      <ItemButton goToManager={goToAccountManager} text="Quản lý Người dùng" Icon={<PeopleIcon/>}/>
+      <ItemButton goToManager={goToChefManager} text="Quản lý Đầu bếp" Icon={<ContactsIcon/>}/>
+      <ItemButton goToManager={goToRecipeManager} text="Quản lý Công thức" Icon={<SellIcon/>}/>
+      <ItemButton goToManager={goToCategoryManager} text="Quản lý Category" Icon={<CategoryIcon/>}/>
+      <ItemButton goToManager={goToSubCategoryManager} text="Quản lý SubCategory" Icon={<ListIcon/>}/>
+      <ItemButton goToManager={goToNewsManager} text="Quản lý Tin tức" Icon={<NewspaperIcon/>}/>
+      <ItemButton goToManager={goToBlogsManager} text="Quản lý Blog" Icon={<ArtTrackIcon/>}/>
+    </React.Fragment>
+  );
+};
+
+const SecondaryListItems = () => {
+  const navigate = useNavigate();
+
+  const goToDiscountManager = () => {
+    // Link toi duong dan
+    // navigate('/ListAccount');
+  }
+
+  const goToAdsManager = () => {
+    // Link toi duong dan
+    // navigate('/ListAccount');
+  }
+
+  return (
+    <React.Fragment>
     {/* <ListSubheader component="div" inset>
       Dịch vụ
     </ListSubheader> */}
-    <ListItemButton>
-      <ListItemIcon>
-        <DiscountIcon />
-      </ListItemIcon>
-      <ListItemText primary="Quản lý mã giảm giá" />
-    </ListItemButton>
-    <ListItemButton>
-      <ListItemIcon>
-        <MonetizationOnIcon />
-      </ListItemIcon>
-      <ListItemText primary="Quản lý quảng cáo" />
-    </ListItemButton>
-  </React.Fragment>
-);
+      <ItemButton goToManager={goToDiscountManager} text="Quản lý mã giảm giá" Icon={<DiscountIcon/>}/>
+      <ItemButton goToManager={goToAdsManager} text="Quản lý quảng cáo" Icon={<MonetizationOnIcon/>}/>
+    </React.Fragment>
+  );
+};
+
+export {DashboardItems, MainListItems, SecondaryListItems};

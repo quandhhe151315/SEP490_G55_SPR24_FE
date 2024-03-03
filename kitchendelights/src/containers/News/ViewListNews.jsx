@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { useEffect , useContext, useState } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import Appbar from '../../components/Homepage/Appbar';
 import IconButton from '@mui/material/IconButton';
@@ -9,11 +9,11 @@ import Container from '@mui/material/Container';
 import SearchIcon from '@mui/icons-material/Search';
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
-
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
 import image1 from '../../assets/images/news1.jpg';
 import ForwardIcon from '@mui/icons-material/Forward';
+import { getNewsById } from '../../services/ApiServices';
 
 const DisplaySearchNews = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -56,12 +56,46 @@ const DisplayItemNews = styled(Paper)(({ theme }) => ({
 
 
 function ViewListNews() {
+  const [data, setData] = useState([]);
   const navigate = useNavigate();
 
+  const getNewsById = async (id) => {
+    try {
+      const response = await getNewsById(1);
+
+      if (response.status === 200) {
+        setData(response.data);
+        console.log(response.data);
+      } else {
+        console.error('Can not get news!');
+      }
+    } catch (error) {
+      console.error('Can not load news data!', error);
+    }
+  };
+
+  // const getAllListNews = async () => {
+  //   try {
+  //     const response = await axios.get(process.env.REACT_APP_API_URL_LIST_NEWS);
+
+  //     if (response.status === 200) {
+  //       setData(response.data);
+  //       console.log('Load news successful! ');
+  //     } else {
+  //       console.error('Can not Load news! ');
+  //     }
+  //   } catch (error) {
+  //     console.error('Can not load news data!', error);
+  //   }
+  // };
+
+  useEffect(() => {
+    getNewsById(2);
+  }, []);
+  
   const SearchNews = () => {
     navigate('/KitchenDelights');
   }
-
   const goToCreateNews = () => {
     navigate('/CreateNews');
   }
@@ -90,19 +124,21 @@ function ViewListNews() {
             </Box>
 
             <Box sx={{ flexGrow: 1 }}>
-              <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+            <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                 {Array.from(Array(6)).map((_, index) => (
-                  <Grid xs={2} sm={4} md={4} key={index}>
+
+                  <Grid xs={4} sm={4} md={4} lg={4} key={data?.newsId} sx={{width: '10%'}}>
                     <DisplayItemNews sx={{ width: 400, height: 400 }}><img src={image1} alt="Image news"/>
                       <br/>
                       <Typography sx={{fontSize: '16px', color: 'black' }}>
-                        <h2>10 bữa tối thịt bò nướng kiểu Hà Lan ngon nhất mọi thời đại</h2>
+                        <h2>{data?.newsTitle}</h2>
                       </Typography>
                     </DisplayItemNews>
                   </Grid>
                 ))}
               </Grid>
             </Box>
+
             <Typography sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '30px' }}>
               <Button variant="contained" sx={{ bgcolor: "#ff5e00", borderRadius: '15px', width: '150px', height: '42px', color: 'white'}} startIcon={<ForwardIcon sx={{transform: 'rotate(180deg)'}}/>}>Forward</Button>
               <Button variant="contained" sx={{ bgcolor: "#ff5e00", borderRadius: '15px', width: '150px', height: '42px', color: 'white'}} endIcon={<ForwardIcon />}> Next</Button>

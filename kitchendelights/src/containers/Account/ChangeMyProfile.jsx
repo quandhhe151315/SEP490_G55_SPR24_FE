@@ -17,18 +17,30 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import UploadAvatar from '../../components/UploadAvatar/UploadAvatar';
+import GetInformationJWT from '../../components/JWT/GetInformationJWT';
+import SuccessSnackbar from '../../components/Snackbar/SuccessSnackbar';
+import { changeMyProfile } from '../../services/ApiServices';
 
 function MyProfile() {
+    const [id, setId] = useState('');
+    const [email, setEmail] = useState('');
     const [firstName, setFirstName] = useState('');
     const [middleName, setMiddleName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
+    const [phone, setPhone] = useState('');
     const [address, setAddress] = useState('');
+    const [statusId, setStatusId] = useState('');
+    const [statusName, setStatusName] = useState('');
+    const [roleId, setRoleId] = useState('');
+    const [roleName, setRoleName] = useState('');
+
 
     const navigate = useNavigate();
     const [openDialog, setOpenDialog] = useState(false);
     const [avatarImage, setAvatarImage] = useState(null);
     const [newAvatarImage, setNewAvatarImage] = useState(null);
+
+    const [open, setOpen] = useState(false);
 
     const handleOpenDialog = () => {
         setOpenDialog(true);
@@ -43,32 +55,54 @@ function MyProfile() {
         handleCloseDialog();
     }
 
-    const getProfileInformation = async () => {
-        setFirstName('Linh');
-        setMiddleName('Tuấn');
-        setLastName('Phan');
-        setPhoneNumber('0923166218');
-        setAddress('Hanoi');
-        setAvatarImage(image1);
-    };
-
     useEffect(() => {
-        getProfileInformation();
-        console.log('useEffect has been called! / ' + firstName);
-    }, [firstName]);
+        if (id) {
+            getInformationProfile();
+        }
+      }, [id]);
+      const getInformationProfile = async () => {
+        try {
+          const response = await axios.get(`${process.env.REACT_APP_API_URL_GET_PROFILE}?id=${id}`);
+    
+          if (response.status === 200) {
+            const data = response.data;
+            setEmail(data?.email);
+            setFirstName(data?.firstName);
+            setMiddleName(data?.middleName);
+            setLastName(data?.lastName);
+            setPhone(data?.phone);
+            setAddress(data?.addresses);
+            setAvatarImage(data?.avatar);
+            setStatusId(data?.status?.statusId)
+            setStatusName(data?.status?.statusName)
+            setRoleId(data?.role?.roleId)
+            setRoleName(data?.role?.roleName)
+            console.log(response.data);
+          } else {
+            console.error('Can not get news!');
+          }
+        } catch (error) {
+          console.error('Can not load news data!', error);
+        }
+      }
+
+      const status = {
+        statusId: statusId,
+        statusName: statusName,
+      };
+
+      const role = {
+        roleId: roleId, 
+        roleName: roleName,
+      };
+
 
     const changeProfile = async () => {
         try {
-          const response = await axios.post(process.env.REACT_APP_API_URL_LOGIN, {
-            firstname: firstName,
-            middlename: middleName,
-            lastname: lastName,
-            phonenumber: phoneNumber,
-            address: address,
-          });
-    
-          if (response.data.jwt) {
-            navigate(response.data.redirectUrl);
+          const response = await changeMyProfile(id, email, firstName, middleName, lastName, phone, address, avatarImage, status, role);
+          if (response.status === 200) {
+            setOpen(true);
+            navigate('/ChangeMyProfile');
           } else {
             console.error('Your information is not change! ');
           }
@@ -79,7 +113,9 @@ function MyProfile() {
 
     return (
         <div>
+            <SuccessSnackbar open={open} text="Change profile successful!" />
             <Appbar />
+            <GetInformationJWT setId={setId}/>
             <Box sx={{ display: 'flex' }}>
                 <Grid container spacing={2}>
                     <Grid item>
@@ -100,7 +136,7 @@ function MyProfile() {
                                     <Grid container direction="column">
                                         <Grid item xs container direction="row">
                                             <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '70px' }}>Email: </Typography>
-                                            <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '120px' }}>faskdk@gmail.com </Typography>
+                                            <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '120px' }}>{email}</Typography>
                                         </Grid>
 
                                         <Grid item xs container direction="row">
@@ -119,7 +155,7 @@ function MyProfile() {
 
                                         <Grid item xs container direction="row">
                                             <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '70px' }}>Số điện thoại: </Typography>
-                                            <TextField size='small' type="input" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} sx={{ width: '225px', height: '10px', fontSize: '16px', fontWeight: 'bold', marginTop: '30px', marginLeft: '45px' }} />
+                                            <TextField size='small' type="input" value={phone} onChange={(e) => setPhone(e.target.value)} sx={{ width: '225px', height: '10px', fontSize: '16px', fontWeight: 'bold', marginTop: '30px', marginLeft: '45px' }} />
                                         </Grid>
 
                                         <Grid item xs container direction="row">

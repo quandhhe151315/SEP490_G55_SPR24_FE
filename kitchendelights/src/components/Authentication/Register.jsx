@@ -4,22 +4,29 @@ import axios from 'axios';
 import '../../assets/css/Login.css';
 import { Login } from './Login';
 import { ForgotPassword } from './ForgotPassword';
+import { useNavigate } from "react-router-dom";
+import {register} from '../../services/ApiServices'
 
 const Register = () => {
+  const navigate = useNavigate();
   const [loginForm, setLoginForm] = useState(false);
+
   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repassword, setRepassword] = useState('');
+
   const [forgotPasswordForm, setForgotPasswordForm] = useState(false);
   const [registerForm, setRegisterForm] = useState(true);
   const handleRegister = async () => {
     try {
-      const response = await axios.post(process.env.REACT_APP_API_URL_REGISTER, {
-        username: username,
-        password: password,
-        repassword: repassword,
-      });
-
+      const response = await register(username, email, password);
+      if (response.status === 200) {
+        openLoginForm();
+        navigate('/KitchenDelights');
+      } else {
+        console.error('Username or password is not correct!');
+      }
     } catch (error) {
       console.error('Register error:', error);
     }
@@ -35,10 +42,6 @@ const Register = () => {
     setForgotPasswordForm(true);
   }
 
-  const closeForm = () => {
-    setRegisterForm(false);
-  }
-
   return (
     <div>
         {registerForm && (
@@ -46,7 +49,8 @@ const Register = () => {
           <div className="login-form-container-overlay">
             <div className="login-form">
               <div className="login-container">
-                <input type="text" value={username} placeholder="Enter your email" onChange={(e) => setUsername(e.target.value)} />
+                <input type="text" value={username} placeholder="Enter your username" onChange={(e) => setUsername(e.target.value)} />
+                <input type="text" value={email} placeholder="Enter your email" onChange={(e) => setEmail(e.target.value)} />
                 <input type="password" value={password} placeholder="Enter your password" onChange={(e) => setPassword(e.target.value)} />
                 <input type="password" value={repassword} placeholder="Re-enter your password" onChange={(e) => setRepassword(e.target.value)} />
                 <br />

@@ -1,8 +1,9 @@
+import React from 'react';
 import { Lock, LockOpen, TextFields } from "@mui/icons-material";
-import { Box, Button, Stack, Typography } from "@mui/material";
+import { Modal, Box, Stack, Typography } from "@mui/material";
 import type { EditorOptions } from "@tiptap/core";
 import { useCallback, useRef, useState } from "react";
-
+import ClassicButton from '../Button/ClassicButton.jsx'
 import {
   LinkBubbleMenu,
   MenuButton,
@@ -28,7 +29,7 @@ function fileListToImageFiles(fileList: FileList): File[] {
   });
 }
 
-export default function Editor() {
+export default function Editor({ title, setContent, handleCreateNews }) {
   const extensions = useExtensions({
     placeholder: "Add your own content here...",
   });
@@ -120,12 +121,19 @@ export default function Editor() {
     );
 
   const [submittedContent, setSubmittedContent] = useState("");
-
+  const [open, setOpen] = useState(false);
+  const handleCloseRawNews = () => {
+    setOpen(false);
+  };
+  const handleOpenRawNews = () => {
+    setOpen(true);
+  };
+  
   return (
     <>
       <Box
         sx={{
-          border: '3px solid #fc7703',
+          border: '1px solid #c9c9c9',
           borderRadius: '15px',
           paddingLeft: '20px',
           paddingRight: '20px',
@@ -202,17 +210,19 @@ export default function Editor() {
                   IconComponent={isEditable ? Lock : LockOpen}
                 />
 
-                <Button
-                  variant="contained"
-                  size="small"
+                <ClassicButton text="Lưu bản nháp"
                   onClick={() => {
                     setSubmittedContent(
                       rteRef.current?.editor?.getHTML() ?? ""
+                      
                     );
+                    setContent(
+                      rteRef.current?.editor?.getHTML() ?? ""
+                    );
+                    handleOpenRawNews();
                   }}
                 >
-                  Save
-                </Button>
+                </ClassicButton>
               </Stack>
             ),
           }}
@@ -225,27 +235,52 @@ export default function Editor() {
           )}
         </RichTextEditor>
       </Box>
-      {submittedContent ? (
+      
+      {submittedContent && (
         <>
-          <pre style={{ marginTop: 10, overflow: "auto", maxWidth: "100%" }}>
-            <code>{submittedContent}</code>
-          </pre>
-
-          <Box mt={3}>
-            <Typography variant="overline" sx={{ mb: 2 }}>
-              Read-only saved snapshot:
-            </Typography>
-
-            <RichTextReadOnly
-              content={submittedContent}
-              extensions={extensions}
-            />
-          </Box>
-        </>
-      ) : (
-        <>
+          <Modal
+            open={open}
+            onClose={handleCloseRawNews}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box
+              sx={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: 1200,
+                height: 700,
+                bgcolor: 'background.paper',
+                boxShadow: 24,
+                p: 4,
+                overflowY: 'auto',
+                border: '2px solid #ff5e00', 
+                borderRadius: '15px',
+                padding: '35px',
+                
+              }}
+            >
+              <Typography variant="h6" component="h2" gutterBottom sx={{color: '#ff5e00', fontWeight: 'bold', fontSize: '29px', textAlign: 'center'}}>
+                {title}
+              </Typography>
+{/* 
+              <pre style={{ marginTop: 10, overflow: "auto", maxWidth: "100%" }}>
+                <code>{submittedContent}</code>
+              </pre> */}
+              <Box mt={3}>
+                <RichTextReadOnly
+                  content={submittedContent}
+                  extensions={extensions}
+                />
+              </Box>
+              <ClassicButton text="Đăng tin tức" left="1000px" top="30px" onClick={handleCreateNews}/>
+            </Box>
+          </Modal>
         </>
       )}
+
     </>
   );
 }
