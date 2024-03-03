@@ -1,7 +1,6 @@
 import Button from '@mui/material/Button'
 import React, { useState} from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import Cookies from 'js-cookie';
 import '../../assets/css/Login.css'
 import { Register } from './Register';

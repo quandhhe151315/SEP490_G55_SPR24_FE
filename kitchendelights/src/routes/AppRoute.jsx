@@ -13,7 +13,7 @@ import RepiceDetail from "../containers/RepiceDetail";
 import MyProfile from "../containers/Account/MyProfile";
 import ChangeMyProfile from "../containers/Account/ChangeMyProfile";
 import ChangePassword from "../containers/Authentication/ChangePassword";
-
+import BookMark from "../containers/BookMark/BookMark";
 import CreateCategory from "../containers/Category/CreateCategory";
 import UpdateCategory from "../containers/Category/UpdateCategory";
 import CreateAccount from "../containers/Account/CreateAccount";
@@ -90,8 +90,14 @@ function AppRoute() {
       element: <CreateAccount />,
     },
     {
+      path: "/BookMark",
+      element: <BookMark />,
+    },
+    {
       path: "/ListAccount",
       element: <ListAccount />,
+    },
+    {
       path: "/ViewListCategory",
       element: <ListCategoryDashboard/>,
     },
