@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import Appbar from "../components/Homepage/Appbar";
 import Typography from "@mui/material/Typography";
 import image from "../assets/images/news1.jpg";
-import { Box, Button, Icon } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Icon, IconButton } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
@@ -20,8 +20,21 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import CommentBox from "../components/BoxComment/BoxComent";
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+
 
 function RepiceDetail() {
+
+  const [openDialogMenu, setOpenDialogMenu] = useState(false);
+
+  const handleOpenDialogMenu = () =>{
+    setOpenDialogMenu(true);
+  }
+
+  const handleCloseDialogMenu = () =>{
+    setOpenDialogMenu(false);
+  }
+  
   const data = [
     {
       image: image,
@@ -120,6 +133,26 @@ function RepiceDetail() {
           >
             Chia sẻ
           </Button>
+
+          {/*nút add to menu*/}
+          <Button
+            onClick={handleOpenDialogMenu}
+            size="small"
+            variant="contained"
+            sx={{
+              bgcolor: "#ff5e00",
+              borderRadius: "15px",
+              width: "150px",
+              height: "35px",
+              color: "white",
+              size: '20px',
+              fontSize: '12px'
+            }}
+            endIcon={<MenuBookIcon />}
+          >
+            Thêm vào menu
+          </Button>
+
         </Stack>
         <Typography sx={{ marginTop: 3 }} />
       </Typography>
@@ -182,6 +215,9 @@ function RepiceDetail() {
           );
         })}
       </Box>
+
+       
+      
     </div>
   );
 }

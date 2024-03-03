@@ -15,7 +15,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import UpdateCategory from "./UpdateCategory";
-
+import DashboardMenu from "../../components/Dashboard/Menu/DashboardMenu"
 
 
 function ListCategoryDashboard() {
@@ -101,6 +101,7 @@ function ListCategoryDashboard() {
 
   return (
     <div>
+      <DashboardMenu></DashboardMenu>
       <Paper elevation={2} sx={{ marginLeft: '360px', marginTop: '30px', borderRadius: '15px', border: '1px solid #bfb8b8', width: '1000px', height: '600px', backgroundColor: '#FFFFFF' }}>
         <Typography sx={{ fontSize: '24px', fontWeight: '', marginLeft: '10%', marginTop: '30px', color: '#4A5568' }}>
           Danh sách category
