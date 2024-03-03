@@ -22,7 +22,7 @@ import ListCategoryDashboard from "../containers/Category/ListCategory";
 import BlogDetail from "../containers/blog/blogDetail";
 import CreateBlog from "../containers/blog/createBlog";
 import BlogList from "../containers/blog/blogList";
-
+import BookMark from "../containers/BookMark/BookMark";
 function AppRoute() {
   const router = createBrowserRouter([
     {
@@ -87,6 +87,10 @@ function AppRoute() {
     {
       path: "/CreateAccount",
       element: <CreateAccount />,
+    },
+    {
+      path: "/BookMark",
+      element: <BookMark />,
     },
     {
       path: "/ListAccount",
