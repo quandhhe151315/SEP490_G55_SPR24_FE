@@ -28,7 +28,7 @@ function AvatarMenu() {
 
     return (
         <div>
-            <Paper sx={{ width: 280, maxWidth: '100%', marginTop: '30px', marginLeft: '280px', border: '1px solid #bfb8b8' }}>
+            <Paper sx={{ width: 280, maxWidth: '100%', marginTop: '30px', marginLeft: '46%', border: '1px solid #bfb8b8' }}>
                 <MenuList>
                     <MenuItem>
                         <ListItemIcon>
@@ -52,7 +52,7 @@ function AvatarMenu() {
                     </MenuItem>
                 </MenuList>
             </Paper>
-            <Paper sx={{ width: 280, maxWidth: '100%', marginTop: '20px', marginLeft: '280px', border: '1px solid #bfb8b8' }}>
+            <Paper sx={{ width: 280, maxWidth: '100%', marginTop: '20px', marginLeft: '46%', border: '1px solid #bfb8b8' }}>
                 <MenuList>
                     <MenuItem>
                         <ListItemIcon>
@@ -83,7 +83,7 @@ function AvatarMenu() {
                     </MenuItem>
                 </MenuList>
             </Paper>
-            <Paper sx={{ width: 280, maxWidth: '100%', marginTop: '20px', marginLeft: '280px', border: '1px solid #bfb8b8' }}>
+            <Paper sx={{ width: 280, maxWidth: '100%', marginTop: '20px', marginLeft: '46%', border: '1px solid #bfb8b8' }}>
                 <MenuList>
                     <MenuItem>
                         <ListItemIcon>

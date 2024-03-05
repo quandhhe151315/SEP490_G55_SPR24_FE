@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -84,13 +84,25 @@ const CategoryButton = ({goToPage, text, left}) => {
 export default function PrimarySearchAppBar() {
   const [loginForm, setLoginForm] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-
   const [isOverlayOpen, setIsOverlayOpen] = useState(true);
+
+  const [userIdExist, setUserIdExist] = useState(false);
+  const [userId, setUserId] = useState(-1);
 
   const loginSuccess = () => {
     setIsOverlayOpen(false);
     closeLoginForm();
+    setUserIdExist(true);
   };
+
+  useEffect(() => {
+    if(userId != -1){
+      setUserIdExist(true);
+    }
+    else{
+      setUserIdExist(false);
+    }
+  }, [userId]);
 
   const isMenuOpen = Boolean(anchorEl);
   const navigate = useNavigate();
@@ -136,6 +148,12 @@ export default function PrimarySearchAppBar() {
     navigate('/blog');
   }
 
+  const handleLogout = () => {
+    Cookies.remove('jwt');
+    setUserIdExist(false);
+    navigate('/KitchenDelights');
+  }
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -151,21 +169,29 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={openLoginForm}>Đăng nhập</MenuItem>
-      <MenuItem onClick={goToMyProfile}>Thông tin cá nhân</MenuItem>
-      <MenuItem onClick={goToChangePassword}>Đổi mật khẩu</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Công thức yêu thích</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Công thức của tôi</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Đánh giá</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Blog</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Trở thành đầu bếp</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Đăng xuất</MenuItem>
+      {userIdExist == false && (
+      <>
+        <MenuItem onClick={openLoginForm}>Đăng nhập</MenuItem>
+      </>
+    )}
+          {userIdExist == true && (
+      <>
+        <MenuItem onClick={goToMyProfile}>Thông tin cá nhân</MenuItem>
+        <MenuItem onClick={goToChangePassword}>Đổi mật khẩu</MenuItem>
+        <MenuItem onClick={handleMenuClose}>Công thức yêu thích</MenuItem>
+        <MenuItem onClick={handleMenuClose}>Công thức của tôi</MenuItem>
+        <MenuItem onClick={handleMenuClose}>Đánh giá</MenuItem>
+        <MenuItem onClick={handleMenuClose}>Blog</MenuItem>
+        <MenuItem onClick={handleMenuClose}>Trở thành đầu bếp</MenuItem>
+        <MenuItem onClick={handleLogout}>Đăng xuất</MenuItem>
+      </>
+    )}
     </Menu>
   );
 
   return (
     <Box sx={{ flexGrow: 1, minWidth: '70%',  marginLeft: { xs: '3%', sm: '6%', md: '10%', lg: '15%' }, marginRight: { xs: '3%', sm: '6%', md: '10%', lg: '15%' }}}  color="primary" >
-      
+      <GetInformationJWT setId={setUserId}/>
       <AppBar position="static" sx={{ bgcolor: "#ffffff", height: "120px", borderRadius: "5px" }}>
         <Toolbar>
           <Typography
@@ -224,7 +250,7 @@ export default function PrimarySearchAppBar() {
           <CategoryButton text={"Đồ uống"}/>
         </Toolbar>
       </AppBar>
-      {renderMenu}
+      {(userIdExist != null ) && renderMenu}
       {loginForm && (
         <>
           {isOverlayOpen && <Overlay onClick={closeLoginForm} />}

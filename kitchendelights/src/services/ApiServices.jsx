@@ -12,18 +12,13 @@ const changePassword = (userId, oldPassword, password) => {
   return axios.patch("/User/ChangePassword", { userId, oldPassword, password });
 };
 
-const createNews = (userId, userName, newsTitle, newsContent) => {
-  return axios.post("/News/Create", {
-    userId,
-    userName,
-    newsTitle,
-    newsContent,
-  });
-};
+const createNews = (userId, newsTitle, newsContent) => {
+    return axios.post('/News/Create', {userId, newsTitle, newsContent});
+}
 
 const listNews = () => {
-  return axios.get("/News/List");
-};
+    return axios.get('/News/Get');
+}
 
 const getNewsById = (id) => {
   return axios.get(`/News/Get?id=${id}`);

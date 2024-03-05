@@ -19,7 +19,8 @@ import DialogActions from '@mui/material/DialogActions';
 import UploadAvatar from '../../components/UploadAvatar/UploadAvatar';
 import GetInformationJWT from '../../components/JWT/GetInformationJWT';
 import SuccessSnackbar from '../../components/Snackbar/SuccessSnackbar';
-import { changeMyProfile } from '../../services/ApiServices';
+import { myProfile, changeMyProfile } from '../../services/ApiServices';
+import FailSnackbar from '../../components/Snackbar/FailSnackbar';
 
 function MyProfile() {
     const [id, setId] = useState('');
@@ -41,6 +42,7 @@ function MyProfile() {
     const [newAvatarImage, setNewAvatarImage] = useState(null);
 
     const [open, setOpen] = useState(false);
+    const [openFail, setOpenFail] = useState(false);
 
     const handleOpenDialog = () => {
         setOpenDialog(true);
@@ -62,7 +64,7 @@ function MyProfile() {
       }, [id]);
       const getInformationProfile = async () => {
         try {
-          const response = await axios.get(`${process.env.REACT_APP_API_URL_GET_PROFILE}?id=${id}`);
+          const response = await myProfile(id);
     
           if (response.status === 200) {
             const data = response.data;
@@ -104,6 +106,7 @@ function MyProfile() {
             setOpen(true);
             navigate('/ChangeMyProfile');
           } else {
+            setOpenFail(true);
             console.error('Your information is not change! ');
           }
         } catch (error) {
@@ -113,16 +116,17 @@ function MyProfile() {
 
     return (
         <div>
-            <SuccessSnackbar open={open} text="Change profile successful!" />
+            <SuccessSnackbar open={open} text="Change profile successful!" setOpen={setOpen} />
+            <FailSnackbar open={openFail} text="Change profile failed!" setOpen={setOpenFail}/>
             <Appbar />
             <GetInformationJWT setId={setId}/>
             <Box sx={{ display: 'flex' }}>
                 <Grid container spacing={2}>
-                    <Grid item>
+                    <Grid item xs={4}>
                         <AvatarMenu />
                     </Grid>
 
-                    <Grid item xs container direction="column" sx={{ position: 'fixed' ,fontSize: '30px', fontWeight: 'bold', marginLeft: '627px' }}>
+                    <Grid item xs container direction="column" sx={{ fontSize: '30px', fontWeight: 'bold' }}>
                         <Grid item>
                             <Typography sx={{ fontSize: '30px', fontWeight: 'bold', marginTop: '20px' }}>Chỉnh sửa thông tin cá nhân</Typography>
                         </Grid>
@@ -130,9 +134,10 @@ function MyProfile() {
                             <Typography sx={{ fontSize: '16px', marginTop: '10px' }}>Đây là nơi chỉnh sửa những thông tin cá nhân của bạn</Typography>
                         </Grid>
 
-                        <Paper item sx={{ marginTop: '30px', borderRadius: '15px', border: '1px solid #bfb8b8', width: '1000px', height: '470px' }}>
+                        <Grid container spacing={2}>
+                        <Paper item sx={{ marginTop: '3%', borderRadius: '15px', border: '1px solid #bfb8b8', width: '77%', height: '100%' }}>
                             <Grid container>
-                                <Grid item xs={6}>
+                                <Grid item xs={8}>
                                     <Grid container direction="column">
                                         <Grid item xs container direction="row">
                                             <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '70px' }}>Email: </Typography>
@@ -141,11 +146,11 @@ function MyProfile() {
 
                                         <Grid item xs container direction="row">
                                             <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '70px' }}>Họ: </Typography>
-                                            <TextField size='small' type="input" value={lastName} onChange={(e) => setLastName(e.target.value)} sx={{ width: '80px', height: '10px', fontSize: '16px', fontWeight: 'bold', marginTop: '30px', marginLeft: '5px' }} />
+                                            <TextField size='small' type="input" value={lastName} onChange={(e) => setLastName(e.target.value)} sx={{ width: '15%', height: '10px', fontSize: '16px', fontWeight: 'bold', marginTop: '30px', marginLeft: '5px' }} />
                                             <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '10px' }}>Đệm: </Typography>
-                                            <TextField size='small' type="input" value={middleName} onChange={(e) => setMiddleName(e.target.value)} sx={{ width: '80px', height: '10px', fontSize: '16px', fontWeight: 'bold', marginTop: '30px', marginLeft: '5px' }} />
+                                            <TextField size='small' type="input" value={middleName} onChange={(e) => setMiddleName(e.target.value)} sx={{ width: '15%', height: '10px', fontSize: '16px', fontWeight: 'bold', marginTop: '30px', marginLeft: '5px' }} />
                                             <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '10px' }}>Tên: </Typography>
-                                            <TextField size='small' type="input" value={firstName} onChange={(e) => setFirstName(e.target.value)} sx={{ width: '80px', height: '10px', fontSize: '16px', fontWeight: 'bold', marginTop: '30px', marginLeft: '5px' }} />
+                                            <TextField size='small' type="input" value={firstName} onChange={(e) => setFirstName(e.target.value)} sx={{ width: '15%', height: '10px', fontSize: '16px', fontWeight: 'bold', marginTop: '30px', marginLeft: '5px' }} />
                                         </Grid>
 
                                         <Grid item xs container direction="row">
@@ -165,9 +170,9 @@ function MyProfile() {
                                     </Grid>
                                 </Grid>
 
-                                <Grid item xs={6}>
-                                    <Typography sx={{marginLeft: '50px', marginTop: '50px' }}>
-                                    <img src={avatarImage} alt="Image news" style={{width: '250px', height: '250px', overflow: 'hidden', marginLeft: '0px', marginLeft: '70px' }} />
+                                <Grid item xs={4}>
+                                    <Typography sx={{marginTop: '50px' }}>
+                                    <img src={avatarImage} alt="Image news" style={{width: '250px', height: '250px', overflow: 'hidden', marginRight: '2%' }} />
                                         <br />
                                         <Button variant="contained" onClick={handleOpenDialog} sx={{bgcolor: "#ff5e00", borderRadius: '15px', marginLeft: '130px', marginTop: '30px' ,width: '130px', height: '42px', color: 'white' }}>Đổi Avatar</Button>
                                         <Grid item xs container direction="row">
@@ -180,7 +185,7 @@ function MyProfile() {
                             </Grid>
                         </Paper>
                     </Grid>
-
+                    </Grid>
                 </Grid>
             </Box>
 

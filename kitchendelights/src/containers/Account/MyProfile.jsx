@@ -68,11 +68,11 @@ function MyProfile() {
       <GetInformationJWT setId={setId}/>
       <Box sx={{ display: 'flex' }}>
         <Grid container spacing={2}>
-          <Grid item>
+          <Grid item xs={4}>
             <AvatarMenu />
           </Grid>
 
-          <Grid item xs container direction="column" sx={{ fontSize: '30px', fontWeight: 'bold', marginLeft: '50px' }}>
+          <Grid item xs container direction="column" sx={{ fontSize: '30px', fontWeight: 'bold'}}>
             <Grid item>
               <Typography sx={{ fontSize: '30px', fontWeight: 'bold', marginTop: '20px' }}>Thông tin cá nhân</Typography>
             </Grid>
@@ -81,42 +81,42 @@ function MyProfile() {
             </Grid>
 
             <Grid container spacing={2}>
-            <Paper item sx={{ marginTop: '30px', borderRadius: '15px', border: '1px solid #bfb8b8', width: '1000px', height: '470px'}}>
+            <Paper  item xs={8} sx={{ marginTop: '3%', borderRadius: '15px', border: '1px solid #bfb8b8', width: '77%', height: '100%'}}>
               <Grid container>
-                <Grid item xs={6}>
+                <Grid item xs={8}>
                   <Grid container direction="column">
                     <Grid item xs container direction="row">
                       <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '70px' }}>Email: </Typography>
-                      <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '120px' }}>{email} </Typography>
+                      <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '100px' }}>{email} </Typography>
                     </Grid>
 
                     <Grid item xs container direction="row">
                       <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '70px' }}>Họ và tên: </Typography>
-                      <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '90px' }}>{lastName} {middleName} {firstName} </Typography>
+                      <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '70px' }}>{lastName} {middleName} {firstName} </Typography>
                     </Grid>
 
                     <Grid item xs container direction="row">
                       <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '70px' }}>Mật khẩu: </Typography>
-                      <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '93px' }}>******** </Typography>
+                      <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '73px' }}>******** </Typography>
                     </Grid>
 
                     <Grid item xs container direction="row">
                       <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '70px' }}>Số điện thoại: </Typography>
-                      <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '61px' }}>{phoneNumber} </Typography>
+                      <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '41px' }}>{phoneNumber} </Typography>
                     </Grid>
 
                     <Grid item xs container direction="row">
                       <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '70px' }}>Địa chỉ: </Typography>
-                      <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '110px' }}>{address} </Typography>
+                      <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '90px' }}>{address} </Typography>
                     </Grid>
                   </Grid>
                 </Grid>
 
-                <Grid item xs={6}>
-                  <Typography sx={{ marginLeft: '50px', marginTop: '50px' }}>
-                    <img src={image1} alt="Image news" style={{width: '250px', height: '250px', overflow: 'hidden', marginLeft: '0px', marginLeft: '70px' }}/>
+                <Grid item xs={4}>
+                  <Typography sx={{ marginTop: '50px' }}>
+                    <img src={image1} alt="Image news" style={{width: '250px', height: '250px', overflow: 'hidden'}}/>
                     <br/>
-                    <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '10px', marginLeft: '165px' }}>Avatar</Typography>
+                    <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '10px', marginLeft: '100px' }}>Avatar</Typography>
                   </Typography>
                 </Grid>
               </Grid>

@@ -4,17 +4,11 @@ import GetInformationJWT from "../components/JWT/GetInformationJWT";
 import Layoutspacing from "../components/Layoutspacing";
 
 function HomePage() {
-  const [email, setEmail] = useState("");
-  const [role, setRole] = useState("");
 
   return (
     <div>
-      <Layoutspacing>
-        {" "}
-        <Appbar />
-      </Layoutspacing>
-
-      <h1>Trang chủ</h1>
+        <Appbar/>
+        <h1>Trang chủ</h1>
     </div>
   );
 }
