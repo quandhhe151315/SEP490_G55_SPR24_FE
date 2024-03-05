@@ -9,7 +9,7 @@ import CreateNews from "../containers/News/CreateNews";
 import ViewListNews from "../containers/News/ViewListNews";
 import ViewListRecipe from "../containers/ViewListRecipe";
 import ShoppingCart from "../containers/ShoppingCart";
-import RepiceDetail from "../containers/RecipeDetail";
+import RecipeDetail from "../containers/RecipeDetail";
 import MyProfile from "../containers/Account/MyProfile";
 import ChangeMyProfile from "../containers/Account/ChangeMyProfile";
 import ChangePassword from "../containers/Authentication/ChangePassword";
@@ -64,8 +64,8 @@ function AppRoute() {
       element: <ShoppingCart />,
     },
     {
-      path: "/RepiceDetail",
-      element: <RepiceDetail />,
+      path: "/RecipeDetail",
+      element: <RecipeDetail />,
     },
     { path: "/", element: <Navigate to="/KitchenDelights" /> },
     { 

@@ -25,7 +25,7 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 import Modal from "@mui/material/Modal";
 import AddRecipeToMenuDialog from "./Menu/AddRecipeToMenu";
 
-function RepiceDetail() {
+function RecipeDetail() {
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -301,4 +301,4 @@ function RepiceDetail() {
   );
 }
 
-export default RepiceDetail;
+export default RecipeDetail;

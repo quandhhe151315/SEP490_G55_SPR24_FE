@@ -134,7 +134,7 @@ const DisplayItemNews = styled(Paper)(({ theme }) => ({
   marginTop: "30px",
 }));
 
-function ViewListRepice() {
+function ViewListRecipe() {
   const navigate = useNavigate();
 
   const SearchNews = () => {
@@ -573,4 +573,4 @@ function ViewListRepice() {
   );
 }
 
-export default ViewListRepice;
+export default ViewListRecipe;
