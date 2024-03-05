@@ -1,6 +1,7 @@
-import React, { useEffect , useState } from 'react';
-import Appbar from '../components/Homepage/Appbar';
-import GetInformationJWT from '../components/JWT/GetInformationJWT';
+import React, { useEffect, useState } from "react";
+import Appbar from "../components/Homepage/Appbar";
+import GetInformationJWT from "../components/JWT/GetInformationJWT";
+import Layoutspacing from "../components/Layoutspacing";
 
 function HomePage() {
 

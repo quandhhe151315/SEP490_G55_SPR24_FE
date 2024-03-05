@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import Appbar from "../components/Homepage/Appbar";
 import IconButton from "@mui/material/IconButton";
@@ -22,6 +22,9 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Rating from "@mui/material/Rating";
 import { Stack } from "@mui/material";
+import { getRecipes, getRecipessById } from "../services/ApiServices";
+import Snackbar from "@mui/material/Snackbar";
+import { toast } from "react-toastify";
 
 const DisplaySearchNews = styled("div")(({ theme }) => ({
   display: "flex",
@@ -52,33 +55,6 @@ const DisplayStyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
-
-const data = [
-  {
-    image: image,
-    title: "Cong thuc free",
-    rating: 3,
-    vote: 103,
-  },
-  {
-    image: image,
-    title: "Cong thuc free",
-    rating: 3,
-    vote: 103,
-  },
-  {
-    image: image,
-    title: "Cong thuc free",
-    rating: 3,
-    vote: 103,
-  },
-  {
-    image: image,
-    title: "Cong thuc free",
-    rating: 3,
-    vote: 103,
-  },
-];
 
 const data1 = [
   {
@@ -136,6 +112,7 @@ const DisplayItemNews = styled(Paper)(({ theme }) => ({
 
 function ViewListRepice() {
   const navigate = useNavigate();
+  const [data, setdata] = useState([]);
 
   const SearchNews = () => {
     navigate("/KitchenDelights");
@@ -143,8 +120,33 @@ function ViewListRepice() {
   const GoToCart = () => {
     navigate("/ShoppingCart");
   };
-  const RepiceDetail = () => {
+  const RepiceDetail = async (id) => {
+    try {
+      const response = await getRecipessById(id);
+      if (response.status === 200) {
+        setdata(response?.data);
+      } else {
+      }
+    } catch (error) {
+      toast.error("Khoong load dc list");
+    }
     navigate("/RepiceDetail");
+  };
+
+  useEffect(() => {
+    handleLogin();
+  }, []);
+
+  const handleLogin = async () => {
+    try {
+      const response = await getRecipes();
+      if (response.status === 200) {
+        setdata(response?.data);
+      } else {
+      }
+    } catch (error) {
+      toast.error("Khoong load dc list");
+    }
   };
 
   return (
@@ -214,7 +216,7 @@ function ViewListRepice() {
                     />
                     <CardContent>
                       <Typography gutterBottom variant="h6" component="div">
-                        {item.title}
+                        {item.recipeTitle}
                       </Typography>
 
                       <Box
@@ -227,7 +229,7 @@ function ViewListRepice() {
                         {" "}
                         <Rating
                           name="simple-controlled"
-                          value={item.rating}
+                          value={item.recipeRating}
                           size="small"
                         />
                         <Typography component="legend" fontSize={11}>
@@ -249,7 +251,7 @@ function ViewListRepice() {
                       <Button
                         size="small"
                         endIcon={<VisibilityIcon />}
-                        onClick={RepiceDetail}
+                        onClick={() => RepiceDetail(item.recipeId)}
                       >
                         Xem
                       </Button>
@@ -322,7 +324,7 @@ function ViewListRepice() {
         </Typography>
         <Box>
           <Grid container spacing={3}>
-            {data1.map((item) => {
+            {data.map((item) => {
               return (
                 <Grid item lg={3} md={6} xs={12}>
                   <Card sx={{ maxWidth: 345 }}>
@@ -334,7 +336,7 @@ function ViewListRepice() {
                     />
                     <CardContent>
                       <Typography gutterBottom variant="h6" component="div">
-                        {item.title}
+                        {item.recipeTitle}
                       </Typography>
                       <Box
                         sx={{
@@ -346,7 +348,7 @@ function ViewListRepice() {
                         {" "}
                         <Rating
                           name="simple-controlled"
-                          value={item.rating}
+                          value={item.recipeRating}
                           size="small"
                         />
                         <Typography component="legend" fontSize={11}>
@@ -365,7 +367,7 @@ function ViewListRepice() {
                           Giá:
                         </Typography>
                         <Typography component="legend" fontSize={15}>
-                          {item.gia}
+                          {item.recipePrice}
                         </Typography>
                       </Box>
                     </CardContent>
@@ -380,7 +382,7 @@ function ViewListRepice() {
                       <Button size="small" endIcon={<FavoriteIcon />}>
                         Like
                       </Button>
-                      {item.damua === true ? (
+                      {item.isFree === true ? (
                         <Button
                           size="small"
                           endIcon={<VisibilityIcon />}

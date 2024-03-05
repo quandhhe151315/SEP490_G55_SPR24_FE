@@ -1,16 +1,16 @@
-import axios from './CustomizeAxios'
+import axios from "./CustomizeAxios";
 
 const login = (email, password) => {
-    return axios.post('/User/Login', {email, password});
-}
+  return axios.post("/User/Login", { email, password });
+};
 
 const register = (username, email, password) => {
-    return axios.post('/User/Register', {username, email, password});
-}
+  return axios.post("/User/Register", { username, email, password });
+};
 
 const changePassword = (userId, oldPassword, password) => {
-    return axios.patch('/User/ChangePassword', {userId, oldPassword, password});
-}
+  return axios.patch("/User/ChangePassword", { userId, oldPassword, password });
+};
 
 const createNews = (userId, newsTitle, newsContent) => {
     return axios.post('/News/Create', {userId, newsTitle, newsContent});
@@ -21,16 +21,56 @@ const listNews = () => {
 }
 
 const getNewsById = (id) => {
-    return axios.get(`/News/Get?id=${id}`);
-}
+  return axios.get(`/News/Get?id=${id}`);
+};
 
 const myProfile = (id) => {
-    return axios.get(`/User/Profile?id=${id}`);
-}
+  return axios.get(`/User/Profile?id=${id}`);
+};
 
-const changeMyProfile = (userId, email, firstName, middleName, lastName, phone, addresses, avatar, statusUser, role) => {
-    return axios.put('/User/UpdateProfile', {userId, email, firstName, middleName, lastName, phone, addresses, avatar,
-        status: statusUser, role});
-}
+const getRecipes = () => {
+  return axios.get("/Recipe/GetAllRecipe");
+};
 
-export { login, register, changePassword, createNews, listNews, getNewsById, myProfile, changeMyProfile };
+const getRecipessById = (id) => {
+  return axios.get(`/Recipe/GetRecipeById?recipeId=${id}`);
+};
+
+const changeMyProfile = (
+  userId,
+  email,
+  firstName,
+  middleName,
+  lastName,
+  phone,
+  addresses,
+  avatar,
+  statusUser,
+  role
+) => {
+  return axios.put("/User/UpdateProfile", {
+    userId,
+    email,
+    firstName,
+    middleName,
+    lastName,
+    phone,
+    addresses,
+    avatar,
+    status: statusUser,
+    role,
+  });
+};
+
+export {
+  login,
+  register,
+  changePassword,
+  createNews,
+  listNews,
+  getNewsById,
+  myProfile,
+  changeMyProfile,
+  getRecipes,
+  getRecipessById,
+};
