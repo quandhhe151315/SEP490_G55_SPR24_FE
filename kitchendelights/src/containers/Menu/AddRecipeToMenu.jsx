@@ -1,7 +1,8 @@
 import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, FormGroup, IconButton } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
-function AddRecipeToMenuDialog({ open, handleClose }) {
 
+
+function AddRecipeToMenuDialog({ open, handleClose }) {
   return (
     <Dialog
       open={open}
@@ -29,4 +30,4 @@ function AddRecipeToMenuDialog({ open, handleClose }) {
     </Dialog>
   );
 }
-export default AddRecipeToMenuDialog();
+export default AddRecipeToMenuDialog;

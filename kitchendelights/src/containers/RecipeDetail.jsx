@@ -23,6 +23,7 @@ import Checkbox from "@mui/material/Checkbox";
 import CommentBox from "../components/BoxComment/BoxComent";
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import Modal from "@mui/material/Modal";
+import AddRecipeToMenuDialog from "./Menu/AddRecipeToMenu";
 
 function RepiceDetail() {
   const navigate = useNavigate();
@@ -34,14 +35,14 @@ function RepiceDetail() {
   };
   const [openDialogMenu, setOpenDialogMenu] = useState(false);
 
-  const handleOpenDialogMenu = () =>{
+  const handleOpenDialogMenu = () => {
     setOpenDialogMenu(true);
   }
 
-  const handleCloseDialogMenu = () =>{
+  const handleCloseDialogMenu = () => {
     setOpenDialogMenu(false);
   }
-  
+
 
   const data = [
     {
@@ -229,7 +230,8 @@ function RepiceDetail() {
           >
             Thêm vào menu
           </Button>
-
+          <AddRecipeToMenuDialog open={openDialogMenu} handleClose={handleCloseDialogMenu} />
+        
         </Stack>
         <Typography sx={{ marginTop: 3 }} />
       </Typography>
@@ -293,8 +295,8 @@ function RepiceDetail() {
         })}
       </Box>
 
-       
-      
+
+
     </div>
   );
 }
