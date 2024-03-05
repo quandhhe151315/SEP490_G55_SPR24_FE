@@ -1,8 +1,8 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Appbar from "../components/Homepage/Appbar";
 import Typography from "@mui/material/Typography";
 import image from "../assets/images/news1.jpg";
-import { Box, Button, Icon } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Icon, IconButton } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import { Navigate, useNavigate } from "react-router-dom";
@@ -21,9 +21,11 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import CommentBox from "../components/BoxComment/BoxComent";
+import MenuBookIcon from '@mui/icons-material/MenuBook';
 import Modal from "@mui/material/Modal";
+import AddRecipeToMenuDialog from "./Menu/AddRecipeToMenu";
 
-function RepiceDetail() {
+function RecipeDetail() {
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -31,6 +33,16 @@ function RepiceDetail() {
   const GoToBookMark = () => {
     navigate("/BookMark");
   };
+  const [openDialogMenu, setOpenDialogMenu] = useState(false);
+
+  const handleOpenDialogMenu = () => {
+    setOpenDialogMenu(true);
+  }
+
+  const handleCloseDialogMenu = () => {
+    setOpenDialogMenu(false);
+  }
+
 
   const data = [
     {
@@ -199,6 +211,27 @@ function RepiceDetail() {
           >
             Chia sẻ
           </Button>
+
+          {/*nút add to menu*/}
+          <Button
+            onClick={handleOpenDialogMenu}
+            size="small"
+            variant="contained"
+            sx={{
+              bgcolor: "#ff5e00",
+              borderRadius: "15px",
+              width: "150px",
+              height: "35px",
+              color: "white",
+              size: '20px',
+              fontSize: '12px'
+            }}
+            endIcon={<MenuBookIcon />}
+          >
+            Thêm vào menu
+          </Button>
+          <AddRecipeToMenuDialog open={openDialogMenu} handleClose={handleCloseDialogMenu} />
+        
         </Stack>
         <Typography sx={{ marginTop: 3 }} />
       </Typography>
@@ -261,8 +294,11 @@ function RepiceDetail() {
           );
         })}
       </Box>
+
+
+
     </div>
   );
 }
 
-export default RepiceDetail;
+export default RecipeDetail;
