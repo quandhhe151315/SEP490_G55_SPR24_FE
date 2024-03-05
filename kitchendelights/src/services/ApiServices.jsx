@@ -1,37 +1,81 @@
-import axios from './CustomizeAxios'
+import axios from "./CustomizeAxios";
 
 const login = (email, password) => {
-    return axios.post('/User/Login', {email, password});
-}
+  return axios.post("/User/Login", { email, password });
+};
 
 const register = (username, email, password) => {
-    return axios.post('/User/Register', {username, email, password});
-}
+  return axios.post("/User/Register", { username, email, password });
+};
 
 const changePassword = (userId, oldPassword, password) => {
-    return axios.patch('/User/ChangePassword', {userId, oldPassword, password});
-}
+  return axios.patch("/User/ChangePassword", { userId, oldPassword, password });
+};
 
 const createNews = (userId, userName, newsTitle, newsContent) => {
-    return axios.post('/News/Create', {userId, userName, newsTitle, newsContent});
-}
+  return axios.post("/News/Create", {
+    userId,
+    userName,
+    newsTitle,
+    newsContent,
+  });
+};
 
 const listNews = () => {
-    return axios.get('/News/List');
-}
+  return axios.get("/News/List");
+};
 
 const getNewsById = (id) => {
-    return axios.get(`/News/Get?id=${id}`);
-}
+  return axios.get(`/News/Get?id=${id}`);
+};
 
 const myProfile = (id) => {
-    return axios.get(`/User/Profile?id=${id}`);
-}
+  return axios.get(`/User/Profile?id=${id}`);
+};
 
+const getRecipes = () => {
+  return axios.get("/Recipe/GetAllRecipe");
+};
 
-const changeMyProfile = (userId, email, firstName, middleName, lastName, phone, addresses, avatar, statusUser, role) => {
-    return axios.put('/User/UpdateProfile', {userId, email, firstName, middleName, lastName, phone, addresses, avatar,
-        status: statusUser, role});
-}
+const getRecipessById = (id) => {
+  return axios.get(`/Recipe/GetRecipeById?recipeId=${id}`);
+};
 
-export { login, register, changePassword, createNews, listNews, getNewsById, myProfile, changeMyProfile };
+const changeMyProfile = (
+  userId,
+  email,
+  firstName,
+  middleName,
+  lastName,
+  phone,
+  addresses,
+  avatar,
+  statusUser,
+  role
+) => {
+  return axios.put("/User/UpdateProfile", {
+    userId,
+    email,
+    firstName,
+    middleName,
+    lastName,
+    phone,
+    addresses,
+    avatar,
+    status: statusUser,
+    role,
+  });
+};
+
+export {
+  login,
+  register,
+  changePassword,
+  createNews,
+  listNews,
+  getNewsById,
+  myProfile,
+  changeMyProfile,
+  getRecipes,
+  getRecipessById,
+};
