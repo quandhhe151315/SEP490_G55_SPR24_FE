@@ -16,6 +16,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import UpdateCategory from "./UpdateCategory";
 import DashboardMenu from "../../components/Dashboard/Menu/DashboardMenu"
+import { getAllCategory, deleteCategory } from "../../services/ApiServices";
+
 
 
 function ListCategoryDashboard() {
@@ -24,8 +26,7 @@ function ListCategoryDashboard() {
 
   const [open, setOpen] = React.useState(false);
   const [categories, setCategories] = useState([]);
-  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(1);
 
   const handleOpen = () => {
     setOpen(true);
@@ -34,10 +35,6 @@ function ListCategoryDashboard() {
   const handleClose = () => {
     setOpen(false);
   };
-
-  const handleConfirmDelete = () => {
-    deleteCategory();
-  }
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -59,8 +56,8 @@ function ListCategoryDashboard() {
     },
   }));
 
-  const goToUpdateCategory = () => {
-    navigate('/UpdateCategory');
+  const goToUpdateCategory = (selectedCategoryId) => {
+    navigate(`/UpdateCategory/${selectedCategoryId}`);
   }
 
   const goToCreateCategory = () => {
@@ -68,46 +65,49 @@ function ListCategoryDashboard() {
   }
 
   
-  const fetchCategories = async() =>{
+  const getListCategory = async() =>{
     try {
-      const response = await fetch('http://localhost:4200/api/Category/GetAllCategoy');
-      const data = await response.json();
-      setCategories(data);
+      const response = await getAllCategory();
+      if(response.status === 200){
+        setCategories(response.data);
+        
+      }else{
+        console.error('không thể lấy dữ liệu về category');
+      }
     } catch (error) {
       console.error('lỗi khi tải danh sách category',error);
     }
   };
 
-  const deleteCategory = async () =>{
+  const handleConfirmDelete = async() =>{
     try {
-      const response = await fetch(`http://localhost:4200/api/Category/DeleteCategory?categoryId=${selectedCategoryId}`,{
-      method: 'DELETE'
-    });
-    if(!response.ok){
-      throw new Error('Failed to delete category');
+      const response = await deleteCategory(selectedCategoryId);
+    if(response.status == 200){
+      setCategories(categories.filter(category => category.categoryId !== selectedCategoryId));
+      setOpen(false);
+    }else{
+      console.error('Unable to delete category');
     }
-    setCategories(categories.filter(category => category.categoryId !== selectedCategoryId));
-    setOpen(false);
+    
   } catch (error) {
       console.error('Error deleting category:', error);
     }
   }
   
   useEffect(() => {
-    fetchCategories();
+    getListCategory();
+    
   },[]);
-
-  
 
   return (
     <div>
-      <DashboardMenu></DashboardMenu>
+      
       <Paper elevation={2} sx={{ marginLeft: '360px', marginTop: '30px', borderRadius: '15px', border: '1px solid #bfb8b8', width: '1000px', height: '600px', backgroundColor: '#FFFFFF' }}>
         <Typography sx={{ fontSize: '24px', fontWeight: '', marginLeft: '10%', marginTop: '30px', color: '#4A5568' }}>
           Danh sách category
         </Typography>
         <CategoryButton text='Tạo category mới' height='auto' width='auto' marginLeft='70%' marginTop='10px' onClick={goToCreateCategory}></CategoryButton>
-        <TableContainer sx={{ marginTop: '20px' }}>
+        <TableContainer sx={{ marginTop: '20px', maxHeight:'400px' }}>
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
               <TableRow>
@@ -126,8 +126,8 @@ function ListCategoryDashboard() {
                   <StyledTableCell align="left">{category.parentId}</StyledTableCell>
                   <StyledTableCell>
                     <Button href="#text-buttons"onClick={()=>{
-                      //đang sửa
-                      goToUpdateCategory();
+                      setSelectedCategoryId((category.categoryId));
+                      goToUpdateCategory(selectedCategoryId);
                     }}>Update</Button>
                     <Button href="#text-buttons"onClick={()=>{
                       setSelectedCategoryId(category.categoryId);

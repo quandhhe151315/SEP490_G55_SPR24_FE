@@ -7,13 +7,19 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import CategoryButton from "../../components/Button/CategoryButton";
 import { Navigate, useNavigate } from "react-router-dom";
+import { getCategoryByParentId } from "../../services/ApiServices";
+import { getAllCategory } from "../../services/ApiServices";
+import { postCreateCategory } from "../../services/ApiServices";
+
 
 function CreateCategory() {
     const navigate = useNavigate();
 
-    const [categoryName, setName] = useState('');
-    const [parentCategory, setParentCategory] = useState([]);
-    const [parentId, setParentId] = useState('0');
+    const [categoryName, setCategoryName] = useState("");
+    const [parentCategories, setParentCategories] = useState([]);
+    const [parentId, setParentId] = useState(null);
+    const categoryId = 0;
+    const categoryType = 'true';
 
     const handleChange = (event) => {
         setParentId(event.target.value);
@@ -23,20 +29,41 @@ function CreateCategory() {
         navigate('/ViewListCategory');
     }
 
-    const fetchParentCategory = async () => {
+    const handleCreatCategory = async () => {
         try {
-            const response = await fetch('');
-            const data = await response.json();
-            setParentCategory(data);
+            console.log(categoryId , categoryName, categoryType, parentId);
+            const response = await postCreateCategory(categoryId , categoryName, categoryType, parentId);
+            
+            GoToListCategory();
+            if (response.status === 200) {
+                console.log('tạo category thành công');
+            }
+            else {
+                console.log('lỗi khi tạo category');
+            }
+        }
+        catch (error) {
+            console.error('lỗi khi tạo category', error);
+        }
+    }
+
+    const listParentCategory = async () => {
+        try {
+            const response = await getCategoryByParentId();
+            if (response.status === 200) {
+                setParentCategories(response.data);
+                
+            } else {
+                console.log('lỗi khi tải danh sách parent category');
+            }
         } catch (error) {
             console.error('lỗi khi tải danh sách parent category', error);
         }
     };
 
     useEffect(() => {
-        fetchParentCategory();
+        listParentCategory();
     }, []);
-
 
     return (
         <div>
@@ -49,7 +76,7 @@ function CreateCategory() {
                         <Grid item xs={8} >
                             <Grid container direction="column">
                                 <Grid item xs container direction="row">
-                                    <TextField onChange={(e) => setName(e.target.value)} size="small" type="input" placeholder="Category Name" sx={{ width: '100%', height: '55%', fontSize: '16px', fontWeight: 'bold', marginTop: '30px', marginLeft: '45px', backgroundColor: '#FFFFFF' }}>
+                                    <TextField onChange={(e) => setCategoryName(e.target.value)} size="small" type="input" placeholder="Category Name" sx={{ width: '100%', height: '55%', fontSize: '16px', fontWeight: 'bold', marginTop: '30px', marginLeft: '45px', backgroundColor: '#FFFFFF' }}>
                                     </TextField>
                                 </Grid>
                                 <Grid item xs container direction="row" sx={{ marginTop: '30px' }}>
@@ -59,20 +86,22 @@ function CreateCategory() {
                                             displayEmpty
                                             inputProps={{ 'aria-label': 'Without label' }}
                                         >
-                                            <MenuItem value={0}>
+                                            <MenuItem value={null}>
                                                 <em>None</em>
                                             </MenuItem>
-                                            {parentCategory.map((parent) => {
-                                                <MenuItem key={parent.id} value={parent.id}>{parent.name}</MenuItem>
-                                            })};
+                                            {parentCategories.map((parent) => (
+                                                <MenuItem key={parent.categoryId} value={parent.categoryId}>{parent.categoryName}</MenuItem>
+                                            ))};
                                         </Select>
                                     </FormControl>
                                 </Grid>
                                 <Grid item >
-                                    <CategoryButton text='Tạo' height='auto' width='120px' marginLeft='10%' marginTop='80px' ></CategoryButton>
+                                    <CategoryButton onClick={handleCreatCategory} text='Tạo' height='auto' width='120px' marginLeft='10%' marginTop='80px' ></CategoryButton>
                                 </Grid>
                                 <Grid item xs container direction="row">
-                                    <Button onClick={GoToListCategory} sx={{ fontSize: '10px', marginTop: '10%', marginLeft: '10%' }}>Quay lại list category</Button>
+                                    <Button onClick={()=>{
+                                        GoToListCategory();
+                                        }} sx={{ fontSize: '10px', marginTop: '10%', marginLeft: '10%' }}>Quay lại list category</Button>
                                 </Grid>
 
                             </Grid>

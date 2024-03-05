@@ -8,34 +8,55 @@ import Select from '@mui/material/Select';
 import CategoryButton from "../../components/Button/CategoryButton";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
+import { useParams } from "react-router-dom";
+import { getCategoryById } from "../../services/ApiServices";
+import { getCategoryByParentId } from "../../services/ApiServices";
 
 function UpdateCategory() {
     const navigate = useNavigate();
     const [categoryName, setCategoryName] = useState('');
-    const [parentCategory, setParentCategory] = useState([]);
+    const [ParentCategories, setParentCategories] = useState([]);
     const [parentId, setParentId] = useState('');
 
+    const { categoryId } = useParams();
+    console.log(categoryId);
+
+    const getCategoryInformation = async () => {
+        try {
+            const response = await getCategoryById(categoryId);
+            if(response.status === 200){
+                setCategoryName(response.data?.categoryName ?? '');
+                setParentId(response.data?.parentId ?? '');
+            }else{
+                console.error('Can not get category information');
+            }
+        } catch (error) {
+            console.error('lỗi khi tải danh sách parent category', error);
+        }
+    }
 
     const GoToListCategory = () => {
         navigate('/ViewListCategory');
     }
 
-    // const getCategoryInformation = async () => {
-    //     setCategoryName('');
-    // }
-    const fetchParentCategory = async () => {
+    const listParentCategory = async () => {
         try {
-            const response = await fetch('');
-            const data = await response.json();
-            setParentCategory(data);
+            const response = await getCategoryByParentId();
+            if (response.status === 200) {
+                setParentCategories(response.data);
+                
+            } else {
+                console.log('lỗi khi tải danh sách parent category');
+            }
         } catch (error) {
             console.error('lỗi khi tải danh sách parent category', error);
         }
     };
 
-    // useEffect(() => {
-    //     fetchParentCategory();
-    // });
+    useEffect(() => {
+        getCategoryInformation();
+        listParentCategory();
+    });
 
     return (
         <div>
@@ -51,6 +72,7 @@ function UpdateCategory() {
                                     <TextField size="small" type="input" value={categoryName} onChange={(e) => setCategoryName(e.target.value)} placeholder="Category Name" sx={{ width: '100%', height: '55%', fontSize: '16px', fontWeight: 'bold', marginTop: '30px', marginLeft: '45px', backgroundColor: '#FFFFFF' }}>
                                     </TextField>
                                 </Grid>
+                                
                                 <Grid item xs container direction="row" sx={{ marginTop: '30px' }}>
                                     <Typography sx={{ fontSize: '18px', marginTop: '40px', marginLeft: '70px' }}>Chọn Category cha: </Typography>
                                     <FormControl sx={{ marginTop: '5px', marginLeft: '30px', minWidth: '60%', textAlign: 'center' }}>
@@ -58,11 +80,11 @@ function UpdateCategory() {
                                             displayEmpty
                                             inputProps={{ 'aria-label': 'Without label' }}
                                         >
-                                            <MenuItem value={0}>
+                                            <MenuItem value={null}>
                                                 <em>None</em>
                                             </MenuItem>
-                                            {parentCategory.map((parent) => {
-                                                <MenuItem key={parent.id} value={parent.id}>{parent.name}</MenuItem>
+                                            {ParentCategories.map((parent) => {
+                                                <MenuItem key={parent.categoryId} value={parent.categoryId}>{parent.categoryName}</MenuItem>
                                             })};
                                         </Select>
                                     </FormControl>
