@@ -1,15 +1,20 @@
-import React, { useEffect , useState } from 'react';
-import Appbar from '../components/Homepage/Appbar';
-import GetInformationJWT from '../components/JWT/GetInformationJWT';
+import React, { useEffect, useState } from "react";
+import Appbar from "../components/Homepage/Appbar";
+import GetInformationJWT from "../components/JWT/GetInformationJWT";
+import Layoutspacing from "../components/Layoutspacing";
 
 function HomePage() {
-  const [email, setEmail] = useState('');
-  const [role, setRole] = useState('');
+  const [email, setEmail] = useState("");
+  const [role, setRole] = useState("");
 
   return (
     <div>
+      <Layoutspacing>
+        {" "}
         <Appbar />
-        <h1>Trang chủ</h1>
+      </Layoutspacing>
+
+      <h1>Trang chủ</h1>
     </div>
   );
 }
