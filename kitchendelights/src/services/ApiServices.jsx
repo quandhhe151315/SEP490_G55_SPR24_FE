@@ -35,6 +35,7 @@ const changeMyProfile = (userId, email, firstName, middleName, lastName, phone, 
     });
 }
 
+<<<<<<< Updated upstream
 const getAllCategory = () => {
     return axios.get('/Category/GetAllCategoy');
 }
@@ -68,3 +69,10 @@ export { login,
     getCategoryById, 
     postCreateCategory, 
     getCategoryByParentId };
+=======
+const listUsers = () => {
+    return axios.get('/User/List');
+}
+
+export { login, register, changePassword, createNews, listNews, getNewsById, myProfile, changeMyProfile, listUsers };
+>>>>>>> Stashed changes

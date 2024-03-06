@@ -103,6 +103,10 @@ function ViewListNews() {
     navigate('/CreateNews');
   }
 
+  const viewDetailNews = async (id) => {
+    
+  }
+
   const getNextNewsPage = () => {
     if(data[page + 6].newsId >= data.length){
       setIsForwardPage(false);
@@ -153,7 +157,7 @@ function ViewListNews() {
               const nextNews = data[nextIndex];
 
               return (
-                <Grid xs={4} sm={4} md={4} lg={4} key={nextNews?.newsId} sx={{width: '50%'}}>
+                <Grid xs={4} sm={4} md={4} lg={4} key={nextNews?.newsId} sx={{width: '50%'}} onClick={viewDetailNews}>
                   <DisplayItemNews sx={{ width: 400, height: 400 }}>
                     <img src={image1} alt="Image news"/>
                     <br/>
