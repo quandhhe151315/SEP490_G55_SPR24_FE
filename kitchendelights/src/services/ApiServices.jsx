@@ -61,6 +61,10 @@ const getCategoryByParentId = () => {
     return axios.get('/Category/GetCategoryByParentId');
 }
 
+const listUsers = () => {
+    return axios.get('/User/List');
+}
+
 export { login, 
     register, 
     changePassword, 

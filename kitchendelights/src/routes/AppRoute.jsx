@@ -19,9 +19,9 @@ import UpdateCategory from "../containers/Category/UpdateCategory";
 import CreateAccount from "../containers/Account/CreateAccount";
 import ListAccount from "../containers/Account/ListAccount";
 import ListCategoryDashboard from "../containers/Category/ListCategory";
-import BlogDetail from "../containers/blog/blogDetail";
-import CreateBlog from "../containers/blog/createBlog";
-import BlogList from "../containers/blog/blogList";
+import BlogDetail from "../containers/Blog/BlogDetail";
+import CreateBlog from "../containers/Blog/CreateBlog";
+import BlogList from "../containers/Blog/BlogList";
 import DashboardMenu from "../components/Dashboard/Menu/DashboardMenu";
 import ViewDetailNews from "../containers/News/ViewDetailNews";
 
@@ -110,6 +110,7 @@ function AppRoute() {
       path: "/DashboardMenu",
       element: <DashboardMenu />,
     },
+    
 
     { path: "/", element: <Navigate to="/KitchenDelights" /> },
   ]);
