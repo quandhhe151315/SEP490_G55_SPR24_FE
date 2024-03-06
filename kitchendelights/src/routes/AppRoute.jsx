@@ -23,6 +23,7 @@ import BlogDetail from "../containers/blog/blogDetail";
 import CreateBlog from "../containers/blog/createBlog";
 import BlogList from "../containers/blog/blogList";
 import DashboardMenu from "../components/Dashboard/Menu/DashboardMenu";
+import ViewDetailNews from "../containers/News/ViewDetailNews";
 
 function AppRoute() {
   const router = createBrowserRouter([
@@ -39,8 +40,17 @@ function AppRoute() {
       element: <ViewListNews />,
     },
     {
+<<<<<<< Updated upstream
       path: "/ViewListRecipe",
       element: <ViewListRecipe />,
+=======
+      path: "/ViewDetailNews",
+      element: <ViewDetailNews/>,
+    },
+    {
+      path: "/ViewListRepice",
+      element: <ViewListRepice />,
+>>>>>>> Stashed changes
     },
 
     {
