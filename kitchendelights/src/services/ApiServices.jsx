@@ -35,6 +35,12 @@ const changeMyProfile = (userId, email, firstName, middleName, lastName, phone, 
     });
 }
 
+const getRecipes = ()=>{
+    return axios.get('/Recipe/GetAllRecipe');
+}
+ const getRecipessById = (id)=>{
+    return axios.get(`/Recipe/GetRecipeById?recipeId=${id}`);
+ }
 const getAllCategory = () => {
     return axios.get('/Category/GetAllCategoy');
 }
@@ -59,12 +65,6 @@ const listUsers = () => {
     return axios.get('/User/List');
 }
 
-const getRecipes = ()=>{
-    return axios.get('/Recipe/GetAllRecipe');
-}
- const getRecipessById = (id)=>{
-    return axios.get(`/Recipe/GetRecipeById?recipeId=${id}`);
- }
 export { login, 
     register, 
     changePassword, 
@@ -77,12 +77,8 @@ export { login,
     deleteCategory, 
     getCategoryById, 
     postCreateCategory, 
-
     getCategoryByParentId,
-    listUsers,
     getRecipes,
-    getRecipessById};
-    
-
-
-
+    getRecipessById,
+    listUsers
+ };

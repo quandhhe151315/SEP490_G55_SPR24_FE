@@ -7,9 +7,9 @@ import {
 import HomePage from "../containers/HomePage";
 import CreateNews from "../containers/News/CreateNews";
 import ViewListNews from "../containers/News/ViewListNews";
-import ViewListRecipe from "../containers/ViewListRecipe";
-import ShoppingCart from "../containers/ShoppingCart";
-import RecipeDetail from "../containers/RecipeDetail";
+import ViewListRepice from "../containers/Recipe/ViewListRecipe";
+import ShoppingCart from "../containers/ShoppingCart/ShoppingCart";
+import RecipeDetail from "../containers/Recipe/RecipeDetail";
 import MyProfile from "../containers/Account/MyProfile";
 import ChangeMyProfile from "../containers/Account/ChangeMyProfile";
 import ChangePassword from "../containers/Authentication/ChangePassword";
@@ -45,7 +45,7 @@ function AppRoute() {
     },
     {
       path: "/ViewListRepice",
-      element: <ViewListRecipe />,
+      element: <ViewListRepice />,
     },
 
     {
@@ -62,7 +62,7 @@ function AppRoute() {
     },
     {
       path: "/blog",
-      element: <BlogList/>,
+      element: <BlogList />,
     },
     {
       path: "/ShoppingCart",
@@ -73,22 +73,22 @@ function AppRoute() {
       element: <RecipeDetail />,
     },
     { path: "/", element: <Navigate to="/KitchenDelights" /> },
-    { 
+    {
       path: "/blog/:slug",
       element: <BlogDetail />,
     },
-    { 
+    {
       path: "/blog/create",
       element: <CreateBlog />,
     },
-    
+
     {
       path: "/CreateCategory",
-      element: <CreateCategory/>,
+      element: <CreateCategory />,
     },
     {
       path: "/UpdateCategory/:categoryId",
-      element: <UpdateCategory/>,
+      element: <UpdateCategory />,
     },
     {
       path: "/CreateAccount",
@@ -104,7 +104,7 @@ function AppRoute() {
     },
     {
       path: "/ViewListCategory",
-      element: <ListCategoryDashboard/>,
+      element: <ListCategoryDashboard />,
     },
     {
       path: "/DashboardMenu",
@@ -112,7 +112,7 @@ function AppRoute() {
     },
     
 
-    {path: "/", element: <Navigate to="/KitchenDelights" /> },
+    { path: "/", element: <Navigate to="/KitchenDelights" /> },
   ]);
   return <RouterProvider router={router} />;
 }

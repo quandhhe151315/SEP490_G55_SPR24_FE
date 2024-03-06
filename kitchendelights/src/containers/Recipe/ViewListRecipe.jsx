@@ -1,11 +1,9 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
-import Appbar from "../components/Homepage/Appbar";
-import IconButton from "@mui/material/IconButton";
+import Appbar from "../../components/Homepage/Appbar";
 import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
 import Box from "@mui/material/Box";
-import image from "../assets/images/news1.jpg";
 import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
@@ -15,16 +13,15 @@ import CardActions from "@mui/material/CardActions";
 import CardMedia from "@mui/material/CardMedia";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Unstable_Grid2";
-import image1 from "../assets/images/news1.jpg";
 import ForwardIcon from "@mui/icons-material/Forward";
 import ShoingCartIconpp from "@mui/icons-material/ShoppingCart";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Rating from "@mui/material/Rating";
 import { Stack } from "@mui/material";
-import { getRecipes, getRecipessById } from "../services/ApiServices";
-import Snackbar from "@mui/material/Snackbar";
+import { getRecipes, getRecipessById } from "../../services/ApiServices";
 import { toast } from "react-toastify";
+import image from "../../assets/images/news1.jpg";
 
 const DisplaySearchNews = styled("div")(({ theme }) => ({
   display: "flex",
@@ -120,24 +117,15 @@ function ViewListRecipe() {
   const GoToCart = () => {
     navigate("/ShoppingCart");
   };
-  const RepiceDetail = async (id) => {
-    try {
-      const response = await getRecipessById(id);
-      if (response.status === 200) {
-        setdata(response?.data);
-      } else {
-      }
-    } catch (error) {
-      toast.error("Khoong load dc list");
-    }
-    navigate("/RepiceDetail");
+  const RecipeDetail = () => {
+    navigate("/RecipeDetail");
   };
 
   useEffect(() => {
-    handleLogin();
+    getListRecipes();
   }, []);
 
-  const handleLogin = async () => {
+  const getListRecipes = async () => {
     try {
       const response = await getRecipes();
       if (response.status === 200) {
@@ -211,7 +199,7 @@ function ViewListRecipe() {
                     <CardMedia
                       component={"img"}
                       height={140}
-                      image={item.image}
+                      image={item.featuredImage}
                       alt="green iguana"
                     />
                     <CardContent>
@@ -251,7 +239,7 @@ function ViewListRecipe() {
                       <Button
                         size="small"
                         endIcon={<VisibilityIcon />}
-                        onClick={() => RepiceDetail(item.recipeId)}
+                        onClick={RecipeDetail}
                       >
                         Xem
                       </Button>
@@ -335,7 +323,17 @@ function ViewListRecipe() {
                       alt="green iguana"
                     />
                     <CardContent>
-                      <Typography gutterBottom variant="h6" component="div">
+                      <Typography
+                        sx={{
+                          overflow: "hidden",
+                          whiteSpace: "nowrap",
+                          textOverflow: "ellipsis",
+                        }}
+                        noWrap
+                        gutterBottom
+                        variant="h6"
+                        component="div"
+                      >
                         {item.recipeTitle}
                       </Typography>
                       <Box
@@ -386,7 +384,7 @@ function ViewListRecipe() {
                         <Button
                           size="small"
                           endIcon={<VisibilityIcon />}
-                          onClick={RepiceDetail}
+                          onClick={RecipeDetail}
                         >
                           Xem
                         </Button>

@@ -59,7 +59,7 @@ function BookMark() {
           marginTop: "50px",
         }}
       >
-        <Link to="/RepiceDetail">
+        <Link to="/RecipeDetail">
           <Box>
             <Grid container spacing={3}>
               {data.map((item) => {
