@@ -24,8 +24,7 @@ function CreateNews() {
 
   const handleCreateNews = async () => {
     try {
-      // Cookies.get('username')
-      const response = await createNews(Cookies.get('userId'), 'userName', newsTitle, newsContent);
+      const response = await createNews(Cookies.get('userId'), newsTitle, newsContent);
       if (response.status === 200) {
         console.log('Create news successful! ');
       } else {

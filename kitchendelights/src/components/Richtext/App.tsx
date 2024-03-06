@@ -5,7 +5,7 @@ import {
   type PaletteMode,
 } from "@mui/material";
 import { useCallback, useMemo, useState } from "react";
-import Editor from '../Richtext/Editor.tsx';
+import {Editor} from '../Richtext/Editor.tsx';
 import React from 'react';
 
 const App = ({title, setContent, handleCreateNews}) => {

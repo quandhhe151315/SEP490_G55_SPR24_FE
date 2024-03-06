@@ -20,9 +20,10 @@ import CreateAccount from "../containers/Account/CreateAccount";
 import ListAccount from "../containers/Account/ListAccount";
 import ListCategoryDashboard from "../containers/Category/ListCategory";
 import BlogDetail from "../containers/Blog/BlogDetail";
-import CreateBlog from "../containers/Blog/createBlog";
+import CreateBlog from "../containers/Blog/CreateBlog";
 import BlogList from "../containers/Blog/BlogList";
 import DashboardMenu from "../components/Dashboard/Menu/DashboardMenu";
+import ViewDetailNews from "../containers/News/ViewDetailNews";
 
 function AppRoute() {
   const router = createBrowserRouter([
@@ -39,8 +40,12 @@ function AppRoute() {
       element: <ViewListNews />,
     },
     {
-      path: "/ViewListRecipe",
-      element: <ViewListRecipe />,
+      path: "/ViewDetailNews",
+      element: <ViewDetailNews/>,
+    },
+    {
+      path: "/ViewListRepice",
+      element: <ViewListRepice />,
     },
 
     {

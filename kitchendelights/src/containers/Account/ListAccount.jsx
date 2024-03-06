@@ -1,13 +1,46 @@
-import React from 'react'
+import React, { useEffect , useState } from 'react';
 import DashboardMenu from '../../components/Dashboard/Menu/DashboardMenu'
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import EditIcon from '@mui/icons-material/Edit';
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
+import { listUsers } from '../../services/ApiServices';
+
 
 export default function ListAccount() {
   const navigate = useNavigate();
+  const [data, setData] = useState([]);
+  const [rows, setRows] = useState([]);
+
+
+    const getListUser = async () => {
+      try {
+        const response = await listUsers();
+        if (response.status === 200) {
+          setData(response.data);
+          console.log('Load news successful! ');
+        } else {
+          console.error('Can not Load news! ');
+        }
+      } catch (error) {
+        console.error('Can not load news data!', error);
+      }
+    }
+
+    useEffect(() => {
+      getListUser();
+      setRows(data.map(item => ({
+        id: item.userId,
+        email: item.email,
+        lastName: item.lastName,
+        middleName: item.middleName,
+        firstName: item.firstName,
+        phone: item.phone,
+        address: item.address,
+        role: item.role.roleName,
+    })));
+}, [data]);
 
     const handleEdit = (id) => {
         console.log(`Chỉnh sửa ID: ${id}`);
@@ -33,17 +66,17 @@ export default function ListAccount() {
       headerName: 'Tên đầy đủ',
       description: 'This column has a value getter and is not sortable.',
       sortable: false,
-      width: 160,
+      width: 220,
       valueGetter: (params) =>
         `${params.row.firstName || ''} ${params.row.middleName || ''} ${params.row.lastName || ''}`,
     },
     { field: 'phone', headerName: 'Số điện thoại', width: 130 },
-    {
-      field: 'age',
-      headerName: 'Age',
-      type: 'number',
-      width: 90,
-    },
+    // {
+    //   field: 'age',
+    //   headerName: 'Age',
+    //   type: 'number',
+    //   width: 90,
+    // },
     { field: 'address', headerName: 'Địa chỉ', width: 270 },
     { field: 'role', headerName: 'Role', width: 130 },
     {
@@ -68,27 +101,7 @@ export default function ListAccount() {
       
   ];
   
-  const rows = [
-    { id: 1, lastName: 'Snow', middleName: 'SnowOake', firstName: 'Jon', age: 35},
-    { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-    { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-    { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-    { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: 33 },
-    { id: 6, lastName: 'Melisandre', firstName: 'Nguyen', age: 150 },
-    { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-    { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-    { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
-    { id: 10, lastName: 'Snow', firstName: 'Jon', age: 35 },
-    { id: 11, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-    { id: 12, lastName: 'Phan', firstName: 'Linh', age: 24 },
-    { id: 13, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-    { id: 14, lastName: 'Stark', firstName: 'Arya', age: 16 },
-    { id: 15, lastName: 'Targaryen', firstName: 'Daenerys', age: 33 },
-    { id: 16, lastName: 'Mark', firstName: 'Nguyen', age: 150 },
-    { id: 17, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-    { id: 18, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-    { id: 19, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
-  ];
+  
 
   return (
     <div>

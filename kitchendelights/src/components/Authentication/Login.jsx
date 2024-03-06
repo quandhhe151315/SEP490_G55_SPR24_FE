@@ -23,7 +23,7 @@ const Login = ({ loginSuccess }) => {
     try {
       const response = await login(email, password);
       if (response.status === 200) {
-        Cookies.set('jwt', response.data);
+        Cookies.set('jwt', response.data, { expires: 7 });
         setOpenSuccessSnackbar(true);
         loginSuccess();
       } else {

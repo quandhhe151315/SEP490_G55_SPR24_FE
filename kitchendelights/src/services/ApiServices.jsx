@@ -1,4 +1,4 @@
-import axios from './CustomizeAxios'
+import axios from "./CustomizeAxios";
 
 const login = (email, password) => {
     return axios.post('/User/Login', { email, password });
@@ -17,16 +17,16 @@ const createNews = (userId, userName, newsTitle, newsContent) => {
 }
 
 const listNews = () => {
-    return axios.get('/News/List');
+    return axios.get('/News/Get');
 }
 
 const getNewsById = (id) => {
-    return axios.get(`/News/Get?id=${id}`);
-}
+  return axios.get(`/News/Get?id=${id}`);
+};
 
 const myProfile = (id) => {
-    return axios.get(`/User/Profile?id=${id}`);
-}
+  return axios.get(`/User/Profile?id=${id}`);
+};
 
 const changeMyProfile = (userId, email, firstName, middleName, lastName, phone, addresses, avatar, statusUser, role) => {
     return axios.put('/User/UpdateProfile', {
@@ -77,10 +77,12 @@ export { login,
     deleteCategory, 
     getCategoryById, 
     postCreateCategory, 
+
     getCategoryByParentId,
     listUsers,
     getRecipes,
     getRecipessById};
     
+
 
 
