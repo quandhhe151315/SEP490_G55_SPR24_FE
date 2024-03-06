@@ -7,7 +7,7 @@ import {
 import HomePage from "../containers/HomePage";
 import CreateNews from "../containers/News/CreateNews";
 import ViewListNews from "../containers/News/ViewListNews";
-import ViewListRecipe from "../containers/Recipe/ViewListRecipe";
+import ViewListRepice from "../containers/Recipe/ViewListRecipe";
 import ShoppingCart from "../containers/ShoppingCart/ShoppingCart";
 import RecipeDetail from "../containers/Recipe/RecipeDetail";
 import MyProfile from "../containers/Account/MyProfile";
@@ -40,17 +40,12 @@ function AppRoute() {
       element: <ViewListNews />,
     },
     {
-<<<<<<< Updated upstream
-      path: "/ViewListRecipe",
-      element: <ViewListRecipe />,
-=======
       path: "/ViewDetailNews",
       element: <ViewDetailNews/>,
     },
     {
       path: "/ViewListRepice",
       element: <ViewListRepice />,
->>>>>>> Stashed changes
     },
 
     {
