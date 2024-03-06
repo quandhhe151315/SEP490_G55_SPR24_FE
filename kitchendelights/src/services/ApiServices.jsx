@@ -79,5 +79,6 @@ export { login,
     postCreateCategory, 
     getCategoryByParentId,
     getRecipes,
-    getRecipessById
+    getRecipessById,
+    listUsers
  };
