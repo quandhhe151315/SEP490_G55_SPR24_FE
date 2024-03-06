@@ -19,9 +19,9 @@ import UpdateCategory from "../containers/Category/UpdateCategory";
 import CreateAccount from "../containers/Account/CreateAccount";
 import ListAccount from "../containers/Account/ListAccount";
 import ListCategoryDashboard from "../containers/Category/ListCategory";
-import BlogDetail from "../containers/Blog/blogDetail";
-import CreateBlog from "../containers/Blog/createBlog";
-import BlogList from "../containers/Blog/blogList";
+import BlogDetail from "../containers/Blog/BlogDetail";
+import CreateBlog from "../containers/Blog/CreateBlog";
+import BlogList from "../containers/Blog/BlogList";
 import DashboardMenu from "../components/Dashboard/Menu/DashboardMenu";
 import ViewDetailNews from "../containers/News/ViewDetailNews";
 
@@ -40,17 +40,12 @@ function AppRoute() {
       element: <ViewListNews />,
     },
     {
-<<<<<<< Updated upstream
-      path: "/ViewListRecipe",
-      element: <ViewListRecipe />,
-=======
       path: "/ViewDetailNews",
-      element: <ViewDetailNews/>,
+      element: <ViewDetailNews />,
     },
     {
       path: "/ViewListRepice",
-      element: <ViewListRepice />,
->>>>>>> Stashed changes
+      element: <ViewListRecipe />,
     },
 
     {
@@ -67,7 +62,7 @@ function AppRoute() {
     },
     {
       path: "/blog",
-      element: <BlogList/>,
+      element: <BlogList />,
     },
     {
       path: "/ShoppingCart",
@@ -78,22 +73,22 @@ function AppRoute() {
       element: <RecipeDetail />,
     },
     { path: "/", element: <Navigate to="/KitchenDelights" /> },
-    { 
+    {
       path: "/blog/:slug",
       element: <BlogDetail />,
     },
-    { 
+    {
       path: "/blog/create",
       element: <CreateBlog />,
     },
-    
+
     {
       path: "/CreateCategory",
-      element: <CreateCategory/>,
+      element: <CreateCategory />,
     },
     {
       path: "/UpdateCategory/:categoryId",
-      element: <UpdateCategory/>,
+      element: <UpdateCategory />,
     },
     {
       path: "/CreateAccount",
@@ -109,14 +104,14 @@ function AppRoute() {
     },
     {
       path: "/ViewListCategory",
-      element: <ListCategoryDashboard/>,
+      element: <ListCategoryDashboard />,
     },
     {
       path: "/DashboardMenu",
       element: <DashboardMenu />,
     },
 
-    {path: "/", element: <Navigate to="/KitchenDelights" /> },
+    { path: "/", element: <Navigate to="/KitchenDelights" /> },
   ]);
   return <RouterProvider router={router} />;
 }
