@@ -6,7 +6,7 @@ import InputBase from "@mui/material/InputBase";
 import Box from "@mui/material/Box";
 import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/material/Button";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
@@ -19,7 +19,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Rating from "@mui/material/Rating";
 import { Stack } from "@mui/material";
-import { getRecipes, getRecipessById } from "../../services/ApiServices";
+import { getRecipes} from "../../services/ApiServices";
 import { toast } from "react-toastify";
 import image from "../../assets/images/news1.jpg";
 
@@ -110,6 +110,7 @@ const DisplayItemNews = styled(Paper)(({ theme }) => ({
 function ViewListRecipe() {
   const navigate = useNavigate();
   const [data, setdata] = useState([]);
+  const [data2, setdata2] = useState([]);
 
   const SearchNews = () => {
     navigate("/KitchenDelights");
@@ -117,9 +118,7 @@ function ViewListRecipe() {
   const GoToCart = () => {
     navigate("/ShoppingCart");
   };
-  const RecipeDetail = () => {
-    navigate("/RecipeDetail");
-  };
+  //
 
   useEffect(() => {
     getListRecipes();
@@ -129,7 +128,11 @@ function ViewListRecipe() {
     try {
       const response = await getRecipes();
       if (response.status === 200) {
-        setdata(response?.data);
+        const dataFree = response?.data.filter((x) => x.isFree === true);
+        const dataNotFree = response?.data.filter((x) => x.isFree === false);
+
+        setdata(dataFree);
+        setdata2(dataNotFree);
       } else {
       }
     } catch (error) {
@@ -203,7 +206,16 @@ function ViewListRecipe() {
                       alt="green iguana"
                     />
                     <CardContent>
-                      <Typography gutterBottom variant="h6" component="div">
+                      <Typography
+                        sx={{
+                          textWrap: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                        gutterBottom
+                        variant="h6"
+                        component="div"
+                      >
                         {item.recipeTitle}
                       </Typography>
 
@@ -236,13 +248,12 @@ function ViewListRecipe() {
                       <Button size="small" endIcon={<FavoriteIcon />}>
                         Like
                       </Button>
-                      <Button
-                        size="small"
-                        endIcon={<VisibilityIcon />}
-                        onClick={RecipeDetail}
-                      >
-                        Xem
-                      </Button>
+                      <Link to={`/RecipeDetail/${item.recipeId}`}>
+                        {" "}
+                        <Button size="small" endIcon={<VisibilityIcon />}>
+                          Xem
+                        </Button>
+                      </Link>
                     </CardActions>
                   </Card>
                 </Grid>
@@ -312,14 +323,14 @@ function ViewListRecipe() {
         </Typography>
         <Box>
           <Grid container spacing={3}>
-            {data.map((item) => {
+            {data2.map((item) => {
               return (
                 <Grid item lg={3} md={6} xs={12}>
                   <Card sx={{ maxWidth: 345 }}>
                     <CardMedia
                       component={"img"}
                       height={140}
-                      image={item.image}
+                      image={item.featuredImage}
                       alt="green iguana"
                     />
                     <CardContent>
@@ -380,23 +391,13 @@ function ViewListRecipe() {
                       <Button size="small" endIcon={<FavoriteIcon />}>
                         Like
                       </Button>
-                      {item.isFree === true ? (
-                        <Button
-                          size="small"
-                          endIcon={<VisibilityIcon />}
-                          onClick={RecipeDetail}
-                        >
-                          Xem
-                        </Button>
-                      ) : (
-                        <Button
-                          size="small"
-                          endIcon={<ShoingCartIconpp />}
-                          onClick={GoToCart}
-                        >
-                          Buy
-                        </Button>
-                      )}
+                      <Button
+                        size="small"
+                        endIcon={<ShoingCartIconpp />}
+                        onClick={GoToCart}
+                      >
+                        Buy
+                      </Button>
                     </CardActions>
                   </Card>
                 </Grid>

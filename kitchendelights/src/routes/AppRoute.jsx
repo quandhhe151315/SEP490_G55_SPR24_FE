@@ -69,7 +69,7 @@ function AppRoute() {
       element: <ShoppingCart />,
     },
     {
-      path: "/RecipeDetail",
+      path: "/RecipeDetail/:recipeId",
       element: <RecipeDetail />,
     },
     { path: "/", element: <Navigate to="/KitchenDelights" /> },
