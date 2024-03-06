@@ -1,9 +1,9 @@
 import React from "react";
-import Appbar from "../components/Homepage/Appbar";
+import Appbar from "../../components/Homepage/Appbar";
 import Box from "@mui/material/Box";
-import image from "../assets/images/news1.jpg";
+import image from "../../assets/images/news1.jpg";
 import { Button, Card, Stack, Typography } from "@mui/material";
-import Layoutspacing from "../components/Layoutspacing";
+import Layoutspacing from "../../components/Layoutspacing";
 
 function ShoppingCart() {
   const data = [

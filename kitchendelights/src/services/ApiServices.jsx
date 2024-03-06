@@ -35,6 +35,12 @@ const changeMyProfile = (userId, email, firstName, middleName, lastName, phone, 
     });
 }
 
+const getRecipes = ()=>{
+    return axios.get('/Recipe/GetAllRecipe');
+}
+ const getRecipessById = (id)=>{
+    return axios.get(`/Recipe/GetRecipeById?recipeId=${id}`);
+ }
 const getAllCategory = () => {
     return axios.get('/Category/GetAllCategoy');
 }
@@ -67,4 +73,7 @@ export { login,
     deleteCategory, 
     getCategoryById, 
     postCreateCategory, 
-    getCategoryByParentId };
+    getCategoryByParentId,
+    getRecipes,
+    getRecipessById
+ };

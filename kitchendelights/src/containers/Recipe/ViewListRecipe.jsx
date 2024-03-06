@@ -1,11 +1,10 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
-import Appbar from "../components/Homepage/Appbar";
-import IconButton from "@mui/material/IconButton";
+import Appbar from "../../components/Homepage/Appbar";
 import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
 import Box from "@mui/material/Box";
-import image from "../assets/images/news1.jpg";
+import image from "../../assets/images/news1.jpg";
 import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
@@ -15,15 +14,13 @@ import CardActions from "@mui/material/CardActions";
 import CardMedia from "@mui/material/CardMedia";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Unstable_Grid2";
-import image1 from "../assets/images/news1.jpg";
 import ForwardIcon from "@mui/icons-material/Forward";
 import ShoingCartIconpp from "@mui/icons-material/ShoppingCart";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Rating from "@mui/material/Rating";
 import { Stack } from "@mui/material";
-import { getRecipes, getRecipessById } from "../services/ApiServices";
-import Snackbar from "@mui/material/Snackbar";
+import { getRecipes, getRecipessById } from "../../services/ApiServices";
 import { toast } from "react-toastify";
 
 const DisplaySearchNews = styled("div")(({ theme }) => ({
@@ -134,10 +131,10 @@ function ViewListRecipe() {
   };
 
   useEffect(() => {
-    handleLogin();
+    getListRecipes();
   }, []);
 
-  const handleLogin = async () => {
+  const getListRecipes = async () => {
     try {
       const response = await getRecipes();
       if (response.status === 200) {

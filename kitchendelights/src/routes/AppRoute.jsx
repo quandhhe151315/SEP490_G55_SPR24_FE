@@ -7,9 +7,9 @@ import {
 import HomePage from "../containers/HomePage";
 import CreateNews from "../containers/News/CreateNews";
 import ViewListNews from "../containers/News/ViewListNews";
-import ViewListRecipe from "../containers/ViewListRecipe";
-import ShoppingCart from "../containers/ShoppingCart";
-import RecipeDetail from "../containers/RecipeDetail";
+import ViewListRecipe from "../containers/Recipe/ViewListRecipe";
+import ShoppingCart from "../containers/ShoppingCart/ShoppingCart";
+import RecipeDetail from "../containers/Recipe/RecipeDetail";
 import MyProfile from "../containers/Account/MyProfile";
 import ChangeMyProfile from "../containers/Account/ChangeMyProfile";
 import ChangePassword from "../containers/Authentication/ChangePassword";
@@ -19,9 +19,9 @@ import UpdateCategory from "../containers/Category/UpdateCategory";
 import CreateAccount from "../containers/Account/CreateAccount";
 import ListAccount from "../containers/Account/ListAccount";
 import ListCategoryDashboard from "../containers/Category/ListCategory";
-import BlogDetail from "../containers/Blog/blogDetail";
-import CreateBlog from "../containers/Blog/createBlog";
-import BlogList from "../containers/Blog/blogList";
+import BlogDetail from "../containers/blog/blogDetail";
+import CreateBlog from "../containers/blog/createBlog";
+import BlogList from "../containers/blog/blogList";
 import DashboardMenu from "../components/Dashboard/Menu/DashboardMenu";
 
 function AppRoute() {
@@ -57,7 +57,7 @@ function AppRoute() {
     },
     {
       path: "/blog",
-      element: <BlogList/>,
+      element: <BlogList />,
     },
     {
       path: "/ShoppingCart",
@@ -68,22 +68,22 @@ function AppRoute() {
       element: <RecipeDetail />,
     },
     { path: "/", element: <Navigate to="/KitchenDelights" /> },
-    { 
+    {
       path: "/blog/:slug",
       element: <BlogDetail />,
     },
-    { 
+    {
       path: "/blog/create",
       element: <CreateBlog />,
     },
-    
+
     {
       path: "/CreateCategory",
-      element: <CreateCategory/>,
+      element: <CreateCategory />,
     },
     {
       path: "/UpdateCategory/:categoryId",
-      element: <UpdateCategory/>,
+      element: <UpdateCategory />,
     },
     {
       path: "/CreateAccount",
@@ -99,14 +99,14 @@ function AppRoute() {
     },
     {
       path: "/ViewListCategory",
-      element: <ListCategoryDashboard/>,
+      element: <ListCategoryDashboard />,
     },
     {
       path: "/DashboardMenu",
       element: <DashboardMenu />,
     },
 
-    {path: "/", element: <Navigate to="/KitchenDelights" /> },
+    { path: "/", element: <Navigate to="/KitchenDelights" /> },
   ]);
   return <RouterProvider router={router} />;
 }

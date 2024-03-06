@@ -1,15 +1,24 @@
 import React, { useState } from "react";
-import Appbar from "../components/Homepage/Appbar";
+import Appbar from "../../components/Homepage/Appbar";
 import Typography from "@mui/material/Typography";
-import image from "../assets/images/news1.jpg";
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Icon, IconButton } from "@mui/material";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Icon,
+  IconButton,
+} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import { Navigate, useNavigate } from "react-router-dom";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import Rating from "@mui/material/Rating";
-import ClassicButton from "../components/Button/ClassicButton";
-import BoxComment from "../components/BoxComment/BoxComent";
+import ClassicButton from "../../components/Button/ClassicButton";
+import BoxComment from "../../components/BoxComment/BoxComent";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import PrintIcon from "@mui/icons-material/Print";
@@ -20,10 +29,11 @@ import CardContent from "@mui/material/CardContent";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import CommentBox from "../components/BoxComment/BoxComent";
-import MenuBookIcon from '@mui/icons-material/MenuBook';
+import CommentBox from "../../components/BoxComment/BoxComent";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
 import Modal from "@mui/material/Modal";
-import AddRecipeToMenuDialog from "./Menu/AddRecipeToMenu";
+import AddRecipeToMenuDialog from "../Menu/AddRecipeToMenu"; 
+import image from "../../assets/images/news1.jpg"
 
 function RecipeDetail() {
   const navigate = useNavigate();
@@ -37,12 +47,11 @@ function RecipeDetail() {
 
   const handleOpenDialogMenu = () => {
     setOpenDialogMenu(true);
-  }
+  };
 
   const handleCloseDialogMenu = () => {
     setOpenDialogMenu(false);
-  }
-
+  };
 
   const data = [
     {
@@ -223,15 +232,17 @@ function RecipeDetail() {
               width: "150px",
               height: "35px",
               color: "white",
-              size: '20px',
-              fontSize: '12px'
+              size: "20px",
+              fontSize: "12px",
             }}
             endIcon={<MenuBookIcon />}
           >
             Thêm vào menu
           </Button>
-          <AddRecipeToMenuDialog open={openDialogMenu} handleClose={handleCloseDialogMenu} />
-        
+          <AddRecipeToMenuDialog
+            open={openDialogMenu}
+            handleClose={handleCloseDialogMenu}
+          />
         </Stack>
         <Typography sx={{ marginTop: 3 }} />
       </Typography>
@@ -294,9 +305,6 @@ function RecipeDetail() {
           );
         })}
       </Box>
-
-
-
     </div>
   );
 }
