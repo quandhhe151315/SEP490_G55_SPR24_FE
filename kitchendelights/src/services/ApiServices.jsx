@@ -35,7 +35,6 @@ const changeMyProfile = (userId, email, firstName, middleName, lastName, phone, 
     });
 }
 
-<<<<<<< Updated upstream
 const getAllCategory = () => {
     return axios.get('/Category/GetAllCategoy');
 }
@@ -56,6 +55,16 @@ const getCategoryByParentId = () => {
     return axios.get('/Category/GetCategoryByParentId');
 }
 
+const listUsers = () => {
+    return axios.get('/User/List');
+}
+
+const getRecipes = ()=>{
+    return axios.get('/Recipe/GetAllRecipe');
+}
+ const getRecipessById = (id)=>{
+    return axios.get(`/Recipe/GetRecipeById?recipeId=${id}`);
+ }
 export { login, 
     register, 
     changePassword, 
@@ -68,11 +77,12 @@ export { login,
     deleteCategory, 
     getCategoryById, 
     postCreateCategory, 
-    getCategoryByParentId };
-=======
-const listUsers = () => {
-    return axios.get('/User/List');
-}
 
-export { login, register, changePassword, createNews, listNews, getNewsById, myProfile, changeMyProfile, listUsers };
->>>>>>> Stashed changes
+    getCategoryByParentId,
+    listUsers,
+    getRecipes,
+    getRecipessById};
+    
+
+
+
