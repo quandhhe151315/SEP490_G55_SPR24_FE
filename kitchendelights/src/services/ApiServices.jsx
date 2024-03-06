@@ -55,6 +55,16 @@ const getCategoryByParentId = () => {
     return axios.get('/Category/GetCategoryByParentId');
 }
 
+const listUsers = () => {
+    return axios.get('/User/List');
+}
+
+const getRecipes = ()=>{
+    return axios.get('/Recipe/GetAllRecipe');
+}
+ const getRecipessById = (id)=>{
+    return axios.get(`/Recipe/GetRecipeById?recipeId=${id}`);
+ }
 export { login, 
     register, 
     changePassword, 
@@ -67,4 +77,10 @@ export { login,
     deleteCategory, 
     getCategoryById, 
     postCreateCategory, 
-    getCategoryByParentId };
+    getCategoryByParentId,
+    listUsers,
+    getRecipes,
+    getRecipessById};
+    
+
+

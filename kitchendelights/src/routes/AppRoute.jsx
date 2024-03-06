@@ -19,9 +19,9 @@ import UpdateCategory from "../containers/Category/UpdateCategory";
 import CreateAccount from "../containers/Account/CreateAccount";
 import ListAccount from "../containers/Account/ListAccount";
 import ListCategoryDashboard from "../containers/Category/ListCategory";
-import BlogDetail from "../containers/blog/blogDetail";
+import BlogDetail from "../containers/blog/BlogDetail";
 import CreateBlog from "../containers/blog/createBlog";
-import BlogList from "../containers/blog/blogList";
+import BlogList from "../containers/blog/BlogList";
 import DashboardMenu from "../components/Dashboard/Menu/DashboardMenu";
 
 function AppRoute() {
