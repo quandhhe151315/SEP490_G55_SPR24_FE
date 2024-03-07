@@ -97,12 +97,6 @@ const getRecipes = ()=>{
  const getRecipessById = (id)=>{
     return axios.get(`/Recipe/GetRecipeById?recipeId=${id}`);
  }
- const getBlogList = () =>{
-  return axios.get(`/Blog/Get`);
- }
- const getBlogDetail = (id) =>{
-    return axios.get(`/Blog/Get?id=${id}`);
- }
 export {
   login,
   register,
@@ -117,5 +111,5 @@ export {
   getCategoryById,
   postCreateCategory,
   getCategoryByParentId,
-  listUsers,getRecipes,getRecipessById,getBlogList,getBlogDetail
+  listUsers,getRecipes,getRecipessById
 };
