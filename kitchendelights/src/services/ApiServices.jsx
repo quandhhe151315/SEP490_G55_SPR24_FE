@@ -65,6 +65,14 @@ const listUsers = () => {
     return axios.get('/User/List');
 }
 
+const getBlogList = ()=>{
+    return axios.get(`/Blog/Get`);
+}
+
+const getBlogDetail = (id)=>{
+    return axios.get(`/Blog/Get?id=${id}`);
+}
+
 export { login, 
     register, 
     changePassword, 
@@ -80,5 +88,5 @@ export { login,
     getCategoryByParentId,
     getRecipes,
     getRecipessById,
-    listUsers
+    listUsers,getBlogList, getBlogDetail
  };
