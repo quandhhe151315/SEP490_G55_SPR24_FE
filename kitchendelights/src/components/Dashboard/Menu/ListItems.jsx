@@ -12,7 +12,6 @@ import DiscountIcon from '@mui/icons-material/Discount';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import ContactsIcon from '@mui/icons-material/Contacts';
 import ListIcon from '@mui/icons-material/List';
-import CommentIcon from '@mui/icons-material/Comment';
 import { useNavigate } from "react-router-dom";
 
 const ItemButton = ({goToManager, text, Icon}) => {
@@ -77,9 +76,6 @@ const MainListItems = () => {
     // Link toi duong dan
     // navigate('/ListAccount');
   }
-  const goToCommentManager = () => {
-    navigate('/comment/list');
-  }
 
   return(
     <React.Fragment>
@@ -90,7 +86,6 @@ const MainListItems = () => {
       <ItemButton goToManager={goToSubCategoryManager} text="Quản lý SubCategory" Icon={<ListIcon/>}/>
       <ItemButton goToManager={goToNewsManager} text="Quản lý Tin tức" Icon={<NewspaperIcon/>}/>
       <ItemButton goToManager={goToBlogsManager} text="Quản lý Blog" Icon={<ArtTrackIcon/>}/>
-      <ItemButton goToManager={goToCommentManager} text="Quản lý Bình luận" Icon={<CommentIcon/>}/>
     </React.Fragment>
   );
 };

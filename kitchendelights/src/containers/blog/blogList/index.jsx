@@ -1,67 +1,62 @@
-import { Grid, Pagination, PaginationItem, Stack } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { Grid, Stack } from "@mui/material";
+import React, { useState } from "react";
 import BlogItem from "./BlogItem";
 import CategoriesList from "./CategoriesList";
 import BlogFilter from "./BlogFilter";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { useGetBlogList } from "../../../hook/useGetBlogList";
 
 export default function BlogList() {
-  const [blogData, setBlogData] = useState([]); // Assume you have a state for your blog data
-  const [currentPage, setCurrentPage] = useState(1);
-  const blogsPerPage = 6;
-  const { blogList } = useGetBlogList();
-  const indexOfLastBlog = currentPage * blogsPerPage;
-  const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
-  const currentBlogs = blogData?.slice(indexOfFirstBlog, indexOfLastBlog);
-  const handlePageChange = (event, value) => {
-    setCurrentPage(value);
+  const [value, setValues] = useState(
+    Array.from({ length: 3 })?.map((item, index) => {
+      return {
+        x: "index",
+      };
+    })
+  );
+  const fetchMoreData = () => {
+    console.log("abc");
+    const x = Array.from({ length: value?.length + 3 })?.map((item, index) => {
+      return {
+        x: "index",
+      };
+    });
+    setValues(x);
   };
-  useEffect(() => {
-    setBlogData(blogList);
-  }, [blogList]);
-  console.log(blogList);
   return (
-    <Stack width={"100%"} bgcolor={"#F9F9F9"} pt={4} minHeight={"100vh"}>
-      <Stack sx={{ marginX: "auto", maxWidth: "80%" }}>
+    <Stack width={"100%"} height={"100%"} bgcolor={"#F9F9F9"} pt={4}>
+      <Stack sx={{ marginX: "auto", maxWidth: "80%", px: 4 }}>
         <BlogFilter />
         <CategoriesList />
         <Grid
           container
-          columnGap={3}
-          rowGap={3}
+          columnSpacing={3}
           mt={2}
           height={"100%"}
           mx={0}
           width={"100%"}
         >
-          {currentBlogs?.map((item, index) => {
-            return (
-              <Grid item xs={3.8} key={index}>
-                <BlogItem
-                  title={item?.blogTitle}
-                  id={item?.blogId}
-                  content={item?.blogContent}
-                  createDate={item?.createDate}
-                  userName={item?.userName}
-                />
-              </Grid>
-            );
-          })}
+          <InfiniteScroll
+            dataLength={value?.length}
+            next={fetchMoreData}
+            hasMore={true}
+            loader={<h4>Loading...</h4>}
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "space-between",
+              rowGap: "24px",
+              height: "800px",
+            }}
+          >
+            {value?.map((item, index) => {
+              return (
+                <Grid item xs={3.8} key={index}>
+                  <BlogItem />
+                </Grid>
+              );
+            })}
+          </InfiniteScroll>
         </Grid>
-        <Pagination
-          count={Math.ceil(blogData?.length / blogsPerPage)}
-          page={currentPage}
-          onChange={handlePageChange}
-          color="secondary"
-          sx={{
-            marginTop: 4,
-            "& .Mui-selected": {
-              backgroundColor: "#FF642F",
-            },
-            marginBottom: 4,
-          }}
-        />
       </Stack>
     </Stack>
   );
