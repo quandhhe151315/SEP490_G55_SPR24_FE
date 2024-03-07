@@ -1,11 +1,18 @@
 import { Avatar, Card, CardContent, Stack, Typography } from "@mui/material";
 import React from "react";
 
-export default function BlogItem(id) {
+export default function BlogItem({
+  id,
+  content,
+  title,
+  image,
+  createDate,
+  userName,
+}) {
   const x =
     "Gợi Ý 4 Cách Nấu Cháo Yến Mạch Cho Bé Gợi Ý 4 Cách Nấu Cháo Yến Mạc Cho Bé Gợi Ý 4 Cách Nấu Cháo Yến Mạch Cho Bé";
   return (
-    <a href={`/blog/${id}`}>
+    <a href={`/blog/${id}`} style={{ textDecoration: "none" }}>
       <Card
         sx={{
           minWidth: 275,
@@ -30,7 +37,7 @@ export default function BlogItem(id) {
             WebkitLineClamp={1}
             variant="body1"
           >
-            {x}
+            {title}
           </Typography>
           <img
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/600px-Good_Food_Display_-_NCI_Visuals_Online.jpg"
@@ -50,10 +57,7 @@ export default function BlogItem(id) {
               mt: 1,
             }}
           >
-            Có thể mẹ chưa biết, yến mạch là loại thực phẩm chứa hàm lượng dinh
-            dưỡng cũng như các khoáng chất thiết yếu cao.ẹ chưa biết, yến mạch
-            là loại thực phẩm chứa hàm lượng dinh dưỡng cũng như các khoáng chất
-            thiết yếu cao.
+            {content}
           </Typography>
           <Stack
             sx={{
@@ -79,7 +83,7 @@ export default function BlogItem(id) {
                 height={24}
                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/600px-Good_Food_Display_-_NCI_Visuals_Online.jpg"
               />
-              <Typography>Do Hong Quan</Typography>
+              <Typography>{userName}</Typography>
             </Stack>
             <Stack
               sx={{

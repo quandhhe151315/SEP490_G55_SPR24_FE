@@ -41,7 +41,7 @@ function AppRoute() {
     },
     {
       path: "/ViewDetailNews",
-      element: <ViewDetailNews />,
+      element: <ViewDetailNews/>,
     },
     {
       path: "/ViewListRepice",
@@ -110,6 +110,7 @@ function AppRoute() {
       path: "/DashboardMenu",
       element: <DashboardMenu />,
     },
+    
 
     { path: "/", element: <Navigate to="/KitchenDelights" /> },
   ]);

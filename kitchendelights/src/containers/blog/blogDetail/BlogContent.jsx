@@ -1,20 +1,30 @@
 import { Avatar, Stack, Typography } from "@mui/material";
 import React from "react";
-
-export default function BlogContent() {
+import dayjs from "dayjs";
+export default function BlogContent({
+  title,
+  content,
+  image,
+  createDate,
+  userName,
+}) {
   return (
     <Stack sx={{ mt: 2 }}>
       <Stack>
         <Typography fontSize={24} fontWeight={500}>
-          Top 4 Combo Cơm Nhà "Chuẩn Vị Mẹ Nấu" Dành Cho Những Người Con Xa Quê
+          {title}
         </Typography>
-        <Stack direction={"row"} justifyContent={"start"} alignItems={"center"}>
+        <Stack
+          direction={"row"}
+          justifyContent={"space-between"}
+          alignItems={"center"}
+        >
           <Stack direction={"row"} alignItems={"center"} gap={2}>
             <Avatar>A</Avatar>
-            <Typography>Đỗ Hồng Quân</Typography>
+            <Typography>{userName}</Typography>
           </Stack>
           <Stack>
-            <Typography>24/02/2024</Typography>
+            <Typography>{dayjs(createDate).format("DD/MM/YYYY")}</Typography>
           </Stack>
         </Stack>
       </Stack>
@@ -30,16 +40,7 @@ export default function BlogContent() {
         />
       </Stack>
       <Stack mt={2}>
-        <Typography>
-          Bạn cho dầu vào chảo, dầu nóng cho vào tỏi, ớt, hành tím vào phi vàng.
-          Kế đến thêm 3 muỗng canh nước mắm, 2 muỗng cafe bột nêm, 1 muỗng cafe
-          bột ngọt 1/2 muỗng cafe muối 1 muỗng canh tương ớt, 2 muỗng canh cà
-          hộp, đảo đều rồi đun trên lửa vừa đến khi hỗn hợp hòa quyện.Bạn cho
-          dầu vào chảo, dầu nóng cho vào tỏi, ớt, hành tím vào phi vàng. Kế đến
-          thêm 3 muỗng canh nước mắm, 2 muỗng cafe bột nêm, 1 muỗng cafe bột
-          ngọt 1/2 muỗng cafe muối 1 muỗng canh tương ớt, 2 muỗng canh cà hộp,
-          đảo đều rồi đun trên lửa vừa đến khi hỗn hợp hòa quyện.
-        </Typography>
+        <Typography>{content}</Typography>
       </Stack>
     </Stack>
   );
