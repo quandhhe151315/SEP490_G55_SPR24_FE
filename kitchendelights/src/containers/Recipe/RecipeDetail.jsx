@@ -35,7 +35,7 @@ import Modal from "@mui/material/Modal";
 import AddRecipeToMenuDialog from "../Menu/AddRecipeToMenu";
 import { toast } from "react-toastify";
 import { getRecipessById } from "../../services/ApiServices";
-import moment from 'moment';
+import moment from "moment";
 
 function RecipeDetail() {
   const navigate = useNavigate();
@@ -86,7 +86,7 @@ function RecipeDetail() {
         color="#ff5e00"
         sx={{ marginLeft: 35, fontSize: "40px", fontWeight: "bold" }}
       >
-        {data?.userName}
+        {data?.recipeTitle}
       </Typography>
       <Typography sx={{ marginLeft: 35 }}>
         <Stack direction="row" spacing={1}>
@@ -97,7 +97,9 @@ function RecipeDetail() {
           />
           <Typography sx={{ fontSize: 14 }}> {data?.userName}</Typography>
           <Button sx={{ height: 14 }} endIcon={<CalendarTodayIcon />}></Button>
-          <Typography sx={{ fontSize: 14 }}>{ moment(data?.createDate).format('DD/MM/YYYY')  }</Typography>
+          <Typography sx={{ fontSize: 14 }}>
+            {moment(data?.createDate).format("DD/MM/YYYY")}
+          </Typography>
           <Rating
             name="half-rating"
             defaultValue={2.5}
@@ -258,17 +260,35 @@ function RecipeDetail() {
       </Typography>
       <Box sx={{ marginLeft: 35 }}>
         <Card sx={{ width: 1000 }}>
+          <Card>
+            <CardContent>
+              {data && data?.videoLink ? ( // Kiểm tra xem có dữ liệu video và embedUrl không
+                <>
+                  <iframe
+                    width="100%"
+                    height="400"
+                    // src={data?.videoLink}
+                    src="https://www.youtube.com/embed/oHlKAMKi24E?controls=0"
+                    title="YouTube video player"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  ></iframe>
+                </>
+              ) : (
+                <CardMedia
+                  component={"img"}
+                  height={500}
+                  image={data?.featuredImage}
+                  alt="green iguana"
+                /> // Hiển thị hình ảnh khi không có video
+              )}
+            </CardContent>
+          </Card>
+
           <CardContent>
             <Typography gutterBottom variant="h6" component="div">
-              {data?.recipeTitle}
+              {data?.recipeContent}
             </Typography>
           </CardContent>
-          <CardMedia
-            component={"img"}
-            height={500}
-            image={data?.featuredImage}
-            alt="green iguana"
-          />
           <CardContent>
             <Stack direction="row" spacing={2}>
               <Typography sx={{ color: "gray" }}>
