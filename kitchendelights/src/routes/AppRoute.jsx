@@ -7,9 +7,9 @@ import {
 import HomePage from "../containers/HomePage";
 import CreateNews from "../containers/News/CreateNews";
 import ViewListNews from "../containers/News/ViewListNews";
-import ViewListRecipe from "../containers/ViewListRecipe";
-import ShoppingCart from "../containers/ShoppingCart";
-import RecipeDetail from "../containers/RecipeDetail";
+import ViewListRepice from "../containers/Recipe/ViewListRecipe";
+import ShoppingCart from "../containers/ShoppingCart/ShoppingCart";
+import RecipeDetail from "../containers/Recipe/RecipeDetail";
 import MyProfile from "../containers/Account/MyProfile";
 import ChangeMyProfile from "../containers/Account/ChangeMyProfile";
 import ChangePassword from "../containers/Authentication/ChangePassword";
@@ -41,11 +41,11 @@ function AppRoute() {
     },
     {
       path: "/ViewDetailNews",
-      element: <ViewDetailNews />,
+      element: <ViewDetailNews/>,
     },
     {
       path: "/ViewListRepice",
-      element: <ViewListRecipe />,
+      element: <ViewListRepice />,
     },
 
     {
@@ -110,6 +110,7 @@ function AppRoute() {
       path: "/DashboardMenu",
       element: <DashboardMenu />,
     },
+    
 
     { path: "/", element: <Navigate to="/KitchenDelights" /> },
   ]);

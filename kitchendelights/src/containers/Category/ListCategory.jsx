@@ -123,7 +123,7 @@ function ListCategoryDashboard() {
 
                   <StyledTableCell align="left">{category.categoryId}</StyledTableCell>
                   <StyledTableCell align="left">{category.categoryName}</StyledTableCell>
-                  <StyledTableCell align="left">{category.parentId}</StyledTableCell>
+                  <StyledTableCell align="left">{category.parentName}</StyledTableCell>
                   <StyledTableCell>
                     <Button href="#text-buttons"onClick={()=>{
                       setSelectedCategoryId((category.categoryId));
