@@ -24,6 +24,7 @@ import CreateBlog from "../containers/Blog/CreateBlog";
 import BlogList from "../containers/Blog/BlogList";
 import DashboardMenu from "../components/Dashboard/Menu/DashboardMenu";
 import ViewDetailNews from "../containers/News/ViewDetailNews";
+import ListCommentDashboard from "../containers/Comment/CommentList";
 
 function AppRoute() {
   const router = createBrowserRouter([
@@ -109,6 +110,10 @@ function AppRoute() {
     {
       path: "/DashboardMenu",
       element: <DashboardMenu />,
+    },
+    {
+      path: "/comment/list",
+      element: <ListCommentDashboard />,
     },
     
 
