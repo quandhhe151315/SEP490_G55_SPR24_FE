@@ -28,12 +28,26 @@ const myProfile = (id) => {
   return axios.get(`/User/Profile?id=${id}`);
 };
 
+// Bookmark
+
+const addRecipeToBookMark =(uId,rId,type)=>{
+    return axios.put(`/Bookmark/ModifyRecipeInBookMark?userId=${uId}&recipeId=${rId}&type=${type}`);
+}
+const getBookMarkOfUser =(id)=>{
+    return axios.get(`/Bookmark/GetBookmarkOfUser?id=${id}`);
+}
+const removeRecipeFromBookMark =(uId,rId,type)=>{
+    return axios.put(`/Bookmark/ModifyRecipeInBookMark?userId=${uId}&recipeId=${rId}&type=${type}`);
+}
+// Bookmark
+
 const changeMyProfile = (userId, email, firstName, middleName, lastName, phone, addresses, avatar, statusUser, role) => {
     return axios.put('/User/UpdateProfile', {
         userId, email, firstName, middleName, lastName, phone, addresses, avatar,
         status: statusUser, role
     });
 }
+// repice
 
 const getRecipes = ()=>{
     return axios.get('/Recipe/GetAllRecipe');
