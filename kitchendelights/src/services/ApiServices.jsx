@@ -41,8 +41,6 @@ const getRecipes = ()=>{
  const getRecipessById = (id)=>{
     return axios.get(`/Recipe/GetRecipeById?recipeId=${id}`);
  }
-
-
 const getAllCategory = () => {
     return axios.get('/Category/GetAllCategoy');
 }
