@@ -26,7 +26,7 @@ import DashboardMenu from "../components/Dashboard/Menu/DashboardMenu";
 import ViewDetailNews from "../containers/News/ViewDetailNews";
 import ListCommentDashboard from "../containers/Comment/CommentList";
 import UpDateCommentItem from "../containers/Comment/UpdateComment/UpDateCommentItem";
-
+import ListNews from "../containers/News/ListNews";
 function AppRoute() {
   const router = createBrowserRouter([
     {
@@ -42,7 +42,7 @@ function AppRoute() {
       element: <ViewListNews />,
     },
     {
-      path: "/ViewDetailNews",
+      path: "/ViewDetailNews/:id",
       element: <ViewDetailNews/>,
     },
     {
@@ -71,7 +71,7 @@ function AppRoute() {
       element: <ShoppingCart />,
     },
     {
-      path: "/RecipeDetail",
+      path: "/RecipeDetail/:recipeId",
       element: <RecipeDetail />,
     },
     { path: "/", element: <Navigate to="/KitchenDelights" /> },
@@ -97,7 +97,7 @@ function AppRoute() {
       element: <CreateAccount />,
     },
     {
-      path: "/BookMark",
+      path: "/BookMark/",
       element: <BookMark />,
     },
     {
@@ -113,13 +113,14 @@ function AppRoute() {
       element: <DashboardMenu />,
     },
     {
-      path: "/comment/list",
-      element: <ListCommentDashboard />,
+      path: "/ListNews",
+      element: <ListNews />,
     },
     {
       path: "/comment/test",
       element: <UpDateCommentItem />,
     },
+
 
     { path: "/", element: <Navigate to="/KitchenDelights" /> },
   ]);

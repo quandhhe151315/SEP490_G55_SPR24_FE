@@ -72,10 +72,7 @@ export default function DashboardMenu({ dashboardTitle }) {
   const toggleDrawer = () => {
     setOpen(!open);
   };
-  const goToAccountManager = () => {
-    navigate('/ListAccount');
-  }
-  
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: 'flex' }}>
