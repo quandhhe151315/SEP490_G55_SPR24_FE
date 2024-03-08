@@ -69,8 +69,7 @@ const MainListItems = () => {
   }
 
   const goToNewsManager = () => {
-    // Link toi duong dan
-    // navigate('/ListAccount');
+    navigate('/ListNews');
   }
   
   const goToBlogsManager = () => {

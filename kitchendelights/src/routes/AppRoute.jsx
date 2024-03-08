@@ -24,6 +24,7 @@ import CreateBlog from "../containers/Blog/CreateBlog";
 import BlogList from "../containers/Blog/BlogList";
 import DashboardMenu from "../components/Dashboard/Menu/DashboardMenu";
 import ViewDetailNews from "../containers/News/ViewDetailNews";
+import ListNews from "../containers/News/ListNews";
 
 function AppRoute() {
   const router = createBrowserRouter([
@@ -40,7 +41,7 @@ function AppRoute() {
       element: <ViewListNews />,
     },
     {
-      path: "/ViewDetailNews",
+      path: "/ViewDetailNews/:id",
       element: <ViewDetailNews/>,
     },
     {
@@ -110,7 +111,10 @@ function AppRoute() {
       path: "/DashboardMenu",
       element: <DashboardMenu />,
     },
-    
+    {
+      path: "/ListNews",
+      element: <ListNews />,
+    },
 
     { path: "/", element: <Navigate to="/KitchenDelights" /> },
   ]);

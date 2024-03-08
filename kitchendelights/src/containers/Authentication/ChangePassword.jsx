@@ -9,35 +9,30 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import SuccessSnackbar from '../../components/Snackbar/SuccessSnackbar';
-import FailSnackbar from '../../components/Snackbar/FailSnackbar';
 import { changePassword } from '../../services/ApiServices';
-
+import { useSnackbar } from '../../components/Snackbar/Snackbar';
 function ChangePassword() {
     const [password, setPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [reNewPassword, setReNewPassword] = useState('');
 
-    const [open, setOpen] = useState(false);
-    const [openFail, setOpenFail] = useState(false);
-
     const navigate = useNavigate();
+    const { showSnackbar } = useSnackbar();
 
     const handleChangePassword = async () => {
         try {
           const response = await changePassword(Cookies.get('userId'), password, newPassword);
           if (response.status === 200) {
-            setOpen(true);
+            showSnackbar('Change password successful!', 'success');
             navigate('/ChangePassword');
             setPassword('');
             setNewPassword('');
             setReNewPassword('');
           } else {
-            setOpenFail(true);
             console.error('Change error! ');
           }
         } catch (error) {
-            setOpenFail(true);
+            showSnackbar('Change password failed!', 'error');
             console.error('Change error:', error);
         }
       };
@@ -45,8 +40,6 @@ function ChangePassword() {
     return (
         <div>
             <Appbar />
-            <SuccessSnackbar open={open} text="Change password successful!" setOpen={setOpen} />
-            <FailSnackbar open={openFail} text="Old password wrong!" setOpen={setOpenFail}/>
             <Box sx={{ display: 'flex' }}>
                 <Grid container spacing={2}>
                     <Grid item xs={4}>

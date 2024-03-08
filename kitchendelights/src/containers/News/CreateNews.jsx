@@ -8,11 +8,13 @@ import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import { createNews } from '../../services/ApiServices.jsx';
 import Cookies from 'js-cookie';
+import { useSnackbar } from '../../components/Snackbar/Snackbar.jsx';
 
 function CreateNews() {
   const [newsContent, setNewsContent] = useState('');
   const [newsTitle, setNewsTitle] = useState('');
   const navigate = useNavigate();
+  const { showSnackbar } = useSnackbar();
 
   const handleTextFieldChange = (event) => {
     setNewsTitle(event.target.value);
@@ -26,6 +28,8 @@ function CreateNews() {
     try {
       const response = await createNews(Cookies.get('userId'), newsTitle, newsContent);
       if (response.status === 200) {
+        showSnackbar('Tạo thành công và đang chờ được duyệt!', "success");
+        goToNews();
         console.log('Create news successful! ');
       } else {
         console.error('Can not create news! ');
