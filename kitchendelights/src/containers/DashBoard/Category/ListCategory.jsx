@@ -7,7 +7,7 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import CategoryButton from "../../components/Button/CategoryButton";
+import CategoryButton from "../../../components/Button/CategoryButton";
 import Button from "@mui/material/Button";
 import { Navigate, useNavigate } from "react-router-dom";
 import DialogActions from '@mui/material/DialogActions';
@@ -15,8 +15,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import UpdateCategory from "./UpdateCategory";
-import DashboardMenu from "../../components/Dashboard/Menu/DashboardMenu"
-import { getAllCategory, deleteCategory } from "../../services/ApiServices";
+import DashboardMenu from "../../../components/Dashboard/Menu/DashboardMenu"
+import { getAllCategory, deleteCategory } from "../../../services/ApiServices";
 
 
 
@@ -25,6 +25,7 @@ function ListCategoryDashboard() {
   const navigate = useNavigate();
 
   const [open, setOpen] = React.useState(false);
+  
   const [categories, setCategories] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState(1);
 
@@ -64,7 +65,6 @@ function ListCategoryDashboard() {
     navigate('/CreateCategory')
   }
 
-  
   const getListCategory = async() =>{
     try {
       const response = await getAllCategory();
