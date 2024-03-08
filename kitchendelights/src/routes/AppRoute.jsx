@@ -28,6 +28,9 @@ import AddRecipeToMenuDialog from "../containers/Menu/AddRecipeToMenu";
 import ListRecipeDashBoard from "../containers/DashBoard/Recipe/ListRecipe";
 import CreateRecipeDashBoard from "../containers/DashBoard/Recipe/CreateRecipe";
 
+import ListCommentDashboard from "../containers/Comment/CommentList";
+import UpDateCommentItem from "../containers/Comment/UpdateComment/UpDateCommentItem";
+import ListNews from "../containers/News/ListNews";
 function AppRoute() {
   const router = createBrowserRouter([
     {
@@ -43,7 +46,7 @@ function AppRoute() {
       element: <ViewListNews />,
     },
     {
-      path: "/ViewDetailNews",
+      path: "/ViewDetailNews/:id",
       element: <ViewDetailNews/>,
     },
     {
@@ -129,6 +132,15 @@ function AppRoute() {
       path: "/CreateRecipeDashBoard",
       element: <CreateRecipeDashBoard />,
     },
+    {
+      path: "/ListNews",
+      element: <ListNews />,
+    },
+    {
+      path: "/comment/test",
+      element: <UpDateCommentItem />,
+    },
+
 
     { path: "/", element: <Navigate to="/KitchenDelights" /> },
   ]);

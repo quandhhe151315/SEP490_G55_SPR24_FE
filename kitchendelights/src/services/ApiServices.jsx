@@ -12,8 +12,8 @@ const changePassword = (userId, oldPassword, password) => {
     return axios.patch('/User/ChangePassword', { userId, oldPassword, password });
 }
 
-const createNews = (userId, userName, newsTitle, newsContent) => {
-    return axios.post('/News/Create', { userId, userName, newsTitle, newsContent });
+const createNews = (userId, newsTitle, newsContent) => {
+    return axios.post('/News/Create', { userId, newsTitle, newsContent });
 }
 
 const listNews = () => {
@@ -90,7 +90,9 @@ const getBlogList = ()=>{
 const getBlogDetail = (id)=>{
     return axios.get(`/Blog/Get?id=${id}`);
 }
-
+const createBlog = () =>{
+    return axios.post(`/Blog/Create`);
+}
 export { login, 
     register, 
     changePassword, 
@@ -106,8 +108,7 @@ export { login,
     getCategoryByParentId,
     getRecipes,
     getRecipessById,
-    listUsers,
-    getBlogList,
-    getBlogDetail,
-    deleteRecipe,
+
+    listUsers,getBlogList, getBlogDetail,createBlog
  };
+

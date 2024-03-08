@@ -5,10 +5,10 @@ import { DataGrid } from '@mui/x-data-grid';
 import EditIcon from '@mui/icons-material/Edit';
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
-import { listUsers } from '../../services/ApiServices';
-
-
-export default function ListAccount() {
+import { listNews } from '../../services/ApiServices';
+import DoneIcon from '@mui/icons-material/Done';
+import Typography from '@mui/material/Typography';
+export default function ListNews() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [rows, setRows] = useState([]);
@@ -16,7 +16,7 @@ export default function ListAccount() {
 
     const getListUser = async () => {
       try {
-        const response = await listUsers();
+        const response = await listNews();
         if (response.status === 200) {
           setData(response.data);
           console.log('Load news successful! ');
@@ -31,14 +31,12 @@ export default function ListAccount() {
     useEffect(() => {
       getListUser();
       setRows(data.map(item => ({
-        id: item.userId,
-        email: item.email,
-        lastName: item.lastName,
-        middleName: item.middleName,
-        firstName: item.firstName,
-        phone: item.phone,
-        address: item.address,
-        role: item.role.roleName,
+        id: item.newsId,
+        userName: item.userName,
+        featuredImage: item.featuredImage,
+        newsTitle: item.newsTitle,
+        createDate: item.createDate,
+        newsStatus: item.newsStatus,
     })));
 }, [data]);
 
@@ -56,34 +54,25 @@ export default function ListAccount() {
 
     const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
-    { field: 'email', headerName: 'Email', width: 250 },
-    { field: 'firstName', headerName: 'Tên', width: 130 },
-    { field: 'middleName', headerName: 'Tên Đệm', width: 130 },
-    { field: 'lastName', headerName: 'Tên Họ', width: 130 },
-    
+    { field: 'userName', headerName: 'Tác giả', width: 300, sortable: false },
+    { field: 'featuredImage', headerName: 'Ảnh', width: 300, sortable: false },
+    { field: 'newsTitle', headerName: 'Tiêu đề', width: 520, sortable: false },
+    { field: 'createDate', headerName: 'Ngày tạo', width: 110, sortable: false },
     {
-      field: 'fullName',
-      headerName: 'Tên đầy đủ',
-      description: 'This column has a value getter and is not sortable.',
+      field: 'newsStatus',
+      headerName: 'Trạng thái',
+      width: 120,
       sortable: false,
-      width: 220,
-      valueGetter: (params) =>
-        `${params.row.firstName || ''} ${params.row.middleName || ''} ${params.row.lastName || ''}`,
+        renderCell: (params) => (
+            <div style={{ color: params.row.newsStatus ? 'green' : 'red' }}>
+                {params.row.newsStatus ? 'Xuất bản' : 'Chờ duyệt'}
+            </div>
+        ),
     },
-    { field: 'phone', headerName: 'Số điện thoại', width: 130, sortable: false },
-    // {
-    //   field: 'age',
-    //   headerName: 'Age',
-    //   type: 'number',
-    //   width: 90,
-    // },
-    { field: 'address', headerName: 'Địa chỉ', width: 270, sortable: false },
-    { field: 'role', headerName: 'Role', width: 130, sortable: false },
     {
         field: 'action',
         headerName: 'Hành động',
-        width: 185,
-        sortable: false,
+        width: 250,
         renderCell: (params) => (
             <div>
             <Button
@@ -93,23 +82,27 @@ export default function ListAccount() {
                 sx={{height: '37px'}}
             >
             </Button>
-            <Button variant="outlined" color="error" sx={{marginLeft: '20px'}} onClick={() => handleBan(params.row.id)}>
-            Ban
+            <Button variant="outlined" color="error" sx={{marginLeft: '5%'}} onClick={() => handleBan(params.row.id)}>
+            Xóa
+            </Button>
+            <Button
+                variant="outlined"
+                startIcon={<DoneIcon sx={{marginLeft: '10px'}}/>}
+                onClick={() => handleEdit(params.row.id)}
+                sx={{height: '37px', marginLeft: '5%'}}
+            >
             </Button>
             </div>
         ),
       },
-      
   ];
-  
-  
 
   return (
     <div>
         <Box>
             <Box sx={{ display: 'flex' }}>
                 
-                <DashboardMenu dashboardTitle={"Quản lý người dùng"}/>
+                <DashboardMenu dashboardTitle={"Quản lý tin tức"}/>
                 <DataGrid
                     sx={{marginTop: '64px'}}
                     rows={rows}
