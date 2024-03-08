@@ -103,8 +103,8 @@ function ViewListNews() {
     navigate('/CreateNews');
   }
 
-  const viewDetailNews = async (id) => {
-    
+  const viewDetailNews = (id) => {
+    navigate(`/ViewDetailNews/${id}`);
   }
 
   const getNextNewsPage = () => {
@@ -157,8 +157,8 @@ function ViewListNews() {
               const nextNews = data[nextIndex];
 
               return (
-                <Grid xs={4} sm={4} md={4} lg={4} key={nextNews?.newsId} sx={{width: '50%'}} onClick={viewDetailNews}>
-                  <DisplayItemNews sx={{ width: 400, height: 400 }}>
+                <Grid xs={4} sm={4} md={4} lg={4} key={nextNews.newsId} sx={{width: '50%'}} onClick={() => viewDetailNews(nextNews.newsId)}>
+                  <DisplayItemNews sx={{ width: 400, height: 400 }} >
                     <img src={image1} alt="Image news"/>
                     <br/>
                     <Typography sx={{fontSize: '16px', color: 'black' }}>

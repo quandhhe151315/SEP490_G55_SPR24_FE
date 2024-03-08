@@ -6,21 +6,17 @@ import Typography from '@mui/material/Typography';
 
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import image1 from '../../assets/images/news1.jpg';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import UploadAvatar from '../../components/UploadAvatar/UploadAvatar';
 import GetInformationJWT from '../../components/JWT/GetInformationJWT';
-import SuccessSnackbar from '../../components/Snackbar/SuccessSnackbar';
+import { useSnackbar } from '../../components/Snackbar/Snackbar';
 import { myProfile, changeMyProfile } from '../../services/ApiServices';
-import FailSnackbar from '../../components/Snackbar/FailSnackbar';
 
 function MyProfile() {
     const [id, setId] = useState('');
@@ -34,15 +30,12 @@ function MyProfile() {
     const [statusName, setStatusName] = useState('');
     const [roleId, setRoleId] = useState('');
     const [roleName, setRoleName] = useState('');
-
-
-    const navigate = useNavigate();
     const [openDialog, setOpenDialog] = useState(false);
     const [avatarImage, setAvatarImage] = useState(null);
     const [newAvatarImage, setNewAvatarImage] = useState(null);
 
-    const [open, setOpen] = useState(false);
-    const [openFail, setOpenFail] = useState(false);
+    const navigate = useNavigate();
+    const { showSnackbar } = useSnackbar();
 
     const handleOpenDialog = () => {
         setOpenDialog(true);
@@ -103,21 +96,19 @@ function MyProfile() {
         try {
           const response = await changeMyProfile(id, email, firstName, middleName, lastName, phone, address, avatarImage, status, role);
           if (response.status === 200) {
-            setOpen(true);
+            showSnackbar('Change profile successful!', "success");
             navigate('/ChangeMyProfile');
           } else {
-            setOpenFail(true);
             console.error('Your information is not change! ');
           }
         } catch (error) {
+            showSnackbar('Change profile failed!', 'error');
           console.error('Change error:', error);
         }
       };
 
     return (
         <div>
-            <SuccessSnackbar open={open} text="Change profile successful!" setOpen={setOpen} />
-            <FailSnackbar open={openFail} text="Change profile failed!" setOpen={setOpenFail}/>
             <Appbar />
             <GetInformationJWT setId={setId}/>
             <Box sx={{ display: 'flex' }}>
