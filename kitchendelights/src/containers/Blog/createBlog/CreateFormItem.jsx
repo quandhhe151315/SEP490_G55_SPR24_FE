@@ -3,7 +3,18 @@ import { TextField, Typography, Stack,Box,Select,MenuItem,FormControl,InputLabel
 import React from 'react';
 import BlogEditor from '../../../components/TextEditor/BlogEditor.jsx';
 import CreateIcon from '@mui/icons-material/Create';
+import { useCreateBlog } from '../../../hook/useCreateBlog.js';
+import { useEffect, useRef } from "react";
+import {mutate} from "swr";
 export default function CreateFormItem(){
+  const { data, isLoading, error } = useCreateBlog();
+  const editorRef = useRef(null);
+  useEffect(() => {
+    if (data) {
+       
+        editorRef.current?.setContent(data.content); 
+    }
+}, [data]);
   return (
     <Box sx={{width:'100%'}}>
     <Stack sx={{ backgroundColor: '#f0f0f0', padding: 2 }}>
@@ -34,10 +45,19 @@ export default function CreateFormItem(){
     />
     </Stack>
     <Stack sx={{marginTop:'20px'}}>
-       <BlogEditor/>
+       <BlogEditor />
        <Stack sx={{justifyContent:"center",alignItems:'center'}}><Button variant="contained" sx={{mx:'0',marginTop:'100px',width:'150px',    backgroundColor: '#ff5e00', '&:hover': {
             backgroundColor: '#FFCF96', 
-          },}}><CreateIcon sx={{marginRight:'6px',fontSize:'16px'}}/>Đăng bài</Button></Stack>
+          },}}  onClick={() => {
+            // Access editor content from BlogEditor (modify as needed)
+            const content = editorRef.current?.getContent();
+            if (content) {
+                mutate(content); // Trigger API call with content
+            } else {
+                // Handle case where content is empty
+            }
+        }}>
+            <CreateIcon sx={{marginRight:'6px',fontSize:'16px'}}/>Đăng bài</Button></Stack>
     </Stack>
     
   </Box>

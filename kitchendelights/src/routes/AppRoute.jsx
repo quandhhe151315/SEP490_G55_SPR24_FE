@@ -25,6 +25,7 @@ import BlogList from "../containers/Blog/BlogList";
 import DashboardMenu from "../components/Dashboard/Menu/DashboardMenu";
 import ViewDetailNews from "../containers/News/ViewDetailNews";
 import ListCommentDashboard from "../containers/Comment/CommentList";
+import UpDateCommentItem from "../containers/Comment/UpdateComment/UpDateCommentItem";
 
 function AppRoute() {
   const router = createBrowserRouter([
@@ -115,7 +116,10 @@ function AppRoute() {
       path: "/comment/list",
       element: <ListCommentDashboard />,
     },
-    
+    {
+      path: "/comment/test",
+      element: <UpDateCommentItem />,
+    },
 
     { path: "/", element: <Navigate to="/KitchenDelights" /> },
   ]);

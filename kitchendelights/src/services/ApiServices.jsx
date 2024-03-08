@@ -72,7 +72,9 @@ const getBlogList = ()=>{
 const getBlogDetail = (id)=>{
     return axios.get(`/Blog/Get?id=${id}`);
 }
-
+const createBlog = () =>{
+    return axios.post(`/Blog/Create`);
+}
 export { login, 
     register, 
     changePassword, 
@@ -88,5 +90,5 @@ export { login,
     getCategoryByParentId,
     getRecipes,
     getRecipessById,
-    listUsers,getBlogList, getBlogDetail
+    listUsers,getBlogList, getBlogDetail,createBlog
  };

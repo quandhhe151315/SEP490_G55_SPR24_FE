@@ -29,6 +29,7 @@ import {
               <BlogCommentItem key={index} />
             ))}
         </Stack>
+        <Divider sx={{my:6}}/>
         <Stack
           sx={{
             display: "flex",
@@ -37,7 +38,11 @@ import {
             alignItems: "start",
           }}
         >
-          <TextareaAutosize
+          
+          <Typography variant="h6" sx={{ textTransform: 'uppercase', color: "#ff5e00" }}>Trả lời</Typography>
+          <Divider sx={{my:1}}/>
+          <Typography>Bình luận</Typography>
+          <TextareaAutosize 
             minRows={8}
             maxRows={12}
             style={{
