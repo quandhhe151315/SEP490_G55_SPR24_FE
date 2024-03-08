@@ -14,16 +14,19 @@ import MyProfile from "../containers/Account/MyProfile";
 import ChangeMyProfile from "../containers/Account/ChangeMyProfile";
 import ChangePassword from "../containers/Authentication/ChangePassword";
 import BookMark from "../containers/BookMark/BookMark";
-import CreateCategory from "../containers/Category/CreateCategory";
-import UpdateCategory from "../containers/Category/UpdateCategory";
+import CreateCategory from "../containers/DashBoard/Category/CreateCategory";
+import UpdateCategory from "../containers/DashBoard/Category/UpdateCategory";
 import CreateAccount from "../containers/Account/CreateAccount";
 import ListAccount from "../containers/Account/ListAccount";
-import ListCategoryDashboard from "../containers/Category/ListCategory";
+import ListCategoryDashboard from "../containers/DashBoard/Category/ListCategory";
 import BlogDetail from "../containers/Blog/BlogDetail";
 import CreateBlog from "../containers/Blog/CreateBlog";
 import BlogList from "../containers/Blog/BlogList";
 import DashboardMenu from "../components/Dashboard/Menu/DashboardMenu";
 import ViewDetailNews from "../containers/News/ViewDetailNews";
+import AddRecipeToMenuDialog from "../containers/Menu/AddRecipeToMenu";
+import ListRecipeDashBoard from "../containers/DashBoard/Recipe/ListRecipe";
+import CreateRecipeDashBoard from "../containers/DashBoard/Recipe/CreateRecipe";
 
 function AppRoute() {
   const router = createBrowserRouter([
@@ -44,7 +47,7 @@ function AppRoute() {
       element: <ViewDetailNews/>,
     },
     {
-      path: "/ViewListRepice",
+      path: "/ViewListRecipe",
       element: <ViewListRepice />,
     },
 
@@ -110,7 +113,22 @@ function AppRoute() {
       path: "/DashboardMenu",
       element: <DashboardMenu />,
     },
-    
+    {
+      path: "/Menu",
+      element: < AddRecipeToMenuDialog/>,
+    },
+    {
+      path: "/RecipeDetail/:recipeId",
+      element: <RecipeDetail />,
+    },
+    {
+      path: "/ListRecipeDashBoard",
+      element: <ListRecipeDashBoard />,
+    },
+    {
+      path: "/CreateRecipeDashBoard",
+      element: <CreateRecipeDashBoard />,
+    },
 
     { path: "/", element: <Navigate to="/KitchenDelights" /> },
   ]);

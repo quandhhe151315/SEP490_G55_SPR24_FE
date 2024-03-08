@@ -5,11 +5,10 @@ import { Button, Paper, TextField } from "@mui/material";
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import CategoryButton from "../../components/Button/CategoryButton";
+import CategoryButton from "../../../components/Button/CategoryButton";
 import { Navigate, useNavigate } from "react-router-dom";
-import { getCategoryByParentId } from "../../services/ApiServices";
-import { getAllCategory } from "../../services/ApiServices";
-import { postCreateCategory } from "../../services/ApiServices";
+import { getCategoryByParentId } from "../../../services/ApiServices";
+import { postCreateCategory } from "../../../services/ApiServices";
 
 
 function CreateCategory() {

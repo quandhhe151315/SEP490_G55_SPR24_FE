@@ -5,12 +5,12 @@ import { Paper, TextField } from "@mui/material";
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import CategoryButton from "../../components/Button/CategoryButton";
+import CategoryButton from "../../../components/Button/CategoryButton";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { useParams } from "react-router-dom";
-import { getCategoryById } from "../../services/ApiServices";
-import { getCategoryByParentId } from "../../services/ApiServices";
+import { getCategoryById } from "../../../services/ApiServices";
+import { getCategoryByParentId } from "../../../services/ApiServices";
 
 function UpdateCategory() {
     const navigate = useNavigate();

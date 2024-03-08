@@ -55,6 +55,10 @@ const getRecipes = ()=>{
  const getRecipessById = (id)=>{
     return axios.get(`/Recipe/GetRecipeById?recipeId=${id}`);
  }
+ const deleteRecipe = (id)=>{
+    return axios.delete(`/Recipe/DeleteRecipe?recipeId=${id}`);
+ 
+ }
 const getAllCategory = () => {
     return axios.get('/Category/GetAllCategoy');
 }
@@ -102,5 +106,8 @@ export { login,
     getCategoryByParentId,
     getRecipes,
     getRecipessById,
-    listUsers,getBlogList, getBlogDetail
+    listUsers,
+    getBlogList,
+    getBlogDetail,
+    deleteRecipe,
  };

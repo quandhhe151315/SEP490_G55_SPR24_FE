@@ -36,6 +36,7 @@ import AddRecipeToMenuDialog from "../Menu/AddRecipeToMenu";
 import { toast } from "react-toastify";
 import { getRecipessById } from "../../services/ApiServices";
 import moment from "moment";
+import CreateNewMenuDialog from "../Menu/CreateNewMenu";
 
 function RecipeDetail() {
   const navigate = useNavigate();
@@ -48,15 +49,27 @@ function RecipeDetail() {
   const GoToBookMark = () => {
     navigate("/BookMark");
   };
-  const [openDialogMenu, setOpenDialogMenu] = useState(false);
-
-  const handleOpenDialogMenu = () => {
-    setOpenDialogMenu(true);
+  const [selectMenuDialog, setSelectMenuDialog] = useState(false);
+  const [createMenuDialog, setCreateMenuDialog] = useState(false);
+  
+  //đóng mởi chon menu dialog
+  const handleOpenSelectMenuDialog = () => {
+    setSelectMenuDialog(true);
+  };
+  const handleCloseSelectMenuDialog = () => {
+    setSelectMenuDialog(false);
   };
 
-  const handleCloseDialogMenu = () => {
-    setOpenDialogMenu(false);
-  };
+  //đóng mở tạo menu dialog
+  const handleOpenCreateMenuDialog = () => {
+    setSelectMenuDialog(false);
+    setCreateMenuDialog(true);
+  }
+  const handleCloseCreateMenuDialog = () => {
+    setCreateMenuDialog(false);
+    setSelectMenuDialog(true);
+  }
+
   useEffect(() => {
     if (recipeId) {
       handleGetRecipessById();
@@ -235,7 +248,7 @@ function RecipeDetail() {
 
           {/*nút add to menu*/}
           <Button
-            onClick={handleOpenDialogMenu}
+            onClick={handleOpenSelectMenuDialog}
             size="small"
             variant="contained"
             sx={{
@@ -252,8 +265,13 @@ function RecipeDetail() {
             Thêm vào menu
           </Button>
           <AddRecipeToMenuDialog
-            open={openDialogMenu}
-            handleClose={handleCloseDialogMenu}
+            open={selectMenuDialog}
+            handleClose={handleCloseSelectMenuDialog}
+            onOpenCreate = {handleOpenCreateMenuDialog}
+          />
+          <CreateNewMenuDialog
+            open={createMenuDialog}
+            handleClose={handleCloseCreateMenuDialog}
           />
         </Stack>
         <Typography sx={{ marginTop: 3 }} />
