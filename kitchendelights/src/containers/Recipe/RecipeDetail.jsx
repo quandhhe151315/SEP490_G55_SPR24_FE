@@ -37,6 +37,8 @@ import { toast } from "react-toastify";
 import { getRecipessById } from "../../services/ApiServices";
 import moment from "moment";
 import CreateNewMenuDialog from "../Menu/CreateNewMenu";
+import GetInformationJWT from "../../components/JWT/GetInformationJWT";
+import { getMenus } from "../../services/ApiServices";
 
 function RecipeDetail() {
   const navigate = useNavigate();
@@ -49,23 +51,40 @@ function RecipeDetail() {
   const GoToBookMark = () => {
     navigate("/BookMark");
   };
+
   const [selectMenuDialog, setSelectMenuDialog] = useState(false);
   const [createMenuDialog, setCreateMenuDialog] = useState(false);
   
+  const [id, setId] = useState('');
+  const [listMenu, setListMenu] = useState([]);
+
+  const getListMenu = async () => {
+    try {
+      const response = await getMenus(id);
+      if (response.status === 200) {
+        setListMenu(response.data);
+      } else {
+        console.error('lỗi khi tải danh sách menu');
+      }
+    } catch (error) {
+      console.error('lỗi API getMenu', error);
+    }
+  };
   //đóng mởi chon menu dialog
   const handleOpenSelectMenuDialog = () => {
+    getListMenu();
     setSelectMenuDialog(true);
   };
   const handleCloseSelectMenuDialog = () => {
     setSelectMenuDialog(false);
   };
-
   //đóng mở tạo menu dialog
   const handleOpenCreateMenuDialog = () => {
     setSelectMenuDialog(false);
     setCreateMenuDialog(true);
   }
   const handleCloseCreateMenuDialog = () => {
+    getListMenu();
     setCreateMenuDialog(false);
     setSelectMenuDialog(true);
   }
@@ -91,6 +110,7 @@ function RecipeDetail() {
 
   return (
     <div>
+      <GetInformationJWT setId={setId} />
       <Appbar />
       <Typography
         sx={{ fontSize: "16px", marginRight: "255px", marginTop: "50px" }}
@@ -268,6 +288,7 @@ function RecipeDetail() {
             open={selectMenuDialog}
             handleClose={handleCloseSelectMenuDialog}
             onOpenCreate = {handleOpenCreateMenuDialog}
+            listMenu={listMenu}
           />
           <CreateNewMenuDialog
             open={createMenuDialog}

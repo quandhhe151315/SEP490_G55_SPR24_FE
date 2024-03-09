@@ -6,32 +6,11 @@ import Typography from "@mui/material/Typography";
 import GetInformationJWT from "../../components/JWT/GetInformationJWT";
 import { getMenus } from "../../services/ApiServices";
 
-function AddRecipeToMenuDialog({ open, handleClose, onOpenCreate }) {
-
-  const [id, setId] = useState('');
-  const [listMenu, setListMenu] = useState([]);
-
-  const getListMenu = async () => {
-    try {
-      const response = await getMenus(id);
-      if (response.status === 200) {
-        setListMenu(response.data);
-      } else {
-        console.error('lỗi khi tải danh sách menu');
-      }
-    } catch (error) {
-      console.error('lỗi API getMenu', error);
-    }
-  };
-  useEffect(() => {
-    getListMenu();
-  }, [id]);
+function AddRecipeToMenuDialog({ open, handleClose, onOpenCreate,listMenu }) {
 
   return (
-
+    
     <div>
-
-      <GetInformationJWT setId={setId} />
       <Dialog
         open={open}
         onClose={handleClose}
