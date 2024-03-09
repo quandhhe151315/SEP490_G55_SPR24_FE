@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -8,10 +8,38 @@ import CloseIcon from "@mui/icons-material/Close";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { useState } from "react";
+import GetInformationJWT from "../../components/JWT/GetInformationJWT";
+import { createMenu } from "../../services/ApiServices";
 
-function CreateNewMenu({open, handleClose}) {
+function CreateNewMenu({ open, handleClose}) {
+
+    const [menuName, setMenuName] = useState('');
+    const [error, setError] = useState(false);
+    const [id, setId] = useState('');
+
+    const handleCreateMenu = async () => {
+        if (menuName.trim() === '') {
+            setError(true);
+        } else {
+            setError(false);
+            try {
+                const response = await createMenu(id, menuName);
+                if (response.status === 200) {
+                    handleClose();
+                } else {
+                    console.error('lỗi khi tạo menu');
+                }
+            } catch (error) {
+                console.error('lỗi API createMenu', error);
+            }
+        }
+    };
+    
     return (
+
         <div>
+            <GetInformationJWT setId={setId}/>
             <Dialog
                 open={open}
                 onClose={handleClose}
@@ -27,12 +55,21 @@ function CreateNewMenu({open, handleClose}) {
                     </IconButton>
                 </DialogTitle>
                 <DialogContent style={{ overflowY: 'auto', maxHeight: '20vh' }}>
-                    <Typography sx={{ fontSize: '14px', marginTop: '10px', marginLeft: '45px' }}>Thời gian nấu: </Typography>
-                    <TextField size="small" type="input" placeholder="Thời gian nấu" sx={{ width: '80%', height: '10%', fontSize: '14px', fontWeight: 'bold', marginLeft: '45px', backgroundColor: '#FFFFFF' }}>
+                    <Typography sx={{ fontSize: '14px', marginTop: '10px', marginLeft: '5px', marginBottom: '15px' }}>Tên menu: </Typography>
+                    <TextField
+                        value={menuName}
+                        onChange={(e) => setMenuName(e.target.value)}
+                        error={error}
+                        helperText={error ? 'Tên menu không được để trống' : ''}
+                        variant="standard"
+                        size="small"
+                        type="input"
+                        placeholder="Điền tên menu muốn tạo"
+                        sx={{ width: '100%', height: '20%', fontSize: '14px', fontWeight: 'bold', marginLeft: '5px', backgroundColor: '#FFFFFF' }}>
                     </TextField>
                 </DialogContent>
                 <DialogActions>
-                    <Button >Tạo menu mới</Button>
+                    <Button onClick={handleCreateMenu} >Tạo </Button>
                 </DialogActions>
             </Dialog>
         </div>
