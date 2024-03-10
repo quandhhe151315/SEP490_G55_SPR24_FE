@@ -39,11 +39,10 @@ function ChangePassword() {
 
     return (
         <div>
-            <Appbar />
+            
             <Box sx={{ display: 'flex' }}>
                 <Grid container spacing={2}>
                     <Grid item xs={4}>
-                        <AvatarMenu />
                     </Grid>
 
                     <Grid item xs container direction="column" sx={{ fontSize: '30px', fontWeight: 'bold' }}>
