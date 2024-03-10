@@ -33,6 +33,8 @@ import UpDateCommentItem from "../containers/Comment/UpdateComment/UpDateComment
 import ListNews from "../containers/News/ListNews";
 import MenuDetail from "../containers/Menu/MenuDetail";
 import UserProfile from "../containers/Account/UserProfile";
+import CreateRecipe from "../containers/Recipe/CreateRecipe";
+
 function AppRoute() {
   const router = createBrowserRouter([
     {
@@ -146,7 +148,7 @@ function AppRoute() {
       path: "/UserProfile",
       element:<UserProfile/>
     },
-
+    { path: "/CreateRecipe", element: <CreateRecipe/>},
     { path: "/", element: <Navigate to="/KitchenDelights" /> },
   ]);
   return <RouterProvider router={router} />;
