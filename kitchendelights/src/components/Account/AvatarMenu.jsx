@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import Divider from '@mui/material/Divider';
 import Paper from '@mui/material/Paper';
 import MenuList from '@mui/material/MenuList';
@@ -13,10 +13,21 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import CommentIcon from '@mui/icons-material/Comment';
 import ArtTrackIcon from '@mui/icons-material/ArtTrack';
 import ContactsIcon from '@mui/icons-material/Contacts';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { getMenus } from '../../services/ApiServices';
+import GetInformationJWT from '../JWT/GetInformationJWT';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import MyProfile from '../../containers/Account/MyProfile';
 
-function AvatarMenu() {
+function AvatarMenu({ handleClick, onMenuSelect }) {
     const navigate = useNavigate();
+
+    const [id, setId] = useState('');
+    const [listMenu, setListMenu] = useState([]);
+    const [showAll, setShowAll] = useState(false);
+    const maxDisplay = 4;
 
     const goToMyProfile = () => {
         navigate('/MyProfile');
@@ -26,8 +37,29 @@ function AvatarMenu() {
         navigate('/ChangePassword');
     }
 
+    const getListMenu = async () => {
+        try {
+            const response = await getMenus(id);
+            if (response.status === 200) {
+                setListMenu(response.data);
+            } else {
+                console.error('lỗi khi tải danh sách menu');
+            }
+        } catch (error) {
+            console.error('lỗi API getMenu', error);
+        }
+    };
+
+    
+
+    useEffect(() => {
+        if (id) {
+            getListMenu();
+        }
+    }, [id]);
     return (
         <div>
+            <GetInformationJWT setId={setId} />
             <Paper sx={{ width: 280, maxWidth: '100%', marginTop: '30px', marginLeft: '46%', border: '1px solid #bfb8b8' }}>
                 <MenuList>
                     <MenuItem>
@@ -37,14 +69,14 @@ function AvatarMenu() {
                         <ListItemText>Xin chào ...</ListItemText>
                     </MenuItem>
                     <Divider />
-                    <MenuItem onClick={goToMyProfile}>
+                    <MenuItem onClick={() => handleClick('MyProfile')}>
                         <ListItemIcon>
                             <ContactEmergencyIcon fontSize="small" sx={{ color: "#ff5e00" }} />
                         </ListItemIcon>
                         <ListItemText sx={{ fontWeight: 'bold' }}>Thông tin cá nhân</ListItemText>
                     </MenuItem>
 
-                    <MenuItem onClick={goToChangePassword}>
+                    <MenuItem onClick={() => handleClick('ChangePassword')}>
                         <ListItemIcon>
                             <PasswordIcon fontSize="small" sx={{ color: "#ff5e00" }} />
                         </ListItemIcon>
@@ -52,7 +84,8 @@ function AvatarMenu() {
                     </MenuItem>
                 </MenuList>
             </Paper>
-            <Paper sx={{ width: 280, maxWidth: '100%', marginTop: '20px', marginLeft: '46%', border: '1px solid #bfb8b8' }}>
+
+            <Paper sx={{ maxHeight:'500px', overflow:'auto', width: 280, maxWidth: '100%', marginTop: '20px', marginLeft: '46%', border: '1px solid #bfb8b8' }}>
                 <MenuList>
                     <MenuItem>
                         <ListItemIcon>
@@ -81,8 +114,27 @@ function AvatarMenu() {
                         </ListItemIcon>
                         <ListItemText>Blog</ListItemText>
                     </MenuItem>
+                    {listMenu.slice(0, showAll ? undefined : maxDisplay).map((menu, index) => (
+                        <MenuItem key={index} onClick={(e)=>{
+                            onMenuSelect(menu.menuId);
+                            handleClick('MenuDetail');
+                        }}>
+                            <ListItemIcon>
+                            <MenuBookIcon fontSize="small" sx={{ color: "#ff5e00" }} />
+                            </ListItemIcon>{menu.menuName}
+                        </MenuItem>
+                    ))}
+
+                    {listMenu.length > maxDisplay && (
+                        <MenuItem onClick={() => setShowAll(!showAll)}>
+                            <ListItemIcon>
+                            {showAll ? <ExpandLessIcon fontSize="small" sx={{ color: "#ff5e00" }} /> : <ExpandMoreIcon fontSize="small" sx={{ color: "#ff5e00" }} />}
+                            </ListItemIcon> {showAll ? 'Thu gọn' : 'Xem thêm'}
+                        </MenuItem>
+                    )}
                 </MenuList>
-            </Paper>
+            </Paper> 
+
             <Paper sx={{ width: 280, maxWidth: '100%', marginTop: '20px', marginLeft: '46%', border: '1px solid #bfb8b8' }}>
                 <MenuList>
                     <MenuItem>
@@ -93,6 +145,8 @@ function AvatarMenu() {
                     </MenuItem>
                 </MenuList>
             </Paper>
+
+            
         </div>
     );
 }

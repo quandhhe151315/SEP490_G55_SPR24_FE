@@ -12,13 +12,12 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { getRecipes } from "../../../services/ApiServices";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { deleteRecipe } from "../../../services/ApiServices";
+import { deleteRecipe, getRecipes } from "../../../services/ApiServices";
 
 function ListRecipeDashBoard() {
 

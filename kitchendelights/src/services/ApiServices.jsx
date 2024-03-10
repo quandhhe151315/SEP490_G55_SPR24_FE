@@ -93,6 +93,16 @@ const getBlogDetail = (id)=>{
 const createBlog = () =>{
     return axios.post(`/Blog/Create`);
 }
+
+//menu API
+
+const getMenus = (id) => {
+    return axios.get(`/Menu/GetMenuByUserId?userId=${id}`);
+}
+const createMenu = (userId, menuName, featuredImage = null, menuDescription = null) => {
+    return axios.post('/Menu/CreateMenu', {featuredImage, menuName, menuDescription, userId});
+}
+
 export { login, 
     register, 
     changePassword, 
@@ -108,7 +118,12 @@ export { login,
     getCategoryByParentId,
     getRecipes,
     getRecipessById,
-
-    listUsers,getBlogList, getBlogDetail,createBlog
+    deleteRecipe,
+    listUsers,
+    getBlogList,
+    getBlogDetail,
+    createBlog,
+    getMenus,
+    createMenu,
  };
 

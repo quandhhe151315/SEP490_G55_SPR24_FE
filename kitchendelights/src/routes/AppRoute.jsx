@@ -31,6 +31,8 @@ import CreateRecipeDashBoard from "../containers/DashBoard/Recipe/CreateRecipe";
 import ListCommentDashboard from "../containers/Comment/CommentList";
 import UpDateCommentItem from "../containers/Comment/UpdateComment/UpDateCommentItem";
 import ListNews from "../containers/News/ListNews";
+import MenuDetail from "../containers/Menu/MenuDetail";
+import UserProfile from "../containers/Account/UserProfile";
 function AppRoute() {
   const router = createBrowserRouter([
     {
@@ -140,7 +142,10 @@ function AppRoute() {
       path: "/comment/test",
       element: <UpDateCommentItem />,
     },
-
+    {
+      path: "/UserProfile",
+      element:<UserProfile/>
+    },
 
     { path: "/", element: <Navigate to="/KitchenDelights" /> },
   ]);
