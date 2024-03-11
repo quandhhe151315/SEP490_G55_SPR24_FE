@@ -9,8 +9,7 @@ export default function BlogItem({
   createDate,
   userName,
 }) {
-  const x =
-    "Gợi Ý 4 Cách Nấu Cháo Yến Mạch Cho Bé Gợi Ý 4 Cách Nấu Cháo Yến Mạc Cho Bé Gợi Ý 4 Cách Nấu Cháo Yến Mạch Cho Bé";
+  console.log(content);
   return (
     <a href={`/blog/${id}`} style={{ textDecoration: "none" }}>
       <Card
@@ -45,7 +44,7 @@ export default function BlogItem({
             width={"100%"}
             style={{ marginTop: "8px" }}
           />
-          <Typography
+          {/* <Typography
             variant="body2"
             mt={1}
             sx={{
@@ -56,9 +55,9 @@ export default function BlogItem({
               px: 1,
               mt: 1,
             }}
-          >
-            {content}
-          </Typography>
+          > */}
+          <div dangerouslySetInnerHTML={{ __html: content }}></div>
+          {/* </Typography> */}
           <Stack
             sx={{
               mt: 1,
