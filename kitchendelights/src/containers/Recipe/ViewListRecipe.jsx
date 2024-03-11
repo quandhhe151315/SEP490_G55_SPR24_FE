@@ -53,40 +53,6 @@ const DisplayStyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const data1 = [
-  {
-    image: image,
-    title: "Cong thuc tra phi",
-    rating: 3,
-    vote: 103,
-    gia: "100.000 VND",
-    damua: false,
-  },
-  {
-    image: image,
-    title: "Cong thuc tra phi",
-    rating: 3,
-    vote: 312,
-    gia: "100.000 VND",
-    damua: false,
-  },
-  {
-    image: image,
-    title: "Cong thuc tra phi",
-    rating: 3,
-    vote: 124,
-    gia: "100.000 VND",
-    damua: false,
-  },
-  {
-    image: image,
-    title: "Cong thuc tra phi",
-    rating: 3,
-    vote: 453,
-    gia: "100.000 VND",
-    damua: true,
-  },
-];
 const data3 = [
   {
     name1: "Thịt bò",
@@ -107,7 +73,7 @@ const DisplayItemNews = styled(Paper)(({ theme }) => ({
   marginTop: "30px",
 }));
 
-function ViewListRecipe() {
+function ViewListRecipes() {
   const navigate = useNavigate();
   const [data, setdata] = useState([]);
   const [data2, setdata2] = useState([]);
@@ -574,4 +540,4 @@ function ViewListRecipe() {
   );
 }
 
-export default ViewListRecipe;
+export default ViewListRecipes;

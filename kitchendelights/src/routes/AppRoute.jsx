@@ -7,7 +7,7 @@ import {
 import HomePage from "../containers/HomePage";
 import CreateNews from "../containers/News/CreateNews";
 import ViewListNews from "../containers/News/ViewListNews";
-import ViewListRepice from "../containers/Recipe/ViewListRecipe";
+import ViewListRecipes from "../containers/Recipe/ViewListRecipe";
 import ShoppingCart from "../containers/ShoppingCart/ShoppingCart";
 import RecipeDetail from "../containers/Recipe/RecipeDetail";
 import MyProfile from "../containers/Account/MyProfile";
@@ -54,8 +54,8 @@ function AppRoute() {
       element: <ViewDetailNews/>,
     },
     {
-      path: "/ViewListRecipe",
-      element: <ViewListRepice />,
+      path: "/ViewListRecipes",
+      element: <ViewListRecipes />,
     },
 
     {
@@ -79,7 +79,7 @@ function AppRoute() {
       element: <ShoppingCart />,
     },
     {
-      path: "/RecipeDetail/:recipeId",
+      path: "/RecipeDetail/",
       element: <RecipeDetail />,
     },
     { path: "/", element: <Navigate to="/KitchenDelights" /> },
