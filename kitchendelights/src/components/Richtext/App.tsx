@@ -5,9 +5,9 @@ import {
   useMediaQuery,
   type PaletteMode,
 } from "@mui/material";
-import { ReactElement , useMemo, useState, useRef } from "react";
+import { ReactElement , useMemo, useState, useRef,useEffect } from "react";
 import {Editor} from '../Richtext/Editor.tsx';
-
+import { listAllIngredient } from '../../services/ApiServices.jsx';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import ClassicButton from "../Button/ClassicButton.jsx";
@@ -21,6 +21,7 @@ import {
   RichTextReadOnly,
   type RichTextEditorRef,
 } from "mui-tiptap";
+import Autocomplete from '@mui/material/Autocomplete';
 
 const AppCreateNews = ({title, setContent, handleCreateNews}) => {
   const systemSettingsPrefersDarkMode = useMediaQuery(
@@ -77,19 +78,80 @@ const AppCreateRecipe = () => {
   const [recipeContent, setRecipeContent] = useState(new Array(4).fill(''));
   const [recipeLength, setRecipeLength] = useState(3);
 
+  const [recipeIngredient, setRecipeIngredient] = useState(new Array(2).fill(''));
+  const [recipeIngredientLength, setRecipeIngredientLength] = useState(1);
+
+
+  type Ingredient = {
+    ingredientId: number,
+    ingredientName: string,
+    ingredientUnit: string,
+    ingredientStatus: number,
+    ingredientMarketplaces: any[]
+  };
+
+  const [dataIngredients, setDataIngredients] = useState<Ingredient[]>([]);
+  const getListIngredient = async () => {
+    try {
+      const response = await listAllIngredient();
+      if (response.status === 200) {
+        setDataIngredients(response.data);
+      } else {
+        console.error('Can not Load news! ');
+      }
+    } catch (error) {
+      console.error('Can not load news data!', error);
+    }
+  };
+  useEffect(() => {
+    getListIngredient();
+  }, []);
+  
   const rteRef = useRef<RichTextEditorRef>(null);
   const handleAddRowClickNL = () => {
+    handleCreateNewRecipeIngredient();
     setRowsNL(prevRows => [...prevRows, 
     <Grid container spacing={2} sx={{marginTop: '2px', marginLeft: '2px'}}>
       <Grid item xs={6}>
-      <TextField required id="outlined-required" sx={{ width: '100%'}} placeholder="Chọn nguyên liệu" InputProps={{sx: {borderRadius: '15px'}}} />
-      </Grid>
-      <Grid item xs={6}>
-      <TextField required id="outlined-required" sx={{ width: '100%'}} placeholder="Nhập định lượng (ví dụ: 300g)" InputProps={{sx: {borderRadius: '15px'}}} />
-      </Grid>
+            <Autocomplete
+              disablePortal
+              size="small"
+              options={dataIngredients}
+              getOptionLabel={(option) => option.ingredientName}
+              renderOption={(props, option) => (
+                <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
+                  {option.ingredientName}
+                </Box>
+              )}
+              sx={{ width: '100%' }}
+              renderInput={(params) => <TextField {...params} label="Chọn nguyên liệu" sx={{ borderRadius: '15px' }} onChange={(event) => handleChangeRecipeIngredient(recipeIngredientLength + 1, event.target.value)}/>}
+            />
+            </Grid>
+            <Grid item xs={6}>
+            <TextField required id="outlined-size-small" size="small" sx={{ width: '100%',}} placeholder="Nhập định lượng (đơn vị là gam)" />
+            </Grid>
     </Grid>
     ]);
+    setRecipeIngredientLength(recipeIngredientLength + 1);
   };
+
+  const handleChangeRecipeIngredient = (id, value) => {
+    console.log(value);
+    setRecipeIngredient(prevRecipeIngre => {
+      if (prevRecipeIngre.length > 0) {
+        const updatedRecipeIngre = [...prevRecipeIngre];
+        updatedRecipeIngre[id] = value;
+        return updatedRecipeIngre;
+      } else {
+
+        return prevRecipeIngre;
+      }
+    });
+  }
+
+  const handleCreateNewRecipeIngredient = () => {
+    setRecipeIngredient(prevRecipeIngre => [...prevRecipeIngre,'']);
+  }
 
   const handleAddRowClickBL = () => {
     handleCreateNewRecipeContent();
@@ -128,24 +190,29 @@ const AppCreateRecipe = () => {
     "(prefers-color-scheme: dark)"
   );
 
-  // const contentRes =
-  // '<h2><span style="font-size: 18px">' + title + '</span></h2><p></p><ul><li><p><span style="font-size: 18px">Thời gian chuẩn bị: ' + timeAmountPrepare + " " + timeUnitPrepare +'</span></p><p></p></li><li><p><span style="font-size: 18px">Thời gian nấu: '+ timeAmountCook + " " + timeUnitCook + '</span></p><p></p></li><li><p><span style="font-size: 18px">Khẩu phần ăn: '+ amountPeopleEat +' người</span></p></li></ul><p></p>';
-    
+  let contentRecipes =
+  '<h2><span style="font-size: 18px">' + introduction + '</span></h2><p></p><ul><li><p><span style="font-size: 18px">Thời gian chuẩn bị: ' + timeAmountPrepare + " " + timeUnitPrepare +'</span></p><p></p></li><li><p><span style="font-size: 18px">Thời gian nấu: '+ timeAmountCook + " " + timeUnitCook + '</span></p><p></p></li><li><p><span style="font-size: 18px">Khẩu phần ăn: '+ amountPeopleEat +' người</span></p></li></ul><p></p>'
+  +'<h4><strong><span style="color: rgb(255, 71, 0); font-size: 30px">Nguyên liệu chế biến:</span></strong></h4></br>';
   // const contentRecipes =
   // '<p><strong><span style="font-size: 18px">Bước 1: </span></strong><span style="font-size: 18px">Bạn bắc lên bếp 1 nồi nước và cho vào nồi hành tím đã đập dập rồi nấu trên bếp ở nhiệt độ cao. Khi nước sôi, bạn cho thịt bò và xương heo đã sơ chế vào và chần khoảng 3 phút để loại bỏ mùi hôi. Sau đó, bạn vớt thịt ra và cho ngay vào </span><a target="_blank" rel="noopener" href="https://www.dienmayxanh.com/chen-bat-to-canh"><span style="font-size: 18px">tô</span></a><span style="font-size: 18px"> nước lạnh. </span><span style="color: rgb(51, 51, 51); font-family: Arial, Helvetica, sans-serif; font-size: 18px">Không nên chọn mua xương heo có màu tái, mùi hôi lạ và khi cầm lên thì thấy nhớt.</span></p><p></p><img height="auto" style="text-align: center; aspect-ratio: 1.74672 / 1" src="blob:http://localhost:3000/4bf33ca2-8317-4e7c-8c0d-a9253fb836c1" alt="so-che-cac-nguyen-lieu-khac-30.jpg" width="800"></li></ul><p></p>' + 
   // '<p><strong><span style="font-size: 18px">Bước 2: </span></strong><span style="font-size: 18px">Bạn bắc lên bếp 1 nồi nước và cho vào nồi hành tím đã đập dập rồi nấu trên bếp ở nhiệt độ cao. Khi nước sôi, bạn cho thịt bò và xương heo đã sơ chế vào và chần khoảng 3 phút để loại bỏ mùi hôi. Sau đó, bạn vớt thịt ra và cho ngay vào </span><a target="_blank" rel="noopener" href="https://www.dienmayxanh.com/chen-bat-to-canh"><span style="font-size: 18px">tô</span></a><span style="font-size: 18px"> nước lạnh. </span><span style="color: rgb(51, 51, 51); font-family: Arial, Helvetica, sans-serif; font-size: 18px">Không nên chọn mua xương heo có màu tái, mùi hôi lạ và khi cầm lên thì thấy nhớt.</span></p><p></p><img height="auto" style="text-align: center; aspect-ratio: 1.47059 / 1" src="blob:http://localhost:3000/683877f0-d2e5-425f-b8dc-6fc428a55469" alt="so-che-va-chan-thit.jpg" width="800"></li></ul><p></p>';
-  let contentRecipes = '';
+  // let contentRecipes = '';
 
   const handleCreateNewRecipe = () => {
-    
     // console.log(title + introduction + "/" + timeAmountPrepare + timeUnitPrepare + "/" + timeAmountCook + timeUnitCook + "/" + amountPeopleEat + videoCooking);
+    recipeIngredient.forEach((value, index) => {
+      contentRecipes += '<ul><li><p><span style="font-size: 18px">'+value+'</span></p></li></ul></br>';
+      // console.log(`Giá trị của phần tử thứ ${index} là: ${value}`);
+    });
+    contentRecipes += '</br><h4><strong><span style="color: rgb(255, 71, 0); font-size: 30px">Cách làm:</span></strong></h4></br>';
+
     recipeContent.forEach((value, index) => {
       let num = index + 1;
       contentRecipes += '<p><strong><span style="font-size: 18px">Bước '+ num +': </span></strong><span style="font-size: 18px">'+ value +'</span></p><p></p><img height="auto" style="text-align: center; aspect-ratio: 1.74672 / 1" src="blob:http://localhost:3000/4bf33ca2-8317-4e7c-8c0d-a9253fb836c1" alt="so-che-cac-nguyen-lieu-khac-30.jpg" width="800"></li></ul><p></p>';
       // console.log(`Giá trị của phần tử thứ ${index} là: ${value}`);
     });
 
-    console.log(contentRecipes);
+    // console.log(contentRecipes);
   }
 
   const [open, setOpen] = useState(false);
@@ -164,6 +231,7 @@ const AppCreateRecipe = () => {
 
   return (
     <>
+
       <Box sx={{ p: 3}}>
         <Grid container spacing={2}>
           <Grid item xs={6}>
@@ -196,8 +264,8 @@ const AppCreateRecipe = () => {
               sx={{ width: '25%',  borderRadius: '15px', marginLeft: '5%'}}  
               >
               <MenuItem value={"Phút"}>Phút</MenuItem>
-              <MenuItem value={"Giờ"}>Giờ</MenuItem>
-              <MenuItem value={"Ngày"}>Ngày</MenuItem>
+              {/* <MenuItem value={"Giờ"}>Giờ</MenuItem>
+              <MenuItem value={"Ngày"}>Ngày</MenuItem> */}
             </Select>
             </TitleContentUI>
             
@@ -212,8 +280,8 @@ const AppCreateRecipe = () => {
               sx={{ width: '25%',  borderRadius: '15px', marginLeft: '5%'}}  
               >
               <MenuItem value={"Phút"}>Phút</MenuItem>
-              <MenuItem value={"Giờ"}>Giờ</MenuItem>
-              <MenuItem value={"Ngày"}>Ngày</MenuItem>
+              {/* <MenuItem value={"Giờ"}>Giờ</MenuItem>
+              <MenuItem value={"Ngày"}>Ngày</MenuItem> */}
             </Select>
 
             </TitleContentUI>
@@ -245,19 +313,46 @@ const AppCreateRecipe = () => {
             </Typography>
             <Grid container spacing={2}>
             <Grid item xs={6}>
-      <TextField required id="outlined-required" sx={{ width: '100%'}} placeholder="Chọn nguyên liệu" InputProps={{sx: {borderRadius: '15px'}}} />
+            <Autocomplete
+              disablePortal
+              size="small"
+              options={dataIngredients}
+              getOptionLabel={(option) => option.ingredientName}
+              onChange={(event, option) => handleChangeRecipeIngredient(0, option?.ingredientName)}
+              renderOption={(props, option) => (
+                <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
+                  {option.ingredientName}
+                </Box>
+              )}
+              sx={{ width: '100%' }}
+              renderInput={(params) => <TextField {...params} label="Chọn nguyên liệu" sx={{ borderRadius: '15px' }}/>}
+            />
       </Grid>
+      
       <Grid item xs={6}>
-      <TextField required id="outlined-required" sx={{ width: '100%'}} placeholder="Nhập định lượng (ví dụ: 300g)" InputProps={{sx: {borderRadius: '15px'}}} />
+      <TextField required id="outlined-size-small" size="small" sx={{ width: '100%',}} placeholder="Nhập định lượng (đơn vị là gam)" />
       </Grid>
             </Grid>
             <Grid container spacing={2} sx={{marginTop: '1%'}}>
             <Grid item xs={6}>
-      <TextField required id="outlined-required" sx={{ width: '100%'}} placeholder="Chọn nguyên liệu" InputProps={{sx: {borderRadius: '15px'}}} />
-      </Grid>
-      <Grid item xs={6}>
-      <TextField required id="outlined-required" sx={{ width: '100%'}} placeholder="Nhập định lượng (ví dụ: 300g)" InputProps={{sx: {borderRadius: '15px'}}} />
-      </Grid>
+            <Autocomplete
+              disablePortal
+              size="small"
+              options={dataIngredients}
+              getOptionLabel={(option) => option.ingredientName}
+              onChange={(event, option) => handleChangeRecipeIngredient(1, option?.ingredientName)}
+              renderOption={(props, option) => (
+                <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
+                  {option.ingredientName}
+                </Box>
+              )}
+              sx={{ width: '100%' }}
+              renderInput={(params) => <TextField {...params} label="Chọn nguyên liệu" sx={{ borderRadius: '15px' }} />}
+            />
+            </Grid>
+            <Grid item xs={6}>
+            <TextField required id="outlined-size-small" size="small" sx={{ width: '100%',}} placeholder="Nhập định lượng (đơn vị là gam)" />
+            </Grid>
             </Grid>
 
             {rowsNL.map((rowsNL, index) => (
