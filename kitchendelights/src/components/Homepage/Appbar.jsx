@@ -133,7 +133,7 @@ export default function PrimarySearchAppBar() {
     navigate("/ViewListNews");
   };
   const goToRepice = () => {
-    navigate("/ViewListRepice");
+    navigate("/ViewListRecipes");
   };
 
   const goToMyProfile = () => {

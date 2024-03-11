@@ -31,7 +31,9 @@ const myProfile = (id) => {
 // Bookmark
 
 const addRecipeToBookMark =(uId,rId,type)=>{
-    return axios.put(`/Bookmark/ModifyRecipeInBookMark?userId=${uId}&recipeId=${rId}&type=${type}`);
+    return axios.put('/Bookmark/ModifyRecipeInBookMark',{
+        uId,rId, type
+    });
 }
 const getBookMarkOfUser =(id)=>{
     return axios.get(`/Bookmark/GetBookmarkOfUser?id=${id}`);
@@ -125,5 +127,8 @@ export { login,
     createBlog,
     getMenus,
     createMenu,
+    addRecipeToBookMark,
+    getBookMarkOfUser,
+    removeRecipeFromBookMark
  };
 

@@ -39,23 +39,25 @@ import moment from "moment";
 import CreateNewMenuDialog from "../Menu/CreateNewMenu";
 import GetInformationJWT from "../../components/JWT/GetInformationJWT";
 import { getMenus } from "../../services/ApiServices";
+import { addRecipeToBookMark } from "../../services/ApiServices";
 
 function RecipeDetail() {
   const navigate = useNavigate();
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
   const [data, setdata] = useState();
   const { recipeId } = useParams();
-  //console.log("id: ", recipeId);
+  //const {uId,rId ,type} = useParams();
+  const uId = 1;
+  const rId = recipeId;
+  const type = 1;
+  console.log("idRID: ", rId);
   const GoToBookMark = () => {
     navigate("/BookMark");
   };
 
   const [selectMenuDialog, setSelectMenuDialog] = useState(false);
   const [createMenuDialog, setCreateMenuDialog] = useState(false);
-  
-  const [id, setId] = useState('');
+
+  const [id, setId] = useState("");
   const [listMenu, setListMenu] = useState([]);
 
   const getListMenu = async () => {
@@ -64,10 +66,26 @@ function RecipeDetail() {
       if (response.status === 200) {
         setListMenu(response.data);
       } else {
-        console.error('lỗi khi tải danh sách menu');
+        console.error("lỗi khi tải danh sách menu");
       }
     } catch (error) {
-      console.error('lỗi API getMenu', error);
+      console.error("lỗi API getMenu", error);
+    }
+  };
+
+  const handleAddBookMark = async () => {
+    try {
+      const response = await addRecipeToBookMark(uId, rId, type);
+      console.log(uId, rId, type);
+      GoToBookMark();
+
+      if (response.status === 200) {
+        console.log("add thanh cong");
+      } else {
+        console.log("ko add dc");
+      }
+    } catch (error) {
+      console.error("ko add dc", error);
     }
   };
   //đóng mởi chon menu dialog
@@ -82,12 +100,12 @@ function RecipeDetail() {
   const handleOpenCreateMenuDialog = () => {
     setSelectMenuDialog(false);
     setCreateMenuDialog(true);
-  }
+  };
   const handleCloseCreateMenuDialog = () => {
     getListMenu();
     setCreateMenuDialog(false);
     setSelectMenuDialog(true);
-  }
+  };
 
   useEffect(() => {
     if (recipeId) {
@@ -164,79 +182,11 @@ function RecipeDetail() {
               height: "35px",
               color: "white",
             }}
-            onClick={handleOpen}
+            onClick={handleAddBookMark}
             endIcon={<FavoriteIcon />}
           >
             Lưu
           </Button>
-          <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-            <Box
-              sx={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                width: 300,
-                bgcolor: "background.paper",
-                border: "2px solid #000",
-                boxShadow: 24,
-                p: 4,
-              }}
-            >
-              <Typography
-                id="modal-modal-title"
-                variant="h6"
-                component="h2"
-                sx={{ textAlign: "center" }}
-              >
-                Đã lưu vào danh sách yêu thích
-              </Typography>
-              <Typography marginTop={5} />
-              <Stack
-                direction="row"
-                spacing={5}
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Button
-                  size="small"
-                  variant="contained"
-                  sx={{
-                    bgcolor: "#ff5e00",
-                    borderRadius: "15px",
-                    width: "100px",
-                    height: "35px",
-                    color: "white",
-                  }}
-                  onClick={GoToBookMark}
-                >
-                  Xem
-                </Button>
-                <Button
-                  size="small"
-                  variant="contained"
-                  sx={{
-                    bgcolor: "#ff5e00",
-                    borderRadius: "15px",
-                    width: "100px",
-                    height: "35px",
-                    color: "white",
-                  }}
-                  onClick={handleClose}
-                >
-                  Huỷ
-                </Button>
-              </Stack>
-            </Box>
-          </Modal>
           <Button
             size="small"
             variant="contained"
@@ -287,7 +237,7 @@ function RecipeDetail() {
           <AddRecipeToMenuDialog
             open={selectMenuDialog}
             handleClose={handleCloseSelectMenuDialog}
-            onOpenCreate = {handleOpenCreateMenuDialog}
+            onOpenCreate={handleOpenCreateMenuDialog}
             listMenu={listMenu}
           />
           <CreateNewMenuDialog
