@@ -239,6 +239,7 @@ function RecipeDetail() {
             handleClose={handleCloseSelectMenuDialog}
             onOpenCreate={handleOpenCreateMenuDialog}
             listMenu={listMenu}
+            recipeId={recipeId}
           />
           <CreateNewMenuDialog
             open={createMenuDialog}

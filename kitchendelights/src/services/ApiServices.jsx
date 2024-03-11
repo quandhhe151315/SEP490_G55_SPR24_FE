@@ -104,6 +104,18 @@ const getMenus = (id) => {
 const createMenu = (userId, menuName, featuredImage = null, menuDescription = null) => {
     return axios.post('/Menu/CreateMenu', {featuredImage, menuName, menuDescription, userId});
 }
+const addRecipeToMenu = (menuId, recipeId) => {
+    return axios.put(`/Menu/AddRecipeToMenu?menuId=${menuId}&recipeId=${recipeId}`);
+}
+const removeRecipeFromMenu = (menuId, recipeId) => {
+    return axios.put(`/Menu/RemoveRecipeFromMenu?menuId=${menuId}&recipeId=${recipeId}`);
+}
+const getMenuById = (menuId) => {
+    return axios.get(`/Menu/GetMenuById?menuId=${menuId}`);
+};
+const deleteMenu = (menuId) => {
+    return axios.delete(`Menu/DeleteMenu?menuId=${menuId}`);
+};
 
 export { login, 
     register, 
@@ -129,6 +141,10 @@ export { login,
     createMenu,
     addRecipeToBookMark,
     getBookMarkOfUser,
-    removeRecipeFromBookMark
+    removeRecipeFromBookMark,
+    addRecipeToMenu,
+    removeRecipeFromMenu,
+    getMenuById,
+    deleteMenu
  };
 
