@@ -84,6 +84,10 @@ const listUsers = () => {
     return axios.get('/User/List');
 }
 
+const listAllIngredient = () => {
+    return axios.get('/Ingredient/GetAllIngredient');
+}
+
 const getBlogList = ()=>{
     return axios.get(`/Blog/Get`);
 }
@@ -128,6 +132,7 @@ export { login,
     createMenu,
     addRecipeToBookMark,
     getBookMarkOfUser,
-    removeRecipeFromBookMark
+    removeRecipeFromBookMark,
+    listAllIngredient
  };
 
