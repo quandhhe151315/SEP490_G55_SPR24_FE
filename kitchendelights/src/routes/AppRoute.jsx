@@ -7,26 +7,34 @@ import {
 import HomePage from "../containers/HomePage";
 import CreateNews from "../containers/News/CreateNews";
 import ViewListNews from "../containers/News/ViewListNews";
-import ViewListRepice from "../containers/Recipe/ViewListRecipe";
+import ViewListRecipes from "../containers/Recipe/ViewListRecipe";
 import ShoppingCart from "../containers/ShoppingCart/ShoppingCart";
 import RecipeDetail from "../containers/Recipe/RecipeDetail";
 import MyProfile from "../containers/Account/MyProfile";
 import ChangeMyProfile from "../containers/Account/ChangeMyProfile";
 import ChangePassword from "../containers/Authentication/ChangePassword";
 import BookMark from "../containers/BookMark/BookMark";
-import CreateCategory from "../containers/Category/CreateCategory";
-import UpdateCategory from "../containers/Category/UpdateCategory";
+import CreateCategory from "../containers/DashBoard/Category/CreateCategory";
+import UpdateCategory from "../containers/DashBoard/Category/UpdateCategory";
 import CreateAccount from "../containers/Account/CreateAccount";
 import ListAccount from "../containers/Account/ListAccount";
-import ListCategoryDashboard from "../containers/Category/ListCategory";
+import ListCategoryDashboard from "../containers/DashBoard/Category/ListCategory";
 import BlogDetail from "../containers/Blog/BlogDetail";
 import CreateBlog from "../containers/Blog/CreateBlog";
 import BlogList from "../containers/Blog/BlogList";
 import DashboardMenu from "../components/Dashboard/Menu/DashboardMenu";
 import ViewDetailNews from "../containers/News/ViewDetailNews";
+import AddRecipeToMenuDialog from "../containers/Menu/AddRecipeToMenu";
+import ListRecipeDashBoard from "../containers/DashBoard/Recipe/ListRecipe";
+import CreateRecipeDashBoard from "../containers/DashBoard/Recipe/CreateRecipe";
+
 import ListCommentDashboard from "../containers/Comment/CommentList";
 import UpDateCommentItem from "../containers/Comment/UpdateComment/UpDateCommentItem";
 import ListNews from "../containers/News/ListNews";
+import MenuDetail from "../containers/Menu/MenuDetail";
+import UserProfile from "../containers/Account/UserProfile";
+import CreateRecipe from "../containers/Recipe/CreateRecipe";
+
 function AppRoute() {
   const router = createBrowserRouter([
     {
@@ -46,8 +54,8 @@ function AppRoute() {
       element: <ViewDetailNews/>,
     },
     {
-      path: "/ViewListRepice",
-      element: <ViewListRepice />,
+      path: "/ViewListRecipes",
+      element: <ViewListRecipes />,
     },
 
     {
@@ -71,7 +79,7 @@ function AppRoute() {
       element: <ShoppingCart />,
     },
     {
-      path: "/RecipeDetail/:recipeId",
+      path: "/RecipeDetail/",
       element: <RecipeDetail />,
     },
     { path: "/", element: <Navigate to="/KitchenDelights" /> },
@@ -113,6 +121,22 @@ function AppRoute() {
       element: <DashboardMenu />,
     },
     {
+      path: "/Menu",
+      element: < AddRecipeToMenuDialog/>,
+    },
+    {
+      path: "/RecipeDetail/:recipeId",
+      element: <RecipeDetail />,
+    },
+    {
+      path: "/ListRecipeDashBoard",
+      element: <ListRecipeDashBoard />,
+    },
+    {
+      path: "/CreateRecipeDashBoard",
+      element: <CreateRecipeDashBoard />,
+    },
+    {
       path: "/ListNews",
       element: <ListNews />,
     },
@@ -121,11 +145,16 @@ function AppRoute() {
       element: <UpDateCommentItem />,
     },
     {
+
       path: "/comment/list",
       element: <ListCommentDashboard />,
     },
 
 
+      path: "/UserProfile",
+      element:<UserProfile/>
+    },
+    { path: "/CreateRecipe", element: <CreateRecipe/>},
     { path: "/", element: <Navigate to="/KitchenDelights" /> },
   ]);
   return <RouterProvider router={router} />;

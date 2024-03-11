@@ -109,12 +109,10 @@ function MyProfile() {
 
     return (
         <div>
-            <Appbar />
             <GetInformationJWT setId={setId}/>
             <Box sx={{ display: 'flex' }}>
                 <Grid container spacing={2}>
                     <Grid item xs={4}>
-                        <AvatarMenu />
                     </Grid>
 
                     <Grid item xs container direction="column" sx={{ fontSize: '30px', fontWeight: 'bold' }}>

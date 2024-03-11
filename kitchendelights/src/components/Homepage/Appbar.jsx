@@ -133,11 +133,11 @@ export default function PrimarySearchAppBar() {
     navigate("/ViewListNews");
   };
   const goToRepice = () => {
-    navigate("/ViewListRepice");
+    navigate("/ViewListRecipes");
   };
 
   const goToMyProfile = () => {
-    navigate("/MyProfile");
+    navigate("/UserProfile");
   };
 
   const goToChangePassword = () => {
@@ -177,7 +177,6 @@ export default function PrimarySearchAppBar() {
           {userIdExist == true && (
       <>
         <MenuItem onClick={goToMyProfile}>Thông tin cá nhân</MenuItem>
-        <MenuItem onClick={goToChangePassword}>Đổi mật khẩu</MenuItem>
         <MenuItem onClick={handleMenuClose}>Công thức yêu thích</MenuItem>
         <MenuItem onClick={handleMenuClose}>Công thức của tôi</MenuItem>
         <MenuItem onClick={handleMenuClose}>Đánh giá</MenuItem>

@@ -31,7 +31,9 @@ const myProfile = (id) => {
 // Bookmark
 
 const addRecipeToBookMark =(uId,rId,type)=>{
-    return axios.put(`/Bookmark/ModifyRecipeInBookMark?userId=${uId}&recipeId=${rId}&type=${type}`);
+    return axios.put('/Bookmark/ModifyRecipeInBookMark',{
+        uId,rId, type
+    });
 }
 const getBookMarkOfUser =(id)=>{
     return axios.get(`/Bookmark/GetBookmarkOfUser?id=${id}`);
@@ -54,6 +56,10 @@ const getRecipes = ()=>{
 }
  const getRecipessById = (id)=>{
     return axios.get(`/Recipe/GetRecipeById?recipeId=${id}`);
+ }
+ const deleteRecipe = (id)=>{
+    return axios.delete(`/Recipe/DeleteRecipe?recipeId=${id}`);
+ 
  }
 const getAllCategory = () => {
     return axios.get('/Category/GetAllCategoy');
@@ -89,6 +95,16 @@ const getBlogDetail = (id)=>{
 const createBlog = () =>{
     return axios.post(`/Blog/Create`);
 }
+
+//menu API
+
+const getMenus = (id) => {
+    return axios.get(`/Menu/GetMenuByUserId?userId=${id}`);
+}
+const createMenu = (userId, menuName, featuredImage = null, menuDescription = null) => {
+    return axios.post('/Menu/CreateMenu', {featuredImage, menuName, menuDescription, userId});
+}
+
 export { login, 
     register, 
     changePassword, 
@@ -104,7 +120,15 @@ export { login,
     getCategoryByParentId,
     getRecipes,
     getRecipessById,
-
-    listUsers,getBlogList, getBlogDetail,createBlog
+    deleteRecipe,
+    listUsers,
+    getBlogList,
+    getBlogDetail,
+    createBlog,
+    getMenus,
+    createMenu,
+    addRecipeToBookMark,
+    getBookMarkOfUser,
+    removeRecipeFromBookMark
  };
 
