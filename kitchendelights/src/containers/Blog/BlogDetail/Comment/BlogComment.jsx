@@ -5,11 +5,12 @@ import {
     TextareaAutosize,
     Typography,
   } from "@mui/material";
-  import React from "react";
   import BlogCommentItem from "./BlogCommentItem";
   import { Link } from "react-router-dom";
+import BlogCommentItemReup from "./BlogCommentItemReup";
   
   export default function BlogComment() {
+  
     return (
       <Stack mt={4}>
         <Stack>
@@ -29,6 +30,7 @@ import {
               <BlogCommentItem key={index} />
             ))}
         </Stack>
+       
         <Divider sx={{my:6}}/>
         <Stack
           sx={{

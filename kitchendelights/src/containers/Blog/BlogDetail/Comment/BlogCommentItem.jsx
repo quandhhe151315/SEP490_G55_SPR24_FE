@@ -1,7 +1,16 @@
 import { Avatar, Stack, Typography, Button, Box } from "@mui/material";
-import React from "react";
+import React, { useState,useRef,useEffect } from "react";
+import BlogCommentItemReup from "./BlogCommentItemReup";
+
 
 export default function BlogCommentItem() {
+  const [showReplySection, setShowReplySection] = useState(false);
+
+  const handleReplyClick = () => {
+    setShowReplySection(!showReplySection);
+    
+  };
+
   return (
     <Stack direction="row" alignItems="flex-start" spacing={2}>
       <Avatar>B</Avatar>
@@ -26,7 +35,7 @@ export default function BlogCommentItem() {
                   color: "#fff", // Hover color (same as default)
                 },
               }}
-              href="#contained-buttons"
+              href="#contained-buttons" onClick={handleReplyClick}
             >
               Trả lời
             </Button>
@@ -38,7 +47,11 @@ export default function BlogCommentItem() {
           e không biết làm sao để theo dõi và cập nhật được cacs bài đăng của
           chị. chị bày em với. e cảm ơn ch
         </Typography>
+        {showReplySection// To make TextareaAutosize invisible
+            &&<BlogCommentItemReup/>}
       </Stack>
+  
+     
     </Stack>
   );
 }

@@ -148,12 +148,11 @@ function AppRoute() {
 
       path: "/comment/list",
       element: <ListCommentDashboard />,
-    },
-
-
+    },{
       path: "/UserProfile",
-      element:<UserProfile/>
+      element:<UserProfile/>,
     },
+
     { path: "/CreateRecipe", element: <CreateRecipe/>},
     { path: "/", element: <Navigate to="/KitchenDelights" /> },
   ]);
