@@ -31,12 +31,11 @@ const myProfile = (id) => {
 // Bookmark
 
 const addRecipeToBookMark =(uId,rId,type)=>{
-    return axios.put('/Bookmark/ModifyRecipeInBookMark',{
-        uId,rId, type
-    });
+    return axios.put(`/Bookmark/ModifyRecipeInBookMark?userId=${uId}&recipeId=${rId}&type=${type}`);
+   
 }
 const getBookMarkOfUser =(id)=>{
-    return axios.get(`/Bookmark/GetBookmarkOfUser?id=${id}`);
+    return axios.get(`/Bookmark/GetBookmarkOfUser?Id=${id}`);
 }
 const removeRecipeFromBookMark =(uId,rId,type)=>{
     return axios.put(`/Bookmark/ModifyRecipeInBookMark?userId=${uId}&recipeId=${rId}&type=${type}`);

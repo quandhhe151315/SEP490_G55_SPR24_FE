@@ -18,7 +18,6 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import Rating from "@mui/material/Rating";
 import ClassicButton from "../../components/Button/ClassicButton";
-import BoxComment from "../../components/BoxComment/BoxComent";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import PrintIcon from "@mui/icons-material/Print";
@@ -29,9 +28,7 @@ import CardContent from "@mui/material/CardContent";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import CommentBox from "../../components/BoxComment/BoxComent";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
-import Modal from "@mui/material/Modal";
 import AddRecipeToMenuDialog from "../Menu/AddRecipeToMenu";
 import { toast } from "react-toastify";
 import { getRecipessById } from "../../services/ApiServices";
@@ -40,16 +37,30 @@ import CreateNewMenuDialog from "../Menu/CreateNewMenu";
 import GetInformationJWT from "../../components/JWT/GetInformationJWT";
 import { getMenus } from "../../services/ApiServices";
 import { addRecipeToBookMark } from "../../services/ApiServices";
-
+import CommentSection from "../../containers/BoxComment/CommentSection";
+import Cookies from 'js-cookie';
 function RecipeDetail() {
   const navigate = useNavigate();
   const [data, setdata] = useState();
   const { recipeId } = useParams();
   //const {uId,rId ,type} = useParams();
-  const uId = 1;
+  const getUserIdFromCookie= () => {
+    const cookies = document.cookie.split('; ');
+    for (const cookie of cookies) {
+      const [name, value] = cookie.split('=');
+      if (name === 'userId') {
+        return value;
+      }
+    }
+    return null;
+  };
+
+  const uId = getUserIdFromCookie();
+ 
   const rId = recipeId;
   const type = 1;
   console.log("idRID: ", rId);
+  console.log("userId",uId);
   const GoToBookMark = () => {
     navigate("/BookMark");
   };
@@ -314,7 +325,18 @@ function RecipeDetail() {
             <Typography gutterBottom variant="h6" component="div">
               {data?.recipeContent}
             </Typography>
-            <CommentBox />
+
+            <Typography
+              sx={{
+                fontSize: 25,
+                textTransform: "uppercase",
+                fontWeight: "bold",
+                color: "orange",
+              }}
+            >
+              Bình luận
+            </Typography>
+            <CommentSection />
           </CardContent>
         </Card>
       </Box>

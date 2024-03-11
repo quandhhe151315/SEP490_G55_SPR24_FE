@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { getBookMarkOfUser } from "../../services/ApiServices";
 import Appbar from "../../components/Homepage/Appbar";
 import Typography from "@mui/material/Typography";
-import image from "../../assets/images/news1.jpg";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
@@ -12,34 +12,38 @@ import Rating from "@mui/material/Rating";
 import { Link } from "react-router-dom";
 import { Avatar } from "@mui/material";
 import Stack from "@mui/material/Stack";
+import { toast } from "react-toastify";
 
 function BookMark() {
-  const data = [
-    {
-      image: image,
-      title: "Cong thuc free",
-      rating: 3,
-      vote: 103,
-    },
-    {
-      image: image,
-      title: "Cong thuc free",
-      rating: 3,
-      vote: 103,
-    },
-    {
-      image: image,
-      title: "Cong thuc free",
-      rating: 3,
-      vote: 103,
-    },
-    {
-      image: image,
-      title: "Cong thuc free",
-      rating: 3,
-      vote: 103,
-    },
-  ];
+  const [data, setdata] = useState([]);
+  const getUserIdFromCookie = () => {
+    const cookies = document.cookie.split("; ");
+    for (const cookie of cookies) {
+      const [name, value] = cookie.split("=");
+      if (name === "userId") {
+        return value;
+      }
+    }
+    return null;
+  };
+  const id = getUserIdFromCookie();
+  useEffect(() => {
+    getBookMarkOfUsers(id);
+  }, []);
+  const getBookMarkOfUsers = async () => {
+    try {
+      const response = await getBookMarkOfUser(id);
+      if (response.status === 200) {
+        setdata(response.data.recipes);
+        console.log("data", response);
+        
+      } else {
+        console.error("Can not Load listbookmark! ");
+      }
+    } catch (error) {
+      toast.error("Khoong load dc listbookmark");
+    }
+  };
   return (
     <div>
       <Appbar />
@@ -59,22 +63,29 @@ function BookMark() {
           marginTop: "50px",
         }}
       >
-        <Link to="/RecipeDetail">
+       
           <Box>
             <Grid container spacing={3}>
               {data.map((item) => {
                 return (
                   <Grid item lg={3} md={6} xs={12}>
+                    <Link to={`/RecipeDetail/${item.recipeId}`}>
                     <Card sx={{ maxWidth: 345 }}>
                       <CardMedia
                         component={"img"}
                         height={140}
-                        image={item.image}
+                        image={item.featuredImage}
                         alt="green iguana"
                       />
                       <CardContent>
-                        <Typography gutterBottom variant="h6" component="div">
-                          {item.title}
+                        <Typography gutterBottom variant="h6" component="div"
+                         sx={{
+                          overflow: "hidden",
+                          whiteSpace: "nowrap",
+                          textOverflow: "ellipsis",
+                        }}
+                        >
+                          {item.recipeTitle}
                         </Typography>
 
                         <Box
@@ -91,18 +102,18 @@ function BookMark() {
                           {" "}
                           <Rating
                             name="simple-controlled"
-                            value={item.rating}
+                            value={item.recipeRating}
                             size="small"
                           />
-                          <Typography component="legend" fontSize={11}>
+                          {/* <Typography component="legend" fontSize={11}>
                             {item.vote} votes
-                          </Typography>
+                          </Typography> */}
                         </Box>
                         <Typography marginTop={1} />
                         <Typography>
                           <Stack direction="row" spacing={2}>
                             <Avatar sx={{ width: 24, height: 24 }}></Avatar>
-                            <Typography>Pham Minh Hieu</Typography>
+                            <Typography>{item.userName}</Typography>
                           </Stack>
                         </Typography>
                       </CardContent>
@@ -115,12 +126,15 @@ function BookMark() {
                         }}
                       ></CardActions>
                     </Card>
+                    </Link>
+                   
                   </Grid>
+                
                 );
               })}
             </Grid>
           </Box>
-        </Link>
+       
       </Typography>
     </div>
   );
