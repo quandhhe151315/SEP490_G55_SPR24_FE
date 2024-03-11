@@ -145,6 +145,12 @@ function AppRoute() {
       element: <UpDateCommentItem />,
     },
     {
+
+      path: "/comment/list",
+      element: <ListCommentDashboard />,
+    },
+
+
       path: "/UserProfile",
       element:<UserProfile/>
     },
