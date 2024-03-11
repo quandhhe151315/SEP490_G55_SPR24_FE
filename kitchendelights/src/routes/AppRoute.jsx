@@ -120,6 +120,10 @@ function AppRoute() {
       path: "/comment/test",
       element: <UpDateCommentItem />,
     },
+    {
+      path: "/comment/list",
+      element: <ListCommentDashboard />,
+    },
 
 
     { path: "/", element: <Navigate to="/KitchenDelights" /> },
