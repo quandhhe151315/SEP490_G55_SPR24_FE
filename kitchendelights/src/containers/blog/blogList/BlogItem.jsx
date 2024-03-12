@@ -10,7 +10,6 @@ export default function BlogItem({
   userName,
   blogImage,
 }) {
-  console.log(content);
   return (
     <a href={`/blog/${id}`} style={{ textDecoration: "none" }}>
       <Card
