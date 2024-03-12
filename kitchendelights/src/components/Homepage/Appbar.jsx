@@ -129,6 +129,10 @@ export default function PrimarySearchAppBar() {
     navigate("/KitchenDelights");
   };
 
+  const goToBookMark = () => {
+    navigate("/BookMark");
+  };
+
   const goToNews = () => {
     navigate("/ViewListNews");
   };
@@ -177,7 +181,7 @@ export default function PrimarySearchAppBar() {
           {userIdExist == true && (
       <>
         <MenuItem onClick={goToMyProfile}>Thông tin cá nhân</MenuItem>
-        <MenuItem onClick={handleMenuClose}>Công thức yêu thích</MenuItem>
+        <MenuItem onClick={goToBookMark}>Công thức yêu thích</MenuItem>
         <MenuItem onClick={handleMenuClose}>Công thức của tôi</MenuItem>
         <MenuItem onClick={handleMenuClose}>Đánh giá</MenuItem>
         <MenuItem onClick={handleMenuClose}>Blog</MenuItem>

@@ -9,7 +9,7 @@ import {
 import React from "react";
 import BlogContent from "./BlogContent";
 import BlogSearch from "./BlogSearch";
-import BlogComment from "./BlogComment";
+import BlogComment from "./Comment/BlogComment";
 import { useParams } from "react-router";
 import { useGetBlogDetail } from "../../../hook/useGetBlogDetail";
 

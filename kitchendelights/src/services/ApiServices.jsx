@@ -1,24 +1,24 @@
 import axios from "./CustomizeAxios";
 
 const login = (email, password) => {
-    return axios.post('/User/Login', { email, password });
-}
+  return axios.post("/User/Login", { email, password });
+};
 
 const register = (username, email, password) => {
-    return axios.post('/User/Register', { username, email, password });
-}
+  return axios.post("/User/Register", { username, email, password });
+};
 
 const changePassword = (userId, oldPassword, password) => {
-    return axios.patch('/User/ChangePassword', { userId, oldPassword, password });
-}
+  return axios.patch("/User/ChangePassword", { userId, oldPassword, password });
+};
 
 const createNews = (userId, newsTitle, newsContent) => {
-    return axios.post('/News/Create', { userId, newsTitle, newsContent });
-}
+  return axios.post("/News/Create", { userId, newsTitle, newsContent });
+};
 
 const listNews = () => {
-    return axios.get('/News/Get');
-}
+  return axios.get("/News/Get");
+};
 
 const getNewsById = (id) => {
   return axios.get(`/News/Get?id=${id}`);
@@ -43,58 +43,86 @@ const removeRecipeFromBookMark =(uId,rId,type)=>{
 }
 // Bookmark
 
-const changeMyProfile = (userId, email, firstName, middleName, lastName, phone, addresses, avatar, statusUser, role) => {
-    return axios.put('/User/UpdateProfile', {
-        userId, email, firstName, middleName, lastName, phone, addresses, avatar,
-        status: statusUser, role
-    });
-}
+const changeMyProfile = (
+  userId,
+  email,
+  firstName,
+  middleName,
+  lastName,
+  phone,
+  addresses,
+  avatar,
+  statusUser,
+  role
+) => {
+  return axios.put("/User/UpdateProfile", {
+    userId,
+    email,
+    firstName,
+    middleName,
+    lastName,
+    phone,
+    addresses,
+    avatar,
+    status: statusUser,
+    role,
+  });
+};
 // repice
 
-const getRecipes = ()=>{
-    return axios.get('/Recipe/GetAllRecipe');
-}
- const getRecipessById = (id)=>{
-    return axios.get(`/Recipe/GetRecipeById?recipeId=${id}`);
- }
- const deleteRecipe = (id)=>{
-    return axios.delete(`/Recipe/DeleteRecipe?recipeId=${id}`);
- 
- }
+const getRecipes = () => {
+  return axios.get("/Recipe/GetAllRecipe");
+};
+const getRecipessById = (id) => {
+  return axios.get(`/Recipe/GetRecipeById?recipeId=${id}`);
+};
+const deleteRecipe = (id) => {
+  return axios.delete(`/Recipe/DeleteRecipe?recipeId=${id}`);
+};
 const getAllCategory = () => {
-    return axios.get('/Category/GetAllCategoy');
-}
+  return axios.get("/Category/GetAllCategoy");
+};
 
 const deleteCategory = (id) => {
-    return axios.delete(`Category/DeleteCategory?categoryId=${id}`);
-}
+  return axios.delete(`Category/DeleteCategory?categoryId=${id}`);
+};
 
 const getCategoryById = (id) => {
-    return axios.get(`/Category/GetCategoryById?categoryId=${id}`);
-}
+  return axios.get(`/Category/GetCategoryById?categoryId=${id}`);
+};
 
-const postCreateCategory = (categoryId, categoryName , categoryType, parentId) => {
-    return axios.post('/Category/CreateCategory', {categoryId , categoryName, categoryType, parentId });
-}
+const postCreateCategory = (
+  categoryId,
+  categoryName,
+  categoryType,
+  parentId
+) => {
+  return axios.post("/Category/CreateCategory", {
+    categoryId,
+    categoryName,
+    categoryType,
+    parentId,
+  });
+};
 
 const getCategoryByParentId = () => {
-    return axios.get('/Category/GetCategoryByParentId');
-}
+  return axios.get("/Category/GetCategoryByParentId");
+};
 
 const listUsers = () => {
     return axios.get('/User/List');
 }
 
-const getBlogList = ()=>{
-    return axios.get(`/Blog/Get`);
-}
+const getBlogList = () => {
+  return axios.get(`/Blog/Get`);
+};
 
-const getBlogDetail = (id)=>{
-    return axios.get(`/Blog/Get?id=${id}`);
-}
-const createBlog = () =>{
-    return axios.post(`/Blog/Create`);
-}
+const getBlogDetail = (id) => {
+  return axios.get(`/Blog/Get?id=${id}`);
+};
+const createBlog = (blogContent) => {
+  return axios.post(`/Blog/Create`,  blogContent );
+};
 
 //menu API
 

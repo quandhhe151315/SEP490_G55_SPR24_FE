@@ -40,7 +40,7 @@ export default function BlogContent({
         />
       </Stack>
       <Stack mt={2}>
-        <Typography>{content}</Typography>
+        <div dangerouslySetInnerHTML={{ __html: content }}></div>
       </Stack>
     </Stack>
   );

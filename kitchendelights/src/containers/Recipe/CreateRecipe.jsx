@@ -9,13 +9,11 @@ import Typography from '@mui/material/Typography';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
 import {AppCreateRecipe} from '../../components/Richtext/App.tsx'
-import ReactMarkdown from 'react-markdown';
 import ClassicButton from '../../components/Button/ClassicButton.jsx';
+
 export default function CreateRecipe() {
   const navigate = useNavigate();
 
-  const [markdownContent, setMarkdownContent] = useState('');
-  const [htmlContent, setHtmlContent] = useState('');
 
   // const handleMarkdownChange = (event) => {
   //   const content = event.target.value;
