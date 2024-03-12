@@ -143,30 +143,37 @@ const createMenu = (
   });
 };
 
-export { login, 
-    register, 
-    changePassword, 
-    createNews, 
-    listNews, 
-    getNewsById, 
-    myProfile, 
-    changeMyProfile, 
-    getAllCategory, 
-    deleteCategory, 
-    getCategoryById, 
-    postCreateCategory, 
-    getCategoryByParentId,
-    getRecipes,
-    getRecipessById,
-    deleteRecipe,
-    listUsers,
-    getBlogList,
-    getBlogDetail,
-    createBlog,
-    getMenus,
-    createMenu,
-    addRecipeToBookMark,
-    getBookMarkOfUser,
-    removeRecipeFromBookMark
- };
+
+const listAllIngredient = () => {
+  return axios.get('/Ingredient/GetAllIngredient');
+}
+
+export {
+  login,
+  register,
+  changePassword,
+  createNews,
+  listNews,
+  getNewsById,
+  myProfile,
+  changeMyProfile,
+  getAllCategory,
+  deleteCategory,
+  getCategoryById,
+  postCreateCategory,
+  getCategoryByParentId,
+  getRecipes,
+  getRecipessById,
+  deleteRecipe,
+  listUsers,
+  getBlogList,
+  getBlogDetail,
+  createBlog,
+  getMenus,
+  createMenu,
+  addRecipeToBookMark,
+  getBookMarkOfUser,
+  removeRecipeFromBookMark,
+  listAllIngredient
+};
 
