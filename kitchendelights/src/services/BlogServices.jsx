@@ -1,18 +1,19 @@
 // import axios from "./CustomizeAxios";
 import axios from "axios";
+import { BASE_URL } from "../constant";
 import instanceAxios from "./CustomizeAxios";
 const instance = axios.create({
   headers: {
     "Content-Type": "multipart/form-data",
   },
-  baseURL: "http://localhost:5050/api",
+  baseURL: BASE_URL,
 });
 
 const baseAxios = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  baseURL: "http://localhost:5050/api",
+  baseURL: BASE_URL,
 });
 
 const createBlog = async (content) => {
@@ -34,4 +35,4 @@ const uploadComment = (content) => {
 const getComment = (id) => {
   return baseAxios.get("/Comment/Get", { params: { id } });
 };
-export { createBlog, uploadImage, uploadComment, getComment};
+export { createBlog, uploadImage, uploadComment, getComment };
