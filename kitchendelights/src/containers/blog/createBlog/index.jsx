@@ -1,13 +1,22 @@
-import { Stack, Box, Grid} from "@mui/material";
+import { Stack, Box, Grid } from "@mui/material";
 import CreateFormItem from "./CreateFormItem";
+import PrimarySearchAppBar from "../../../components/Homepage/Appbar";
 
 export default function CreateBlog() {
-  
   return (
     <Box>
-      <Stack sx={{width:'50%',display:'flex',alignItems:'center',margin:'0 auto'}}>
-        <CreateFormItem/>
-      </Stack> 
+      <PrimarySearchAppBar />
+      <Stack
+        sx={{
+          width: "70%",
+          display: "flex",
+          alignItems: "center",
+          margin: " auto",
+          mt: 4,
+        }}
+      >
+        <CreateFormItem />
+      </Stack>
     </Box>
   );
 }

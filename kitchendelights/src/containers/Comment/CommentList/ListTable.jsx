@@ -9,28 +9,25 @@ import TableRow from "@mui/material/TableRow";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import { TableHead, Typography, Checkbox,Stack } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
+import { useGetComment } from "../../../hook/useGetComment";
+import { useState, useEffect } from "react";
 export default function ListTable() {
-  
-  const defaultData = [
-    {
-      id: 1,
-      userId: "User1",
-      commentContent: "Default Comment 1",
-      blogId: "Blog1",
-      status: "Active",
-      createdAt: "2022-03-07",
-      action: "hide",
-    },
-    {
-      id: 2,
-      userId: "User2",
-      commentContent: "A very long comment that might overflow to the next line A ",
-      blogId: "Blog2",
-      status: "Inactive",
-      createdAt: "2022-03-08",
-      action: "hide",
-    },
-  ];
+  const [commentLists, setCommentList] = useState();
+  const { commentList } = useGetComment();
+  useEffect(() => {
+    setCommentList(commentList);
+  }, [commentList]);
+  const commentPerPage = 4;
+  const [currentPage, setCurrentPage] = useState(1);
+  const indexOfLastComment = currentPage * commentPerPage;
+  const indexOfFirstComment = indexOfLastComment - commentPerPage;
+  const currentComments = commentLists?.slice(
+    indexOfFirstComment,
+    indexOfLastComment
+  );
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };  
   return (
     <TableContainer>
       <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
@@ -48,24 +45,24 @@ export default function ListTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {defaultData.map((row) => (
-            <TableRow key={row.id}>
+          {currentComments?.map((item,index) => (
+            <TableRow key={item.id}>
               <TableCell sx={{ width: "1%" }}>
                 <Checkbox />
               </TableCell>
-              <TableCell>{row.id}</TableCell>
-              <TableCell>{row.userId}</TableCell>
+              <TableCell>{item.id}</TableCell>
+              <TableCell>{item.userId}</TableCell>
               <TableCell>
               <Box display="flex" alignItems="center" justifyContent="flex-end">
               <Stack style={{ flex: 1 }}>
-                    {row.commentContent}
+                    {item.commentContent}
                   </Stack>
  
                   <EditIcon/>
                 </Box>
               </TableCell>
-              <TableCell>{row.blogId}</TableCell>
-              <TableCell>{row.createdAt}</TableCell>
+              <TableCell>{item.blogId}</TableCell>
+              <TableCell>{item.createdAt}</TableCell>
               <TableCell>
                 <Typography
                   display={"inline-block"}

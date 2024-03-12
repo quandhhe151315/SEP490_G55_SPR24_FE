@@ -147,6 +147,10 @@ const createMenu = (
   });
 };
 
+const listAllIngredient = () => {
+  return axios.get('/Ingredient/GetAllIngredient');
+}
+
 export {
   login,
   register,
@@ -173,4 +177,5 @@ export {
   addRecipeToBookMark,
   getBookMarkOfUser,
   removeRecipeFromBookMark,
+  listAllIngredient
 };
