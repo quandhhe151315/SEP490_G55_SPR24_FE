@@ -30,21 +30,17 @@ const myProfile = (id) => {
 
 // Bookmark
 
-const addRecipeToBookMark = (uId, rId, type) => {
-  return axios.put("/Bookmark/ModifyRecipeInBookMark", {
-    uId,
-    rId,
-    type,
-  });
-};
-const getBookMarkOfUser = (id) => {
-  return axios.get(`/Bookmark/GetBookmarkOfUser?id=${id}`);
-};
-const removeRecipeFromBookMark = (uId, rId, type) => {
-  return axios.put(
-    `/Bookmark/ModifyRecipeInBookMark?userId=${uId}&recipeId=${rId}&type=${type}`
-  );
-};
+const addRecipeToBookMark =(uId,rId,type)=>{
+    return axios.put('/Bookmark/ModifyRecipeInBookMark',{
+        uId,rId, type
+    });
+}
+const getBookMarkOfUser =(id)=>{
+    return axios.get(`/Bookmark/GetBookmarkOfUser?id=${id}`);
+}
+const removeRecipeFromBookMark =(uId,rId,type)=>{
+    return axios.put(`/Bookmark/ModifyRecipeInBookMark?userId=${uId}&recipeId=${rId}&type=${type}`);
+}
 // Bookmark
 
 const changeMyProfile = (
@@ -114,8 +110,8 @@ const getCategoryByParentId = () => {
 };
 
 const listUsers = () => {
-  return axios.get("/User/List");
-};
+    return axios.get('/User/List');
+}
 
 const getBlogList = () => {
   return axios.get(`/Blog/Get`);
@@ -146,6 +142,7 @@ const createMenu = (
     userId,
   });
 };
+
 
 const listAllIngredient = () => {
   return axios.get('/Ingredient/GetAllIngredient');
@@ -179,3 +176,4 @@ export {
   removeRecipeFromBookMark,
   listAllIngredient
 };
+

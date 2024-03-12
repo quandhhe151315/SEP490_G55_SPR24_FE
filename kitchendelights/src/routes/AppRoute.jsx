@@ -51,7 +51,7 @@ function AppRoute() {
     },
     {
       path: "/ViewDetailNews/:id",
-      element: <ViewDetailNews/>,
+      element: <ViewDetailNews />,
     },
     {
       path: "/ViewListRecipes",
@@ -122,7 +122,7 @@ function AppRoute() {
     },
     {
       path: "/Menu",
-      element: < AddRecipeToMenuDialog/>,
+      element: <AddRecipeToMenuDialog />,
     },
     {
       path: "/RecipeDetail/:recipeId",
@@ -145,15 +145,15 @@ function AppRoute() {
       element: <UpDateCommentItem />,
     },
     {
-
       path: "/comment/list",
       element: <ListCommentDashboard />,
-    },{
+    },
+    {
       path: "/UserProfile",
-      element:<UserProfile/>,
+      element: <UserProfile />,
     },
 
-    { path: "/CreateRecipe", element: <CreateRecipe/>},
+    { path: "/CreateRecipe", element: <CreateRecipe /> },
     { path: "/", element: <Navigate to="/KitchenDelights" /> },
   ]);
   return <RouterProvider router={router} />;
