@@ -69,19 +69,23 @@ const AppCreateRecipe = () => {
   const [introduction, setIntroduction] = useState('');
   const [imageIntro, setImageIntro] = useState('');
   const [timeAmountPrepare, setTimeAmountPrepare] = useState('');
-  const [timeUnitPrepare, setTimeUnitPrepare] = useState('');
   const [timeAmountCook, setTimeAmountCook] = useState('');
-  const [timeUnitCook, setTimeUnitCook] = useState('');
   const [amountPeopleEat, setAmountPeopleEat] = useState('');
   const [videoCooking, setVideoCooking] = useState('');
 
-  const [recipeContent, setRecipeContent] = useState(new Array(4).fill(''));
+  type RecipeContent = {
+    RecipeStepContent: string,
+    RecipeImage: string,
+
+  };
+  const [recipeContent, setRecipeContent] = useState<Array<RecipeContent>>(
+    Array.from({ length: 1 }, (_, index) => ({ RecipeStepContent: '', RecipeImage: '' }))
+  );
   const [recipeLength, setRecipeLength] = useState(3);
+
 
   const [recipeIngredient, setRecipeIngredient] = useState(new Array(2).fill(''));
   const [recipeIngredientLength, setRecipeIngredientLength] = useState(1);
-
-
   type Ingredient = {
     ingredientId: number,
     ingredientName: string,
@@ -124,7 +128,7 @@ const AppCreateRecipe = () => {
                 </Box>
               )}
               sx={{ width: '100%' }}
-              renderInput={(params) => <TextField {...params} label="Chọn nguyên liệu" sx={{ borderRadius: '15px' }} onChange={(event) => handleChangeRecipeIngredient(recipeIngredientLength + 1, event.target.value)}/>}
+              renderInput={(params) => <TextField {...params} label="Chọn nguyên liệu" onChange={(event) => handleChangeRecipeIngredient(recipeIngredientLength + 1, event.target.value)}/>}
             />
             </Grid>
             <Grid item xs={6}>
@@ -158,12 +162,23 @@ const AppCreateRecipe = () => {
     handleCreateNewRecipeContent();
     setRowsBL(prevRows => [...prevRows, 
     <Grid container spacing={2} sx={{marginTop: '2px', marginLeft: '2px'}}>
-      <Grid item xs={6}>
-      <TextField required id="outlined-required" sx={{ width: '100%'}} placeholder="Ghi chi tiết cách làm" InputProps={{sx: {borderRadius: '15px'}}} onChange={(event) => handleChangeRecipeContent(recipeLength + 1, event.target.value)}/>
+      <Grid item xs={8}>
+      <TextField required id="outlined-required" sx={{ width: '100%'}} placeholder="Ghi chi tiết cách làm" onChange={(event) => handleChangeRecipeContent(recipeLength + 1, event.target.value)}/>
       </Grid>
-      <Grid item xs={6}>
-      <TextField required id="outlined-required" sx={{ width: '100%'}} placeholder="Thêm ảnh cho từng bước" InputProps={{sx: {borderRadius: '15px'}}} onChange={(event) => handleChangeRecipeContent(recipeLength + 2, event.target.value)}/>
-      </Grid>
+
+              <Grid item xs={4}>
+              <input
+        type="file"
+        accept="image/*"
+        id="upload-file"
+        style={{ display: 'none' }}
+        onChange={(event) => handleFileChange(event, recipeLength + 1)}
+      />
+                <label htmlFor="upload-file" className="custom-upload-button">
+                  {selectedFileName || 'Chọn ảnh'}
+                </label>
+              </Grid>
+
     </Grid>
     ]);
     setRecipeLength(recipeLength + 2);
@@ -173,7 +188,20 @@ const AppCreateRecipe = () => {
     setRecipeContent(prevRecipeContent => {
       if (prevRecipeContent.length > 0) {
         const updatedRecipeContent = [...prevRecipeContent];
-        updatedRecipeContent[id] = value;
+        updatedRecipeContent[id].RecipeStepContent = value;
+        return updatedRecipeContent;
+      } else {
+
+        return prevRecipeContent;
+      }
+    });
+  }
+
+  const handleChangeRecipeImage = (id, value) => {
+    setRecipeContent(prevRecipeContent => {
+      if (prevRecipeContent.length > 0) {
+        const updatedRecipeContent = [...prevRecipeContent];
+        updatedRecipeContent[id].RecipeImage = value;
         return updatedRecipeContent;
       } else {
 
@@ -183,7 +211,7 @@ const AppCreateRecipe = () => {
   }
 
   const handleCreateNewRecipeContent = () => {
-    setRecipeContent(prevRecipeContent => [...prevRecipeContent,'']);
+    setRecipeContent(prevRecipeContent => [...prevRecipeContent,{ RecipeStepContent: '', RecipeImage: '' }]);
   }
 
   const systemSettingsPrefersDarkMode = useMediaQuery(
@@ -191,7 +219,7 @@ const AppCreateRecipe = () => {
   );
 
   let contentRecipes =
-  '<h2><span style="font-size: 18px">' + introduction + '</span></h2><p></p><ul><li><p><span style="font-size: 18px">Thời gian chuẩn bị: ' + timeAmountPrepare + " " + timeUnitPrepare +'</span></p><p></p></li><li><p><span style="font-size: 18px">Thời gian nấu: '+ timeAmountCook + " " + timeUnitCook + '</span></p><p></p></li><li><p><span style="font-size: 18px">Khẩu phần ăn: '+ amountPeopleEat +' người</span></p></li></ul><p></p>'
+  '<h2><span style="font-size: 18px">' + introduction + '</span></h2><p></p><ul><li><p><span style="font-size: 18px">Thời gian chuẩn bị: ' + timeAmountPrepare + ' phút</span></p><p></p></li><li><p><span style="font-size: 18px">Thời gian nấu: '+ timeAmountCook +' phút</span></p><p></p></li><li><p><span style="font-size: 18px">Khẩu phần ăn: '+ amountPeopleEat +' người</span></p></li></ul><p></p>'
   +'<h4><strong><span style="color: rgb(255, 71, 0); font-size: 30px">Nguyên liệu chế biến:</span></strong></h4></br>';
   // const contentRecipes =
   // '<p><strong><span style="font-size: 18px">Bước 1: </span></strong><span style="font-size: 18px">Bạn bắc lên bếp 1 nồi nước và cho vào nồi hành tím đã đập dập rồi nấu trên bếp ở nhiệt độ cao. Khi nước sôi, bạn cho thịt bò và xương heo đã sơ chế vào và chần khoảng 3 phút để loại bỏ mùi hôi. Sau đó, bạn vớt thịt ra và cho ngay vào </span><a target="_blank" rel="noopener" href="https://www.dienmayxanh.com/chen-bat-to-canh"><span style="font-size: 18px">tô</span></a><span style="font-size: 18px"> nước lạnh. </span><span style="color: rgb(51, 51, 51); font-family: Arial, Helvetica, sans-serif; font-size: 18px">Không nên chọn mua xương heo có màu tái, mùi hôi lạ và khi cầm lên thì thấy nhớt.</span></p><p></p><img height="auto" style="text-align: center; aspect-ratio: 1.74672 / 1" src="blob:http://localhost:3000/4bf33ca2-8317-4e7c-8c0d-a9253fb836c1" alt="so-che-cac-nguyen-lieu-khac-30.jpg" width="800"></li></ul><p></p>' + 
@@ -199,20 +227,20 @@ const AppCreateRecipe = () => {
   // let contentRecipes = '';
 
   const handleCreateNewRecipe = () => {
-    // console.log(title + introduction + "/" + timeAmountPrepare + timeUnitPrepare + "/" + timeAmountCook + timeUnitCook + "/" + amountPeopleEat + videoCooking);
     recipeIngredient.forEach((value, index) => {
       contentRecipes += '<ul><li><p><span style="font-size: 18px">'+value+'</span></p></li></ul></br>';
-      // console.log(`Giá trị của phần tử thứ ${index} là: ${value}`);
     });
     contentRecipes += '</br><h4><strong><span style="color: rgb(255, 71, 0); font-size: 30px">Cách làm:</span></strong></h4></br>';
 
-    recipeContent.forEach((value, index) => {
-      let num = index + 1;
-      contentRecipes += '<p><strong><span style="font-size: 18px">Bước '+ num +': </span></strong><span style="font-size: 18px">'+ value +'</span></p><p></p><img height="auto" style="text-align: center; aspect-ratio: 1.74672 / 1" src="blob:http://localhost:3000/4bf33ca2-8317-4e7c-8c0d-a9253fb836c1" alt="so-che-cac-nguyen-lieu-khac-30.jpg" width="800"></li></ul><p></p>';
-      // console.log(`Giá trị của phần tử thứ ${index} là: ${value}`);
-    });
+    let num = 1;
+    for (let index = 0; index < recipeContent.length; index ++) {
+      console.log(recipeContent[index].RecipeStepContent + "/" + recipeContent[index].RecipeImage);
+      contentRecipes += '<p><strong><span style="font-size: 18px">Bước '+ num +': </span></strong><span style="font-size: 18px">'+ recipeContent[index].RecipeStepContent +'</span></p><p></p><img height="auto" style="text-align: center; aspect-ratio: 1.74672 / 1" src='+recipeContent[index].RecipeImage+' alt="Ảnh" width="700"></li></ul><p></p>';
+      num ++;
+    };
 
-    // console.log(contentRecipes);
+
+
   }
 
   const [open, setOpen] = useState(false);
@@ -227,28 +255,51 @@ const AppCreateRecipe = () => {
   const extensions = useExtensions({
     placeholder: "Nội dung của bạn ...",
   });
-  
+
+  const [imageSrc, setImageSrc] = useState('');
+  const [selectedFileName, setSelectedFileName] = useState('');
+  const handleFileChange = (event, number) => {
+    const file = event.target.files[0];
+    if (file) {
+      setSelectedFileName(file.name);
+
+      if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          setImageSrc(reader.result);
+          handleChangeRecipeImage(number, imageSrc);
+        };
+        reader.readAsDataURL(file);
+      } else {
+
+      }
+
+      
+    }
+};
+
 
   return (
     <>
 
       <Box sx={{ p: 3}}>
         <Grid container spacing={2}>
-          <Grid item xs={6}>
+          <Grid item xs={8}>
             <TitleContentUI text="Tiêu đề">
-            <TextField value={title} onChange={(event) => setTitle(event.target.value)} required id="outlined-required" sx={{ width: '100%'}} placeholder="Nhập tiêu đề" InputProps={{sx: {borderRadius: '15px'}}} />
+            <TextField value={title} onChange={(event) => setTitle(event.target.value)} required id="outlined-required" sx={{ width: '100%'}} placeholder="Nhập tiêu đề"/>
             </TitleContentUI>
           </Grid>
-          <Grid item xs={6}>
-            <TitleContentUI text="Miêu tả sơ bộ">
-            <TextField value={introduction} onChange={(event) => setIntroduction(event.target.value)} required id="outlined-required" sx={{ width: '100%'}} placeholder="Nhập miêu tả" InputProps={{sx: {borderRadius: '15px'}}} />
+          <Grid item xs={4}>
+            <TitleContentUI text="Ảnh giới thiệu">
+            vv
             </TitleContentUI>
           </Grid>
         </Grid>
         <Grid container spacing={2} sx={{marginTop: '1%'}}>
           <Grid item xs={12}>
-            <TitleContentUI text="Ảnh giới thiệu">
-            <TextField required id="outlined-required" sx={{ width: '100%'}} placeholder="Chọn ảnh" InputProps={{sx: {borderRadius: '15px'}}} />
+            
+            <TitleContentUI text="Miêu tả sơ bộ">
+            <TextField value={introduction} onChange={(event) => setIntroduction(event.target.value)} required id="outlined-required" sx={{ width: '100%'}} placeholder="Nhập miêu tả" />
             </TitleContentUI>
           </Grid>
         </Grid>
@@ -257,32 +308,16 @@ const AppCreateRecipe = () => {
           <Grid item xs={6}>
 
             <TitleContentUI text="Thời gian chuẩn bị món">
-            <TextField value={timeAmountPrepare} onChange={(event) => setTimeAmountPrepare(event.target.value)} required id="outlined-required" sx={{ width: '70%'}} placeholder="Nhập thời gian" InputProps={{sx: {borderRadius: '15px'}}} />
-            <Select 
-              onChange={(event) => setTimeUnitPrepare(event.target.value)}
-              value={timeUnitPrepare} 
-              sx={{ width: '25%',  borderRadius: '15px', marginLeft: '5%'}}  
-              >
-              <MenuItem value={"Phút"}>Phút</MenuItem>
-              {/* <MenuItem value={"Giờ"}>Giờ</MenuItem>
-              <MenuItem value={"Ngày"}>Ngày</MenuItem> */}
-            </Select>
+            <TextField value={timeAmountPrepare} onChange={(event) => setTimeAmountPrepare(event.target.value)} required id="outlined-required" sx={{ width: '100%'}} placeholder="Nhập thời gian (đơn vị là phút)" />
+            
             </TitleContentUI>
             
           </Grid>
           <Grid item xs={6}>
             <TitleContentUI text="Thời gian nấu món ăn">
 
-            <TextField value={timeAmountCook} onChange={(event) => setTimeAmountCook(event.target.value)} required id="outlined-required" sx={{ width: '70%'}} placeholder="Nhập thời gian" InputProps={{sx: {borderRadius: '15px'}}} />
-            <Select 
-              onChange={(event) => setTimeUnitCook(event.target.value)}
-              value={timeUnitCook} 
-              sx={{ width: '25%',  borderRadius: '15px', marginLeft: '5%'}}  
-              >
-              <MenuItem value={"Phút"}>Phút</MenuItem>
-              {/* <MenuItem value={"Giờ"}>Giờ</MenuItem>
-              <MenuItem value={"Ngày"}>Ngày</MenuItem> */}
-            </Select>
+            <TextField value={timeAmountCook} onChange={(event) => setTimeAmountCook(event.target.value)} required id="outlined-required" sx={{ width: '100%'}} placeholder="Nhập thời gian (đơn vị là phút)" />
+            
 
             </TitleContentUI>
           </Grid>
@@ -290,12 +325,12 @@ const AppCreateRecipe = () => {
         <Grid container spacing={2} sx={{marginTop: '1%'}}>
           <Grid item xs={6}>
             <TitleContentUI text="Số người phục vụ">
-            <TextField value={amountPeopleEat} onChange={(event) => setAmountPeopleEat(event.target.value)} required id="outlined-required" sx={{ width: '100%'}} placeholder="Nhập số người phục vụ" InputProps={{sx: {borderRadius: '15px'}}} />
+            <TextField value={amountPeopleEat} onChange={(event) => setAmountPeopleEat(event.target.value)} required id="outlined-required" sx={{ width: '100%'}} placeholder="Nhập số người phục vụ" />
             </TitleContentUI>
           </Grid>
           <Grid item xs={6}>
             <TitleContentUI text="Link video nấu ăn">
-            <TextField value={videoCooking} onChange={(event) => setVideoCooking(event.target.value)} required id="outlined-required" sx={{ width: '100%'}} placeholder="Nhập link video nấu ăn" InputProps={{sx: {borderRadius: '15px'}}} />
+            <TextField value={videoCooking} onChange={(event) => setVideoCooking(event.target.value)} required id="outlined-required" sx={{ width: '100%'}} placeholder="Nhập link video nấu ăn" />
             </TitleContentUI>
           </Grid>
         </Grid>
@@ -377,22 +412,34 @@ const AppCreateRecipe = () => {
             </Typography>
 
             <Grid container spacing={2}>
-              <Grid item xs={6}>
-              <TextField required id="outlined-required" sx={{ width: '100%'}} placeholder="Ghi chi tiết cách làm" InputProps={{sx: {borderRadius: '15px'}}} onChange={(event) => handleChangeRecipeContent(0, event.target.value)}/>
+              <Grid item xs={8}>
+              <TextField required id="outlined-required" sx={{ width: '100%'}} placeholder="Ghi chi tiết cách làm" onChange={(event) => handleChangeRecipeContent(0, event.target.value)}/>
               </Grid>
-              <Grid item xs={6}>
-              <TextField required id="outlined-required" sx={{ width: '100%'}} placeholder="Thêm ảnh cho từng bước" InputProps={{sx: {borderRadius: '15px'}}} onChange={(event) => handleChangeRecipeContent(1, event.target.value)}/>
+              <Grid item xs={4}>
+              <input
+        type="file"
+        accept="image/*"
+        id="upload-file"
+        style={{ display: 'none' }}
+        onChange={(event) => handleFileChange(event, 0)}
+      />
+                <label htmlFor="upload-file" className="custom-upload-button">
+                  {selectedFileName || 'Chọn ảnh'}
+                </label>
+                <img src={imageSrc} />
               </Grid>
             </Grid>
-            <Grid container spacing={2} sx={{marginTop: '1%'}}>
-              <Grid item xs={6}>
-              <TextField required id="outlined-required" sx={{ width: '100%'}} placeholder="Ghi chi tiết cách làm" InputProps={{sx: {borderRadius: '15px'}}} onChange={(event) => handleChangeRecipeContent(2, event.target.value)}/>
-              </Grid>
-              <Grid item xs={6}>
-              <TextField required id="outlined-required" sx={{ width: '100%'}} placeholder="Thêm ảnh cho từng bước" InputProps={{sx: {borderRadius: '15px'}}} onChange={(event) => handleChangeRecipeContent(3, event.target.value)}/>
-              </Grid>
-            </Grid>
-
+            
+            <style>{`
+        .custom-upload-button {
+          display: inline-block;
+          background-color: #ff5e00;
+          color: white;
+          padding: 21px 40px;
+          border-radius: 3px;
+          cursor: pointer;
+        }
+      `}</style>
             {rowsBL.map((rowsBL, index) => (
               <Grid container spacing={2} sx={{ marginTop: '1%' }} key={index}>
                 {rowsBL}

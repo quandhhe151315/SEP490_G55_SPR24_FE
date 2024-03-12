@@ -193,7 +193,7 @@ export default function PrimarySearchAppBar() {
   );
 
   return (
-    <Box sx={{ flexGrow: 1, minWidth: '70%',  marginLeft: { xs: '3%', sm: '6%', md: '10%', lg: '15%' }, marginRight: { xs: '3%', sm: '6%', md: '10%', lg: '15%' }}}  color="primary" >
+    <Box sx={{ flexGrow: 1, minWidth: '70%'}}  color="primary" >
       <GetInformationJWT setId={setUserId}/>
       <AppBar position="static" sx={{ bgcolor: "#ffffff", height: "120px", borderRadius: "5px" }}>
         <Toolbar>
@@ -201,7 +201,7 @@ export default function PrimarySearchAppBar() {
             variant="h6"
             noWrap
             component="div"
-            sx={{ display: { xs: 'none', sm: 'block', color: "#000000", fontSize: "20px"}, marginRight: { xs: '1%', sm: '2%', md: '3%', lg: '5%' } }}
+            sx={{ display: { xs: 'none', sm: 'block', color: "#000000", fontSize: "20px"}, marginRight: { xs: '1%', sm: '5%', md: '10%', lg: '15%' } }}
           >
             Kitchen Delights
           </Typography>
@@ -243,7 +243,7 @@ export default function PrimarySearchAppBar() {
         </Toolbar>
 
         <Toolbar>
-          <CategoryButton text={"Thịt"} left="12%"/>
+          <CategoryButton text={"Thịt"} left="25%"/>
           <CategoryButton text={"Đồ ăn chay"}/>
           <CategoryButton text={"Dinh dưỡng"}/>
           <CategoryButton text={"Truyền thống"}/>
