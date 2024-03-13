@@ -1,13 +1,17 @@
 import { Grid, Stack, Typography } from "@mui/material";
+import dayjs from "dayjs";
 import React from "react";
 
-export default function BlogSuggestItem() {
+export default function BlogSuggestItem({ blogItem }) {
   return (
     <Stack>
       <Grid container columnSpacing={2}>
         <Grid item xs={4}>
           <img
-            src="https://cdn.tgdd.vn/Files/2022/03/12/1420043/30-status-caption-nau-an-mua-dich-cuc-doc-dao-va-thu-vi-202203122354092008.jpg"
+            src={
+              blogItem?.blogImage ||
+              "https://cdn.tgdd.vn/Files/2022/03/12/1420043/30-status-caption-nau-an-mua-dich-cuc-doc-dao-va-thu-vi-202203122354092008.jpg"
+            }
             width={"100%"}
             height={"80px"}
             style={{
@@ -21,6 +25,8 @@ export default function BlogSuggestItem() {
           sx={{
             display: "flex",
             flexDirection: "column",
+            justifyContent: "space-between",
+            pb: 2,
           }}
         >
           <Typography
@@ -33,10 +39,10 @@ export default function BlogSuggestItem() {
               WebkitLineClamp: 2,
             }}
           >
-            Cá nục thường được nhiều bà nội trợ ưa chuộng vì bổ dưỡng và có thể
+            {blogItem?.blogTitle}
           </Typography>
           <Typography sx={{ mt: 1 }} fontSize={14}>
-            28/12/2023
+            {dayjs(blogItem?.createDate).format("DD/MM/YYYY")}
           </Typography>
         </Grid>
       </Grid>

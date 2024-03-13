@@ -20,7 +20,7 @@ export default function BlogContent({
           alignItems={"center"}
         >
           <Stack direction={"row"} alignItems={"center"} gap={2}>
-            <Avatar>A</Avatar>
+            <Avatar>{userName?.split(" ")?.[0]}</Avatar>
             <Typography>{userName}</Typography>
           </Stack>
           <Stack>

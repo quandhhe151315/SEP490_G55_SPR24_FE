@@ -23,7 +23,7 @@ export default function BlogItem({
         }}
       >
         <CardContent>
-          <Stack height={'40px'}>
+          <Stack height={'50px'}>
             <Typography
               sx={{
                 display: "-webkit-box",
@@ -40,7 +40,6 @@ export default function BlogItem({
               {title}
             </Typography>
           </Stack>
-
           <img
             src={
               blogImage ||
