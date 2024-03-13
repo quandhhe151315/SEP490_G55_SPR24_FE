@@ -35,4 +35,12 @@ const uploadComment = (content) => {
 const getComment = (id) => {
   return baseAxios.get("/Comment/Get", { params: { id } });
 };
-export { createBlog, uploadImage, uploadComment, getComment };
+
+const deleteComment = (id) => {
+  return baseAxios.delete(`/Comment/Delete?id=${id}`);
+};
+
+const updateComment = (payload) => {
+  return baseAxios.put(`/Comment/Update`, payload);
+};
+export { createBlog, uploadImage, uploadComment, getComment, deleteComment, updateComment };

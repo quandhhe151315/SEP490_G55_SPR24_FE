@@ -70,7 +70,7 @@ export default function BlogDetail() {
             <BlogComment />
           </Grid>
           <Grid item xs={4}>
-            <BlogSearch />
+            <BlogSearch categoryId={blogDetail?.categoryId} />
           </Grid>
         </Grid>
       </Stack>

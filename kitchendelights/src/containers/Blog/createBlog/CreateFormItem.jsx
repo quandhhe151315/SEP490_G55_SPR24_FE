@@ -26,31 +26,45 @@ export default function CreateFormItem() {
   const { categoriesList } = useGetAllCategory();
   const [statusPostBlog, setStatusPostBlog] = useState();
   const [openSnackbar, setOpenSnackBar] = useState(false);
+  const [contentSnackbar, setContentSnackbar] = useState("");
   const {
     register,
     handleSubmit,
     formState: { errors },
     control,
+    reset,
   } = useForm();
   const userId = cookies.get("userId");
   const onSubmit = async (data) => {
+    if (!data?.blogTitle || !data?.blogContent) {
+      setOpenSnackBar(true);
+      setContentSnackbar("Vui lòng nhập đầy đủ tiêu đề và nội dung !");
+      return;
+    }
     if (files?.[0]) {
-      await uploadImage(files?.[0], "blog")
-        .then((res) => {
-          createBlog({
-            ...data,
-            userId: Number(userId),
-            blogStatus: 0,
-            createDate: dayjs().toISOString(),
-            blogImage: res,
-          });
+      await uploadImage(files?.[0], "blog").then((res) => {
+        createBlog({
+          ...data,
+          userId: Number(userId),
+          blogStatus: 0,
+          createDate: dayjs().toISOString(),
+          blogImage: res,
         })
-        .then((res) => {
-          if (res.status) {
-            setStatusPostBlog(res.status);
+          .then((res) => {
+            if (res?.status) {
+              setStatusPostBlog(res.status);
+              setOpenSnackBar(true);
+              reset({});
+              setContentSnackbar("Đăng blog thành công");
+            }
+          })
+          .catch((e) => {
+            setStatusPostBlog(e?.response?.status);
             setOpenSnackBar(true);
-          }
-        });
+            reset({});
+            setContentSnackbar("Đã có lỗi xảy ra");
+          });
+      });
     } else {
       await createBlog({
         ...data,
@@ -63,11 +77,15 @@ export default function CreateFormItem() {
           if (res.status) {
             setStatusPostBlog(res.status);
             setOpenSnackBar(true);
+            reset({});
+            setContentSnackbar("Đăng blog thành công");
           }
         })
         .catch((e) => {
           setStatusPostBlog(e?.response?.status);
           setOpenSnackBar(true);
+          reset({});
+          setContentSnackbar("Đã có lỗi xảy ra");
         });
     }
   };
@@ -142,6 +160,7 @@ export default function CreateFormItem() {
           <label htmlFor="choose_image" style={{}}>
             <input
               type="file"
+              accept="image/*"
               id="choose_image"
               style={{ overflow: "hidden", marginTop: "80px" }}
               onChange={(event) => {
@@ -185,7 +204,7 @@ export default function CreateFormItem() {
           variant="filled"
           sx={{ width: "100%" }}
         >
-          {statusPostBlog < 400 ? "Đăng blog thành công" : "Đã có lỗi xảy ra"}
+          {contentSnackbar}
         </Alert>
       </Snackbar>
     </Box>

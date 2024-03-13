@@ -17,6 +17,7 @@ import { uploadComment } from "../../../../services/BlogServices";
 import Cookies from "js-cookie";
 import dayjs from "dayjs";
 import { useGetComment } from "../../../../hook/useGetComment";
+import { useGetProfile } from "../../../../hook/useGetProfile";
 
 export default function BlogComment() {
   const [content, setContent] = useState("");
@@ -25,8 +26,10 @@ export default function BlogComment() {
   const [openSnackbar, setOpenSnackBar] = useState(false);
   const userId = Cookies.get("userId");
   const [commentLists, setCommentList] = useState();
-
+  const { profile } = useGetProfile(userId);
   const { commentList } = useGetComment(slug);
+  const [delComment, setDelComment] = useState([]);
+
   useEffect(() => {
     setCommentList(commentList);
   }, [commentList]);
@@ -34,7 +37,8 @@ export default function BlogComment() {
     await uploadComment({
       blogId: slug,
       // parentId: 0,
-      userId: userId,
+      userId: profile?.userId,
+      userName: profile?.username,
       commentContent: content,
       // commentStatus: 0,
       createDate: dayjs().toISOString(),
@@ -42,6 +46,7 @@ export default function BlogComment() {
     })
       .then((res) => {
         if (res.status) {
+          console.log(res);
           setStatusPostComment(res.status);
           setOpenSnackBar(true);
           setContent("");
@@ -50,10 +55,12 @@ export default function BlogComment() {
             {
               blogId: slug,
               // parentId: 0,
-              userId: userId,
+              userId: profile?.userId,
               commentContent: content,
-              // commentStatus: 0,
+              userName: `${profile?.lastName} ${profile?.middleName} ${profile?.firstName}`,
+              commentStatus: 1,
               createDate: dayjs().toISOString(),
+              // commentId: firstCommentId - 1,
             },
           ]);
         }
@@ -67,13 +74,16 @@ export default function BlogComment() {
   const [currentPage, setCurrentPage] = useState(1);
   const indexOfLastComment = currentPage * commentPerPage;
   const indexOfFirstComment = indexOfLastComment - commentPerPage;
-  const currentComments = commentLists?.slice(
-    indexOfFirstComment,
-    indexOfLastComment
-  );
+  const currentComments = commentLists
+    ?.filter(
+      (item) =>
+        !delComment?.includes(item?.commentId) && item?.commentStatus === 1
+    )
+    ?.slice(indexOfFirstComment, indexOfLastComment);
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
+
   return (
     <Stack mt={4}>
       <Stack>
@@ -87,22 +97,33 @@ export default function BlogComment() {
           <BlogCommentItem
             key={`comment_list_${index}+${item?.commentContent}`}
             item={item}
+            delComment={delComment}
+            setDelComment={setDelComment}
+            commentLists={commentList}
+            setCommentLists={setCommentList}
           />
         ))}
       </Stack>
-      <Pagination
-        count={Math.ceil(commentLists?.length / commentPerPage)}
-        page={currentPage}
-        onChange={handlePageChange}
-        color="secondary"
-        sx={{
-          marginTop: 4,
-          "& .Mui-selected": {
-            backgroundColor: "#FF642F",
-          },
-          marginBottom: 4,
-        }}
-      />
+      {currentComments?.length > 0 && (
+        <Pagination
+          count={Math.ceil(
+            commentLists?.filter(
+              (x) =>
+                !delComment?.includes(x?.commentId) && x?.commentStatus === 1
+            )?.length / commentPerPage
+          )}
+          page={currentPage}
+          onChange={handlePageChange}
+          color="secondary"
+          sx={{
+            marginTop: 4,
+            "& .Mui-selected": {
+              backgroundColor: "#FF642F",
+            },
+            marginBottom: 4,
+          }}
+        />
+      )}
       <Stack
         sx={{
           display: "flex",
@@ -112,9 +133,6 @@ export default function BlogComment() {
         }}
       >
         <Divider sx={{ my: 1 }} />
-        <Typography fontWeight={600} fontSize={20}>
-          Bình luận
-        </Typography>
         <textarea
           minRows={8}
           maxRows={12}
