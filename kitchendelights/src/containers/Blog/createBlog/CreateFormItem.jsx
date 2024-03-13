@@ -8,39 +8,68 @@ import {
   FormControl,
   InputLabel,
   Button,
+  Alert,
+  Snackbar,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import BlogEditor from "../../../components/TextEditor/BlogEditor.jsx";
 import CreateIcon from "@mui/icons-material/Create";
-import { useCreateBlog } from "../../../hook/useCreateBlog.js";
-import { useEffect, useRef } from "react";
-import { mutate } from "swr";
-import { useGetCategoryList } from "../../../hook/useGetCategoryList.js";
 import { Controller, useForm } from "react-hook-form";
 import cookies from "js-cookie";
 import dayjs from "dayjs";
 import { createBlog } from "../../../services/ApiServices.jsx";
+import { useGetAllCategory } from "../../../hook/useGetAllCategory.js";
+import { uploadImage } from "../../../services/BlogServices.jsx";
 
 export default function CreateFormItem() {
-  const editorRef = useRef(null);
-  const { categoriesList } = useGetCategoryList();
-
+  const [files, setFiles] = useState();
+  const { categoriesList } = useGetAllCategory();
+  const [statusPostBlog, setStatusPostBlog] = useState();
+  const [openSnackbar, setOpenSnackBar] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
     control,
   } = useForm();
-  const userId = cookies.get('userId')
+  const userId = cookies.get("userId");
   const onSubmit = async (data) => {
-    const x = await createBlog({
-      ...data,
-      userId: Number(userId),
-      blogStatus: 0,
-      createDate: dayjs().toISOString(),
-    });
-
-    
+    if (files?.[0]) {
+      await uploadImage(files?.[0], "blog")
+        .then((res) => {
+          createBlog({
+            ...data,
+            userId: Number(userId),
+            blogStatus: 0,
+            createDate: dayjs().toISOString(),
+            blogImage: res,
+          });
+        })
+        .then((res) => {
+          if (res.status) {
+            setStatusPostBlog(res.status);
+            setOpenSnackBar(true);
+          }
+        });
+    } else {
+      await createBlog({
+        ...data,
+        userId: Number(userId),
+        blogStatus: 0,
+        createDate: dayjs().toISOString(),
+        blogImage: "",
+      })
+        .then((res) => {
+          if (res.status) {
+            setStatusPostBlog(res.status);
+            setOpenSnackBar(true);
+          }
+        })
+        .catch((e) => {
+          setStatusPostBlog(e?.response?.status);
+          setOpenSnackBar(true);
+        });
+    }
   };
   return (
     <Box sx={{ width: "100%" }}>
@@ -115,6 +144,9 @@ export default function CreateFormItem() {
               type="file"
               id="choose_image"
               style={{ overflow: "hidden", marginTop: "80px" }}
+              onChange={(event) => {
+                setFiles(event?.target?.files);
+              }}
             />
           </label>
           <Stack
@@ -142,6 +174,20 @@ export default function CreateFormItem() {
           </Stack>
         </>
       </form>
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        open={openSnackbar}
+        onClose={() => setOpenSnackBar(false)}
+      >
+        <Alert
+          onClose={() => setOpenSnackBar(false)}
+          severity={statusPostBlog < 400 ? "success" : "error"}
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          {statusPostBlog < 400 ? "Đăng blog thành công" : "Đã có lỗi xảy ra"}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }

@@ -30,7 +30,10 @@ export default function BlogContent({
       </Stack>
       <Stack mt={4}>
         <img
-          src="https://cdn.tgdd.vn/Files/2022/03/12/1420043/30-status-caption-nau-an-mua-dich-cuc-doc-dao-va-thu-vi-202203122354092008.jpg"
+          src={
+            image ||
+            "https://cdn.tgdd.vn/Files/2022/03/12/1420043/30-status-caption-nau-an-mua-dich-cuc-doc-dao-va-thu-vi-202203122354092008.jpg"
+          }
           width={"100%"}
           height={"400px"}
           style={{
