@@ -51,11 +51,13 @@ function MenuDetail({ menuId }) {
     setOpenDialog(false);
   };
 
-  const handleConfirmDelete = () => {
+  const handleConfirmDelete = async () => {
     try {
-      const response = deleteMenu(menuId);
+      const response = await deleteMenu(menuId);
       if (response.status === 200) {
         navigate('/UserProfile');
+        console.log('xoa thanh cong', response);
+        setOpenDialog(false);
       }else{
         console.log(menuId);
         console.log('ko xoa thanh cong', response);
