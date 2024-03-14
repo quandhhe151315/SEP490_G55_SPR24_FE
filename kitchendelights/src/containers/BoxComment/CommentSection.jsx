@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ListComment from './ListComment';
 import PostComment from './PostComment';
+import Typography from "@mui/material/Typography";
 
 const CommentSection = () => {
   const [comments, setComments] = useState([
@@ -31,6 +32,7 @@ const CommentSection = () => {
 
   return (
     <div>
+       <Typography>Bình Luận</Typography>
       <ListComment comments={comments} />
       <PostComment onCommentSubmit={handleCommentSubmit} />
     </div>

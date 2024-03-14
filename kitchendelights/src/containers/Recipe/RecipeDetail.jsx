@@ -326,16 +326,7 @@ function RecipeDetail() {
               {data?.recipeContent}
             </Typography>
 
-            <Typography
-              sx={{
-                fontSize: 25,
-                textTransform: "uppercase",
-                fontWeight: "bold",
-                color: "orange",
-              }}
-            >
-              Bình luận
-            </Typography>
+           
             <CommentSection />
           </CardContent>
         </Card>

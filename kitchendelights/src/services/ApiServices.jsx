@@ -42,6 +42,14 @@ const removeRecipeFromBookMark =(uId,rId,type)=>{
 }
 // Bookmark
 
+// comment rating:
+const CreateReview = (ratingId, recipeId , userId, username, ratingValue,ratingStatus,ratingContent) => {
+    return axios.post('Review/Create', {ratingId, recipeId , userId, username, ratingValue,ratingStatus,ratingContent})};
+const GetReviewByRecipeId =(id) =>{
+    return axios.get(`/Review/Get?id=${id}`);
+}
+// comment rating
+
 const changeMyProfile = (userId, email, firstName, middleName, lastName, phone, addresses, avatar, statusUser, role) => {
     return axios.put('/User/UpdateProfile', {
         userId, email, firstName, middleName, lastName, phone, addresses, avatar,
@@ -133,6 +141,8 @@ export { login,
     addRecipeToBookMark,
     getBookMarkOfUser,
     removeRecipeFromBookMark,
-    listAllIngredient
+    listAllIngredient,
+    CreateReview,
+    GetReviewByRecipeId
  };
 
