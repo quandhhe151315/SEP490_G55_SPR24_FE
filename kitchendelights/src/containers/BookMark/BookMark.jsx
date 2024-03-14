@@ -9,12 +9,19 @@ import CardMedia from "@mui/material/CardMedia";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Unstable_Grid2";
 import Rating from "@mui/material/Rating";
-import { Link } from "react-router-dom";
-import { Avatar } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
+import { Avatar, IconButton } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { toast } from "react-toastify";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Button from "@mui/material/Button";
 
 function BookMark() {
+  const navigate = useNavigate();
+  const  onAddNew =()=>{
+    navigate("/ViewListRecipes");
+  }
   const [data, setdata] = useState([]);
   const getUserIdFromCookie = () => {
     const cookies = document.cookie.split("; ");
@@ -47,95 +54,91 @@ function BookMark() {
   return (
     <div>
       <Appbar />
-      <Typography marginTop={3} />
-      <Typography
-        color="#ff5e00"
-        sx={{ marginLeft: 35, fontSize: "40px", fontWeight: "bold" }}
-      >
+      <Typography marginTop={3} color="#ff5e00" sx={{ marginLeft: 35, fontSize: "40px", fontWeight: "bold" }}>
         Danh sách công thức của tôi
       </Typography>
       <Typography marginTop={6} />
-      <Typography
+      <Box sx={{ marginLeft: "290px", marginRight: "255px", marginTop: "50px" }}>
+        <Grid container spacing={3}>
+          {/* Danh sách công thức */}
+          {data.map((item, index) => (
+            <Grid item lg={3} md={6} xs={12} key={index}>
+              <Link to={`/RecipeDetail/${item.recipeId}`}>
+              <Card sx={{ maxWidth: 345, position: 'relative' }}>
+      <CardMedia
+        component={"img"}
+        height={140}
+        image={item.featuredImage}
+        alt="green iguana"
+      />
+      <CardContent>
+        <Typography gutterBottom variant="h6" component="div"
+          sx={{
+            overflow: "hidden",
+            whiteSpace: "nowrap",
+            textOverflow: "ellipsis",
+          }}
+        >
+          {item.recipeTitle}
+        </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <Rating
+            name="simple-controlled"
+            value={item.recipeRating}
+            size="small"
+          />
+          <Stack direction="row" spacing={2}>
+            <Avatar sx={{ width: 24, height: 24 }}></Avatar>
+            <Typography>{item.userName}</Typography>
+          </Stack>
+          
+        </Box>
+        <Button variant="contained" color="primary" >
+      Xem
+    </Button>
+      </CardContent>
+      <CardActions
         sx={{
-          marginLeft: "290px",
-          fontSize: "16px",
-          marginRight: "255px",
-          marginTop: "50px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          marginTop: -2,
+          position: 'absolute',
+          top: 0,
+          right: 0,
         }}
       >
-       
-          <Box>
-            <Grid container spacing={3}>
-              {data.map((item) => {
-                return (
-                  <Grid item lg={3} md={6} xs={12}>
-                    <Link to={`/RecipeDetail/${item.recipeId}`}>
-                    <Card sx={{ maxWidth: 345 }}>
-                      <CardMedia
-                        component={"img"}
-                        height={140}
-                        image={item.featuredImage}
-                        alt="green iguana"
-                      />
-                      <CardContent>
-                        <Typography gutterBottom variant="h6" component="div"
-                         sx={{
-                          overflow: "hidden",
-                          whiteSpace: "nowrap",
-                          textOverflow: "ellipsis",
-                        }}
-                        >
-                          {item.recipeTitle}
-                        </Typography>
+        <Box sx={{ position: 'absolute', top: 6, right: 0}}>
+        <IconButton  color="error">
+          <DeleteIcon />
+        </IconButton>
+      </Box>
+      
+      </CardActions>
+    </Card>
 
-                        <Box
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                          }}
-                          item
-                          lg={3}
-                          md={12}
-                          xs={12}
-                        >
-                          {" "}
-                          <Rating
-                            name="simple-controlled"
-                            value={item.recipeRating}
-                            size="small"
-                          />
-                          {/* <Typography component="legend" fontSize={11}>
-                            {item.vote} votes
-                          </Typography> */}
-                        </Box>
-                        <Typography marginTop={1} />
-                        <Typography>
-                          <Stack direction="row" spacing={2}>
-                            <Avatar sx={{ width: 24, height: 24 }}></Avatar>
-                            <Typography>{item.userName}</Typography>
-                          </Stack>
-                        </Typography>
-                      </CardContent>
-                      <CardActions
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                          marginTop: -2,
-                        }}
-                      ></CardActions>
-                    </Card>
-                    </Link>
-                   
-                  </Grid>
-                
-                );
-              })}
+              </Link>
             </Grid>
-          </Box>
-       
-      </Typography>
+          ))}
+          {/* Card thêm mới công thức */}
+          <Grid item lg={3} md={6} xs={12}>
+            <Card sx={{ textAlign: 'center', backgroundColor: '#f0f0f0', cursor: 'pointer' }} onClick={onAddNew}>
+              <CardContent>
+                <AddCircleIcon style={{ fontSize: 48, color: '#3f51b5' }} />
+                <Typography variant="h6" color="textSecondary" component="div">
+                 Thêm công thức
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+      </Box>
     </div>
   );
 }
