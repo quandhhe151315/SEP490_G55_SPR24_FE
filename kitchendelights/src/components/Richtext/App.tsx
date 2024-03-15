@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import { ReactElement , useMemo, useState, useRef,useEffect } from "react";
 import {Editor} from '../Richtext/Editor.tsx';
-import { listAllIngredient } from '../../services/ApiServices.jsx';
+import { createRecipe,listAllIngredient,listAllCountry } from '../../services/ApiServices.jsx';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import ClassicButton from "../Button/ClassicButton.jsx";
@@ -20,7 +20,8 @@ import {
 } from "mui-tiptap";
 import Autocomplete from '@mui/material/Autocomplete';
 import Cookies from 'js-cookie';
-
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 const AppCreateNews = ({title, setContent, handleCreateNews}) => {
   const systemSettingsPrefersDarkMode = useMediaQuery(
     "(prefers-color-scheme: dark)"
@@ -71,6 +72,10 @@ const AppCreateRecipe = () => {
   const [amountPeopleEat, setAmountPeopleEat] = useState('');
   const [videoCooking, setVideoCooking] = useState('');
 
+  let contentRecipes =
+  '<h2><span style="font-size: 18px">' + introduction + '</span></h2><p></p><ul><li><p><span style="font-size: 18px">Thời gian chuẩn bị: ' + timeAmountPrepare + ' phút</span></p><p></p></li><li><p><span style="font-size: 18px">Thời gian nấu: '+ timeAmountCook +' phút</span></p><p></p></li><li><p><span style="font-size: 18px">Khẩu phần ăn: '+ amountPeopleEat +' người</span></p></li></ul><p></p>'
+  +'<h4><strong><span style="color: rgb(255, 71, 0); font-size: 30px">Nguyên liệu chế biến:</span></strong></h4></br>';
+
   type RecipeContent = {
     RecipeStepContent: string,
     RecipeImage: string,
@@ -102,18 +107,12 @@ const AppCreateRecipe = () => {
   );
   const [recipeIngredientLength, setRecipeIngredientLength] = useState(1);
 
-  const handleAPICreateNewRecipe = async () => {
-    // try {
-    //   const response = await createRecipe(Cookies.get('userId'),featuredImage, introduction, videoCooking, title, timeAmountPrepare, timeAmountCook, amountPeopleEat, recipeContent, true, 0, recipeIngredientDataSend);
-    //   if (response.status === 200) {
-    //     console.log('Create recipe successful! ');
-    //   } else {
-
-    //   }
-    // } catch (error) {
-    //   console.error('Can not create recipe!', error);
-    // }
-  }
+  // name image render 
+  const [nameImage, setNameImage] = useState(
+    Array.from({ length: 2 }, (_, index) => ({ RecipeImageURL: '' }))
+  );
+  const [nameImagePosition, setNameImagePosition] = useState(1);
+  //
 
   // data Ingredient
   type Ingredient = {
@@ -136,8 +135,28 @@ const AppCreateRecipe = () => {
       console.error('Can not load news data!', error);
     }
   };
+
+  type Country = {
+    countryId: number,
+    countryName: string,
+  };
+  const [dataCountry, setDataCountry] = useState<Country[]>([]);
+  const getListCountry = async () => {
+    try {
+      const response = await listAllCountry();
+      if (response.status === 200) {
+        setDataCountry(response.data);
+      } else {
+        console.error('Can not Load news! ');
+      }
+    } catch (error) {
+      console.error('Can not load news data!', error);
+    }
+  };
+
   useEffect(() => {
     getListIngredient();
+    getListCountry();
   }, []);
   
   const rteRef = useRef<RichTextEditorRef>(null);
@@ -229,6 +248,7 @@ const AppCreateRecipe = () => {
 
   const handleAddRowClickBL = () => {
     handleCreateNewRecipeContent();
+
     setRowsBL(prevRows => [...prevRows, 
     <Grid container spacing={2} sx={{marginTop: '2px', marginLeft: '2px'}}>
       <Grid item xs={8}>
@@ -244,12 +264,16 @@ const AppCreateRecipe = () => {
         onChange={(event) => handleFileChange(event, recipeLength + 1)}
       />
                 <label htmlFor={`upload-file-${recipeLength + 1}`} className="custom-upload-button">
-                  {selectedFileName || 'Chọn ảnh'}
+                  
+                {nameImage[recipeLength + 1]?.RecipeImageURL && nameImage[recipeLength + 1]?.RecipeImageURL.length > 40 ?
+    `${nameImage[recipeLength + 1]?.RecipeImageURL.slice(0, 40)}...` :
+    (nameImage[recipeLength + 1]?.RecipeImageURL || 'Chọn ảnh')}
                 </label>
               </Grid>
 
     </Grid>
     ]);
+    
     setRecipeLength(recipeLength + 1);
   };
 
@@ -280,15 +304,8 @@ const AppCreateRecipe = () => {
 
   const handleCreateNewRecipeContent = () => {
     setRecipeContent(prevRecipeContent => [...prevRecipeContent,{ RecipeStepContent: '', RecipeImage: '' }]);
+    setNameImage(prevNameImage => [...prevNameImage, { RecipeImageURL: '' }]);
   }
-
-  const systemSettingsPrefersDarkMode = useMediaQuery(
-    "(prefers-color-scheme: dark)"
-  );
-
-  let contentRecipes =
-  '<h2><span style="font-size: 18px">' + introduction + '</span></h2><p></p><ul><li><p><span style="font-size: 18px">Thời gian chuẩn bị: ' + timeAmountPrepare + ' phút</span></p><p></p></li><li><p><span style="font-size: 18px">Thời gian nấu: '+ timeAmountCook +' phút</span></p><p></p></li><li><p><span style="font-size: 18px">Khẩu phần ăn: '+ amountPeopleEat +' người</span></p></li></ul><p></p>'
-  +'<h4><strong><span style="color: rgb(255, 71, 0); font-size: 30px">Nguyên liệu chế biến:</span></strong></h4></br>';
 
   const [open, setOpen] = useState(false);
   const [submittedContent, setSubmittedContent] = useState("");
@@ -303,16 +320,16 @@ const AppCreateRecipe = () => {
     placeholder: "Nội dung của bạn ...",
   });
 
-  const [selectedFileName, setSelectedFileName] = useState('');
-
   const handleFileChange = (event, id) => {
-
     const file = event.target.files[0];
     if (file) {
-      
-      setSelectedFileName(file.name);
       if (file.type.startsWith('image/')) {
         handleChangeRecipeImage(id,  URL.createObjectURL(file));
+        setNameImage(prevNameImage => {
+          const updatedNameImage = [...prevNameImage];
+          updatedNameImage[id] = { RecipeImageURL: file.name };
+          return updatedNameImage;
+        });
       } else {
       }
     }
@@ -343,6 +360,31 @@ const handleViewCreateNewRecipe = () => {
       contentRecipes += '<p><strong><span style="font-size: 18px">Bước '+ num +': </span></strong><span style="font-size: 18px">'+ recipeContent[index].RecipeStepContent +'</span></p><p></p><img height="auto" style="text-align: center; aspect-ratio: 1.74672 / 1" src='+recipeContent[index].RecipeImage+' alt="Ảnh" width="700"></li></ul><p></p>';
       num ++;
     };
+  }
+
+  const [countryId, setCountryId] = useState();
+  const [isFree, setIsFree] = useState(false);
+  const [recipeCost, setRecipeCost] = useState('');
+
+  const handleIsFree = (event) => {
+    setIsFree(event.target.checked);
+  }
+
+  const handleChangeCountryId = (countryId) => {
+    setCountryId(countryId);
+  }
+
+  const handleAPICreateNewRecipe = async () => {
+    try {
+      const response = await createRecipe(Cookies.get('userId'),featuredImage, introduction, videoCooking, title, timeAmountPrepare, timeAmountCook, amountPeopleEat, submittedContent, isFree, recipeCost, countryId,recipeIngredientDataSend);
+      if (response.status === 200) {
+        console.log('Create recipe successful! ');
+      } else {
+
+      }
+    } catch (error) {
+      console.error('Can not create recipe!', error);
+    }
   }
 
   return (
@@ -502,7 +544,9 @@ const handleViewCreateNewRecipe = () => {
         onChange={(event) => handleFileChange(event, 0)}
       />
                 <label htmlFor="upload-file-0" className="custom-upload-button">
-                  {selectedFileName || 'Chọn ảnh'}
+                {nameImage[0].RecipeImageURL && nameImage[0].RecipeImageURL.length > 40 ?
+    `${nameImage[0].RecipeImageURL.slice(0, 40)}...` :
+    (nameImage[0].RecipeImageURL || 'Chọn ảnh')}
                 </label>
               </Grid>
             </Grid>
@@ -520,7 +564,9 @@ const handleViewCreateNewRecipe = () => {
         onChange={(event) => handleFileChange(event, 1)}
       />
                 <label htmlFor="upload-file-1" className="custom-upload-button" >
-                  {selectedFileName || 'Chọn ảnh'}
+                {nameImage[1].RecipeImageURL && nameImage[1].RecipeImageURL.length > 40 ?
+    `${nameImage[1].RecipeImageURL.slice(0, 40)}...` :
+    (nameImage[1].RecipeImageURL || 'Chọn ảnh')}
                 </label>
               </Grid>
             </Grid>
@@ -539,7 +585,50 @@ const handleViewCreateNewRecipe = () => {
                 {rowsBL}
               </Grid>
             ))}
+            
             <ClassicButton text="Thêm bước làm" top="1%" width="20%" onClick={handleAddRowClickBL} />
+
+            <Grid container spacing={2} sx={{marginTop: '1%'}}>
+            <Typography sx={{ color: '#ff5e00', fontWeight: 'bold', fontSize: '20px', marginBottom: '1%'}}>
+              Thông tin khác
+            </Typography>
+            <Typography sx={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '1%'}}>
+            Món ăn thuộc về nước nào (Chọn quốc gia). Đây có phải là công thức miễn phí hay trả phí. Và nếu là công thức trả phí thì điền giá cho công thức (Hãy nhấn vào ô bên dưới nếu là công thức trả phí).
+            </Typography>
+              <Grid item xs={5}>
+              <Autocomplete
+              disablePortal
+              size="small"
+              options={dataCountry}
+              getOptionLabel={(option) => option.countryName}
+              onChange={(event, option) => handleChangeCountryId(option?.countryId)}
+              renderOption={(props, option) => (
+                <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
+                  {option.countryName}
+                </Box>
+              )}
+              sx={{ width: '100%' }}
+              renderInput={(params) => <TextField {...params} label="Chọn quốc gia" sx={{ borderRadius: '15px' }}/>}
+            />
+              </Grid>
+              <Grid item xs={2}>
+              <FormControlLabel
+        label="Công thức miễn phí"
+        control={
+          <Checkbox
+              size='large'
+              checked={isFree}
+              onChange={handleIsFree}
+              inputProps={{ 'aria-label': 'controlled' }}
+              sx={{fontSize: '18px'}}
+            />
+        }
+      />
+              </Grid>
+              <Grid item xs={5}>
+            <TextField value={recipeCost} disabled={isFree} onChange={(event) => setRecipeCost(event.target.value)} required id="outlined-required" sx={{ width: '100%'}} placeholder="Nhập giá công thức nấu ăn" />
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
         <ClassicButton text="Xem truớc công thức nấu ăn" width="25%" left="75%" top="5%" onClick={() => {

@@ -72,8 +72,15 @@ const changeMyProfile = (
     role,
   });
 };
-// repice
 
+const listAllCountry = () => {
+  return axios.get("/Country/GetAllCountry");
+}
+
+// repice
+const createRecipe = (userId,featuredImage,recipeDescription,videoLink,recipeTitle,preparationTime,cookTime,recipeServe,recipeContent,isFree,recipePrice,countryId,recipeIngredients) => {
+  return axios.post("/Recipe/CreateRecipe", { userId,featuredImage,recipeDescription,videoLink,recipeTitle,preparationTime,cookTime,recipeServe,recipeContent,isFree,recipePrice,countryId,recipeIngredients });
+}
 const getRecipes = () => {
   return axios.get("/Recipe/GetAllRecipe");
 };
@@ -178,4 +185,6 @@ export {
   getBookMarkOfUser,
   removeRecipeFromBookMark,
   listAllIngredient,
+  createRecipe,
+  listAllCountry
 };
