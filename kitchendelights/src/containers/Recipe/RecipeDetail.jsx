@@ -31,7 +31,7 @@ import Checkbox from "@mui/material/Checkbox";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import AddRecipeToMenuDialog from "../Menu/AddRecipeToMenu";
 import { toast } from "react-toastify";
-import { getRecipessById } from "../../services/ApiServices";
+import { getRecipessById, getMenuByUserIdAndCheckExistRecipe } from "../../services/ApiServices";
 import moment from "moment";
 import CreateNewMenuDialog from "../Menu/CreateNewMenu";
 import GetInformationJWT from "../../components/JWT/GetInformationJWT";
@@ -71,16 +71,28 @@ function RecipeDetail() {
   const [id, setId] = useState("");
   const [listMenu, setListMenu] = useState([]);
 
+  // const getListMenu = async () => {
+  //   try {
+  //     const response = await getMenus(id);
+  //     if (response.status === 200) {
+  //       setListMenu(response.data);
+  //     } else {
+  //       console.error("lỗi khi tải danh sách menu");
+  //     }
+  //   } catch (error) {
+  //     console.error("lỗi API getMenu", error);
+  //   }
+  // };
   const getListMenu = async () => {
     try {
-      const response = await getMenus(id);
+      const response = await getMenuByUserIdAndCheckExistRecipe(id, rId);
       if (response.status === 200) {
         setListMenu(response.data);
       } else {
-        console.error("lỗi khi tải danh sách menu");
+        console.log("lỗi API menu", response);
       }
     } catch (error) {
-      console.error("lỗi API getMenu", error);
+      console.log("lỗi khi tải danh sách menu", error);
     }
   };
 
@@ -250,9 +262,10 @@ function RecipeDetail() {
             handleClose={handleCloseSelectMenuDialog}
             onOpenCreate={handleOpenCreateMenuDialog}
             listMenu={listMenu}
+            recipeId={recipeId}
           />
           <CreateNewMenuDialog
-            open={createMenuDialog}
+            open={createMenuDialog}s
             handleClose={handleCloseCreateMenuDialog}
           />
         </Stack>
