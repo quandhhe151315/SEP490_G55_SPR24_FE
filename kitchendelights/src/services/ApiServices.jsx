@@ -152,6 +152,12 @@ const deleteMenu = (menuId) => {
 const listAllIngredient = () => {
   return axios.get("/Ingredient/GetAllIngredient");
 };
+const getMenuByUserIdAndCheckExistRecipe = (userId, recipeId) => {
+  return axios.get(`/Menu/GetMenuByUserIdAndCheckExistRecipe?userId=${userId}&recipeId=${recipeId}`);
+};
+const updateMenu = (menuId, menuName, menuDescription,featuredImage = null, userId=0) => {
+  return axios.put(`/Menu/UpdateMenu`, {menuId, featuredImage, menuName, menuDescription, userId});
+};
 
 export {
   login,
@@ -180,4 +186,10 @@ export {
   getBookMarkOfUser,
   removeRecipeFromBookMark,
   listAllIngredient,
+  addRecipeToMenu,
+  removeRecipeFromMenu,
+  getMenuById,
+  deleteMenu,
+  getMenuByUserIdAndCheckExistRecipe,
+  updateMenu,
 };
