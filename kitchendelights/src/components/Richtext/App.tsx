@@ -22,6 +22,8 @@ import Autocomplete from '@mui/material/Autocomplete';
 import Cookies from 'js-cookie';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import { useSnackbar } from '../Snackbar/Snackbar.jsx';
+import { useNavigate } from 'react-router-dom';
 const AppCreateNews = ({title, setContent, handleCreateNews}) => {
   const systemSettingsPrefersDarkMode = useMediaQuery(
     "(prefers-color-scheme: dark)"
@@ -61,6 +63,7 @@ const TitleContentUI = ({ text, children }) => {
 };
 
 const AppCreateRecipe = () => {
+  const { showSnackbar } = useSnackbar();
   const [rowsNL, setRowsNL] = useState<ReactElement[]>([]);
   const [rowsBL, setRowsBL] = useState<ReactElement[]>([]);
 
@@ -72,6 +75,7 @@ const AppCreateRecipe = () => {
   const [amountPeopleEat, setAmountPeopleEat] = useState('');
   const [videoCooking, setVideoCooking] = useState('');
 
+  const navigate = useNavigate();
   let contentRecipes =
   '<h2><span style="font-size: 18px">' + introduction + '</span></h2><p></p><ul><li><p><span style="font-size: 18px">Thời gian chuẩn bị: ' + timeAmountPrepare + ' phút</span></p><p></p></li><li><p><span style="font-size: 18px">Thời gian nấu: '+ timeAmountCook +' phút</span></p><p></p></li><li><p><span style="font-size: 18px">Khẩu phần ăn: '+ amountPeopleEat +' người</span></p></li></ul><p></p>'
   +'<h4><strong><span style="color: rgb(255, 71, 0); font-size: 30px">Nguyên liệu chế biến:</span></strong></h4></br>';
@@ -348,6 +352,8 @@ const handleFeaturesImageChange = (event) => {
   }
 };
 
+ let recipeContentSend = '</br><h4><strong><span style="color: rgb(255, 71, 0); font-size: 30px">Cách làm:</span></strong></h4></br>';
+ const [recipeContentDataSend, setRecipeContentDataSend] = useState('')
 const handleViewCreateNewRecipe = () => {
     for (let index = 0; index < recipeIngredientView.length; index ++) {
       contentRecipes += '<ul><li><p><span style="font-size: 18px">'+recipeIngredientView[index].ingredientName+' '+recipeIngredientView[index].unitValue+' gam</span></p></li></ul></br>';
@@ -358,6 +364,7 @@ const handleViewCreateNewRecipe = () => {
     let num = 1;
     for (let index = 0; index < recipeContent.length; index ++) {
       contentRecipes += '<p><strong><span style="font-size: 18px">Bước '+ num +': </span></strong><span style="font-size: 18px">'+ recipeContent[index].RecipeStepContent +'</span></p><p></p><img height="auto" style="text-align: center; aspect-ratio: 1.74672 / 1" src='+recipeContent[index].RecipeImage+' alt="Ảnh" width="700"></li></ul><p></p>';
+      recipeContentSend += '<p><strong><span style="font-size: 18px">Bước '+ num +': </span></strong><span style="font-size: 18px">'+ recipeContent[index].RecipeStepContent +'</span></p><p></p><img height="auto" style="text-align: center; aspect-ratio: 1.74672 / 1" src='+recipeContent[index].RecipeImage+' alt="Ảnh" width="700"></li></ul><p></p>';
       num ++;
     };
   }
@@ -376,14 +383,15 @@ const handleViewCreateNewRecipe = () => {
 
   const handleAPICreateNewRecipe = async () => {
     try {
-      const response = await createRecipe(Cookies.get('userId'),featuredImage, introduction, videoCooking, title, timeAmountPrepare, timeAmountCook, amountPeopleEat, submittedContent, isFree, recipeCost, countryId,recipeIngredientDataSend);
+      const response = await createRecipe(Cookies.get('userId'),featuredImage, introduction, videoCooking, title, timeAmountPrepare, timeAmountCook, amountPeopleEat, recipeContentDataSend, isFree, recipeCost, countryId,recipeIngredientDataSend);
       if (response.status === 200) {
-        console.log('Create recipe successful! ');
+        showSnackbar('Create recipe successful!', "success");
+        navigate('/');
       } else {
 
       }
     } catch (error) {
-      console.error('Can not create recipe!', error);
+      showSnackbar('Create new recipe fail!', "error");
     }
   }
 
@@ -410,7 +418,9 @@ const handleViewCreateNewRecipe = () => {
         onChange={(event) => handleFeaturesImageChange(event)}
       />
                 <label htmlFor="upload-feature-image" className="custom-upload-button">
-                  {featuredImageName || 'Chọn ảnh'}
+                  {featuredImageName && featuredImageName.length > 39 ?
+    `${featuredImageName.slice(0, 39)}...` :
+    (featuredImageName || 'Chọn ảnh')}
                 </label>
               </Grid>
         </Grid>
@@ -635,6 +645,9 @@ const handleViewCreateNewRecipe = () => {
           handleViewCreateNewRecipe();
                     setSubmittedContent(
                       contentRecipes
+                    );
+                    setRecipeContentDataSend(
+                      recipeContentSend
                     );
                     handleOpenRawNews();
                   }}/>
