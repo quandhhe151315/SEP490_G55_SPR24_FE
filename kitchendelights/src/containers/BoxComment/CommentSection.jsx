@@ -1,8 +1,16 @@
-import React, { useState } from 'react';
-import { Avatar, Typography, Paper, Grid, TextField, Button, Rating } from '@mui/material';
-import { formatDistanceToNow } from 'date-fns';
-import StarIcon from '@mui/icons-material/Star';
-
+import React, { useState, useEffect } from "react";
+import {
+  Avatar,
+  Typography,
+  Paper,
+  Grid,
+  TextField,
+  Button,
+  Rating,
+} from "@mui/material";
+import { formatDistanceToNow, set } from "date-fns";
+import StarIcon from "@mui/icons-material/Star";
+import { CreateReview, GetReviewByRecipeId } from "../../services/ApiServices";
 const Comment = ({ avatarSrc, username, content, timestamp, rating }) => {
   return (
     <Paper sx={{ padding: "20px", marginTop: "10px" }}>
@@ -37,24 +45,37 @@ const Comment = ({ avatarSrc, username, content, timestamp, rating }) => {
   );
 };
 
+const getUserIdFromCookie = () => {
+  const cookies = document.cookie.split("; ");
+  for (const cookie of cookies) {
+    const [name, value] = cookie.split("=");
+    if (name === "userId") {
+      return value;
+    }
+  }
+  return null;
+};
+const userId = getUserIdFromCookie();
+
 const ListComment = ({ comments }) => {
   return (
-    <div style={{ maxHeight: '300px', overflowY: 'auto' }} >
+    <div>
       {comments.map((comment, index) => (
         <Comment
           key={index}
-          avatarSrc={comment.avatarSrc}
+          avatarSrc={comment.avatar}
           username={comment.username}
-          content={comment.content}
-          timestamp={comment.timestamp}
-          rating={comment.rating} // Truyền xếp hạng vào Comment
+          content={comment.ratingContent}
+          timestamp={comment.createDate}
+          rating={comment.ratingValue}
         />
       ))}
     </div>
   );
 };
-const PostComment = ({ onCommentSubmit }) => {
-  const [newComment, setNewComment] = useState('');
+
+const PostComment = ({ recipeId, loading, setLoading }) => {
+  const [newComment, setNewComment] = useState("");
   const [rating, setRating] = useState(0); // Thêm state cho giá trị rating
 
   const handleCommentChange = (event) => {
@@ -65,36 +86,64 @@ const PostComment = ({ onCommentSubmit }) => {
     setRating(value); // Cập nhật giá trị rating khi thay đổi
   };
 
-  const handleSubmit = () => {
-    if (newComment.trim() !== '') {
-      onCommentSubmit(newComment, rating); // Truyền giá trị rating vào hàm xử lý gửi bình luận
-      setNewComment('');
-      setRating(0); // Reset giá trị rating sau khi gửi bình luận
+  const handleSubmit = async () => {
+    //recipeId , userId, ratingValue,ratingStatus,ratingContent
+    if (userId && newComment && recipeId) {
+      try {
+        const response = await CreateReview(
+          recipeId,
+          userId,
+          rating,
+          newComment
+        );
+        if (response.status === 200) {
+          //  setListMenu(response.data);
+          setRating(0);
+          setNewComment("");
+          setLoading(!loading);
+        } else {
+          console.error("lỗi khi tải danh sách menu");
+        }
+      } catch (error) {
+        console.error("lỗi API getMenu", error);
+      }
     }
   };
 
-  return (  
+  return (
     <Paper sx={{ padding: "20px", marginTop: "10px" }}>
       <Grid container spacing={2} alignItems="center">
-        <Grid item xs>
+        <Grid item>
+          <Typography variant="body1" gutterBottom>
+            Hãy vote sao cho công thức
+          </Typography>
+        </Grid>
+        <Grid item>
+          <Rating name="rating" value={rating} onChange={handleRatingChange} />
+        </Grid>
+        <Grid item xs={12}>
           <TextField
-            label="Add a comment"
+            label="Thêm bình luận"
             fullWidth
+            sx={{ width: "100%" }}
             value={newComment}
             onChange={handleCommentChange}
-            
           />
         </Grid>
-        <Grid item>
-          <Rating
-            name="rating"
-            value={rating}
-            onChange={handleRatingChange}
-          />
-        </Grid>
-        <Grid item>
-          <Button variant="contained" color="primary" onClick={handleSubmit}>
-            Đăng 
+        <Grid item xs={12}>
+          <Button
+            size="small"
+            variant="contained"
+            sx={{
+              bgcolor: "#ff5e00",
+              borderRadius: "15px",
+              width: "100px",
+              height: "35px",
+              color: "white",
+            }}
+            onClick={handleSubmit}
+          >
+            Đăng
           </Button>
         </Grid>
       </Grid>
@@ -102,37 +151,32 @@ const PostComment = ({ onCommentSubmit }) => {
   );
 };
 
-const CommentSection = () => {
-  const [comments, setComments] = useState([
-    {
-      avatarSrc: 'avatar1.jpg',
-      username: 'John Doe',
-      content: 'This is the first comment.',
-      timestamp: new Date().toISOString()
-    },
-    {
-      avatarSrc: 'avatar2.jpg',
-      username: 'Jane Smith',
-      content: 'This is the second comment.',
-      timestamp: new Date().toISOString()
-    },
-    // Add more comments as needed
-  ]);
+const CommentSection = ({ recipeId }) => {
+  const [loading, setLoading] = useState(false);
+  const [comments, setComments] = useState([]);
 
-  const handleCommentSubmit = (newComment, rating) => {
-    const newCommentObj = {
-      avatarSrc: 'avatar3.jpg', // Thay đổi thành avatar của người dùng hiện tại
-      username: 'Current User', // Thay đổi thành tên người dùng hiện tại
-      content: newComment,
-      timestamp: new Date().toISOString(),
-      rating: rating // Lưu giá trị rating vào bình luận mới
-    };
-    setComments([...comments, newCommentObj]);
+  const getListComment = async () => {
+    try {
+      const response = await GetReviewByRecipeId(recipeId);
+      if (response.status === 200) {
+        setComments(response.data);
+      } else {
+      }
+    } catch (error) {}
   };
+  useEffect(() => {
+    if (recipeId) {
+      getListComment();
+    }
+  }, [recipeId, loading]);
 
   return (
     <div>
-       <PostComment onCommentSubmit={handleCommentSubmit} />
+      <PostComment
+        setLoading={setLoading}
+        loading={loading}
+        recipeId={recipeId}
+      />
       <ListComment comments={comments} />
     </div>
   );

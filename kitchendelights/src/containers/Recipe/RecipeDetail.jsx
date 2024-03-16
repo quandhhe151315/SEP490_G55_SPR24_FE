@@ -38,17 +38,17 @@ import GetInformationJWT from "../../components/JWT/GetInformationJWT";
 import { getMenus } from "../../services/ApiServices";
 import { addRecipeToBookMark } from "../../services/ApiServices";
 import CommentSection from "../../containers/BoxComment/CommentSection";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 function RecipeDetail() {
   const navigate = useNavigate();
   const [data, setdata] = useState();
   const { recipeId } = useParams();
   //const {uId,rId ,type} = useParams();
-  const getUserIdFromCookie= () => {
-    const cookies = document.cookie.split('; ');
+  const getUserIdFromCookie = () => {
+    const cookies = document.cookie.split("; ");
     for (const cookie of cookies) {
-      const [name, value] = cookie.split('=');
-      if (name === 'userId') {
+      const [name, value] = cookie.split("=");
+      if (name === "userId") {
         return value;
       }
     }
@@ -56,11 +56,11 @@ function RecipeDetail() {
   };
 
   const uId = getUserIdFromCookie();
- 
+
   const rId = recipeId;
   const type = 1;
   console.log("idRID: ", rId);
-  console.log("userId",uId);
+  console.log("userId", uId);
   const GoToBookMark = () => {
     navigate("/BookMark");
   };
@@ -87,7 +87,7 @@ function RecipeDetail() {
   const handleAddBookMark = async () => {
     try {
       const response = await addRecipeToBookMark(uId, rId, type);
-      console.log("12333",uId, rId, type);
+      console.log("12333", uId, rId, type);
       GoToBookMark();
       toast.success("Thêm vào danh sách thành công");
       if (response.status === 200) {
@@ -325,7 +325,13 @@ function RecipeDetail() {
             <Typography gutterBottom variant="h6" component="div">
               {data?.recipeContent}
             </Typography>
-            <CommentSection recipeId = {recipeId} />
+            <Typography
+              color="#ff5e00"
+              sx={{ fontSize: "35px", fontWeight: "bold" }}
+            >
+              Bình luận
+            </Typography>
+            <CommentSection recipeId={recipeId} />
           </CardContent>
         </Card>
       </Box>
