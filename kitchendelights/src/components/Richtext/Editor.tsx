@@ -16,7 +16,6 @@ import {
 import EditorMenuControls from "../Richtext/EditorMenuControls.tsx";
 import useExtensions from "../Richtext/useExtension.ts";
 
-
 function fileListToImageFiles(fileList: FileList): File[] {
   return Array.from(fileList).filter((file) => {
     const mimeType = (file.type || "").toLowerCase();

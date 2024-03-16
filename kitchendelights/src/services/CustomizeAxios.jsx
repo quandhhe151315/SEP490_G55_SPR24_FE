@@ -2,7 +2,7 @@ import axios from "axios";
 import { BASE_URL } from "../constant";
 
 const instance = axios.create({
- baseURL: BASE_URL,
+  baseURL: BASE_URL,
   // baseURL: "http://localhost:5050/api",
 });
 
