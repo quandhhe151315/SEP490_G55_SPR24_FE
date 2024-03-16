@@ -87,9 +87,9 @@ function RecipeDetail() {
   const handleAddBookMark = async () => {
     try {
       const response = await addRecipeToBookMark(uId, rId, type);
-      console.log(uId, rId, type);
+      console.log("12333",uId, rId, type);
       GoToBookMark();
-
+      toast.success("Thêm vào danh sách thành công");
       if (response.status === 200) {
         console.log("add thanh cong");
       } else {
@@ -325,9 +325,7 @@ function RecipeDetail() {
             <Typography gutterBottom variant="h6" component="div">
               {data?.recipeContent}
             </Typography>
-
-           
-            <CommentSection />
+            <CommentSection recipeId = {recipeId} />
           </CardContent>
         </Card>
       </Box>
