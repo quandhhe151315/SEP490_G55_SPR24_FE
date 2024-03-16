@@ -5,11 +5,64 @@ import MenuBookIcon from "@mui/icons-material/MenuBook";
 import Typography from "@mui/material/Typography";
 import GetInformationJWT from "../../components/JWT/GetInformationJWT";
 import { getMenus } from "../../services/ApiServices";
+import { addRecipeToMenu, removeRecipeFromMenu } from "../../services/ApiServices";
 
-function AddRecipeToMenuDialog({ open, handleClose, onOpenCreate,listMenu }) {
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import List from '@mui/material/List';
+import { set } from "date-fns";
 
+function AddRecipeToMenuDialog({ open, handleClose, onOpenCreate, listMenu, recipeId }) {
+
+  const [checkedMenus, setCheckedMenus] = useState([]);
+
+  const handleCheckboxChange = (event, menuId) => {
+    let newCheckedMenus = [...checkedMenus];
+    if (event.target.checked) {
+      newCheckedMenus.push(menuId);
+      handleAddRecipeToMenu(menuId, recipeId);
+    } else {
+      newCheckedMenus = newCheckedMenus.filter(id => id !== menuId);
+      handleRemoveRecipeFromMenu(menuId, recipeId);
+    }
+    setCheckedMenus(newCheckedMenus);
+  };
+
+  const handleAddRecipeToMenu = async (menuId, recipeId) => {
+    try {
+      const response = await addRecipeToMenu(menuId, recipeId);
+      if (response.status === 200) {
+        console.log('add recipe to menu', menuId, recipeId);
+      } else {
+        console.log('ko add thanh cong', response);
+      }
+    } catch (error) {
+      console.error('loi khi add recipe to menu', error);
+    }
+  };
+
+  const handleRemoveRecipeFromMenu = async (menuId, recipeId) => {
+    try {
+      const response = await removeRecipeFromMenu(menuId, recipeId);
+      if (response.status === 200) {
+        console.log('remove recipe from menu', menuId, recipeId);
+      } else {
+        console.log('ko remove thanh cong', response);
+      }
+    } catch (error) {
+      console.error('loi khi remove recipe from menu', error);
+    }
+  };
+  
+  useEffect(() => {
+    setCheckedMenus(listMenu.filter(menu => menu.isExistRecipe).map(menu => menu.menuId));
+  }, [listMenu]);
+
+  useEffect(() => {
+    console.table(listMenu);
+  }, [listMenu, recipeId]);
   return (
-    
+
     <div>
       <Dialog
         open={open}
@@ -26,11 +79,20 @@ function AddRecipeToMenuDialog({ open, handleClose, onOpenCreate,listMenu }) {
           </IconButton>
         </DialogTitle>
         <DialogContent style={{ overflowY: 'auto', maxHeight: '20vh' }}>
-          <FormGroup>
-            {listMenu.map((menu) => (
-              <FormControlLabel control={<Checkbox />} label={<Typography sx={{ marginLeft: '20px' }}>{menu.menuName}</Typography>} />
-            ))}
-          </FormGroup>
+          
+          {listMenu.map((menu) => (
+            <FormControlLabel
+            key={menu.menuId}
+            control={
+              <Checkbox
+              checked={checkedMenus.includes(menu.menuId)}
+              value={menu.menuId}
+              onChange={(e) => handleCheckboxChange(e, menu.menuId)}
+              />
+            }
+            label={menu.menuName}
+            />
+          ))}
         </DialogContent>
         <DialogActions>
           <Button onClick={onOpenCreate} >Tạo menu mới</Button>

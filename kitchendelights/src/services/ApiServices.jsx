@@ -138,24 +138,32 @@ const createBlog = (blogContent) => {
 //menu API
 
 const getMenus = (id) => {
-  return axios.get(`/Menu/GetMenuByUserId?userId=${id}`);
+    return axios.get(`/Menu/GetMenuByUserId?userId=${id}`);
+}
+const createMenu = (userId, menuName, featuredImage = null, menuDescription = null) => {
+    return axios.post('/Menu/CreateMenu', {featuredImage, menuName, menuDescription, userId});
+}
+const addRecipeToMenu = (menuId, recipeId) => {
+    return axios.put(`/Menu/AddRecipeToMenu?menuId=${menuId}&recipeId=${recipeId}`);
+}
+const removeRecipeFromMenu = (menuId, recipeId) => {
+    return axios.put(`/Menu/RemoveRecipeFromMenu?menuId=${menuId}&recipeId=${recipeId}`);
+}
+const getMenuById = (menuId) => {
+    return axios.get(`/Menu/GetMenuById?menuId=${menuId}`);
 };
-const createMenu = (
-  userId,
-  menuName,
-  featuredImage = null,
-  menuDescription = null
-) => {
-  return axios.post("/Menu/CreateMenu", {
-    featuredImage,
-    menuName,
-    menuDescription,
-    userId,
-  });
+const deleteMenu = (menuId) => {
+    return axios.delete(`Menu/DeleteMenu?menuId=${menuId}`);
 };
 
 const listAllIngredient = () => {
   return axios.get("/Ingredient/GetAllIngredient");
+};
+const getMenuByUserIdAndCheckExistRecipe = (userId, recipeId) => {
+  return axios.get(`/Menu/GetMenuByUserIdAndCheckExistRecipe?userId=${userId}&recipeId=${recipeId}`);
+};
+const updateMenu = (menuId, menuName, menuDescription,featuredImage = null, userId=0) => {
+  return axios.put(`/Menu/UpdateMenu`, {menuId, featuredImage, menuName, menuDescription, userId});
 };
 
 export {
@@ -185,6 +193,12 @@ export {
   getBookMarkOfUser,
   removeRecipeFromBookMark,
   listAllIngredient,
+  addRecipeToMenu,
+  removeRecipeFromMenu,
+  getMenuById,
+  deleteMenu,
+  getMenuByUserIdAndCheckExistRecipe,
+  updateMenu,
   createRecipe,
   listAllCountry
 };
