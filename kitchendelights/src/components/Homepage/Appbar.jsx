@@ -15,6 +15,50 @@ import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import GetInformationJWT from '../JWT/GetInformationJWT';
 import Cookies from 'js-cookie';
+import TextField from '@mui/material/TextField';
+
+const Overlay = styled("div")(({ theme }) => ({
+  position: "fixed",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  backgroundColor: "rgba(0, 0, 0, 0.5)",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  zIndex: 10,
+  cursor: "pointer",
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: "black",
+  "& .MuiInputBase-input": {
+    padding: theme.spacing(0, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(1)})`,
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: "20ch",
+      marginTop: "1ch",
+    },
+  },
+}));
+
+const CategoryButton = ({goToPage, text, leftLG, leftMD, leftSM, leftXS, rightLG}) => {
+  return (
+    <Button
+              color="secondary"
+              size="large"
+              variant="text"
+              sx={{color: "#000000", fontWeight: "bold", marginLeft: {xs: leftXS, sm: leftSM, md: leftMD, lg: leftLG}, marginRight: {lg: rightLG}}}
+              onClick={goToPage}
+            >
+            {text}
+            </Button>
+  );
+};
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -36,50 +80,6 @@ const Search = styled("div")(({ theme }) => ({
     height: 40,
   },
 }));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "black",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(0, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(1)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
-      marginTop: "1ch",
-    },
-  },
-}));
-
-const Overlay = styled("div")(({ theme }) => ({
-  position: "fixed",
-  top: 0,
-  left: 0,
-  width: "100%",
-  height: "100%",
-  backgroundColor: "rgba(0, 0, 0, 0.5)",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  zIndex: 10,
-  cursor: "pointer",
-}));
-
-const CategoryButton = ({goToPage, text, left}) => {
-  return (
-    <Button
-              color="secondary"
-              size="large"
-              variant="text"
-              sx={{color: "#000000", fontWeight: "bold", marginLeft: left}}
-              onClick={goToPage}
-            >
-            {text}
-            </Button>
-  );
-};
-
 
 export default function PrimarySearchAppBar() {
   const [loginForm, setLoginForm] = useState(false);
@@ -196,37 +196,23 @@ export default function PrimarySearchAppBar() {
     <Box sx={{ flexGrow: 1, minWidth: '70%'}}  color="primary" >
       <GetInformationJWT setId={setUserId}/>
       <AppBar position="static" sx={{ bgcolor: "#ffffff", height: "120px", borderRadius: "5px" }}>
-        <Toolbar>
-          <Typography
+          <Toolbar>
+            <Typography
             variant="h6"
             noWrap
             component="div"
-            sx={{ display: { xs: 'none', sm: 'block', color: "#000000", fontSize: "20px"}, marginRight: { xs: '1%', sm: '5%', md: '10%', lg: '15%' } }}
+            sx={{ marginTop: '20px' ,display: { xs: 'none', sm: 'block', color: "#000000", fontSize: "20px"}, marginRight: { xs: '1%', sm: '2%', md: '5%', lg: '10%' } }}
           >
             Kitchen Delights
           </Typography>
-          
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <CategoryButton goToPage={goToHomePage} text={"Trang chủ"}/>
-            <CategoryButton goToPage={goToRepice} text={"Công thức"}/>
-            <CategoryButton goToPage={goToBlog} text={"Blog"}/>
-            <CategoryButton goToPage={goToNews} text={"Tin tức"}/>
-            <CategoryButton text={"Bán chạy nhất"}/>
-            <CategoryButton text={"Đánh giá cao"}/>
-
+          <CategoryButton goToPage={goToHomePage} text={"Trang chủ"} leftLG="10%" leftMD="5%" leftSM="2%" leftXS="1%"/>
+          <CategoryButton goToPage={goToRepice} text={"Công thức nấu ăn"}/>
+          <CategoryButton goToPage={goToNews} text={"Tin tức"}/>
+          <CategoryButton goToPage={goToBlog} text={"Blog"} />
             <Search>
-            <StyledInputBase
-              placeholder="Tìm những gì bạn thích"
-              inputProps={{ 'aria-label': 'search' }}
-              sx={{ color: "rgba(0, 0, 0, 0.54)" }}
-            />
+            <StyledInputBase placeholder="Tìm những gì bạn thích" inputProps={{ 'aria-label': 'search' }} sx={{ color: "rgba(0, 0, 0, 0.54)" }}/>
             </Search>
-            <Box sx={{ flexGrow: 1 }}>
-            <SearchIcon 
-              sx={{bgcolor: "#ff5e00", borderRadius: '15px', width: '48px', height: '42px', marginTop: '10px'}}
-              />
-            </Box>
-
+            <SearchIcon sx={{bgcolor: "#ff5e00", borderRadius: '15px', width: '48px', height: '42px'}}/>
             <IconButton
               size="large"
               edge="end"
@@ -234,16 +220,15 @@ export default function PrimarySearchAppBar() {
               aria-controls={menuId}
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
-              sx={{ marginLeft: '20px'}}
+              sx={{ marginLeft: '20px', marginRight: '15%'}}
             >
-              <AccountCircleIcon fontSize="large" />
+              <AccountCircleIcon fontSize="large"/>
             </IconButton>
-            
-          </Box>
         </Toolbar>
 
         <Toolbar>
-          <CategoryButton text={"Thịt"} left="25%"/>
+          {/* Load category ... Thêm menu subcategory */}
+          <CategoryButton text={"Thịt"} leftLG="25%"/>
           <CategoryButton text={"Đồ ăn chay"}/>
           <CategoryButton text={"Dinh dưỡng"}/>
           <CategoryButton text={"Truyền thống"}/>
@@ -251,6 +236,7 @@ export default function PrimarySearchAppBar() {
           <CategoryButton text={"Rau & Salad"}/>
           <CategoryButton text={"Tráng miệng"}/>
           <CategoryButton text={"Đồ uống"}/>
+          {/* Load category ... Thêm menu subcategory */}
         </Toolbar>
       </AppBar>
       {(userIdExist != null ) && renderMenu}
