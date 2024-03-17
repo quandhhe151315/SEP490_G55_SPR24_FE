@@ -24,6 +24,8 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { useSnackbar } from '../Snackbar/Snackbar.jsx';
 import { useNavigate } from 'react-router-dom';
+import { uploadImage } from '../../services/BlogServices.jsx';
+
 const AppCreateNews = ({title, setContent, handleCreateNews}) => {
   const systemSettingsPrefersDarkMode = useMediaQuery(
     "(prefers-color-scheme: dark)"
@@ -115,8 +117,33 @@ const AppCreateRecipe = () => {
   const [nameImage, setNameImage] = useState(
     Array.from({ length: 2 }, (_, index) => ({ RecipeImageURL: '' }))
   );
-  const [nameImagePosition, setNameImagePosition] = useState(1);
+
   //
+
+
+  // image file send to data 
+  const [imageSendToData, setImageSendToData] = useState(
+    Array.from({ length: 2 }, (_, index) => ({ recipeImageFile: '' }))
+  );
+  
+  const handleChangeRecipeImageData = (id, value) => {
+    setImageSendToData(prevRecipeContent => {
+      if (prevRecipeContent.length > 0) {
+        const updatedRecipeContent = [...prevRecipeContent];
+        updatedRecipeContent[id].recipeImageFile = value;
+        return updatedRecipeContent;
+      } else {
+
+        return prevRecipeContent;
+      }
+    });
+  }
+
+  const handleCreateNewRecipeImageData = () => {
+    setImageSendToData(prevRecipeIngre => [...prevRecipeIngre,{ recipeImageNumber: 0, recipeImageFile: '' }]);
+  }
+  //
+
 
   // data Ingredient
   type Ingredient = {
@@ -309,6 +336,7 @@ const AppCreateRecipe = () => {
   const handleCreateNewRecipeContent = () => {
     setRecipeContent(prevRecipeContent => [...prevRecipeContent,{ RecipeStepContent: '', RecipeImage: '' }]);
     setNameImage(prevNameImage => [...prevNameImage, { RecipeImageURL: '' }]);
+    handleCreateNewRecipeImageData();
   }
 
   const [open, setOpen] = useState(false);
@@ -324,10 +352,15 @@ const AppCreateRecipe = () => {
     placeholder: "Nội dung của bạn ...",
   });
 
-  const handleFileChange = (event, id) => {
+  const handleFileChange = async (event, id) => {
     const file = event.target.files[0];
     if (file) {
       if (file.type.startsWith('image/')) {
+        const resRecipeImage = await uploadImage(file, "recipe");
+        handleChangeRecipeImageData(id, resRecipeImage);
+
+        // console.log(resRecipeImage);
+
         handleChangeRecipeImage(id,  URL.createObjectURL(file));
         setNameImage(prevNameImage => {
           const updatedNameImage = [...prevNameImage];
@@ -340,13 +373,14 @@ const AppCreateRecipe = () => {
 };
 
   const [featuredImageName, setFeaturedImageName] = useState('');
-const handleFeaturesImageChange = (event) => {
+const handleFeaturesImageChange = async (event) => {
   const file = event.target.files[0];
   if (file) {
     
     setFeaturedImageName(file.name);
     if (file.type.startsWith('image/')) {
-      setFeaturedImage(URL.createObjectURL(file));
+      const resFeaturedImage = await uploadImage(file, "recipe");
+      setFeaturedImage(resFeaturedImage);
     } else {
     }
   }
@@ -364,21 +398,11 @@ const handleViewCreateNewRecipe = () => {
     let num = 1;
     for (let index = 0; index < recipeContent.length; index ++) {
       contentRecipes += '<p><strong><span style="font-size: 18px">Bước '+ num +': </span></strong><span style="font-size: 18px">'+ recipeContent[index].RecipeStepContent +'</span></p><p></p><img height="auto" style="text-align: center; aspect-ratio: 1.74672 / 1" src='+recipeContent[index].RecipeImage+' alt="Ảnh" width="700"></li></ul><p></p>';
-      recipeContentSend += '<p><strong><span style="font-size: 18px">Bước '+ num +': </span></strong><span style="font-size: 18px">'+ recipeContent[index].RecipeStepContent +'</span></p><p></p><img height="auto" style="text-align: center; aspect-ratio: 1.74672 / 1" src='+recipeContent[index].RecipeImage+' alt="Ảnh" width="700"></li></ul><p></p>';
+
+      recipeContentSend += '<p><strong><span style="font-size: 18px">Bước '+ num +': </span></strong><span style="font-size: 18px">'+ recipeContent[index].RecipeStepContent +'</span></p><p></p><img height="auto" style="text-align: center; aspect-ratio: 1.74672 / 1" src="'+imageSendToData[index].recipeImageFile+'" alt="Ảnh" width="700"></li></ul><p></p>';
+      
       num ++;
     };
-  }
-
-  const [countryId, setCountryId] = useState();
-  const [isFree, setIsFree] = useState(false);
-  const [recipeCost, setRecipeCost] = useState('');
-
-  const handleIsFree = (event) => {
-    setIsFree(event.target.checked);
-  }
-
-  const handleChangeCountryId = (countryId) => {
-    setCountryId(countryId);
   }
 
   const handleAPICreateNewRecipe = async () => {
@@ -393,6 +417,18 @@ const handleViewCreateNewRecipe = () => {
     } catch (error) {
       showSnackbar('Create new recipe fail!', "error");
     }
+  }
+
+  const [countryId, setCountryId] = useState();
+  const [isFree, setIsFree] = useState(false);
+  const [recipeCost, setRecipeCost] = useState('');
+
+  const handleIsFree = (event) => {
+    setIsFree(event.target.checked);
+  }
+
+  const handleChangeCountryId = (countryId) => {
+    setCountryId(countryId);
   }
 
   return (

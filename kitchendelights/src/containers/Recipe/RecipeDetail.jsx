@@ -39,6 +39,8 @@ import { getMenus } from "../../services/ApiServices";
 import { addRecipeToBookMark } from "../../services/ApiServices";
 import CommentSection from "../../containers/BoxComment/CommentSection";
 import Cookies from 'js-cookie';
+import { RichTextReadOnly } from "mui-tiptap";
+import useExtensions from "../../components/Richtext/useExtension.ts";
 function RecipeDetail() {
   const navigate = useNavigate();
   const [data, setdata] = useState();
@@ -149,6 +151,9 @@ function RecipeDetail() {
     }
   };
 
+  const extensions = useExtensions({
+    placeholder: "Add your own content here...",
+  });
   return (
     <div>
       <GetInformationJWT setId={setId} />
@@ -299,7 +304,7 @@ function RecipeDetail() {
 
           <CardContent>
             <Typography gutterBottom variant="h6" component="div">
-              {data?.recipeContent}
+              {/* {data?.recipeContent} */}
             </Typography>
           </CardContent>
           <CardContent>
@@ -332,11 +337,9 @@ function RecipeDetail() {
                 label="175g únalted butter, nelted"
               />
             </FormGroup>
-            <Typography sx={{ fontSize: 25, fontWeight: "bold" }}>
-              Cách làm
-            </Typography>
+            
             <Typography gutterBottom variant="h6" component="div">
-              {data?.recipeContent}
+              <RichTextReadOnly content={data?.recipeContent} extensions={extensions}/>
             </Typography>
 
             <Typography
