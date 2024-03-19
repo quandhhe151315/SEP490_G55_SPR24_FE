@@ -31,14 +31,17 @@ import Checkbox from "@mui/material/Checkbox";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import AddRecipeToMenuDialog from "../Menu/AddRecipeToMenu";
 import { toast } from "react-toastify";
-import { getRecipessById, getMenuByUserIdAndCheckExistRecipe } from "../../services/ApiServices";
+import {
+  getRecipessById,
+  getMenuByUserIdAndCheckExistRecipe,
+} from "../../services/ApiServices";
 import moment from "moment";
 import CreateNewMenuDialog from "../Menu/CreateNewMenu";
 import GetInformationJWT from "../../components/JWT/GetInformationJWT";
 import { getMenus } from "../../services/ApiServices";
 import { addRecipeToBookMark } from "../../services/ApiServices";
 import CommentSection from "../../containers/BoxComment/CommentSection";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 import { RichTextReadOnly } from "mui-tiptap";
 import useExtensions from "../../components/Richtext/useExtension.ts";
 function RecipeDetail() {
@@ -46,11 +49,11 @@ function RecipeDetail() {
   const [data, setdata] = useState();
   const { recipeId } = useParams();
   //const {uId,rId ,type} = useParams();
-  const getUserIdFromCookie= () => {
-    const cookies = document.cookie.split('; ');
+  const getUserIdFromCookie = () => {
+    const cookies = document.cookie.split("; ");
     for (const cookie of cookies) {
-      const [name, value] = cookie.split('=');
-      if (name === 'userId') {
+      const [name, value] = cookie.split("=");
+      if (name === "userId") {
         return value;
       }
     }
@@ -58,11 +61,11 @@ function RecipeDetail() {
   };
 
   const uId = getUserIdFromCookie();
- 
+
   const rId = recipeId;
   const type = 1;
   console.log("idRID: ", rId);
-  console.log("userId",uId);
+  console.log("userId", uId);
   const GoToBookMark = () => {
     navigate("/BookMark");
   };
@@ -101,9 +104,9 @@ function RecipeDetail() {
   const handleAddBookMark = async () => {
     try {
       const response = await addRecipeToBookMark(uId, rId, type);
-      console.log(uId, rId, type);
+      console.log("12333", uId, rId, type);
       GoToBookMark();
-
+      toast.success("Thêm vào danh sách thành công");
       if (response.status === 200) {
         console.log("add thanh cong");
       } else {
@@ -270,7 +273,8 @@ function RecipeDetail() {
             recipeId={recipeId}
           />
           <CreateNewMenuDialog
-            open={createMenuDialog}s
+            open={createMenuDialog}
+            s
             handleClose={handleCloseCreateMenuDialog}
           />
         </Stack>
@@ -337,22 +341,20 @@ function RecipeDetail() {
                 label="175g únalted butter, nelted"
               />
             </FormGroup>
-            
-            <Typography gutterBottom variant="h6" component="div">
-              <RichTextReadOnly content={data?.recipeContent} extensions={extensions}/>
-            </Typography>
 
+            <Typography gutterBottom variant="h6" component="div">
+              <RichTextReadOnly
+                content={data?.recipeContent}
+                extensions={extensions}
+              />
+            </Typography>
             <Typography
-              sx={{
-                fontSize: 25,
-                textTransform: "uppercase",
-                fontWeight: "bold",
-                color: "orange",
-              }}
+              color="#ff5e00"
+              sx={{ fontSize: "35px", fontWeight: "bold" }}
             >
               Bình luận
             </Typography>
-            <CommentSection />
+            <CommentSection recipeId={recipeId} />
           </CardContent>
         </Card>
       </Box>

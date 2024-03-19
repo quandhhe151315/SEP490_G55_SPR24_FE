@@ -31,14 +31,12 @@ const myProfile = (id) => {
 // Bookmark
 
 const addRecipeToBookMark = (uId, rId, type) => {
-  return axios.put("/Bookmark/ModifyRecipeInBookMark", {
-    uId,
-    rId,
-    type,
-  });
+  return axios.put(
+    `/Bookmark/ModifyRecipeInBookMark?userId=${uId}&recipeId=${rId}&type=${type}`
+  );
 };
 const getBookMarkOfUser = (id) => {
-  return axios.get(`/Bookmark/GetBookmarkOfUser?id=${id}`);
+  return axios.get(`/Bookmark/GetBookmarkOfUser?Id=${id}`);
 };
 const removeRecipeFromBookMark = (uId, rId, type) => {
   return axios.put(
@@ -46,6 +44,20 @@ const removeRecipeFromBookMark = (uId, rId, type) => {
   );
 };
 // Bookmark
+
+// comment rating:
+const CreateReview = (recipeId, userId, ratingValue, ratingContent) => {
+  return axios.post("Review/Create", {
+    recipeId,
+    userId,
+    ratingValue,
+    ratingContent,
+  });
+};
+const GetReviewByRecipeId = (id) => {
+  return axios.get(`/Review/Get?id=${id}`);
+};
+// comment rating
 
 const changeMyProfile = (
   userId,
@@ -75,12 +87,40 @@ const changeMyProfile = (
 
 const listAllCountry = () => {
   return axios.get("/Country/GetAllCountry");
-}
+};
 
 // repice
-const createRecipe = (userId,featuredImage,recipeDescription,videoLink,recipeTitle,preparationTime,cookTime,recipeServe,recipeContent,isFree,recipePrice,countryId,recipeIngredients) => {
-  return axios.post("/Recipe/CreateRecipe", { userId,featuredImage,recipeDescription,videoLink,recipeTitle,preparationTime,cookTime,recipeServe,recipeContent,isFree,recipePrice,countryId,recipeIngredients });
-}
+const createRecipe = (
+  userId,
+  featuredImage,
+  recipeDescription,
+  videoLink,
+  recipeTitle,
+  preparationTime,
+  cookTime,
+  recipeServe,
+  recipeContent,
+  isFree,
+  recipePrice,
+  countryId,
+  recipeIngredients
+) => {
+  return axios.post("/Recipe/CreateRecipe", {
+    userId,
+    featuredImage,
+    recipeDescription,
+    videoLink,
+    recipeTitle,
+    preparationTime,
+    cookTime,
+    recipeServe,
+    recipeContent,
+    isFree,
+    recipePrice,
+    countryId,
+    recipeIngredients,
+  });
+};
 const getRecipes = () => {
   return axios.get("/Recipe/GetAllRecipe");
 };
@@ -124,46 +164,74 @@ const listUsers = () => {
   return axios.get("/User/List");
 };
 
-const getBlogList = (params) => {
-  return axios.get(`/Blog/Get`, { params: params });
+const getBlogList = () => {
+  return axios.get(`/Blog/Get`);
 };
 
 const getBlogDetail = (id) => {
   return axios.get(`/Blog/Get?id=${id}`);
 };
-const createBlog = (blogContent) => {
-  return axios.post(`/Blog/Create`, blogContent);
+const createBlog = () => {
+  return axios.post(`/Blog/Create`);
 };
 
 //menu API
 
 const getMenus = (id) => {
-    return axios.get(`/Menu/GetMenuByUserId?userId=${id}`);
-}
-const createMenu = (userId, menuName, featuredImage = null, menuDescription = null) => {
-    return axios.post('/Menu/CreateMenu', {featuredImage, menuName, menuDescription, userId});
-}
+  return axios.get(`/Menu/GetMenuByUserId?userId=${id}`);
+};
+const createMenu = (
+  userId,
+  menuName,
+  featuredImage = null,
+  menuDescription = null
+) => {
+  return axios.post("/Menu/CreateMenu", {
+    featuredImage,
+    menuName,
+    menuDescription,
+    userId,
+  });
+};
 const addRecipeToMenu = (menuId, recipeId) => {
-    return axios.put(`/Menu/AddRecipeToMenu?menuId=${menuId}&recipeId=${recipeId}`);
-}
+  return axios.put(
+    `/Menu/AddRecipeToMenu?menuId=${menuId}&recipeId=${recipeId}`
+  );
+};
 const removeRecipeFromMenu = (menuId, recipeId) => {
-    return axios.put(`/Menu/RemoveRecipeFromMenu?menuId=${menuId}&recipeId=${recipeId}`);
-}
+  return axios.put(
+    `/Menu/RemoveRecipeFromMenu?menuId=${menuId}&recipeId=${recipeId}`
+  );
+};
 const getMenuById = (menuId) => {
-    return axios.get(`/Menu/GetMenuById?menuId=${menuId}`);
+  return axios.get(`/Menu/GetMenuById?menuId=${menuId}`);
 };
 const deleteMenu = (menuId) => {
-    return axios.delete(`Menu/DeleteMenu?menuId=${menuId}`);
+  return axios.delete(`Menu/DeleteMenu?menuId=${menuId}`);
 };
 
 const listAllIngredient = () => {
   return axios.get("/Ingredient/GetAllIngredient");
 };
 const getMenuByUserIdAndCheckExistRecipe = (userId, recipeId) => {
-  return axios.get(`/Menu/GetMenuByUserIdAndCheckExistRecipe?userId=${userId}&recipeId=${recipeId}`);
+  return axios.get(
+    `/Menu/GetMenuByUserIdAndCheckExistRecipe?userId=${userId}&recipeId=${recipeId}`
+  );
 };
-const updateMenu = (menuId, menuName, menuDescription,featuredImage = null, userId=0) => {
-  return axios.put(`/Menu/UpdateMenu`, {menuId, featuredImage, menuName, menuDescription, userId});
+const updateMenu = (
+  menuId,
+  menuName,
+  menuDescription,
+  featuredImage = null,
+  userId = 0
+) => {
+  return axios.put(`/Menu/UpdateMenu`, {
+    menuId,
+    featuredImage,
+    menuName,
+    menuDescription,
+    userId,
+  });
 };
 
 export {
@@ -193,6 +261,8 @@ export {
   getBookMarkOfUser,
   removeRecipeFromBookMark,
   listAllIngredient,
+  CreateReview,
+  GetReviewByRecipeId,
   addRecipeToMenu,
   removeRecipeFromMenu,
   getMenuById,
@@ -200,5 +270,5 @@ export {
   getMenuByUserIdAndCheckExistRecipe,
   updateMenu,
   createRecipe,
-  listAllCountry
+  listAllCountry,
 };

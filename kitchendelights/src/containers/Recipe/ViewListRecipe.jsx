@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import Appbar from "../../components/Homepage/Appbar";
 import Typography from "@mui/material/Typography";
@@ -19,7 +19,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Rating from "@mui/material/Rating";
 import { Stack } from "@mui/material";
-import { getRecipes} from "../../services/ApiServices";
+import { getRecipes } from "../../services/ApiServices";
 import { toast } from "react-toastify";
 import image from "../../assets/images/news1.jpg";
 
@@ -53,38 +53,21 @@ const DisplayStyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const data3 = [
-  {
-    name1: "Thịt bò",
-    name2: "Rau củ",
-    name3: "Món ăn giàu dinh dưỡng ",
-    name4: "Thịt gà",
-    name5: "Thịt vịt",
-    name6: "Đồ ăn tốt cho sức khoẻ",
-  },
-];
-
-const DisplayItemNews = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-  marginTop: "30px",
-}));
-
 function ViewListRecipes() {
   const navigate = useNavigate();
-  const [data, setdata] = useState([]);
-  const [data2, setdata2] = useState([]);
+  const [freeRecipes, setFreeRecipes] = useState([]);
+  const [paidRecipes, setPaidRecipes] = useState([]);
+  const [currentPageFree, setCurrentPageFree] = useState(1);
+  const [currentPagePaid, setCurrentPagePaid] = useState(1);
+  const recipesPerPage = 8;
 
   const SearchNews = () => {
     navigate("/KitchenDelights");
   };
+
   const GoToCart = () => {
     navigate("/ShoppingCart");
   };
-  //
 
   useEffect(() => {
     getListRecipes();
@@ -95,21 +78,51 @@ function ViewListRecipes() {
       const response = await getRecipes();
       if (response.status === 200) {
         const dataFree = response?.data.filter((x) => x.isFree === true);
-        const dataNotFree = response?.data.filter((x) => x.isFree === false);
+        const dataPaid = response?.data.filter((x) => x.isFree === false);
 
-        setdata(dataFree);
-        setdata2(dataNotFree);
+        setFreeRecipes(dataFree);
+        setPaidRecipes(dataPaid);
       } else {
+        toast.error("Không thể tải danh sách công thức.");
       }
     } catch (error) {
-      toast.error("Khoong load dc list");
+      toast.error("Không thể tải danh sách công thức.");
     }
   };
+
+  const handleNextFree = () => {
+    setCurrentPageFree((prevPage) => prevPage + 1);
+  };
+
+  const handleForwardFree = () => {
+    setCurrentPageFree((prevPage) => Math.max(prevPage - 1, 1));
+  };
+
+  const handleNextPaid = () => {
+    setCurrentPagePaid((prevPage) => prevPage + 1);
+  };
+
+  const handleForwardPaid = () => {
+    setCurrentPagePaid((prevPage) => Math.max(prevPage - 1, 1));
+  };
+
+  const indexOfLastFreeRecipe = currentPageFree * recipesPerPage;
+  const indexOfFirstFreeRecipe = indexOfLastFreeRecipe - recipesPerPage;
+  const currentFreeRecipes = freeRecipes.slice(
+    indexOfFirstFreeRecipe,
+    indexOfLastFreeRecipe
+  );
+
+  const indexOfLastPaidRecipe = currentPagePaid * recipesPerPage;
+  const indexOfFirstPaidRecipe = indexOfLastPaidRecipe - recipesPerPage;
+  const currentPaidRecipes = paidRecipes.slice(
+    indexOfFirstPaidRecipe,
+    indexOfLastPaidRecipe
+  );
 
   return (
     <div>
       <Appbar />
-
       <Typography
         sx={{
           marginLeft: "320px",
@@ -161,9 +174,9 @@ function ViewListRecipes() {
         </Typography>
         <Box>
           <Grid container spacing={3}>
-            {data.map((item) => {
+            {currentFreeRecipes.map((item) => {
               return (
-                <Grid item lg={3} md={6} xs={12}>
+                <Grid item lg={3} md={6} xs={12} key={item.recipeId}>
                   <Card sx={{ maxWidth: 345 }}>
                     <CardMedia
                       component={"img"}
@@ -192,7 +205,6 @@ function ViewListRecipes() {
                           justifyContent: "space-between",
                         }}
                       >
-                        {" "}
                         <Rating
                           name="simple-controlled"
                           value={item.recipeRating}
@@ -215,7 +227,6 @@ function ViewListRecipes() {
                         Like
                       </Button>
                       <Link to={`/RecipeDetail/${item.recipeId}`}>
-                        {" "}
                         <Button size="small" endIcon={<VisibilityIcon />}>
                           Xem
                         </Button>
@@ -226,53 +237,44 @@ function ViewListRecipes() {
               );
             })}
           </Grid>
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginTop: "30px",
+            }}
+          >
+            <Button
+              variant="contained"
+              sx={{
+                bgcolor: "#ff5e00",
+                borderRadius: "15px",
+                width: "150px",
+                height: "42px",
+                color: "white",
+              }}
+              startIcon={<ForwardIcon sx={{ transform: "rotate(180deg)" }} />}
+              onClick={handleForwardFree}
+            >
+              Forward
+            </Button>
+            <Button
+              variant="contained"
+              sx={{
+                bgcolor: "#ff5e00",
+                borderRadius: "15px",
+                width: "150px",
+                height: "42px",
+                color: "white",
+              }}
+              endIcon={<ForwardIcon />}
+              onClick={handleNextFree}
+            >
+              Next
+            </Button>
+          </Typography>
         </Box>
 
-        <Typography
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginTop: "30px",
-          }}
-        >
-          <Button
-            variant="contained"
-            sx={{
-              bgcolor: "#ff5e00",
-              borderRadius: "15px",
-              width: "150px",
-              height: "42px",
-              color: "white",
-            }}
-            startIcon={<ForwardIcon sx={{ transform: "rotate(180deg)" }} />}
-          >
-            Forward
-          </Button>
-          <Button
-            variant="contained"
-            sx={{
-              bgcolor: "#ff5e00",
-              borderRadius: "15px",
-              width: "150px",
-              height: "42px",
-              color: "white",
-            }}
-            endIcon={<ForwardIcon />}
-          >
-            {" "}
-            Next
-          </Button>
-        </Typography>
-      </Typography>
-
-      <Typography
-        sx={{
-          marginLeft: "320px",
-          fontSize: "16px",
-          marginRight: "255px",
-          marginTop: "50px",
-        }}
-      >
         <Typography
           sx={{
             marginLeft: "320px",
@@ -289,9 +291,9 @@ function ViewListRecipes() {
         </Typography>
         <Box>
           <Grid container spacing={3}>
-            {data2.map((item) => {
+            {currentPaidRecipes.map((item) => {
               return (
-                <Grid item lg={3} md={6} xs={12}>
+                <Grid item lg={3} md={6} xs={12} key={item.recipeId}>
                   <Card sx={{ maxWidth: 345 }}>
                     <CardMedia
                       component={"img"}
@@ -320,7 +322,6 @@ function ViewListRecipes() {
                           justifyContent: "space-between",
                         }}
                       >
-                        {" "}
                         <Rating
                           name="simple-controlled"
                           value={item.recipeRating}
@@ -370,42 +371,43 @@ function ViewListRecipes() {
               );
             })}
           </Grid>
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginTop: "30px",
+            }}
+          >
+            <Button
+              variant="contained"
+              sx={{
+                bgcolor: "#ff5e00",
+                borderRadius: "15px",
+                width: "150px",
+                height: "42px",
+                color: "white",
+              }}
+              startIcon={<ForwardIcon sx={{ transform: "rotate(180deg)" }} />}
+              onClick={handleForwardPaid}
+            >
+              Forward
+            </Button>
+            <Button
+              variant="contained"
+              sx={{
+                bgcolor: "#ff5e00",
+                borderRadius: "15px",
+                width: "150px",
+                height: "42px",
+                color: "white",
+              }}
+              endIcon={<ForwardIcon />}
+              onClick={handleNextPaid}
+            >
+              Next
+            </Button>
+          </Typography>
         </Box>
-
-        <Typography
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginTop: "30px",
-          }}
-        >
-          <Button
-            variant="contained"
-            sx={{
-              bgcolor: "#ff5e00",
-              borderRadius: "15px",
-              width: "150px",
-              height: "42px",
-              color: "white",
-            }}
-            startIcon={<ForwardIcon sx={{ transform: "rotate(180deg)" }} />}
-          >
-            Forward
-          </Button>
-          <Button
-            variant="contained"
-            sx={{
-              bgcolor: "#ff5e00",
-              borderRadius: "15px",
-              width: "150px",
-              height: "42px",
-              color: "white",
-            }}
-            endIcon={<ForwardIcon />}
-          >
-            Next
-          </Button>
-        </Typography>
       </Typography>
       <Typography sx={{ marginTop: 3 }} />
       <Typography
