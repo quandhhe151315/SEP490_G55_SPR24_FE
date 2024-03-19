@@ -20,7 +20,7 @@ export default function BlogContent({
           alignItems={"center"}
         >
           <Stack direction={"row"} alignItems={"center"} gap={2}>
-            <Avatar>A</Avatar>
+            <Avatar>{userName?.split(" ")?.[0]}</Avatar>
             <Typography>{userName}</Typography>
           </Stack>
           <Stack>
@@ -30,7 +30,10 @@ export default function BlogContent({
       </Stack>
       <Stack mt={4}>
         <img
-          src="https://cdn.tgdd.vn/Files/2022/03/12/1420043/30-status-caption-nau-an-mua-dich-cuc-doc-dao-va-thu-vi-202203122354092008.jpg"
+          src={
+            image ||
+            "https://cdn.tgdd.vn/Files/2022/03/12/1420043/30-status-caption-nau-an-mua-dich-cuc-doc-dao-va-thu-vi-202203122354092008.jpg"
+          }
           width={"100%"}
           height={"400px"}
           style={{
@@ -40,7 +43,7 @@ export default function BlogContent({
         />
       </Stack>
       <Stack mt={2}>
-        <Typography>{content}</Typography>
+        <div dangerouslySetInnerHTML={{ __html: content }}></div>
       </Stack>
     </Stack>
   );

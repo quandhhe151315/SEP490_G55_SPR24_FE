@@ -84,8 +84,43 @@ const changeMyProfile = (
     role,
   });
 };
-// repice
 
+const listAllCountry = () => {
+  return axios.get("/Country/GetAllCountry");
+};
+
+// repice
+const createRecipe = (
+  userId,
+  featuredImage,
+  recipeDescription,
+  videoLink,
+  recipeTitle,
+  preparationTime,
+  cookTime,
+  recipeServe,
+  recipeContent,
+  isFree,
+  recipePrice,
+  countryId,
+  recipeIngredients
+) => {
+  return axios.post("/Recipe/CreateRecipe", {
+    userId,
+    featuredImage,
+    recipeDescription,
+    videoLink,
+    recipeTitle,
+    preparationTime,
+    cookTime,
+    recipeServe,
+    recipeContent,
+    isFree,
+    recipePrice,
+    countryId,
+    recipeIngredients,
+  });
+};
 const getRecipes = () => {
   return axios.get("/Recipe/GetAllRecipe");
 };
@@ -129,10 +164,6 @@ const listUsers = () => {
   return axios.get("/User/List");
 };
 
-const listAllIngredient = () => {
-  return axios.get("/Ingredient/GetAllIngredient");
-};
-
 const getBlogList = () => {
   return axios.get(`/Blog/Get`);
 };
@@ -156,6 +187,46 @@ const createMenu = (
   menuDescription = null
 ) => {
   return axios.post("/Menu/CreateMenu", {
+    featuredImage,
+    menuName,
+    menuDescription,
+    userId,
+  });
+};
+const addRecipeToMenu = (menuId, recipeId) => {
+  return axios.put(
+    `/Menu/AddRecipeToMenu?menuId=${menuId}&recipeId=${recipeId}`
+  );
+};
+const removeRecipeFromMenu = (menuId, recipeId) => {
+  return axios.put(
+    `/Menu/RemoveRecipeFromMenu?menuId=${menuId}&recipeId=${recipeId}`
+  );
+};
+const getMenuById = (menuId) => {
+  return axios.get(`/Menu/GetMenuById?menuId=${menuId}`);
+};
+const deleteMenu = (menuId) => {
+  return axios.delete(`Menu/DeleteMenu?menuId=${menuId}`);
+};
+
+const listAllIngredient = () => {
+  return axios.get("/Ingredient/GetAllIngredient");
+};
+const getMenuByUserIdAndCheckExistRecipe = (userId, recipeId) => {
+  return axios.get(
+    `/Menu/GetMenuByUserIdAndCheckExistRecipe?userId=${userId}&recipeId=${recipeId}`
+  );
+};
+const updateMenu = (
+  menuId,
+  menuName,
+  menuDescription,
+  featuredImage = null,
+  userId = 0
+) => {
+  return axios.put(`/Menu/UpdateMenu`, {
+    menuId,
     featuredImage,
     menuName,
     menuDescription,
@@ -192,4 +263,12 @@ export {
   listAllIngredient,
   CreateReview,
   GetReviewByRecipeId,
+  addRecipeToMenu,
+  removeRecipeFromMenu,
+  getMenuById,
+  deleteMenu,
+  getMenuByUserIdAndCheckExistRecipe,
+  updateMenu,
+  createRecipe,
+  listAllCountry,
 };

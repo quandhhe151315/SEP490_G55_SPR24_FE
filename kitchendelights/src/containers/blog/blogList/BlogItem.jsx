@@ -8,9 +8,8 @@ export default function BlogItem({
   image,
   createDate,
   userName,
+  blogImage,
 }) {
-  const x =
-    "Gợi Ý 4 Cách Nấu Cháo Yến Mạch Cho Bé Gợi Ý 4 Cách Nấu Cháo Yến Mạc Cho Bé Gợi Ý 4 Cách Nấu Cháo Yến Mạch Cho Bé";
   return (
     <a href={`/blog/${id}`} style={{ textDecoration: "none" }}>
       <Card
@@ -24,28 +23,33 @@ export default function BlogItem({
         }}
       >
         <CardContent>
-          <Typography
-            sx={{
-              display: "-webkit-box",
-              overflow: "hidden",
-              WebkitBoxOrient: "vertical",
-              WebkitLineClamp: 2,
-              px: 1,
-            }}
-            fontSize={18}
-            fontWeight={600}
-            WebkitLineClamp={1}
-            variant="body1"
-          >
-            {title}
-          </Typography>
+          <Stack height={'50px'}>
+            <Typography
+              sx={{
+                display: "-webkit-box",
+                overflow: "hidden",
+                WebkitBoxOrient: "vertical",
+                WebkitLineClamp: 2,
+                px: 1,
+              }}
+              fontSize={18}
+              fontWeight={600}
+              WebkitLineClamp={1}
+              variant="body1"
+            >
+              {title}
+            </Typography>
+          </Stack>
           <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/600px-Good_Food_Display_-_NCI_Visuals_Online.jpg"
+            src={
+              blogImage ||
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/600px-Good_Food_Display_-_NCI_Visuals_Online.jpg"
+            }
             height={200}
             width={"100%"}
             style={{ marginTop: "8px" }}
           />
-          <Typography
+          {/* <Typography
             variant="body2"
             mt={1}
             sx={{
@@ -56,13 +60,26 @@ export default function BlogItem({
               px: 1,
               mt: 1,
             }}
-          >
-            {content}
-          </Typography>
+          > */}
+          <Stack height={"60px"} px={1}>
+            <Stack
+              dangerouslySetInnerHTML={{ __html: content }}
+              sx={{
+                display: "-webkit-box",
+                overflow: "hidden",
+                WebkitBoxOrient: "vertical",
+                WebkitLineClamp: 3,
+                px: 1,
+                mt: 1,
+              }}
+            ></Stack>
+          </Stack>
+
+          {/* </Typography> */}
           <Stack
             sx={{
               mt: 1,
-              px: 1,
+              px: 1.5,
               display: "flex",
               gap: 1,
               flexDirection: "row",

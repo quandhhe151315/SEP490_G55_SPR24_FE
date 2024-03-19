@@ -9,9 +9,10 @@ import {
 import React from "react";
 import BlogContent from "./BlogContent";
 import BlogSearch from "./BlogSearch";
-import BlogComment from "./BlogComment";
+import BlogComment from "./Comment/BlogComment";
 import { useParams } from "react-router";
 import { useGetBlogDetail } from "../../../hook/useGetBlogDetail";
+import PrimarySearchAppBar from "../../../components/Homepage/Appbar";
 
 export default function BlogDetail() {
   const { slug } = useParams();
@@ -34,7 +35,8 @@ export default function BlogDetail() {
   ];
   return (
     <Stack width={"100%"} height={"100%"} pt={4}>
-      <Stack sx={{ width: "80%", px: 4, mx: "auto" }}>
+      <PrimarySearchAppBar />
+      <Stack sx={{ width: "80%", px: 4, mx: "auto", mt: 4 }}>
         <Stack>
           <Typography
             fontSize={28}
@@ -68,7 +70,7 @@ export default function BlogDetail() {
             <BlogComment />
           </Grid>
           <Grid item xs={4}>
-            <BlogSearch />
+            <BlogSearch categoryId={blogDetail?.categoryId} />
           </Grid>
         </Grid>
       </Stack>

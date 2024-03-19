@@ -31,7 +31,10 @@ import Checkbox from "@mui/material/Checkbox";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import AddRecipeToMenuDialog from "../Menu/AddRecipeToMenu";
 import { toast } from "react-toastify";
-import { getRecipessById } from "../../services/ApiServices";
+import {
+  getRecipessById,
+  getMenuByUserIdAndCheckExistRecipe,
+} from "../../services/ApiServices";
 import moment from "moment";
 import CreateNewMenuDialog from "../Menu/CreateNewMenu";
 import GetInformationJWT from "../../components/JWT/GetInformationJWT";
@@ -39,6 +42,8 @@ import { getMenus } from "../../services/ApiServices";
 import { addRecipeToBookMark } from "../../services/ApiServices";
 import CommentSection from "../../containers/BoxComment/CommentSection";
 import Cookies from "js-cookie";
+import { RichTextReadOnly } from "mui-tiptap";
+import useExtensions from "../../components/Richtext/useExtension.ts";
 function RecipeDetail() {
   const navigate = useNavigate();
   const [data, setdata] = useState();
@@ -71,16 +76,28 @@ function RecipeDetail() {
   const [id, setId] = useState("");
   const [listMenu, setListMenu] = useState([]);
 
+  // const getListMenu = async () => {
+  //   try {
+  //     const response = await getMenus(id);
+  //     if (response.status === 200) {
+  //       setListMenu(response.data);
+  //     } else {
+  //       console.error("lỗi khi tải danh sách menu");
+  //     }
+  //   } catch (error) {
+  //     console.error("lỗi API getMenu", error);
+  //   }
+  // };
   const getListMenu = async () => {
     try {
-      const response = await getMenus(id);
+      const response = await getMenuByUserIdAndCheckExistRecipe(id, rId);
       if (response.status === 200) {
         setListMenu(response.data);
       } else {
-        console.error("lỗi khi tải danh sách menu");
+        console.log("lỗi API menu", response);
       }
     } catch (error) {
-      console.error("lỗi API getMenu", error);
+      console.log("lỗi khi tải danh sách menu", error);
     }
   };
 
@@ -137,6 +154,9 @@ function RecipeDetail() {
     }
   };
 
+  const extensions = useExtensions({
+    placeholder: "Add your own content here...",
+  });
   return (
     <div>
       <GetInformationJWT setId={setId} />
@@ -250,9 +270,11 @@ function RecipeDetail() {
             handleClose={handleCloseSelectMenuDialog}
             onOpenCreate={handleOpenCreateMenuDialog}
             listMenu={listMenu}
+            recipeId={recipeId}
           />
           <CreateNewMenuDialog
             open={createMenuDialog}
+            s
             handleClose={handleCloseCreateMenuDialog}
           />
         </Stack>
@@ -286,7 +308,7 @@ function RecipeDetail() {
 
           <CardContent>
             <Typography gutterBottom variant="h6" component="div">
-              {data?.recipeContent}
+              {/* {data?.recipeContent} */}
             </Typography>
           </CardContent>
           <CardContent>
@@ -319,11 +341,12 @@ function RecipeDetail() {
                 label="175g únalted butter, nelted"
               />
             </FormGroup>
-            <Typography sx={{ fontSize: 25, fontWeight: "bold" }}>
-              Cách làm
-            </Typography>
+
             <Typography gutterBottom variant="h6" component="div">
-              {data?.recipeContent}
+              <RichTextReadOnly
+                content={data?.recipeContent}
+                extensions={extensions}
+              />
             </Typography>
             <Typography
               color="#ff5e00"
