@@ -60,7 +60,7 @@ function AvatarMenu({ handleClick, onMenuSelect }) {
     return (
         <div>
             <GetInformationJWT setId={setId} />
-            <Paper sx={{ width: 280, maxWidth: '100%', marginTop: '30px', marginLeft: '46%', border: '1px solid #bfb8b8' }}>
+            <Paper sx={{ width: 250, maxWidth: '100%', marginTop: '30px', marginLeft: '46%', border: '1px solid #bfb8b8' }}>
                 <MenuList>
                     <MenuItem>
                         <ListItemIcon>
@@ -85,7 +85,7 @@ function AvatarMenu({ handleClick, onMenuSelect }) {
                 </MenuList>
             </Paper>
 
-            <Paper sx={{ maxHeight:'500px', overflow:'auto', width: 280, maxWidth: '100%', marginTop: '20px', marginLeft: '46%', border: '1px solid #bfb8b8' }}>
+            <Paper sx={{ maxHeight:'500px', overflow:'auto', width: 250, maxWidth: '100%', marginTop: '20px', marginLeft: '46%', border: '1px solid #bfb8b8' }}>
                 <MenuList>
                     <MenuItem>
                         <ListItemIcon>
@@ -135,7 +135,7 @@ function AvatarMenu({ handleClick, onMenuSelect }) {
                 </MenuList>
             </Paper> 
 
-            <Paper sx={{ width: 280, maxWidth: '100%', marginTop: '20px', marginLeft: '46%', border: '1px solid #bfb8b8' }}>
+            <Paper sx={{ width: 250, maxWidth: '100%', marginTop: '20px', marginLeft: '46%', border: '1px solid #bfb8b8' }}>
                 <MenuList>
                     <MenuItem>
                         <ListItemIcon>

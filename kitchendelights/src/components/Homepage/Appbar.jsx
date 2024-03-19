@@ -141,11 +141,7 @@ export default function PrimarySearchAppBar() {
   };
 
   const goToMyProfile = () => {
-    navigate("/UserProfile");
-  };
-
-  const goToChangePassword = () => {
-    navigate("/ChangePassword");
+    navigate("/MyProfile");
   };
 
   const goToBlog = () => {
@@ -181,11 +177,6 @@ export default function PrimarySearchAppBar() {
           {userIdExist == true && (
       <>
         <MenuItem onClick={goToMyProfile}>Thông tin cá nhân</MenuItem>
-        <MenuItem onClick={goToBookMark}>Công thức yêu thích</MenuItem>
-        <MenuItem onClick={handleMenuClose}>Công thức của tôi</MenuItem>
-        <MenuItem onClick={handleMenuClose}>Đánh giá</MenuItem>
-        <MenuItem onClick={handleMenuClose}>Blog</MenuItem>
-        <MenuItem onClick={handleMenuClose}>Trở thành đầu bếp</MenuItem>
         <MenuItem onClick={handleLogout}>Đăng xuất</MenuItem>
       </>
     )}
