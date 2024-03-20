@@ -5,7 +5,7 @@ import "react-quill/dist/quill.snow.css";
 import useSWR, { mutate } from "swr";
 import styles from "./editor.module.css";
 
-function BlogEditor({ onChange, value }) {
+function BlogEditor({ onChange, value, style }) {
   const toolbarOptions = [
     [{ header: [1, 2, 3, 4, 5, 6, false] }],
     ["bold", "italic", "underline", "strike"], // toggled buttons
@@ -28,7 +28,7 @@ function BlogEditor({ onChange, value }) {
     <ReactQuill
       modules={module}
       theme="snow"
-      style={{ height: "400px" }}
+      style={{ height: "400px", ...style }}
       value={value}
       onChange={onChange}
       className={styles.fixHeightCk}
