@@ -28,6 +28,7 @@ function UserProfile() {
         <Grid container >
             <Grid item xs={2}>
                 <AvatarMenu handleClick={handleClick} onMenuSelect={handleMenuSelect}/>
+                
             </Grid>
             <Grid item xs={1}  ></Grid>
             <Grid item xs={9}  >

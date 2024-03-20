@@ -3,7 +3,7 @@ import AvatarMenu from '../../components/Account/AvatarMenu';
 import Appbar from '../../components/Homepage/Appbar';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-
+import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
@@ -109,20 +109,89 @@ function MyProfile() {
 
     return (
         <div>
-            <GetInformationJWT setId={setId}/>
-            <Box sx={{ display: 'flex' }}>
+<Appbar />
+      <GetInformationJWT setId={setId}/>
+      <Box sx={{ display: 'flex' }}>
+        <Grid container spacing={2}>
+          <Grid item xs={4}>
+            <AvatarMenu />
+          </Grid>
+          <Grid item xs={8}>
+
+            <Stack spacing={2} sx={{marginTop: '2%', marginLeft: '1%'}}>
+              <Typography sx={{ fontSize: '30px', fontWeight: 'bold'}}>Chỉnh sửa thông tin cá nhân</Typography>
+              <Typography sx={{ fontSize: '16px'}}>Đây là nơi chỉnh sửa những thông tin cá nhân của bạn</Typography>
+              <Paper sx={{ marginTop: '3%', borderRadius: '15px', border: '1px solid #bfb8b8', width: '77%', height: '100%'}}>
+                
+                  <Grid container spacing={2}>
+
+                    <Grid item xs={3}>
+                    <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '20%', marginLeft: '40%' }}>Email: </Typography>
+                    <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '30%', marginLeft: '40%' }}>Họ và tên: </Typography>
+                    <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '30%', marginLeft: '40%' }}>Mật khẩu: </Typography>
+                    <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '30%', marginLeft: '40%' }}>Số điện thoại: </Typography>
+                    <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '30%', marginLeft: '40%' }}>Địa chỉ: </Typography>
+                    </Grid>
+
+                    <Grid item xs={5}>
+                    <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '12%'}}>{email} </Typography>
+
+                    <Grid container spacing={1}>
+                    <Grid item xs={4}>
+                        <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '55%'}}>Họ: <TextField size='small' type="input" value={lastName} onChange={(e) => setLastName(e.target.value)} sx={{ width: '55%', fontSize: '16px', fontWeight: 'bold',marginLeft: '1%' }} /></Typography>
+                        </Grid>
+                        <Grid item xs={4}>
+                        <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '55%'}}>Đệm: <TextField size='small' type="input" value={middleName} onChange={(e) => setMiddleName(e.target.value)} sx={{ width: '55%', fontSize: '16px', fontWeight: 'bold',marginLeft: '1%' }} /></Typography>
+                        </Grid>
+                        <Grid item xs={4}>
+                        <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '55%'}}>Tên: <TextField size='small' type="input" value={firstName} onChange={(e) => setFirstName(e.target.value)} sx={{ width: '55%', fontSize: '16px', fontWeight: 'bold',marginLeft: '1%' }} /></Typography>
+                        </Grid>
+                    </Grid>
+
+                    <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '15%'}}>******** </Typography>
+                    <TextField size='small' type="input" value={phone} onChange={(e) => setPhone(e.target.value)} sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '15%'}} />
+                    <TextField size='small' type="input" value={address} onChange={(e) => setAddress(e.target.value)} sx={{  fontSize: '16px', fontWeight: 'bold', marginTop: '13%' }} />
+                    </Grid>
+
+                    <Grid item xs={4}>
+                    <Typography sx={{marginTop: '50px' }}>
+                                    <img src={avatarImage} alt="Image news" style={{width: '80%', height: '80%', overflow: 'hidden', marginRight: '2%' }} />
+                                        <br />
+                                        <Button variant="contained" onClick={handleOpenDialog} sx={{bgcolor: "#ff5e00", borderRadius: '15px', marginLeft: '17%', marginTop: '5%' ,width: '50%', height: '20%', color: 'white' }}>Đổi Avatar</Button>
+                                        <Grid item xs container direction="row">
+                                        </Grid>
+                                    </Typography>
+                    </Grid>
+
+                    
+                    <Button variant="contained" onClick={changeProfile} sx={{ bgcolor: "#ff5e00", marginTop: '5%', borderRadius: '15px', marginLeft: '40%',marginBottom: '5%' , width: '20%', height: '20%', color: 'white' }}>Đổi thông tin</Button>
+                  </Grid>
+                
+              </Paper>
+            </Stack>
+          </Grid>
+        </Grid>
+      </Box>
+      <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="lg">
+                <DialogTitle>Đổi Avatar</DialogTitle>
+                <DialogContent>
+                <UploadAvatar setNewAvatarImage={setNewAvatarImage}/>
+
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseDialog} sx={{ marginRight: '250px' }}>Hủy</Button>
+                    <Button variant="contained" onClick={changeAvatarImage} sx={{ width: '100px' ,bgcolor: "#ff5e00", borderRadius: '15px', color: 'white', marginRight: '15px'}}>Đổi</Button>
+                    
+                </DialogActions>
+            </Dialog>
+
+            {/* <Box sx={{ display: 'flex' }}>
                 <Grid container spacing={2}>
                     <Grid item xs={4}>
                     </Grid>
 
                     <Grid item xs container direction="column" sx={{ fontSize: '30px', fontWeight: 'bold' }}>
-                        <Grid item>
-                            <Typography sx={{ fontSize: '30px', fontWeight: 'bold', marginTop: '20px' }}>Chỉnh sửa thông tin cá nhân</Typography>
-                        </Grid>
-                        <Grid item>
-                            <Typography sx={{ fontSize: '16px', marginTop: '10px' }}>Đây là nơi chỉnh sửa những thông tin cá nhân của bạn</Typography>
-                        </Grid>
-
+                        
                         <Grid container spacing={2}>
                         <Paper item sx={{ marginTop: '3%', borderRadius: '15px', border: '1px solid #bfb8b8', width: '77%', height: '100%' }}>
                             <Grid container>
@@ -190,7 +259,7 @@ function MyProfile() {
                     
                 </DialogActions>
             </Dialog>
-            
+             */}
         </div>
     );
 }

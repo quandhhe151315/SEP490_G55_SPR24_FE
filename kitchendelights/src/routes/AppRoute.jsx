@@ -34,6 +34,7 @@ import ListNews from "../containers/News/ListNews";
 import MenuDetail from "../containers/Menu/MenuDetail";
 import UserProfile from "../containers/Account/UserProfile";
 import CreateRecipe from "../containers/Recipe/CreateRecipe";
+import ListBlogDashboard from "../containers/DashBoard/BlogManagent/BlogList";
 
 function AppRoute() {
   const router = createBrowserRouter([
@@ -151,6 +152,10 @@ function AppRoute() {
     {
       path: "/UserProfile",
       element: <UserProfile />,
+    },
+    {
+      path: "/blog/management",
+      element: <ListBlogDashboard />,
     },
 
     { path: "/CreateRecipe", element: <CreateRecipe /> },
