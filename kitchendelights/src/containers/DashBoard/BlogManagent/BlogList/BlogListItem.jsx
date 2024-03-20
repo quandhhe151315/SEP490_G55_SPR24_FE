@@ -23,6 +23,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DoneIcon from "@mui/icons-material/Done";
 import EditFormModal from "../EditFormModal";
+import DeleteBlogModal from "../DeleteBlogModal";
 export default function BlogListItem() {
   const [blogLists, setBlogList] = useState();
   const { blogList } = useGetBlogList();
@@ -39,6 +40,8 @@ export default function BlogListItem() {
   };
   const [open, setOpen] = React.useState(false);
   const [editId, setEditId] = useState("");
+  const [openDelModal, setOpenDelModal] = useState(false);
+  const [delId, setDelId] = useState("");
   return (
     <Box>
       <TableContainer>
@@ -114,15 +117,21 @@ export default function BlogListItem() {
                         setEditId(item?.blogId);
                       }}
                     >
-                      <EditIcon style={{ color: "blue",cursor:'pointer' }} />
+                      <EditIcon style={{ color: "blue", cursor: "pointer" }} />
                     </Stack>
                     {item?.blogStatus != 2 ? (
                       <DoneIcon style={{ color: "green" }} />
                     ) : (
                       <ClearIcon style={{ color: "red" }} />
                     )}
-
-                    <DeleteIcon style={{ color: "red", cursor: "pointer" }} />
+                    <Stack
+                      onClick={() => {
+                        setOpenDelModal(true);
+                        setDelId(item?.blogId);
+                      }}
+                    >
+                      <DeleteIcon style={{ color: "red", cursor: "pointer" }} />
+                    </Stack>
                   </div>
                 </TableCell>
               </TableRow>
@@ -144,6 +153,13 @@ export default function BlogListItem() {
         }}
       />
       <EditFormModal openModal={open} setOpenModal={setOpen} id={editId} />
+      <DeleteBlogModal
+        delId={delId}
+        openDelModal={openDelModal}
+        setOpenDelModal={setOpenDelModal}
+        setBlogList={setBlogList}
+        blogList={blogLists}
+      />
     </Box>
   );
 }
