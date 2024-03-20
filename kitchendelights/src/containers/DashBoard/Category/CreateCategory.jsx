@@ -9,6 +9,7 @@ import CategoryButton from "../../../components/Button/CategoryButton";
 import { Navigate, useNavigate } from "react-router-dom";
 import { getCategoryByParentId } from "../../../services/ApiServices";
 import { postCreateCategory } from "../../../services/ApiServices";
+import { toast } from "react-toastify";
 
 
 function CreateCategory() {
@@ -35,7 +36,7 @@ function CreateCategory() {
             
             GoToListCategory();
             if (response.status === 200) {
-                console.log('tạo category thành công');
+                toast.success('Tạo category thành công');
             }
             else {
                 console.log('lỗi khi tạo category');
@@ -43,6 +44,7 @@ function CreateCategory() {
         }
         catch (error) {
             console.error('lỗi khi tạo category', error);
+            toast.error('Tạo category thất bại');
         }
     }
 

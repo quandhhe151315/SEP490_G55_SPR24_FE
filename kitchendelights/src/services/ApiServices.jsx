@@ -116,6 +116,15 @@ const postCreateCategory = (
   });
 };
 
+const updateCategory = (categoryId, categoryName, categoryType, parentId) => {
+  return axios.put("/Category/UpdateCategory", {
+    categoryId,
+    categoryName,
+    categoryType,
+    parentId,
+  });
+};
+
 const getCategoryByParentId = () => {
   return axios.get("/Category/GetCategoryByParentId");
 };
@@ -166,6 +175,13 @@ const updateMenu = (menuId, menuName, menuDescription,featuredImage = null, user
   return axios.put(`/Menu/UpdateMenu`, {menuId, featuredImage, menuName, menuDescription, userId});
 };
 
+
+const updateCategoryRecipe = (categoryId, recipeId) => {
+
+};
+const updateStatusRecipe = (recipeId, status) => {
+  return axios.put(`Recipe/UpdateStatusRecipe?recipeId=${recipeId}&status=${status}`);
+};
 export {
   login,
   register,
@@ -200,5 +216,7 @@ export {
   getMenuByUserIdAndCheckExistRecipe,
   updateMenu,
   createRecipe,
-  listAllCountry
+  listAllCountry,
+  updateStatusRecipe,
+  updateCategory,
 };
