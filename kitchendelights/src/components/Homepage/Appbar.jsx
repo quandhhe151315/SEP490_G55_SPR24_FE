@@ -141,7 +141,7 @@ export default function PrimarySearchAppBar() {
   };
 
   const goToMyProfile = () => {
-    navigate("/MyProfile");
+    navigate("/UserProfile");
   };
 
   const goToBlog = () => {
