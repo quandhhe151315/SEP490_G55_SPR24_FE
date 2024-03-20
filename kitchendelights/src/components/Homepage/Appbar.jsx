@@ -115,10 +115,8 @@ export default function PrimarySearchAppBar() {
     setAnchorEl(null);
   };
 
-  const openLoginForm = () => {
-    handleMenuClose();
-    setLoginForm(true);
-    setIsOverlayOpen(true);
+  const goToLogin = () => {
+    navigate("/Login");
   }
 
   const closeLoginForm = () => {
@@ -171,7 +169,7 @@ export default function PrimarySearchAppBar() {
     >
       {userIdExist == false && (
       <>
-        <MenuItem onClick={openLoginForm}>Đăng nhập</MenuItem>
+        <MenuItem onClick={goToLogin}>Đăng nhập</MenuItem>
       </>
     )}
           {userIdExist == true && (
