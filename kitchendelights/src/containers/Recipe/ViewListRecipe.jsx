@@ -19,9 +19,8 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Rating from "@mui/material/Rating";
 import { Stack } from "@mui/material";
-import { getRecipes } from "../../services/ApiServices";
+import { getRecipes, addToCart } from "../../services/ApiServices";
 import { toast } from "react-toastify";
-import image from "../../assets/images/news1.jpg";
 
 const DisplaySearchNews = styled("div")(({ theme }) => ({
   display: "flex",
@@ -72,7 +71,33 @@ function ViewListRecipes() {
   useEffect(() => {
     getListRecipes();
   }, []);
+  const getUserIdFromCookie = () => {
+    const cookies = document.cookie.split("; ");
+    for (const cookie of cookies) {
+      const [name, value] = cookie.split("=");
+      if (name === "userId") {
+        return value;
+      }
+    }
+    return null;
+  };
 
+  const userId = getUserIdFromCookie();
+  const recipeId = 8;
+  const handleAddToCart = async () => {
+    try {
+      console.log("lấy dc", userId, recipeId);
+      const response = await addToCart(userId, recipeId);
+      GoToCart();
+      if (response.status === 200) {
+        console.log("Thêm vào cart thành công");
+      } else {
+        console.log("lỗi khi thêm vào cart");
+      }
+    } catch (error) {
+      console.error("lỗi khi thêmm vào cart", error);
+    }
+  };
   const getListRecipes = async () => {
     try {
       const response = await getRecipes();
@@ -356,14 +381,14 @@ function ViewListRecipes() {
                       }}
                     >
                       <Button size="small" endIcon={<FavoriteIcon />}>
-                        Like
+                        Thích
                       </Button>
                       <Button
                         size="small"
                         endIcon={<ShoingCartIconpp />}
-                        onClick={GoToCart}
+                        onClick={handleAddToCart}
                       >
-                        Buy
+                        Mua
                       </Button>
                     </CardActions>
                   </Card>

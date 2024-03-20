@@ -44,6 +44,13 @@ const removeRecipeFromBookMark = (uId, rId, type) => {
   );
 };
 // Bookmark
+// Cart
+const addToCart = (userId, recipeId) => {
+  return axios.post("Cart/Add", {
+    userId,
+    recipeId,
+  });
+};
 
 // comment rating:
 const CreateReview = (recipeId, userId, ratingValue, ratingContent) => {
@@ -271,4 +278,5 @@ export {
   updateMenu,
   createRecipe,
   listAllCountry,
+  addToCart,
 };

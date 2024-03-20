@@ -86,23 +86,18 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-function createData(name, calories) {
-  return { name, calories };
+function createData(image, name, price) {
+  return { image, name, price };
 }
 
 const rows = [
-  createData("Cupcake", 305),
-  createData("Donut", 452),
-  createData("Eclair", 262),
-  createData("Frozen yoghurt", 159),
-  createData("Gingerbread", 356),
-  createData("Honeycomb", 408),
-  createData("Ice cream sandwich", 237),
-  createData("Jelly Bean", 375),
-  createData("KitKat", 518),
-  createData("Lollipop", 392),
-  createData("Marshmallow", 318),
-].sort((a, b) => (a.calories < b.calories ? -1 : 1));
+  createData(1, "Cupcake", 305),
+  createData(2, "Donut", 452),
+  createData(3, "Eclair", 262),
+  createData(4, "Frozen yoghurt", 159),
+  createData(5, "Gingerbread", 356),
+  createData(6, "Honeycomb", 408),
+].sort((a, b) => (a.price < b.price ? -1 : 1));
 
 export default function CartDetail() {
   const [page, setPage] = useState(0);
@@ -137,10 +132,13 @@ export default function CartDetail() {
           ).map((row) => (
             <TableRow>
               <TableCell component="th" scope="row">
+                {row.image}
+              </TableCell>
+              <TableCell style={{ width: 160 }} align="right">
                 {row.name}
               </TableCell>
               <TableCell style={{ width: 160 }} align="right">
-                {row.calories}
+                {row.price}
               </TableCell>
               <TableCell style={{ width: 160 }} align="right">
                 <IconButton>
