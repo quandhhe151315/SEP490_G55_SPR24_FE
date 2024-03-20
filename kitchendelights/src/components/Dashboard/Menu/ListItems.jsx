@@ -54,18 +54,11 @@ const MainListItems = () => {
   }
 
   const goToRecipeManager = () => {
-    // Link toi duong dan
-    // navigate('/ListAccount');
+    navigate('/ListRecipeDashBoard');
   }
 
   const goToCategoryManager = () => {
-    // Link toi duong dan
-    // navigate('/ListAccount');
-  }
-
-  const goToSubCategoryManager = () => {
-    // Link toi duong dan
-    // navigate('/ListAccount');
+    navigate('/ViewListCategory');
   }
 
   const goToNewsManager = () => {
@@ -86,7 +79,6 @@ const MainListItems = () => {
       <ItemButton goToManager={goToChefManager} text="Quản lý Đầu bếp" Icon={<ContactsIcon/>}/>
       <ItemButton goToManager={goToRecipeManager} text="Quản lý Công thức" Icon={<SellIcon/>}/>
       <ItemButton goToManager={goToCategoryManager} text="Quản lý Category" Icon={<CategoryIcon/>}/>
-      <ItemButton goToManager={goToSubCategoryManager} text="Quản lý SubCategory" Icon={<ListIcon/>}/>
       <ItemButton goToManager={goToNewsManager} text="Quản lý Tin tức" Icon={<NewspaperIcon/>}/>
       <ItemButton goToManager={goToBlogsManager} text="Quản lý Blog" Icon={<ArtTrackIcon/>}/>
       <ItemButton goToManager={goToCommentManager} text="Quản lý Bình luận" Icon={<CommentIcon/>}/>

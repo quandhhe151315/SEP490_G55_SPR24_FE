@@ -44,6 +44,7 @@ import CommentSection from "../../containers/BoxComment/CommentSection";
 import Cookies from "js-cookie";
 import { RichTextReadOnly } from "mui-tiptap";
 import useExtensions from "../../components/Richtext/useExtension.ts";
+
 function RecipeDetail() {
   const navigate = useNavigate();
   const [data, setdata] = useState();

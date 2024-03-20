@@ -172,6 +172,15 @@ const postCreateCategory = (
   });
 };
 
+const updateCategory = (categoryId, categoryName, categoryType, parentId) => {
+  return axios.put("/Category/UpdateCategory", {
+    categoryId,
+    categoryName,
+    categoryType,
+    parentId,
+  });
+};
+
 const getCategoryByParentId = () => {
   return axios.get("/Category/GetCategoryByParentId");
 };
@@ -250,6 +259,12 @@ const updateMenu = (
   });
 };
 
+const updateCategoryRecipe = (categoryId, recipeId) => {};
+const updateStatusRecipe = (recipeId, status) => {
+  return axios.put(
+    `Recipe/UpdateStatusRecipe?recipeId=${recipeId}&status=${status}`
+  );
+};
 export {
   login,
   register,
@@ -290,4 +305,6 @@ export {
   addToCart,
   removeCart,
   getListCart,
+  updateStatusRecipe,
+  updateCategory,
 };
