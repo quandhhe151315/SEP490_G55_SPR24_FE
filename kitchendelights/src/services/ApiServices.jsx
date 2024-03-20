@@ -51,6 +51,15 @@ const addToCart = (userId, recipeId) => {
     recipeId,
   });
 };
+const removeCart = (userId, recipeId) => {
+  return axios.delete("Cart/Remove", {
+    userId,
+    recipeId,
+  });
+};
+const getListCart = (id) => {
+  return axios.get(`/Cart/Get?id=${id}`);
+};
 
 // comment rating:
 const CreateReview = (recipeId, userId, ratingValue, ratingContent) => {
@@ -279,4 +288,6 @@ export {
   createRecipe,
   listAllCountry,
   addToCart,
+  removeCart,
+  getListCart,
 };

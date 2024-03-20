@@ -9,7 +9,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Unstable_Grid2";
 import Rating from "@mui/material/Rating";
-import { Link, useNavigate  } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Avatar } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { toast } from "react-toastify";
@@ -45,7 +45,7 @@ function BookMark() {
 
       if (response.status === 200) {
         toast.success("Xoá thành công ");
-        
+
         getBookMarkOfUsers();
       } else {
         toast.error("Khoong load dc list");
@@ -63,7 +63,7 @@ function BookMark() {
       if (response.status === 200) {
         setdata(response.data.recipes);
         console.log("data", response);
-         if (response.data.recipes.length > 0) {
+        if (response.data.recipes.length > 0) {
           setCurrentRecipeId(response.data.recipes[0].recipeId);
         }
       } else {
@@ -149,7 +149,6 @@ function BookMark() {
                     <Button
                       variant="contained"
                       color="secondary"
-                      
                       onClick={handleDeleteBookMark}
                     >
                       Xoá

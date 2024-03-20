@@ -16,6 +16,8 @@ import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { removeCart } from "../../services/ApiServices";
+import { toast } from "react-toastify";
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -102,8 +104,22 @@ const rows = [
 export default function CartDetail() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const handleDelete = async () => {
+    try {
+      const response = await removeCart();
+      //  console.log(userId, recipeId);
 
-  // Avoid a layout jump when reaching the last page with empty rows.
+      if (response.status === 200) {
+        toast.success("Xoá thành công ");
+
+        // getBookMarkOfUsers();
+      } else {
+        toast.error("Khoong load dc list");
+      }
+    } catch (error) {
+      console.error("ko xoá dc", error);
+    }
+  };
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
@@ -142,7 +158,7 @@ export default function CartDetail() {
               </TableCell>
               <TableCell style={{ width: 160 }} align="right">
                 <IconButton>
-                  <DeleteIcon />
+                  <DeleteIcon onClick={handleDelete} />
                 </IconButton>
               </TableCell>
             </TableRow>
