@@ -116,6 +116,15 @@ const postCreateCategory = (
   });
 };
 
+const updateCategory = (categoryId, categoryName, categoryType, parentId) => {
+  return axios.put("/Category/UpdateCategory", {
+    categoryId,
+    categoryName,
+    categoryType,
+    parentId,
+  });
+};
+
 const getCategoryByParentId = () => {
   return axios.get("/Category/GetCategoryByParentId");
 };
@@ -209,4 +218,5 @@ export {
   createRecipe,
   listAllCountry,
   updateStatusRecipe,
+  updateCategory,
 };

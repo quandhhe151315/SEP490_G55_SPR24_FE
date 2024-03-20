@@ -10,25 +10,25 @@ import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { useParams } from "react-router-dom";
 import { getCategoryById } from "../../../services/ApiServices";
-import { getCategoryByParentId } from "../../../services/ApiServices";
+import { getCategoryByParentId,updateCategory } from "../../../services/ApiServices";
 import DashboardMenu from "../../../components/Dashboard/Menu/DashboardMenu";
 import Box from "@mui/material/Box";
+import { toast } from "react-toastify";
 
 function UpdateCategory() {
     const navigate = useNavigate();
     const [categoryName, setCategoryName] = useState('');
-    const [ParentCategories, setParentCategories] = useState([]);
+    const [parentCategories, setParentCategories] = useState([]);
     const [parentId, setParentId] = useState('');
 
     const { categoryId } = useParams();
-    console.log(categoryId);
 
     const getCategoryInformation = async () => {
         try {
             const response = await getCategoryById(categoryId);
             if (response.status === 200) {
-                setCategoryName(response.data?.categoryName ?? '');
-                setParentId(response.data?.parentId ?? '');
+                setCategoryName(response.data?.categoryName);
+                setParentId(response.data?.parentId);
             } else {
                 console.error('Can not get category information');
             }
@@ -46,7 +46,6 @@ function UpdateCategory() {
             const response = await getCategoryByParentId();
             if (response.status === 200) {
                 setParentCategories(response.data);
-
             } else {
                 console.log('lỗi khi tải danh sách parent category');
             }
@@ -55,10 +54,26 @@ function UpdateCategory() {
         }
     };
 
+    const handleUpdateCategory = async () => {
+        try {
+            const response = await updateCategory(categoryId, categoryName, true, parentId);
+            if(response.status === 200) {
+                console.log('update category thành công');
+                GoToListCategory();
+                toast.success('Cập nhật category thành công');
+            }else {
+                console.log(' update category thát bại');
+            }
+        } catch (error) {
+            console.error('lỗi khi update category', error);
+            toast.error('Cập nhật category thất bại');
+        }
+    };
+
     useEffect(() => {
-        getCategoryInformation();
         listParentCategory();
-    });
+        getCategoryInformation();
+    }, []);
 
     return (
         <div>
@@ -88,14 +103,14 @@ function UpdateCategory() {
                                                 <MenuItem value={null}>
                                                     <em>None</em>
                                                 </MenuItem>
-                                                {ParentCategories.map((parent) => {
+                                                {parentCategories.map((parent) => 
                                                     <MenuItem key={parent.categoryId} value={parent.categoryId}>{parent.categoryName}</MenuItem>
-                                                })};
+                                                )};
                                             </Select>
                                         </FormControl>
                                     </Grid>
                                     <Grid item >
-                                        <CategoryButton text='Cập nhật' height='auto' width='120px' marginLeft='10%' marginTop='80px' ></CategoryButton>
+                                        <CategoryButton text='Cập nhật' height='auto' width='120px' marginLeft='10%' marginTop='80px' onClick={handleUpdateCategory}></CategoryButton>
                                     </Grid>
                                     <Grid item xs container direction="row">
                                         <Button onClick={GoToListCategory} sx={{ fontSize: '10px', marginTop: '10%', marginLeft: '10%' }}>Quay lại list category</Button>

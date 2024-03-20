@@ -17,6 +17,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import UpdateCategory from "./UpdateCategory";
 import DashboardMenu from "../../../components/Dashboard/Menu/DashboardMenu"
 import { getAllCategory, deleteCategory } from "../../../services/ApiServices";
+import { toast } from "react-toastify";
 
 
 
@@ -27,7 +28,7 @@ function ListCategoryDashboard() {
   const [open, setOpen] = React.useState(false);
 
   const [categories, setCategories] = useState([]);
-  const [selectedCategoryId, setSelectedCategoryId] = useState(1);
+  const [selectedCategoryId, setSelectedCategoryId] = useState('');
 
   const handleOpen = () => {
     setOpen(true);
@@ -57,13 +58,13 @@ function ListCategoryDashboard() {
     },
   }));
 
-  const goToUpdateCategory = (selectedCategoryId) => {
-    navigate(`/UpdateCategory/${selectedCategoryId}`);
-  }
+  const goToUpdateCategory = (categoryId) => {
+    navigate(`/UpdateCategory/${categoryId}`);
+  };
 
   const goToCreateCategory = () => {
     navigate('/CreateCategory')
-  }
+  };
 
   const getListCategory = async () => {
     try {
@@ -85,18 +86,19 @@ function ListCategoryDashboard() {
       if (response.status == 200) {
         setCategories(categories.filter(category => category.categoryId !== selectedCategoryId));
         setOpen(false);
+        toast.success('Xóa category thành công');
       } else {
         console.error('Unable to delete category');
       }
-
     } catch (error) {
       console.error('Error deleting category:', error);
+      toast.error('Xóa category thất bại');
     }
   }
 
   useEffect(() => {
     getListCategory();
-  }, []);
+  }, [selectedCategoryId]);
 
   return (
     <div>
@@ -127,8 +129,8 @@ function ListCategoryDashboard() {
                       <StyledTableCell align="left">{category.parentName !== null && category.parentName !== undefined ? category.parentName : 'None'}</StyledTableCell>
                       <StyledTableCell>
                         <Button onClick={() => {
-                          setSelectedCategoryId((category.categoryId));
-                          goToUpdateCategory(selectedCategoryId);
+                          goToUpdateCategory(category.categoryId);
+
                         }}>Update</Button>
                         <Button onClick={() => {
                           setSelectedCategoryId(category.categoryId);

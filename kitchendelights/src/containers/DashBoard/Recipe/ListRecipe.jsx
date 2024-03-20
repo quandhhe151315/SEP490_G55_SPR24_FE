@@ -134,7 +134,7 @@ function ListRecipeDashBoard() {
                                             <StyledTableCell align="left">{new Date(recipe.createDate).toLocaleDateString()}</StyledTableCell>
                                             <StyledTableCell>
                                                 <Button href="#text-buttons" >Edit</Button>
-                                                <Button href="#text-buttons" >Approve</Button>
+                                                <Button href="#text-buttons" disabled={recipe.recipeStatus === 1}>Approve</Button>
                                                 <Button href="#text-buttons" onClick={() => {
                                                     setSelectedRecipeId(recipe.recipeId);
                                                     handleOpen(true);
