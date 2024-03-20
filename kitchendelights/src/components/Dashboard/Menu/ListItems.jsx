@@ -54,13 +54,11 @@ const MainListItems = () => {
   }
 
   const goToRecipeManager = () => {
-    // Link toi duong dan
-    // navigate('/ListAccount');
+    navigate('/ListRecipeDashBoard');
   }
 
   const goToCategoryManager = () => {
-    // Link toi duong dan
-    // navigate('/ListAccount');
+    navigate('/ViewListCategory');
   }
 
   const goToSubCategoryManager = () => {

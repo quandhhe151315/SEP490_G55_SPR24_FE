@@ -1,4 +1,4 @@
-import { Dialog, List, Paper, Typography } from "@mui/material";
+import { Box, Dialog, Grid, List, Paper, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -25,7 +25,7 @@ function ListCategoryDashboard() {
   const navigate = useNavigate();
 
   const [open, setOpen] = React.useState(false);
-  
+
   const [categories, setCategories] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState(1);
 
@@ -65,102 +65,105 @@ function ListCategoryDashboard() {
     navigate('/CreateCategory')
   }
 
-  const getListCategory = async() =>{
+  const getListCategory = async () => {
     try {
       const response = await getAllCategory();
-      if(response.status === 200){
+      if (response.status === 200) {
         setCategories(response.data);
-        
-      }else{
+
+      } else {
         console.error('không thể lấy dữ liệu về category');
       }
     } catch (error) {
-      console.error('lỗi khi tải danh sách category',error);
+      console.error('lỗi khi tải danh sách category', error);
     }
   };
 
-  const handleConfirmDelete = async() =>{
+  const handleConfirmDelete = async () => {
     try {
       const response = await deleteCategory(selectedCategoryId);
-    if(response.status == 200){
-      setCategories(categories.filter(category => category.categoryId !== selectedCategoryId));
-      setOpen(false);
-    }else{
-      console.error('Unable to delete category');
-    }
-    
-  } catch (error) {
+      if (response.status == 200) {
+        setCategories(categories.filter(category => category.categoryId !== selectedCategoryId));
+        setOpen(false);
+      } else {
+        console.error('Unable to delete category');
+      }
+
+    } catch (error) {
       console.error('Error deleting category:', error);
     }
   }
-  
+
   useEffect(() => {
     getListCategory();
-  },[]);
+  }, []);
 
   return (
     <div>
-      
-      <Paper elevation={2} sx={{ marginLeft: '360px', marginTop: '30px', borderRadius: '15px', border: '1px solid #bfb8b8', width: '1000px', height: '600px', backgroundColor: '#FFFFFF' }}>
-        <Typography sx={{ fontSize: '24px', fontWeight: '', marginLeft: '10%', marginTop: '30px', color: '#4A5568' }}>
-          Danh sách category
-        </Typography>
-        <CategoryButton text='Tạo category mới' height='auto' width='auto' marginLeft='70%' marginTop='10px' onClick={goToCreateCategory}></CategoryButton>
-        <TableContainer sx={{ marginTop: '20px', maxHeight:'400px' }}>
-          <Table sx={{ minWidth: 700 }} aria-label="customized table">
-            <TableHead>
-              <TableRow>
-                <StyledTableCell align="left">ID</StyledTableCell>
-                <StyledTableCell align="left">Category Name</StyledTableCell>
-                <StyledTableCell align="left">Parent Name</StyledTableCell>
-                <StyledTableCell align="left">Actions</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {categories.map((category) => (
-                <StyledTableRow key={category.categoryId}>
+      <Box sx={{ display: 'flex' }}>
+        <DashboardMenu dashboardTitle={"Quản lý Category"} />
+        <Grid sx={{marginTop:'80px', marginLeft: '80px'}}>
+          <Paper elevation={2} sx={{borderRadius: '15px', border: '1px solid #bfb8b8', width: '1100px', height: '650px', backgroundColor: '#FFFFFF' }}>
+            <Typography sx={{ fontSize: '24px', fontWeight: '', marginLeft: '10%', marginTop: '30px', color: '#4A5568' }}>
+              Danh sách category
+            </Typography>
+            <CategoryButton text='Tạo category mới' height='auto' width='auto' marginLeft='70%' marginTop='10px' onClick={goToCreateCategory}></CategoryButton>
+            <TableContainer sx={{ marginTop: '20px', maxHeight: '500px' }}>
+              <Table sx={{ minWidth: 1000 }} aria-label="customized table">
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell align="left" style={{width: '15%'}}>ID</StyledTableCell>
+                    <StyledTableCell align="left" style={{width: '30%'}}>Category Name</StyledTableCell>
+                    <StyledTableCell align="left" style={{width: '30%'}}>Parent Name</StyledTableCell>
+                    <StyledTableCell align="left" style={{width: '25%', paddingLeft:'60px'}}>Actions</StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {categories.map((category) => (
+                    <StyledTableRow key={category.categoryId}>
 
-                  <StyledTableCell align="left">{category.categoryId}</StyledTableCell>
-                  <StyledTableCell align="left">{category.categoryName}</StyledTableCell>
-                  <StyledTableCell align="left">{category.parentName}</StyledTableCell>
-                  <StyledTableCell>
-                    <Button href="#text-buttons"onClick={()=>{
-                      setSelectedCategoryId((category.categoryId));
-                      goToUpdateCategory(selectedCategoryId);
-                    }}>Update</Button>
-                    <Button href="#text-buttons"onClick={()=>{
-                      setSelectedCategoryId(category.categoryId);
-                      handleOpen(true);
-                    }}>Delete</Button>
-                  </StyledTableCell>
-                </StyledTableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Paper>
-
+                      <StyledTableCell align="left">{category.categoryId}</StyledTableCell>
+                      <StyledTableCell align="left">{category.categoryName}</StyledTableCell>
+                      <StyledTableCell align="left">{category.parentName !== null && category.parentName !== undefined ? category.parentName : 'None'}</StyledTableCell>
+                      <StyledTableCell>
+                        <Button onClick={() => {
+                          setSelectedCategoryId((category.categoryId));
+                          goToUpdateCategory(selectedCategoryId);
+                        }}>Update</Button>
+                        <Button onClick={() => {
+                          setSelectedCategoryId(category.categoryId);
+                          handleOpen(true);
+                        }}>Delete</Button>
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Paper>
+        </Grid>
+      </Box>
       <Dialog
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title">
-              {"Xác nhận xóa category"}
-            </DialogTitle>
-            <DialogContent>
-              <DialogContentText id="alert-dialog-description">
-                Bạn có chắc chắn muốn xóa category này?
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleConfirmDelete}>Có</Button>
-              <Button onClick={handleClose} autoFocus>
-                Không
-              </Button>
-            </DialogActions>
-          </Dialog>
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Xác nhận xóa category"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Bạn có chắc chắn muốn xóa category này?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleConfirmDelete}>Có</Button>
+          <Button onClick={handleClose} autoFocus>
+            Không
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }

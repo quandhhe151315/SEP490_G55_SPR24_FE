@@ -154,6 +154,7 @@ function AppRoute() {
     },
 
     { path: "/CreateRecipe", element: <CreateRecipe /> },
+    
     { path: "/", element: <Navigate to="/KitchenDelights" /> },
   ]);
   return <RouterProvider router={router} />;

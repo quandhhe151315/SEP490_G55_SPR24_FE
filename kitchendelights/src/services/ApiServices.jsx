@@ -166,6 +166,13 @@ const updateMenu = (menuId, menuName, menuDescription,featuredImage = null, user
   return axios.put(`/Menu/UpdateMenu`, {menuId, featuredImage, menuName, menuDescription, userId});
 };
 
+
+const updateCategoryRecipe = (categoryId, recipeId) => {
+
+};
+const updateStatusRecipe = (recipeId, status) => {
+  return axios.put(`Recipe/UpdateStatusRecipe?recipeId=${recipeId}&status=${status}`);
+};
 export {
   login,
   register,
@@ -200,5 +207,6 @@ export {
   getMenuByUserIdAndCheckExistRecipe,
   updateMenu,
   createRecipe,
-  listAllCountry
+  listAllCountry,
+  updateStatusRecipe,
 };
