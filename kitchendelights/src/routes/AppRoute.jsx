@@ -35,6 +35,8 @@ import MenuDetail from "../containers/Menu/MenuDetail";
 import UserProfile from "../containers/Account/UserProfile";
 import CreateRecipe from "../containers/Recipe/CreateRecipe";
 import ListBlogDashboard from "../containers/DashBoard/BlogManagent/BlogList";
+import { Login } from "../containers/Authentication/Login";
+import { Register } from "../containers/Authentication/Register";
 
 function AppRoute() {
   const router = createBrowserRouter([
@@ -159,7 +161,8 @@ function AppRoute() {
     },
 
     { path: "/CreateRecipe", element: <CreateRecipe /> },
-    
+    { path: "/Login", element: <Login />},
+    { path: "/Register", element: <Register />},
     { path: "/", element: <Navigate to="/KitchenDelights" /> },
   ]);
   return <RouterProvider router={router} />;
