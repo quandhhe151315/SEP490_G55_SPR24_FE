@@ -59,6 +59,11 @@ function ViewListRecipes() {
   const [currentPagePaid, setCurrentPagePaid] = useState(1);
   const recipesPerPage = 8;
 
+  const isUserLoggedIn = () => {
+    const cookies = document.cookie.split("; ");
+    return cookies.some((cookie) => cookie.startsWith("userId="));
+  };
+
   const SearchNews = () => {
     navigate("/KitchenDelights");
   };
@@ -84,6 +89,11 @@ function ViewListRecipes() {
   const userId = getUserIdFromCookie();
   const recipeId = 8;
   const handleAddToCart = async () => {
+    if (!isUserLoggedIn()) {
+      navigate("/Login"); // Chuyển hướng đến trang login nếu chưa đăng nhập
+      return;
+    }
+
     try {
       console.log("lấy dc", userId, recipeId);
       const response = await addToCart(userId, recipeId);
