@@ -142,13 +142,26 @@ function BookMark() {
                     }}
                   >
                     <Link to={`/RecipeDetail/${item.recipeId}`}>
-                      <Button variant="contained" color="primary">
+                      <Button
+                        variant="contained"
+                        sx={{
+                          bgcolor: "#ff5e00",
+                          color: "white",
+                          borderRadius: 3,
+                          width: 75,
+                        }}
+                      >
                         Xem
                       </Button>
                     </Link>
                     <Button
+                      sx={{
+                        bgcolor: "#ff5e00",
+                        color: "white",
+                        borderRadius: 3,
+                        width: 75,
+                      }}
                       variant="contained"
-                      color="secondary"
                       onClick={handleDeleteBookMark}
                     >
                       Xoá

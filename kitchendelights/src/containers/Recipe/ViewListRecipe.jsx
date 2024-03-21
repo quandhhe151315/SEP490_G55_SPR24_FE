@@ -276,9 +276,11 @@ function ViewListRecipes() {
                 width: "150px",
                 height: "42px",
                 color: "white",
+                opacity: currentPageFree === 1 ? 0.5 : 1,
               }}
               startIcon={<ForwardIcon sx={{ transform: "rotate(180deg)" }} />}
               onClick={handleForwardFree}
+              disabled={currentPageFree === 1}
             >
               Forward
             </Button>
@@ -290,9 +292,11 @@ function ViewListRecipes() {
                 width: "150px",
                 height: "42px",
                 color: "white",
+                opacity: indexOfLastFreeRecipe >= freeRecipes.length ? 0.5 : 1,
               }}
               endIcon={<ForwardIcon />}
               onClick={handleNextFree}
+              disabled={indexOfLastFreeRecipe >= freeRecipes.length}
             >
               Next
             </Button>
@@ -410,9 +414,11 @@ function ViewListRecipes() {
                 width: "150px",
                 height: "42px",
                 color: "white",
+                opacity: currentPagePaid === 1 ? 0.5 : 1,
               }}
               startIcon={<ForwardIcon sx={{ transform: "rotate(180deg)" }} />}
               onClick={handleForwardPaid}
+              disabled={currentPagePaid === 1}
             >
               Forward
             </Button>
@@ -424,9 +430,11 @@ function ViewListRecipes() {
                 width: "150px",
                 height: "42px",
                 color: "white",
+                opacity: indexOfLastPaidRecipe >= paidRecipes.length ? 0.5 : 1,
               }}
               endIcon={<ForwardIcon />}
               onClick={handleNextPaid}
+              disabled={indexOfLastPaidRecipe >= paidRecipes.length}
             >
               Next
             </Button>

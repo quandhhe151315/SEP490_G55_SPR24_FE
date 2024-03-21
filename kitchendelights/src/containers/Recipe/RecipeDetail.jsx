@@ -31,6 +31,13 @@ import Checkbox from "@mui/material/Checkbox";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import AddRecipeToMenuDialog from "../Menu/AddRecipeToMenu";
 import { toast } from "react-toastify";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import MailIcon from "@mui/icons-material/Mail";
+import {
+  createRecipe,
+  listAllIngredient,
+  listAllCountry,
+} from "../../services/ApiServices.jsx";
 import {
   getRecipessById,
   getMenuByUserIdAndCheckExistRecipe,
@@ -42,9 +49,6 @@ import { getMenus } from "../../services/ApiServices";
 import { addRecipeToBookMark } from "../../services/ApiServices";
 import CommentSection from "../../containers/BoxComment/CommentSection";
 import Cookies from "js-cookie";
-import { RichTextReadOnly } from "mui-tiptap";
-import useExtensions from "../../components/Richtext/useExtension.ts";
-
 function RecipeDetail() {
   const navigate = useNavigate();
   const [data, setdata] = useState();
@@ -76,6 +80,13 @@ function RecipeDetail() {
 
   const [id, setId] = useState("");
   const [listMenu, setListMenu] = useState([]);
+  const [printMode, setPrintMode] = useState(false);
+  const shareToFacebook = () => {
+    window.open(
+      "https://www.facebook.com/sharer/sharer.php?u=https://your-website-url.com",
+      "_blank"
+    );
+  };
 
   // const getListMenu = async () => {
   //   try {
@@ -125,6 +136,13 @@ function RecipeDetail() {
   const handleCloseSelectMenuDialog = () => {
     setSelectMenuDialog(false);
   };
+  const handlePrint = () => {
+    setPrintMode(true);
+    setTimeout(() => {
+      window.print();
+      setPrintMode(false);
+    }, 500);
+  };
   //đóng mở tạo menu dialog
   const handleOpenCreateMenuDialog = () => {
     setSelectMenuDialog(false);
@@ -155,13 +173,10 @@ function RecipeDetail() {
     }
   };
 
-  const extensions = useExtensions({
-    placeholder: "Add your own content here...",
-  });
   return (
     <div>
       <GetInformationJWT setId={setId} />
-      <Appbar />
+      {!printMode && <Appbar />}
       <Typography
         sx={{ fontSize: "16px", marginRight: "255px", marginTop: "50px" }}
       ></Typography>
@@ -230,6 +245,7 @@ function RecipeDetail() {
               color: "white",
             }}
             endIcon={<PrintIcon />}
+            onClick={handlePrint}
           >
             In
           </Button>
@@ -244,6 +260,7 @@ function RecipeDetail() {
               color: "white",
             }}
             endIcon={<ShareIcon />}
+            onClick={shareToFacebook}
           >
             Chia sẻ
           </Button>
@@ -309,7 +326,7 @@ function RecipeDetail() {
 
           <CardContent>
             <Typography gutterBottom variant="h6" component="div">
-              {/* {data?.recipeContent} */}
+              {data?.recipeContent}
             </Typography>
           </CardContent>
           <CardContent>
@@ -342,12 +359,11 @@ function RecipeDetail() {
                 label="175g únalted butter, nelted"
               />
             </FormGroup>
-
+            <Typography sx={{ fontSize: 25, fontWeight: "bold" }}>
+              Cách làm
+            </Typography>
             <Typography gutterBottom variant="h6" component="div">
-              <RichTextReadOnly
-                content={data?.recipeContent}
-                extensions={extensions}
-              />
+              {data?.recipeContent}
             </Typography>
             <Typography
               color="#ff5e00"
@@ -355,7 +371,7 @@ function RecipeDetail() {
             >
               Bình luận
             </Typography>
-            <CommentSection recipeId={recipeId} />
+            {!printMode && <CommentSection recipeId={recipeId} />}
           </CardContent>
         </Card>
       </Box>
