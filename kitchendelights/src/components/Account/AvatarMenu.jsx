@@ -16,10 +16,7 @@ import ContactsIcon from '@mui/icons-material/Contacts';
 import { Link, useNavigate } from "react-router-dom";
 import { getMenus } from '../../services/ApiServices';
 import GetInformationJWT from '../JWT/GetInformationJWT';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import MyProfile from '../../containers/Account/MyProfile';
+import { MenuListItems } from './MenuListItem';
 
 function AvatarMenu({ handleClick, onMenuSelect }) {
     const navigate = useNavigate();
@@ -114,26 +111,12 @@ function AvatarMenu({ handleClick, onMenuSelect }) {
                         </ListItemIcon>
                         <ListItemText>Blog</ListItemText>
                     </MenuItem>
-                    {listMenu.slice(0, showAll ? undefined : maxDisplay).map((menu, index) => (
-                        <MenuItem key={index} onClick={(e)=>{
-                            onMenuSelect(menu.menuId);
-                            handleClick('MenuDetail');
-                        }}>
-                            <ListItemIcon>
-                            <MenuBookIcon fontSize="small" sx={{ color: "#ff5e00" }} />
-                            </ListItemIcon>{menu.menuName}
-                        </MenuItem>
-                    ))}
-
-                    {listMenu.length > maxDisplay && (
-                        <MenuItem onClick={() => setShowAll(!showAll)}>
-                            <ListItemIcon>
-                            {showAll ? <ExpandLessIcon fontSize="small" sx={{ color: "#ff5e00" }} /> : <ExpandMoreIcon fontSize="small" sx={{ color: "#ff5e00" }} />}
-                            </ListItemIcon> {showAll ? 'Thu gọn' : 'Xem thêm'}
-                        </MenuItem>
-                    )}
                 </MenuList>
             </Paper> 
+
+            <Paper sx={{ maxHeight:'500px', overflow:'auto', width: 250, maxWidth: '100%', marginTop: '20px', marginLeft: '46%', border: '1px solid #bfb8b8' }}>
+                <MenuListItems handleClick={handleClick} onMenuSelect={onMenuSelect}/>
+            </Paper>
 
             <Paper sx={{ width: 250, maxWidth: '100%', marginTop: '20px', marginLeft: '46%', border: '1px solid #bfb8b8' }}>
                 <MenuList>

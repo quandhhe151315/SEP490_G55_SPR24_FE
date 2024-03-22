@@ -8,7 +8,6 @@ import Appbar from "../../components/Homepage/Appbar";
 import MenuDetail from "../Menu/MenuDetail";
 
 function UserProfile() {
-    
     //render component được click
     const [currentComponent, setCurrentComponent] = useState(null);
     const [selectedMenuId, setSelectedMenuId] = useState('');
@@ -26,12 +25,11 @@ function UserProfile() {
         <div>
         <Appbar />
         <Grid container >
-            <Grid item xs={2}>
+            <Grid item xs={2} sx={{marginLeft: '10%'}}>
                 <AvatarMenu handleClick={handleClick} onMenuSelect={handleMenuSelect}/>
-                
             </Grid>
             <Grid item xs={1}  ></Grid>
-            <Grid item xs={9}  >
+            <Grid item xs={7}  >
             {currentComponent === 'MyProfile' && <MyProfile />}
             {currentComponent === 'ChangePassword' && <ChangePassword />}
             {currentComponent === 'MenuDetail' && <MenuDetail menuId={selectedMenuId} />}
