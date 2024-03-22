@@ -49,6 +49,8 @@ import { getMenus } from "../../services/ApiServices";
 import { addRecipeToBookMark } from "../../services/ApiServices";
 import CommentSection from "../../containers/BoxComment/CommentSection";
 import Cookies from "js-cookie";
+import Footer from "../../components/Footer/Footer.jsx";
+import RandomRecipes from "./RandomRecipe.jsx";
 function RecipeDetail() {
   const navigate = useNavigate();
   const [data, setdata] = useState();
@@ -210,10 +212,10 @@ function RecipeDetail() {
             variant="contained"
             sx={{
               bgcolor: "#ff5e00",
+              color: "white",
               borderRadius: "15px",
               width: "100px",
               height: "35px",
-              color: "white",
             }}
             endIcon={<ThumbUpIcon />}
           >
@@ -375,6 +377,9 @@ function RecipeDetail() {
           </CardContent>
         </Card>
       </Box>
+      <RandomRecipes />
+
+      <Footer />
     </div>
   );
 }

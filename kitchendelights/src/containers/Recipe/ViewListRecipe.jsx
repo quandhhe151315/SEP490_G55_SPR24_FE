@@ -20,6 +20,7 @@ import Rating from "@mui/material/Rating";
 import { Stack } from "@mui/material";
 import { getRecipes, addToCart } from "../../services/ApiServices";
 import { toast } from "react-toastify";
+import Footer from "../../components/Footer/Footer";
 
 const DisplaySearchNews = styled("div")(({ theme }) => ({
   display: "flex",
@@ -87,12 +88,13 @@ function ViewListRecipes() {
   };
 
   const userId = getUserIdFromCookie();
-  const recipeId = 8;
-  const handleAddToCart = async () => {
+  // const recipeId = 8;
+  const handleAddToCart = async (recipeId) => {
     if (!isUserLoggedIn()) {
       navigate("/Login"); // Chuyển hướng đến trang login nếu chưa đăng nhập
       return;
     }
+    console.log("recipeId------", recipeId);
 
     try {
       console.log("lấy dc", userId, recipeId);
@@ -399,7 +401,7 @@ function ViewListRecipes() {
                       <Button
                         size="small"
                         endIcon={<ShoingCartIconpp />}
-                        onClick={handleAddToCart}
+                        onClick={() => handleAddToCart(item.recipeId)}
                       >
                         Mua
                       </Button>
@@ -580,6 +582,8 @@ function ViewListRecipes() {
           </Button>
         </Stack>
       </Typography>
+      <Typography sx={{ height: 8 }} />
+      <Footer />
     </div>
   );
 }

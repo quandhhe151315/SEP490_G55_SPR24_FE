@@ -5,6 +5,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import VNPAY from "../../assets/images/VNPAY.jpg";
 
 export default function ImgMediaCard() {
   return (
@@ -20,11 +21,16 @@ export default function ImgMediaCard() {
         </Typography>
       </CardContent>
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <CardMedia
+        {/* <CardMedia
           component="img"
           height="140"
           image="/static/images/cards/contemplative-reptile.jpg"
           style={{ maxWidth: "100%", objectFit: "contain" }}
+        /> */}
+        <img
+          src={VNPAY}
+          alt="Image VNPAY"
+          style={{ width: "350px", height: "240px" }}
         />
       </div>
       <CardActions sx={{ justifyContent: "center" }}>
@@ -47,7 +53,12 @@ export default function ImgMediaCard() {
         <Typography gutterBottom variant="h7" component="div">
           Giá tạm tính
         </Typography>
-        <Typography gutterBottom variant="h7" component="div">
+        <Typography
+          gutterBottom
+          variant="h7"
+          component="div"
+          sx={{ marginTop: 2 }}
+        >
           Tổng tiền
         </Typography>
       </CardContent>
@@ -58,7 +69,12 @@ export default function ImgMediaCard() {
           justifyContent: "space-between",
         }}
       >
-        <Typography gutterBottom variant="h7" component="div">
+        <Typography
+          gutterBottom
+          variant="h7"
+          component="div"
+          sx={{ marginLeft: 1 }}
+        >
           Mã giảm giá
         </Typography>
         <Button
@@ -71,6 +87,7 @@ export default function ImgMediaCard() {
               color: "#fff",
             },
             color: "#000",
+            marginBottom: 2,
           }}
         >
           Chọn mã giảm giá

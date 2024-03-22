@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -16,7 +16,7 @@ import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { removeCart } from "../../services/ApiServices";
+import { removeCart, getListCart } from "../../services/ApiServices";
 import { toast } from "react-toastify";
 
 function TablePaginationActions(props) {
@@ -104,6 +104,35 @@ const rows = [
 export default function CartDetail() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  // const getUserIdFromCookie = () => {
+  //   const cookies = document.cookie.split("; ");
+  //   for (const cookie of cookies) {
+  //     const [name, value] = cookie.split("=");
+  //     if (name === "userId") {
+  //       return value;
+  //     }
+  //   }
+  //   return null;
+  // };
+  // const id = getUserIdFromCookie();
+  // const [data, setdata] = useState([]);
+
+  // useEffect(() => {
+  //   getListCart(id);
+  // }, []);
+  // const getListCart = async () => {
+  //   try {
+  //     const response = await getListCart(id);
+  //     if (response.status === 200) {
+  //       setdata(response.data);
+  //       console.log("Load cart successful! ");
+  //     } else {
+  //       console.error("Can not Load cart! ");
+  //     }
+  //   } catch (error) {
+  //     toast.error("Khoong load dc cart");
+  //   }
+  // };
   const handleDelete = async () => {
     try {
       const response = await removeCart();
