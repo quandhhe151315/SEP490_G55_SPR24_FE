@@ -42,8 +42,7 @@ function ChangePassword() {
             
             <Box sx={{ display: 'flex' }}>
                 <Grid container spacing={2}>
-                    <Grid item xs={4}>
-                    </Grid>
+                <Grid item xs={12}>
 
                     <Grid item xs container direction="column" sx={{ fontSize: '30px', fontWeight: 'bold' }}>
                         <Grid item>
@@ -82,7 +81,7 @@ function ChangePassword() {
                         </Paper>
                     </Grid>
                     </Grid>
-       
+                    </Grid>
                 </Grid>
             </Box>
 

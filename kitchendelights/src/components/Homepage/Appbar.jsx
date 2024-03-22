@@ -96,7 +96,9 @@ export default function PrimarySearchAppBar() {
   };
 
   useEffect(() => {
+    console.log(userId);
     if(userId != -1){
+      
       setUserIdExist(true);
     }
     else{

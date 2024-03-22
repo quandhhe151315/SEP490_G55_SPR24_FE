@@ -65,16 +65,12 @@ function MyProfile() {
 
   return (
     <div>
-      <Appbar />
       <GetInformationJWT setId={setId}/>
       <Box sx={{ display: 'flex' }}>
         <Grid container spacing={2}>
-          <Grid item xs={4}>
-            <AvatarMenu />
-          </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={12}>
 
-            <Stack spacing={2} sx={{marginTop: '2%', marginLeft: '1%'}}>
+            <Stack spacing={2} sx={{marginTop: '2%'}}>
               <Typography sx={{ fontSize: '30px', fontWeight: 'bold'}}>Thông tin cá nhân</Typography>
               <Typography sx={{ fontSize: '16px'}}>Đây là nơi hiển thị những thông tin cá nhân</Typography>
               <Paper sx={{ marginTop: '3%', borderRadius: '15px', border: '1px solid #bfb8b8', width: '77%', height: '100%'}}>
