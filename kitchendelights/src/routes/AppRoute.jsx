@@ -100,7 +100,7 @@ function AppRoute() {
       element: <CreateCategory />,
     },
     {
-      path: "/UpdateCategory/:categoryId",
+      path: "/UpdateCategory/:CategoryId",
       element: <UpdateCategory />,
     },
     {
