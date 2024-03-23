@@ -21,11 +21,11 @@ function UpdateCategory() {
     const [parentCategories, setParentCategories] = useState([]);
     const [parentId, setParentId] = useState('');
 
-    const { categoryId } = useParams();
+    const { CategoryId } = useParams();
 
     const getCategoryInformation = async () => {
         try {
-            const response = await getCategoryById(categoryId);
+            const response = await getCategoryById(CategoryId);
             if (response.status === 200) {
                 setCategoryName(response.data?.categoryName);
                 setParentId(response.data?.parentId);
@@ -46,6 +46,7 @@ function UpdateCategory() {
             const response = await getCategoryByParentId();
             if (response.status === 200) {
                 setParentCategories(response.data);
+                console.log('danh sách parent category', parentCategories);
             } else {
                 console.log('lỗi khi tải danh sách parent category');
             }
@@ -56,7 +57,7 @@ function UpdateCategory() {
 
     const handleUpdateCategory = async () => {
         try {
-            const response = await updateCategory(categoryId, categoryName, true, parentId);
+            const response = await updateCategory(CategoryId, categoryName, true, parentId);
             if(response.status === 200) {
                 console.log('update category thành công');
                 GoToListCategory();
@@ -81,7 +82,7 @@ function UpdateCategory() {
                 <DashboardMenu dashboardTitle={"Quản lý Category"} />
                 
                 <Grid sx={{ marginTop: '80px', marginLeft: '80px' }}>
-                    <Paper sx={{borderRadius: '15px', border: '1px solid #bfb8b8', width: '1000px', height: '570px', backgroundColor: '#D9D9D9' }}>
+                    <Paper sx={{borderRadius: '15px', border: '1px solid #bfb8b8', width: '1000px', height: '570px', backgroundColor: '#FFFFFF' }}>
                         <Typography sx={{ fontSize: '40px', fontWeight: 'bold', marginLeft: '20%', marginTop: '20px', color: '#0B488F' }}>
                             Cập nhật Category
                         </Typography>
@@ -103,11 +104,12 @@ function UpdateCategory() {
                                                 <MenuItem value={null}>
                                                     <em>None</em>
                                                 </MenuItem>
-                                                {parentCategories.map((parent) => 
+                                                {parentCategories.filter(parent => parent.categoryId !== parseInt(CategoryId)).map((parent) => 
                                                     <MenuItem key={parent.categoryId} value={parent.categoryId}>{parent.categoryName}</MenuItem>
                                                 )};
                                             </Select>
                                         </FormControl>
+                                        
                                     </Grid>
                                     <Grid item >
                                         <CategoryButton text='Cập nhật' height='auto' width='120px' marginLeft='10%' marginTop='80px' onClick={handleUpdateCategory}></CategoryButton>

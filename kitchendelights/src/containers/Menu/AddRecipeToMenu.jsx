@@ -58,9 +58,7 @@ function AddRecipeToMenuDialog({ open, handleClose, onOpenCreate, listMenu, reci
     setCheckedMenus(listMenu.filter(menu => menu.isExistRecipe).map(menu => menu.menuId));
   }, [listMenu]);
 
-  useEffect(() => {
-    console.table(listMenu);
-  }, [listMenu, recipeId]);
+  
   return (
 
     <div>

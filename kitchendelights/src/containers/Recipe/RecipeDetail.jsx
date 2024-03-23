@@ -31,7 +31,7 @@ import Checkbox from "@mui/material/Checkbox";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import AddRecipeToMenuDialog from "../Menu/AddRecipeToMenu";
 import { toast } from "react-toastify";
-import { getRecipessById, getMenuByUserIdAndCheckExistRecipe } from "../../services/ApiServices";
+import { getRecipeById, getMenuByUserIdAndCheckExistRecipe } from "../../services/ApiServices";
 import moment from "moment";
 import CreateNewMenuDialog from "../Menu/CreateNewMenu";
 import GetInformationJWT from "../../components/JWT/GetInformationJWT";
@@ -140,7 +140,7 @@ function RecipeDetail() {
   }, [recipeId]);
   const handleGetRecipessById = async () => {
     try {
-      const response = await getRecipessById(recipeId);
+      const response = await getRecipeById(recipeId);
       if (response.status === 200) {
         setdata(response.data);
         console.log("data", response);
@@ -271,7 +271,7 @@ function RecipeDetail() {
             recipeId={recipeId}
           />
           <CreateNewMenuDialog
-            open={createMenuDialog}s
+            open={createMenuDialog}
             handleClose={handleCloseCreateMenuDialog}
           />
         </Stack>
