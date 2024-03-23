@@ -56,11 +56,11 @@ function RandomRecipes() {
   const settings = {
     dots: true,
     infinite: true,
-    speed: 1500,
+    speed: 1000,
     slidesToShow: 4,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 3000,
+    autoplaySpeed: 1000,
     prevArrow: prevButton,
     nextArrow: nextButton,
     responsive: [
@@ -94,15 +94,15 @@ function RandomRecipes() {
     <div>
       <Typography
         sx={{
-          marginLeft: "320px",
+          marginLeft: "280px",
           fontSize: "16px",
-          marginRight: "255px",
-          marginTop: "50px",
+          marginRight: "280px",
+          marginTop: "30px",
         }}
       >
         <Typography
           color="#ff5e00"
-          sx={{ fontSize: "20px", fontWeight: "bold" }}
+          sx={{ fontSize: "35px", fontWeight: "bold" }}
         >
           Có thể bạn sẽ thích
         </Typography>

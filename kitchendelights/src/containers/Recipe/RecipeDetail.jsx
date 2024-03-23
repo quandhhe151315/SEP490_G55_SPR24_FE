@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Appbar from "../../components/Homepage/Appbar";
 import Typography from "@mui/material/Typography";
 import {
@@ -55,6 +55,8 @@ function RecipeDetail() {
   const navigate = useNavigate();
   const [data, setdata] = useState();
   const { recipeId } = useParams();
+
+  const commentRef = useRef(null);
   //const {uId,rId ,type} = useParams();
   const getUserIdFromCookie = () => {
     const cookies = document.cookie.split("; ");
@@ -102,6 +104,21 @@ function RecipeDetail() {
   //     console.error("lỗi API getMenu", error);
   //   }
   // };
+
+  const videoTopPosition = 400;
+  const [scrollPosition, setScrollPosition] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollPosition(window.scrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   const getListMenu = async () => {
     try {
       const response = await getMenuByUserIdAndCheckExistRecipe(id, rId);
@@ -114,7 +131,7 @@ function RecipeDetail() {
       console.log("lỗi khi tải danh sách menu", error);
     }
   };
-
+  // thêm vào danh sách yêu thích
   const handleAddBookMark = async () => {
     try {
       const response = await addRecipeToBookMark(uId, rId, type);
@@ -155,7 +172,7 @@ function RecipeDetail() {
     setCreateMenuDialog(false);
     setSelectMenuDialog(true);
   };
-
+  // get công thức chi tiết theo id
   useEffect(() => {
     if (recipeId) {
       handleGetRecipessById();
@@ -175,154 +192,182 @@ function RecipeDetail() {
     }
   };
 
+  const handleScrollToComment = () => {
+    commentRef.current.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <div>
       <GetInformationJWT setId={setId} />
       {!printMode && <Appbar />}
-      <Typography
-        sx={{ fontSize: "16px", marginRight: "255px", marginTop: "50px" }}
-      ></Typography>
+      {!printMode && (
+        <Typography
+          sx={{ fontSize: "16px", marginRight: "255px", marginTop: "50px" }}
+        ></Typography>
+      )}
+
       <Typography
         color="#ff5e00"
-        sx={{ marginLeft: 35, fontSize: "40px", fontWeight: "bold" }}
+        sx={{ marginLeft: 35, fontSize: "60px", fontWeight: "bold" }}
       >
         {data?.recipeTitle}
       </Typography>
-      <Typography sx={{ marginLeft: 35 }}>
-        <Stack direction="row" spacing={1}>
-          <Avatar
-            sx={{ width: 20, height: 20 }}
-            alt="Remy Sharp"
-            src="../assets/images/news1.jpg"
-          />
-          <Typography sx={{ fontSize: 14 }}> {data?.userName}</Typography>
-          <Button sx={{ height: 14 }} endIcon={<CalendarTodayIcon />}></Button>
-          <Typography sx={{ fontSize: 14 }}>
-            {moment(data?.createDate).format("DD/MM/YYYY")}
-          </Typography>
-          <Rating
-            name="half-rating"
-            defaultValue={2.5}
-            precision={0.5}
-          ></Rating>
-        </Stack>
-        <Stack direction="row" spacing={2}>
-          <Button
-            size="small"
-            variant="contained"
-            sx={{
-              bgcolor: "#ff5e00",
-              color: "white",
-              borderRadius: "15px",
-              width: "100px",
-              height: "35px",
-            }}
-            endIcon={<ThumbUpIcon />}
-          >
-            Thích
-          </Button>
-          <Button
-            size="small"
-            variant="contained"
-            sx={{
-              bgcolor: "#ff5e00",
-              borderRadius: "15px",
-              width: "100px",
-              height: "35px",
-              color: "white",
-            }}
-            onClick={handleAddBookMark}
-            endIcon={<FavoriteIcon />}
-          >
-            Lưu
-          </Button>
-          <Button
-            size="small"
-            variant="contained"
-            sx={{
-              bgcolor: "#ff5e00",
-              borderRadius: "15px",
-              width: "100px",
-              height: "35px",
-              color: "white",
-            }}
-            endIcon={<PrintIcon />}
-            onClick={handlePrint}
-          >
-            In
-          </Button>
-          <Button
-            size="small"
-            variant="contained"
-            sx={{
-              bgcolor: "#ff5e00",
-              borderRadius: "15px",
-              width: "100px",
-              height: "35px",
-              color: "white",
-            }}
-            endIcon={<ShareIcon />}
-            onClick={shareToFacebook}
-          >
-            Chia sẻ
-          </Button>
+      <Typography sx={{ height: 10 }} />
+      {!printMode && (
+        <Typography sx={{ marginLeft: 35 }}>
+          <Stack direction="row" spacing={1}>
+            <Avatar
+              sx={{ width: 20, height: 20 }}
+              alt="Remy Sharp"
+              src="../assets/images/news1.jpg"
+            />
+            <Typography sx={{ fontSize: 14 }}> {data?.userName}</Typography>
+            <Button
+              sx={{ height: 14 }}
+              endIcon={<CalendarTodayIcon />}
+            ></Button>
+            <Typography sx={{ fontSize: 14 }}>
+              {moment(data?.createDate).format("DD/MM/YYYY")}
+            </Typography>
+            <Rating
+              name="half-rating"
+              defaultValue={2.5}
+              precision={0.5}
+            ></Rating>
+            <Typography sx={{ height: 30 }} />
+          </Stack>
+          <Stack direction="row" spacing={2}>
+            <Button
+              size="small"
+              variant="contained"
+              sx={{
+                bgcolor: "#ff5e00",
+                color: "white",
+                borderRadius: "15px",
+                width: "110px",
+                height: "35px",
+              }}
+              endIcon={<ThumbUpIcon />}
+              onClick={handleScrollToComment}
+            >
+              Đánh giá
+            </Button>
+            <Button
+              size="small"
+              variant="contained"
+              sx={{
+                bgcolor: "#ff5e00",
+                borderRadius: "15px",
+                width: "100px",
+                height: "35px",
+                color: "white",
+              }}
+              onClick={handleAddBookMark}
+              endIcon={<FavoriteIcon />}
+            >
+              Lưu
+            </Button>
+            <Button
+              size="small"
+              variant="contained"
+              sx={{
+                bgcolor: "#ff5e00",
+                borderRadius: "15px",
+                width: "100px",
+                height: "35px",
+                color: "white",
+              }}
+              endIcon={<PrintIcon />}
+              onClick={handlePrint}
+            >
+              In
+            </Button>
+            <Button
+              size="small"
+              variant="contained"
+              sx={{
+                bgcolor: "#ff5e00",
+                borderRadius: "15px",
+                width: "100px",
+                height: "35px",
+                color: "white",
+              }}
+              endIcon={<ShareIcon />}
+              onClick={shareToFacebook}
+            >
+              Chia sẻ
+            </Button>
 
-          {/*nút add to menu*/}
-          <Button
-            onClick={handleOpenSelectMenuDialog}
-            size="small"
-            variant="contained"
-            sx={{
-              bgcolor: "#ff5e00",
-              borderRadius: "15px",
-              width: "150px",
-              height: "35px",
-              color: "white",
-              size: "20px",
-              fontSize: "12px",
-            }}
-            endIcon={<MenuBookIcon />}
-          >
-            Thêm vào menu
-          </Button>
-          <AddRecipeToMenuDialog
-            open={selectMenuDialog}
-            handleClose={handleCloseSelectMenuDialog}
-            onOpenCreate={handleOpenCreateMenuDialog}
-            listMenu={listMenu}
-            recipeId={recipeId}
-          />
-          <CreateNewMenuDialog
-            open={createMenuDialog}
-            s
-            handleClose={handleCloseCreateMenuDialog}
-          />
-        </Stack>
-        <Typography sx={{ marginTop: 3 }} />
-      </Typography>
-      <Box sx={{ marginLeft: 35 }}>
-        <Card sx={{ width: 1000 }}>
+            {/*nút add to menu*/}
+            <Button
+              onClick={handleOpenSelectMenuDialog}
+              size="small"
+              variant="contained"
+              sx={{
+                bgcolor: "#ff5e00",
+                borderRadius: "15px",
+                width: "150px",
+                height: "35px",
+                color: "white",
+                size: "20px",
+                fontSize: "12px",
+              }}
+              endIcon={<MenuBookIcon />}
+            >
+              Thêm vào menu
+            </Button>
+            <AddRecipeToMenuDialog
+              open={selectMenuDialog}
+              handleClose={handleCloseSelectMenuDialog}
+              onOpenCreate={handleOpenCreateMenuDialog}
+              listMenu={listMenu}
+              recipeId={recipeId}
+            />
+            <CreateNewMenuDialog
+              open={createMenuDialog}
+              s
+              handleClose={handleCloseCreateMenuDialog}
+            />
+          </Stack>
+          <Typography sx={{ marginTop: 3 }} />
+        </Typography>
+      )}
+
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Card sx={{ width: 850 }}>
           <Card>
             <CardContent>
-              {data && data?.videoLink ? ( // Kiểm tra xem có dữ liệu video và embedUrl không
-                <>
-                  <iframe
-                    width="100%"
-                    height="400"
-                    // src={data?.videoLink}
-                    src="https://www.youtube.com/embed/oHlKAMKi24E?controls=0"
-                    title="YouTube video player"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  ></iframe>
-                </>
-              ) : (
-                <CardMedia
-                  component={"img"}
-                  height={500}
-                  image={data?.featuredImage}
-                  alt="green iguana"
-                /> // Hiển thị hình ảnh khi không có video
-              )}
+              <div
+                className={`video-container ${
+                  scrollPosition > videoTopPosition ? "small" : ""
+                }`}
+              >
+                {data && data?.videoLink ? ( // Kiểm tra xem có dữ liệu video và embedUrl không
+                  <>
+                    <iframe
+                      width="100%"
+                      height="400"
+                      // src={data?.videoLink}
+                      src="https://www.youtube.com/embed/oHlKAMKi24E?controls=0"
+                      title="YouTube video player"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    ></iframe>
+                  </>
+                ) : (
+                  <CardMedia
+                    component={"img"}
+                    height={500}
+                    image={data?.featuredImage}
+                    alt="green iguana"
+                  /> // Hiển thị hình ảnh khi không có video
+                )}
+              </div>
             </CardContent>
           </Card>
 
@@ -340,9 +385,9 @@ function RecipeDetail() {
               <Typography sx={{ color: "gray" }}>Số người phục vụ </Typography>
             </Stack>
             <Stack direction="row" spacing={12}>
-              <Typography>15 phút</Typography>
-              <Typography>15 phút </Typography>
-              <Typography>4 người</Typography>
+              <Typography>{data?.preparationTime}</Typography>
+              <Typography>{data?.cookTime} </Typography>
+              <Typography>{data?.recipeServe}</Typography>
             </Stack>
             <Typography sx={{ fontSize: 25, fontWeight: "bold" }}>
               Nguyên liệu
@@ -367,19 +412,21 @@ function RecipeDetail() {
             <Typography gutterBottom variant="h6" component="div">
               {data?.recipeContent}
             </Typography>
-            <Typography
-              color="#ff5e00"
-              sx={{ fontSize: "35px", fontWeight: "bold" }}
-            >
-              Bình luận
-            </Typography>
+            {!printMode && (
+              <Typography
+                color="#ff5e00"
+                sx={{ fontSize: "35px", fontWeight: "bold" }}
+                ref={commentRef}
+              >
+                Đánh giá cho công thức
+              </Typography>
+            )}
             {!printMode && <CommentSection recipeId={recipeId} />}
           </CardContent>
         </Card>
       </Box>
-      <RandomRecipes />
-
-      <Footer />
+      {!printMode && <RandomRecipes />}
+      {!printMode && <Footer />}
     </div>
   );
 }

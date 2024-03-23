@@ -11,6 +11,7 @@ import Paper from "@mui/material/Paper";
 import Divider from "@mui/material/Divider";
 import Avatar from "@mui/material/Avatar";
 import { deepOrange } from "@mui/material/colors";
+import Footer from "../../components/Footer/Footer";
 
 function ShoppingCart() {
   const data = [
@@ -35,9 +36,8 @@ function ShoppingCart() {
   ];
   return (
     <div>
-      <Layoutspacing>
-        <Appbar />{" "}
-        {/* <Box
+      <Appbar />{" "}
+      {/* <Box
           sx={{
             backgroundColor: "#ff5e00",
             borderRadius: 5,
@@ -59,76 +59,46 @@ function ShoppingCart() {
             </Card>
           </Stack>
         </Box> */}
-        <Paper
-          sx={{
-            backgroundColor: "#ff5e00",
-            padding: 2,
-            marginTop: 3,
-            borderRadius: 3,
-          }}
+      <Paper
+        sx={{
+          backgroundColor: "#ff5e00",
+          padding: 2,
+          marginTop: 3,
+          borderRadius: 3,
+          width: "64%",
+        }}
+      >
+        <Typography variant="h5" gutterBottom sx={{ color: "white" }}>
+          Giỏ hàng của bạn
+        </Typography>
+        <Typography
+          variant="body2"
+          color="textSecondary"
+          gutterBottom
+          sx={{ color: "white" }}
         >
-          <Typography variant="h5" gutterBottom sx={{ color: "white" }}>
-            Giỏ hàng của bạn
-          </Typography>
-          <Typography
-            variant="body2"
-            color="textSecondary"
-            gutterBottom
-            sx={{ color: "white" }}
+          Bạn có {data.length} sản phẩm trong giỏ hàng
+        </Typography>
+      </Paper>
+      <Grid container spacing={2} sx={{ marginTop: 0, marginBottom: 3 }}>
+        <Grid item xs={8}>
+          <Paper
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
           >
-            Bạn có {data.length} sản phẩm trong giỏ hàng
-          </Typography>
-          <Divider
-            sx={{
-              height: 5,
-              backgroundColor: "transparent",
-              borderBottom: "3px solid black",
-              width: 870,
-              marginBottom: 5,
-              marginTop: 2,
-            }}
-          />
-          <Box sx={{ display: "flex", marginTop: 2 }}>
-            <Grid container spacing={2}>
-              <Grid item xs={8}>
-                <CartDetail sx={{ height: "500px" }} />
-              </Grid>
-              <Grid item xs={4}>
-                {/* <Box
-                  sx={{
-                    backgroundColor: "#ffffff",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "80vh",
-                    borderRadius: 6,
-                  }}
-                >
-                  <Box sx={{ position: "absolute", top: 16, right: 16 }}>
-                    <Avatar sx={{ bgcolor: deepOrange[500] }}>H</Avatar>
-                  </Box>
-                  <Box sx={{ textAlign: "center" }}>
-                    <Button variant="contained" color="primary">
-                      Thanh toán
-                    </Button>
-                  </Box>
-                </Box> */}
-                <Payment />
-              </Grid>
-            </Grid>
-          </Box>
-          <Divider
-            sx={{
-              height: 5,
-              backgroundColor: "transparent",
-              borderBottom: "3px solid black",
-              width: 870,
-              marginBottom: 5,
-              marginTop: 5,
-            }}
-          />
-        </Paper>
-      </Layoutspacing>
+            <CartDetail />
+          </Paper>
+        </Grid>
+        <Grid item xs={4}>
+          <Paper style={{}}>
+            <Payment />
+          </Paper>
+        </Grid>
+      </Grid>
+      <Footer />
     </div>
   );
 }

@@ -11,9 +11,19 @@ import {
 import { formatDistanceToNow, set } from "date-fns";
 import StarIcon from "@mui/icons-material/Star";
 import { CreateReview, GetReviewByRecipeId } from "../../services/ApiServices";
+import { useNavigate } from "react-router-dom";
+import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
+import ArrowRightIcon from "@mui/icons-material/ArrowRight";
+import { toast } from "react-toastify";
 const Comment = ({ avatarSrc, username, content, timestamp, rating }) => {
   return (
-    <Paper sx={{ padding: "20px", marginTop: "10px" }}>
+    <Paper
+      sx={{
+        padding: "20px",
+        marginTop: "10px",
+        backgroundColor: "#f5f5f5",
+      }}
+    >
       <Grid container spacing={2}>
         <Grid item>
           <Avatar alt={username} src={avatarSrc} />
@@ -75,8 +85,13 @@ const ListComment = ({ comments }) => {
 };
 
 const PostComment = ({ recipeId, loading, setLoading }) => {
+  const navigate = useNavigate();
   const [newComment, setNewComment] = useState("");
   const [rating, setRating] = useState(0); // Thêm state cho giá trị rating
+  const isUserLoggedIn = () => {
+    const cookies = document.cookie.split("; ");
+    return cookies.some((cookie) => cookie.startsWith("userId="));
+  };
 
   const handleCommentChange = (event) => {
     setNewComment(event.target.value);
@@ -88,6 +103,11 @@ const PostComment = ({ recipeId, loading, setLoading }) => {
 
   const handleSubmit = async () => {
     //recipeId , userId, ratingValue,ratingStatus,ratingContent
+    if (!isUserLoggedIn()) {
+      navigate("/Login");
+      toast.warning("Vui lòng đăng nhập để đánh giá !"); // Chuyển hướng đến trang login nếu chưa đăng nhập
+      return;
+    }
     if (userId && newComment && recipeId) {
       try {
         const response = await CreateReview(
@@ -102,10 +122,10 @@ const PostComment = ({ recipeId, loading, setLoading }) => {
           setNewComment("");
           setLoading(!loading);
         } else {
-          console.error("lỗi khi tải danh sách menu");
+          toast.error("Lỗi tải danh sách bình luận");
         }
       } catch (error) {
-        console.error("lỗi API getMenu", error);
+        toast.error("Lỗi tải danh sách bình luận");
       }
     }
   };
@@ -114,7 +134,7 @@ const PostComment = ({ recipeId, loading, setLoading }) => {
     <Paper sx={{ padding: "20px", marginTop: "10px" }}>
       <Grid container spacing={2} alignItems="center">
         <Grid item>
-          <Typography variant="body1" gutterBottom>
+          <Typography color="#ff5e00" variant="body1" gutterBottom>
             Hãy vote sao cho công thức
           </Typography>
         </Grid>
@@ -153,7 +173,10 @@ const PostComment = ({ recipeId, loading, setLoading }) => {
 
 const CommentSection = ({ recipeId }) => {
   const [loading, setLoading] = useState(false);
+
   const [comments, setComments] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const commentsPerPage = 5;
 
   const getListComment = async () => {
     try {
@@ -170,6 +193,21 @@ const CommentSection = ({ recipeId }) => {
     }
   }, [recipeId, loading]);
 
+  const totalPages = Math.ceil(comments.length / commentsPerPage);
+  const indexOfLastComment = currentPage * commentsPerPage;
+  const indexOfFirstComment = indexOfLastComment - commentsPerPage;
+  const currentComments = comments.slice(
+    indexOfFirstComment,
+    indexOfLastComment
+  );
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
+
+  const handlePrevPage = () => {
+    setCurrentPage((prevPage) => prevPage - 1);
+  };
+
   return (
     <div>
       <PostComment
@@ -177,7 +215,37 @@ const CommentSection = ({ recipeId }) => {
         loading={loading}
         recipeId={recipeId}
       />
-      <ListComment comments={comments} />
+      <Typography
+        color="#ff5e00"
+        variant="h5"
+        sx={{ marginTop: 3, fontWeight: "bold" }}
+      >
+        Bình luận ({comments.length})
+      </Typography>
+      <ListComment comments={currentComments} />
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <Button
+          sx={{ mr: 1, p: 2 }}
+          onClick={handlePrevPage}
+          disabled={currentPage === 1}
+        >
+          <ArrowLeftIcon fontSize="large" />
+        </Button>
+        <Typography variant="h6">{currentPage}</Typography>
+        <Button
+          sx={{ mr: 1, p: 2 }}
+          onClick={handleNextPage}
+          disabled={currentPage === totalPages}
+        >
+          <ArrowRightIcon fontSize="large" />
+        </Button>
+      </div>
     </div>
   );
 };

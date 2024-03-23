@@ -165,8 +165,8 @@ export default function CartDetail() {
     <TableContainer component={Paper}>
       <Table
         sx={{
-          minWidth: 600,
-          height: 500,
+          minWidth: 500,
+          height: 600,
         }}
         aria-label="custom pagination table"
       >

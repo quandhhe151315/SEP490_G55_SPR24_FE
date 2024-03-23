@@ -9,7 +9,13 @@ import VNPAY from "../../assets/images/VNPAY.jpg";
 
 export default function ImgMediaCard() {
   return (
-    <Card sx={{ maxWidth: "100%", borderRadius: 4 }}>
+    <Card
+      sx={{
+        height: 600,
+
+        borderRadius: 2,
+      }}
+    >
       <CardContent>
         <Typography
           gutterBottom
