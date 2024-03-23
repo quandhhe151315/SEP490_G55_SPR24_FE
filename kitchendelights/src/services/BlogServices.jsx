@@ -20,6 +20,10 @@ const createBlog = async (content) => {
   const response = await instanceAxios.post("/Blog/Create", content);
   return response.data;
 };
+const updateBlog = async (content) => {
+  const response = await instanceAxios.put("/Blog/Update", content);
+  return response;
+};
 
 const uploadImage = async (formData, type) => {
   const response = await instance.post(`/Upload/Image?type=${type}`, {
@@ -53,4 +57,5 @@ export {
   getComment,
   deleteComment,
   updateComment,
+  updateBlog
 };

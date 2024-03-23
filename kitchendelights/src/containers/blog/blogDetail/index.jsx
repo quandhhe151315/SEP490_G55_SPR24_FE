@@ -62,7 +62,7 @@ export default function BlogDetail() {
           <Grid item xs={8}>
             <BlogContent
               userName={blogDetail?.userName}
-              title={blogDetail?.userName}
+              title={blogDetail?.blogTitle}
               content={blogDetail?.blogContent}
               createDate={blogDetail?.createDate}
               image={blogDetail?.blogImage}
