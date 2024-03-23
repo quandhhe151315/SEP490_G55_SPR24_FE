@@ -26,7 +26,7 @@ import EditFormModal from "../EditFormModal";
 import DeleteBlogModal from "../DeleteBlogModal";
 export default function BlogListItem() {
   const [blogLists, setBlogList] = useState();
-  const { blogList } = useGetBlogList();
+  const { blogList } = useGetBlogList({ search: "abc" });
   useEffect(() => {
     setBlogList(blogList);
   }, [blogList]);
@@ -152,7 +152,13 @@ export default function BlogListItem() {
           marginBottom: 4,
         }}
       />
-      <EditFormModal openModal={open} setOpenModal={setOpen} id={editId} />
+      <EditFormModal
+        openModal={open}
+        setOpenModal={setOpen}
+        id={editId}
+        setBlogList={setBlogList}
+        blogLists={blogLists}
+      />
       <DeleteBlogModal
         delId={delId}
         openDelModal={openDelModal}
