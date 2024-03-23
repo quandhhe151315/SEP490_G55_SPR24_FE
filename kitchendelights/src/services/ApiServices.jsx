@@ -84,7 +84,7 @@ const createRecipe = (userId,featuredImage,recipeDescription,videoLink,recipeTit
 const getRecipes = () => {
   return axios.get("/Recipe/GetAllRecipe");
 };
-const getRecipessById = (id) => {
+const getRecipeById = (id) => {
   return axios.get(`/Recipe/GetRecipeById?recipeId=${id}`);
 };
 const deleteRecipe = (id) => {
@@ -174,11 +174,10 @@ const getMenuByUserIdAndCheckExistRecipe = (userId, recipeId) => {
 const updateMenu = (menuId, menuName, menuDescription,featuredImage = null, userId=0) => {
   return axios.put(`/Menu/UpdateMenu`, {menuId, featuredImage, menuName, menuDescription, userId});
 };
-
-
-const updateCategoryRecipe = (categoryId, recipeId) => {
-
+const updateCategoryRecipe = (recipeId, categoryId, type) => {
+  return axios.put(`/Recipe/UpdateCategoryRecipe?recipeId=${recipeId}&categoryId=${categoryId}&type=${type}`);
 };
+
 const updateStatusRecipe = (recipeId, status) => {
   return axios.put(`Recipe/UpdateStatusRecipe?recipeId=${recipeId}&status=${status}`);
 };
@@ -197,7 +196,7 @@ export {
   postCreateCategory,
   getCategoryByParentId,
   getRecipes,
-  getRecipessById,
+  getRecipeById,
   deleteRecipe,
   listUsers,
   getBlogList,
@@ -219,4 +218,6 @@ export {
   listAllCountry,
   updateStatusRecipe,
   updateCategory,
+  updateCategoryRecipe,
+  
 };
