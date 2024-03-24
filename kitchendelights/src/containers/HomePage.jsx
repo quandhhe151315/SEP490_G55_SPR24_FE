@@ -10,7 +10,6 @@ function HomePage() {
     <div>
         <Appbar/>
         <h1>Trang chủ</h1>
-        <Footer/>
     </div>
   );
 }
