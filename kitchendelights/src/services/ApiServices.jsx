@@ -174,12 +174,6 @@ const getMenuByUserIdAndCheckExistRecipe = (userId, recipeId) => {
 const updateMenu = (menuId, menuName, menuDescription,featuredImage = null, userId=0) => {
   return axios.put(`/Menu/UpdateMenu`, {menuId, featuredImage, menuName, menuDescription, userId});
 };
-const addCategoryRecipe = (recipeId, categoryId) => {
-  return axios.put(`/Recipe/UpdateCategoryRecipe?recipeId=${recipeId}&categoryId=${categoryId}&type=1`);
-};
-const removeCategoryRecipe = (recipeId, categoryId) => {
-  return axios.put(`/Recipe/UpdateCategoryRecipe?recipeId=${recipeId}&categoryId=${categoryId}&type=2`);
-};
 const updateCategoryRecipe = (recipeId, categoryId, type) => {
   return axios.put(`/Recipe/UpdateCategoryRecipe?recipeId=${recipeId}&categoryId=${categoryId}&type=${type}`);
 };
@@ -224,7 +218,5 @@ export {
   listAllCountry,
   updateStatusRecipe,
   updateCategory,
-  addCategoryRecipe,
-  removeCategoryRecipe,
   updateCategoryRecipe,
 };
