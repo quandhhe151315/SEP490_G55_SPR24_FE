@@ -52,6 +52,7 @@ function ListRecipeDashBoard() {
     };
     const handleCloseApprove = () => {
         setOpenApprove(false);
+        
     };
 
     //style table
@@ -105,7 +106,7 @@ function ListRecipeDashBoard() {
 
     useEffect(() => {
         getListRecipe();
-    }, []);
+    }, [openApprove]);
 
     return (
         <div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -18,11 +18,41 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { updateCategoryRecipe, updateStatusRecipe } from "../../../services/ApiServices";
 import { set } from "date-fns";
+import { toast } from "react-toastify";
+
+
+function CategoryCheckbox({ category, recipeId, handleUpdateCategoryRecipe  }) {
+    const [isChecked, setIsChecked] = useState(false);
+
+    const handleCheckboxChange = (event) => {
+        
+        const checked = event.target.checked;
+        setIsChecked(checked);
+        handleUpdateCategoryRecipe(recipeId, category.categoryId, checked ? 1 : 2);
+        
+    };
+
+    return (
+        <FormControlLabel
+            control={
+                <Checkbox
+                    onChange={handleCheckboxChange}
+                    checked={isChecked}
+                />
+            }
+            label={category.categoryName}
+            sx={{ display: 'block', wordWrap: 'break-word' }}
+        />
+    );
+}
+
+
 
 function ApporoveDialog({ open, handleClose, recipeId }) {
     const [recipe, setRecipe] = useState({});
     const [categories, setCategories] = useState([]);
-    const [checkCount, setCheckedCount] = useState(0);
+    const [checkCount, setCheckCount] = useState(0);
+    const [selectedCategories, setSelectedCategories] = useState([]);
 
     const handleGetAllCategory = async () => {
         try {
@@ -59,41 +89,51 @@ function ApporoveDialog({ open, handleClose, recipeId }) {
         return groups;
     }, {});
 
-    const handleUpdateCategoryRecipe = async (recipeId, categoryId, type) => {
+    const handleUpdateCategoryRecipe = useCallback( async (recipeId, categoryId, type) => {
         try {
             const reponse = await updateCategoryRecipe(recipeId, categoryId, type);
             if (reponse.status === 200) {
+                // setSelectedCategories(prevState => ({
+                //     ...prevState,
+                //     [categoryId]: type === 1
+                // }));
+
                 console.log('add category thanh cong');
+
             } else {
                 console.log('add category that bai');
             }
         } catch (error) {
             console.error('loi khi add category cho recipe', error);
         }
-    };
+    },[]);
 
     const handleApproveRecipe = async () => {
         try {
-            const response = await updateStatusRecipe(recipeId, 1);
-            if (response.status === 200) {
-                console.log('approve thanh cong');
-            } else {
-                console.log('approve that bai');
-            }
+            // const selectiedCategoryIds = Object.keys(selectedCategories).filter(id => selectedCategories[id]);
+            // if (selectiedCategoryIds.length === 0) {
+            //     toast.error('Chưa chọn category');
+            // }
+            // else {
+                const response = await updateStatusRecipe(recipeId, 1);
+                if (response.status === 200) {
+                    handleClose();
+                    console.log('approve thanh cong');
+                    toast.success('Duyệt công thức thành công');
+                } else {
+                    console.log('approve that bai');
+                    toast.error('Duyệt công thức thất bại');
+                }
+            //}
         } catch (error) {
             console.error('loi khi approve recipe', error);
         }
     };
 
-    // const handleCheckboxChange = (event, recipeId, categoryId) => {
-    //     const UpdateCategories = categories.map(category => {
-    //         if (category.categoryId === categoryId) {
-    //             category.checked = event.target.checked;
-    //         }
-    //         return category;
-    //     });
-    //     setCategories(UpdateCategories);
-    // };
+    // const handleCheckboxChange = (isChecked) => {
+    //     setCheckCount(prevCount => prevCount + (isChecked ? 1 : -1));
+    //   };
+
 
     useEffect(() => {
         if (open) {
@@ -197,25 +237,12 @@ function ApporoveDialog({ open, handleClose, recipeId }) {
                                 {Object.entries(categoryByParentId).map(([parentId, categories], index) => (
                                     <Grid sx={{ marginTop: '10px' }} item xs={3} key={index}>
                                         {categories.map((category, index) => (
-                                            <FormControlLabel
+                                            <CategoryCheckbox
                                                 key={index}
-                                                control={<Checkbox
-                                                    onChange={(event) => {
-                                                        if (event.target.checked) {
-                                                            handleUpdateCategoryRecipe(recipeId, category.categoryId, 1);
-                                                            
-                                                            setCheckedCount(checkCount + 1);
-                                                        } else {
-                                                            handleUpdateCategoryRecipe(recipeId, category.categoryId, 2);
-                                                            
-                                                            setCheckedCount(checkCount - 1);
-                                                        }
-                                                    }}
-                                                />}
-                                                label={category.categoryName}
-                                                sx={{ display: 'block', wordWrap: 'break-word' }}
+                                                category={category}
+                                                recipeId={recipeId}
+                                                handleUpdateCategoryRecipe={handleUpdateCategoryRecipe}
                                             />
-
                                         ))}
                                     </Grid>
                                 ))}
@@ -226,7 +253,10 @@ function ApporoveDialog({ open, handleClose, recipeId }) {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button disabled={checkCount === 0} onClick={handleApproveRecipe}>Approve</Button>
+                    <Button onClick={() => {
+                        handleApproveRecipe();
+                        
+                    }}>Approve</Button>
                 </DialogActions>
             </Dialog>
         </div>
