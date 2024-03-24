@@ -12,8 +12,8 @@ const changePassword = (userId, oldPassword, password) => {
   return axios.patch("/User/ChangePassword", { userId, oldPassword, password });
 };
 
-const createNews = (userId, newsTitle, newsContent) => {
-  return axios.post("/News/Create", { userId, newsTitle, newsContent });
+const createNews = (userId, newsTitle, newsContent, featuredImage) => {
+  return axios.post("/News/Create", { userId, newsTitle, newsContent, featuredImage });
 };
 
 const listNews = () => {

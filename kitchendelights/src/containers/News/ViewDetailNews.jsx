@@ -63,7 +63,6 @@ const ViewDetailNews = () => {
               </Grid>
             </Box>
           </Typography>
-      
     </div>
   );
 }

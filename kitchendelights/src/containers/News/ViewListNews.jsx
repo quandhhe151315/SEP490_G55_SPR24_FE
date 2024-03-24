@@ -8,12 +8,18 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import SearchIcon from '@mui/icons-material/Search';
 import Button from '@mui/material/Button';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
 import image1 from '../../assets/images/news1.jpg';
 import ForwardIcon from '@mui/icons-material/Forward';
 import { listNews ,getNewsById } from '../../services/ApiServices';
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardActions from "@mui/material/CardActions";
+import CardMedia from "@mui/material/CardMedia";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import Footer from '../../components/Footer/Footer'
 
 const DisplaySearchNews = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -131,51 +137,75 @@ function ViewListNews() {
             <Typography color="#ff5e00" sx={{fontSize: '30px', fontWeight: 'bold'}}> Tin tức </Typography>
             Đây là chuyên mục bạn có thể đọc những mẩu tin về chuyên ngành ẩm thực.
             
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <DisplaySearchNews >
-              <DisplayStyledInputBase
-                placeholder="Tìm tin tức bạn muốn"
-                inputProps={{ 'aria-label': 'search' }}
-                sx={{ color: "rgba(0, 0, 0, 0.54)" }}
-              />
-              <SearchIcon 
-              sx={{ bgcolor: "#ff5e00", borderRadius: '15px', marginLeft: '16px', width: '48px', height: '42px', color: 'white'}}
-              onClick = {SearchNews}
-              />
-              </DisplaySearchNews>
-              <Button variant="contained" sx={{ bgcolor: "#ff5e00", marginTop:'20px', borderRadius: '15px', marginLeft: '62%', width: '200px', height: '42px', color: 'white'}} onClick={goToCreateNews}>Tạo tin tức mới</Button>
-            </Box>
-
-            <Box sx={{ flexGrow: 1 }}>
-            <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-            {Array.from(Array(6)).map((_, index) => {
-              const nextIndex = index + page;
-              if (nextIndex >= data.length || data[nextIndex] === null) {
-                return null;
-              }
-
-              const nextNews = data[nextIndex];
-
-              return (
-                <Grid xs={4} sm={4} md={4} lg={4} key={nextNews.newsId} sx={{width: '50%'}} onClick={() => viewDetailNews(nextNews.newsId)}>
-                  <DisplayItemNews sx={{ width: 400, height: 400 }} >
-                    <img src={image1} alt="Image news"/>
-                    <br/>
-                    <Typography sx={{fontSize: '16px', color: 'black' }}>
-                      <h2>{nextNews?.newsTitle}</h2>
-                    </Typography>
-                  </DisplayItemNews>
+            <Box>
+              <Grid container spacing={15}>
+                <Grid xs={4}>
+                  <DisplaySearchNews >
+                  <DisplayStyledInputBase
+                    placeholder="Tìm tin tức bạn muốn"
+                    inputProps={{ 'aria-label': 'search' }}
+                    sx={{ color: "rgba(0, 0, 0, 0.54)" }}
+                  />
+                  <SearchIcon 
+                  sx={{ bgcolor: "#ff5e00", borderRadius: '15px', marginLeft: '16px', width: '48px', height: '42px', color: 'white'}}
+                  onClick = {SearchNews}
+                  />
+                  </DisplaySearchNews>
                 </Grid>
-              );
-            })}
+
+                <Grid xs={4}>
+                
+                </Grid>
+
+                <Grid xs={4}>
+                <Button variant="contained" sx={{ bgcolor: "#ff5e00", marginTop:'20px', borderRadius: '15px', width: '100%', height: '42px', color: 'white'}} onClick={goToCreateNews}>Tạo tin tức mới</Button>
+                </Grid>
 
               </Grid>
+              
+              
             </Box>
 
-            <Typography sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '30px' }}>
+           
+                <Box sx={{marginTop: '2%', marginBottom: '2%'}}>
+                <Grid container spacing={3}>
+                  {data.map((item) => {
+                    return (
+                      <Grid item lg={3} md={6} xs={12}>
+                        <Card sx={{ maxWidth: 345 }} onClick={() => {viewDetailNews(item.newsId)}}>
+                          <CardMedia
+                            component={"img"}
+                            height={140}
+                            image={item.featuredImage}
+                            alt="green iguana"
+                          />
+                          <CardContent>
+                            <Typography
+                              sx={{
+                                textWrap: "nowrap",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                textAlign: "center",
+                              }}
+                              gutterBottom
+                              variant="h6"
+                              component="div"
+                            >
+                              {item.newsTitle}
+                            </Typography>
+                          </CardContent>
+                        </Card>
+                      </Grid>
+                    );
+                  })}
+                </Grid>
+              </Box>
+
+
+            {/* <Typography sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '30px' }}>
               <Button variant="contained" disabled={isForwardPage} sx={{ bgcolor: "#ff5e00", borderRadius: '15px', width: '150px', height: '42px', color: 'white'}} startIcon={<ForwardIcon sx={{transform: 'rotate(180deg)'}}/>}  onClick={getForwardNewsPage}>Forward</Button>
               <Button variant="contained" disabled={isNextPage} sx={{ bgcolor: "#ff5e00", borderRadius: '15px', width: '150px', height: '42px', color: 'white', marginRight: '2%'}} endIcon={<ForwardIcon/>} onClick={getNextNewsPage}> Next</Button>
-            </Typography>
+            </Typography> */}
           </Typography>
     </div>
   );

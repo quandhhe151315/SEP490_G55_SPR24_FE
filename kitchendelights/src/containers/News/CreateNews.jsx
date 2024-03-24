@@ -8,16 +8,31 @@ import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import { createNews } from '../../services/ApiServices.jsx';
 import Cookies from 'js-cookie';
+import Grid from '@mui/material/Grid';
 import { useSnackbar } from '../../components/Snackbar/Snackbar.jsx';
+import { uploadImage } from '../../services/BlogServices.jsx';
+import { Stack } from '@mui/material';
+import { Button } from '@mui/material'
 
 function CreateNews() {
   const [newsContent, setNewsContent] = useState('');
   const [newsTitle, setNewsTitle] = useState('');
+  const [featuredImage, setFeaturedImage] = useState('');
   const navigate = useNavigate();
   const { showSnackbar } = useSnackbar();
+  const [featuredImageName, setFeaturedImageName] = useState('');
 
-  const handleTextFieldChange = (event) => {
-    setNewsTitle(event.target.value);
+  const handleFeaturesImageChange = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      
+      setFeaturedImageName(file.name);
+      if (file.type.startsWith('image/')) {
+        const resFeaturedImage = await uploadImage(file, "recipe");
+        setFeaturedImage(resFeaturedImage);
+      } else {
+      }
+    }
   };
 
   const goToNews = () => {
@@ -26,7 +41,7 @@ function CreateNews() {
 
   const handleCreateNews = async () => {
     try {
-      const response = await createNews(Cookies.get('userId'), newsTitle, newsContent);
+      const response = await createNews(Cookies.get('userId'), newsTitle, newsContent, featuredImage);
       if (response.status === 200) {
         showSnackbar('Tạo thành công và đang chờ được duyệt!', "success");
         goToNews();
@@ -39,6 +54,7 @@ function CreateNews() {
     }
   };
 
+  
   return (
     <div>
         <Appbar />
@@ -49,25 +65,49 @@ function CreateNews() {
             </Breadcrumbs>
             Đây là những bạn tạo những mẩu tin về chuyên ngành ẩm thực. Nơi mà người dùng có thể nhìn thấy bài viết của bạn.
           </Typography>
-          <Typography sx={{ color: '#ff5e00', fontWeight: 'bold', marginLeft: '320px', fontSize: '20px', marginRight: '255px', marginTop: '50px'}}>
-            Tiêu đề *
-          </Typography>
-          <TextField
-            required
-            id="outlined-required"
-            value={newsTitle}
-            sx={{marginLeft: '340px', marginTop: '20px', width: '1207px'}}
-            InputProps={{
-              sx: {
-                borderRadius: '15px',
-              },
-            }}  
-            onChange={handleTextFieldChange}
-          />
-          <Typography sx={{ color: '#ff5e00', fontWeight: 'bold', marginLeft: '320px', fontSize: '20px', marginRight: '255px', marginTop: '50px'}}>
+          
+
+          <Grid container spacing={2} sx={{marginTop: '2%'}}>
+          <Grid item xs={8}>
+            <Typography sx={{ color: '#ff5e00', fontWeight: 'bold', fontSize: '20px',marginLeft: '24%'}}>Tiêu đề</Typography>
+            <TextField value={newsTitle} onChange={(event) => setNewsTitle(event.target.value)} required id="outlined-required" sx={{ width: '70%',marginLeft: '26%', marginTop: '2%'}} placeholder="Nhập tiêu đề"/>
+          </Grid>
+          
+          <Grid item xs={4}>
+            <Typography sx={{color: '#ff5e00', fontWeight: 'bold', fontSize: '20px'}}>
+            Ảnh giới thiệu
+            </Typography>
+                <input
+                  type="file"
+                  accept="image/*"
+                  id="upload-feature-image"
+                  style={{ display: 'none' }}
+                  onChange={(event) => handleFeaturesImageChange(event)}
+                />
+                          <Button variant="contained"  onClick={() => { document.getElementById('upload-feature-image').click(); }} className="custom-upload-button" sx={{ 
+                bgcolor: "#ff5e00", 
+                borderRadius: '15px' , 
+                width: '42%',
+                height: '50%',
+                color: 'white',
+                marginTop: '4%'
+            }}>
+                            {featuredImageName && featuredImageName.length > 39 ?
+              `${featuredImageName.slice(0, 25)}...` :
+              (featuredImageName || 'Chọn ảnh')}
+                            </Button>
+
+              </Grid>
+        </Grid>
+
+        <Grid container spacing={2} sx={{marginTop: '2%', marginLeft: '15%'}}>
+        <Grid item xs={8}>
+          <Typography sx={{ color: '#ff5e00', fontWeight: 'bold', fontSize: '20px', }}>
             Nội dung *
           </Typography>
           <AppCreateNews title={newsTitle} setContent={setNewsContent} handleCreateNews={handleCreateNews}/>
+          </Grid>
+          </Grid>
     </div>
   );
 }
