@@ -13,47 +13,53 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import CommentIcon from '@mui/icons-material/Comment';
 import ArtTrackIcon from '@mui/icons-material/ArtTrack';
 import ContactsIcon from '@mui/icons-material/Contacts';
-import { Link, useNavigate } from "react-router-dom";
-import { getMenus } from '../../services/ApiServices';
+import { useNavigate } from "react-router-dom";
 import GetInformationJWT from '../JWT/GetInformationJWT';
 import { MenuListItems } from './MenuListItem';
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
+import { deleteAccount } from '../../services/UserServices';
 
 function AvatarMenu({ handleClick, onMenuSelect }) {
     const navigate = useNavigate();
 
     const [id, setId] = useState('');
-    const [listMenu, setListMenu] = useState([]);
-    const [showAll, setShowAll] = useState(false);
-    const maxDisplay = 4;
+    const [open, setOpen] = React.useState(false);
 
-    const goToMyProfile = () => {
-        navigate('/MyProfile');
-    }
-
-    const goToChangePassword = () => {
-        navigate('/ChangePassword');
-    }
-
-    const getListMenu = async () => {
-        try {
-            const response = await getMenus(id);
-            if (response.status === 200) {
-                setListMenu(response.data);
-            } else {
-                console.error('lỗi khi tải danh sách menu');
-            }
-        } catch (error) {
-            console.error('lỗi API getMenu', error);
-        }
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
+  
+    const handleClose = () => {
+      setOpen(false);
     };
 
-    
+    const handleDeleteAccount = async () => {
+        try {
+          const response = await deleteAccount(id);
+          if (response.status === 200) {
+            navigate('/');
+          } else {
 
-    useEffect(() => {
-        if (id) {
-            getListMenu();
+          }
+        } catch (error) {
+        //   showSnackbar('Ban tài khoản không thành công!', "error");
         }
-    }, [id]);
+      }
+
+    // const goToMyProfile = () => {
+    //     navigate('/MyProfile');
+    // }
+
+    // const goToChangePassword = () => {
+    //     navigate('/ChangePassword');
+    // }
+
     return (
         <div>
             <GetInformationJWT setId={setId} />
@@ -129,7 +135,38 @@ function AvatarMenu({ handleClick, onMenuSelect }) {
                 </MenuList>
             </Paper>
 
-            
+            <Paper sx={{ width: 250, maxWidth: '100%', marginTop: '20px', marginLeft: '46%', border: '1px solid #bfb8b8' }}>
+                <MenuList>
+                    <MenuItem onClick={handleClickOpen}>
+                        <ListItemIcon>
+                            <PersonRemoveIcon fontSize="small" sx={{ color: "#ff5e00" }} />
+                        </ListItemIcon>
+                        <ListItemText sx={{ color: "red" }}>Xóa tài khoản</ListItemText>
+                    </MenuItem>
+                </MenuList>
+                <Dialog
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">
+                    {"Bạn có chắc muốn xóa tài khoản?"}
+                    </DialogTitle>
+                    <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Sau khi xóa tài khoản sẽ không thể khôi phục lại được. Nhấn "Xóa" để xóa tài khoản hoặc nhấn "Hủy"
+                    </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                    <Button color="error" onClick={handleDeleteAccount}>Xóa</Button>
+                    <Button onClick={handleClose} autoFocus>
+                        Hủy
+                    </Button>
+                    </DialogActions>
+                </Dialog>
+            </Paper>
+
         </div>
     );
 }
