@@ -13,6 +13,9 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import ClassicButton from '../../components/Button/ClassicButton'
+import { createAccount } from '../../services/UserServices';
+import { useNavigate } from "react-router-dom";
+import { useSnackbar } from '../../components/Snackbar/Snackbar';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -25,16 +28,38 @@ const Item = styled(Paper)(({ theme }) => ({
 export default function CreateAccount() {
   const [email, setEmail] = useState('');
   const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
   const [middleName, setMiddleName] = useState('');
   const [lastName, setLastName] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
-  const [avatar, setAvatar] = useState('');
-  const [role, setRole] = useState('');
+  const [role, setRole] = useState(9);
+
+  const navigate = useNavigate();
+  const { showSnackbar } = useSnackbar();
 
   const handleRoleChange = (event) => {
     setRole(event.target.value);
+  };
+
+  const goToListAccount = () => {
+    navigate("/ListAccount");
+  }
+
+  //statusId: 1 là active, 2 là banned, 3 là deleted
+  const handleCreateAccount = async () => {
+    try {
+      const response = await createAccount(userName,firstName,middleName,lastName,email,phone,password,"Avatar Default",1,role);
+      if (response.status === 200) {
+        goToListAccount();
+        showSnackbar('Create account successful!', "success");
+      } else {
+
+      }
+    } catch (error) {
+      showSnackbar('Create account failed!', "error");
+    }
   };
 
   return (
@@ -64,6 +89,7 @@ export default function CreateAccount() {
                     
                     <Typography sx={{ fontSize: '16px', fontWeight: 'bold',  marginLeft: '40%' }}>Email: </Typography>
                     <Typography sx={{ fontSize: '16px', fontWeight: 'bold',  marginLeft: '40%' }}>Username: </Typography>
+                    <Typography sx={{ fontSize: '16px', fontWeight: 'bold',  marginLeft: '40%' }}>Mật khẩu: </Typography>
                     <Typography sx={{ fontSize: '16px', fontWeight: 'bold',  marginLeft: '40%' }}>Tên Họ: </Typography>
                     <Typography sx={{ fontSize: '16px', fontWeight: 'bold',  marginLeft: '40%' }}>Tên Đệm: </Typography>
                     <Typography sx={{ fontSize: '16px', fontWeight: 'bold',  marginLeft: '40%' }}>Tên : </Typography>
@@ -76,6 +102,7 @@ export default function CreateAccount() {
                     <Stack spacing={1} sx={{marginTop: '38%'}}>
                       <TextField size='small' type="input" placeholder='Nhập Email' value={email} onChange={(e) => setEmail(e.target.value)} sx={{ width: '40%', fontSize: '16px', fontWeight: 'bold' }} />
                       <TextField size='small' type="input" placeholder='Nhập Username' value={userName} onChange={(e) => setUserName(e.target.value)} sx={{ width: '40%' , fontSize: '16px', fontWeight: 'bold' }} />
+                      <TextField size='small' type="input" placeholder='Nhập Mật khẩu' value={password} onChange={(e) => setPassword(e.target.value)} sx={{ width: '40%',  fontSize: '16px', fontWeight: 'bold' }} />
                       <TextField size='small' type="input" placeholder='Nhập Họ' value={lastName} onChange={(e) => setLastName(e.target.value)} sx={{ width: '40%',  fontSize: '16px', fontWeight: 'bold' }} />
                       <TextField size='small' type="input" placeholder='Nhập Đệm' value={middleName} onChange={(e) => setMiddleName(e.target.value)} sx={{ width: '40%', fontSize: '16px', fontWeight: 'bold' }} />
                       <TextField size='small' type="input" placeholder='Nhập Tên' value={firstName} onChange={(e) => setFirstName(e.target.value)} sx={{ width: '40%',  fontSize: '16px', fontWeight: 'bold' }} />
@@ -91,15 +118,15 @@ export default function CreateAccount() {
                           onChange={handleRoleChange}
                           sx={{width: '40%'}}
                         >
-                          <MenuItem value={10}>User</MenuItem>
-                          <MenuItem value={20}>Chef</MenuItem>
-                          <MenuItem value={30}>Writer</MenuItem>
-                          <MenuItem value={30}>Moderator</MenuItem>
-                          <MenuItem value={30}>Admin</MenuItem>
+                          <MenuItem value={5}>User</MenuItem>
+                          <MenuItem value={4}>Chef</MenuItem>
+                          <MenuItem value={3}>Writer</MenuItem>
+                          <MenuItem value={2}>Moderator</MenuItem>
+                          <MenuItem value={1}>Admin</MenuItem>
                         </Select>
                       </FormControl>
                     </Stack>
-                    <ClassicButton text="Tạo tài khoản mới" top="10%"/>
+                    <ClassicButton text="Tạo tài khoản mới" top="10%" onClick={handleCreateAccount}/>
                   </Grid>
                   
                 </Grid>

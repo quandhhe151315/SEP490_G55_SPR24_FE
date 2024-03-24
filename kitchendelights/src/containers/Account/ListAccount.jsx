@@ -6,13 +6,14 @@ import EditIcon from '@mui/icons-material/Edit';
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
 import { listUsers } from '../../services/ApiServices';
-
+import { banOrUnbanAccount } from '../../services/UserServices';
+import { useSnackbar } from '../../components/Snackbar/Snackbar';
 
 export default function ListAccount() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [rows, setRows] = useState([]);
-
+  const { showSnackbar } = useSnackbar();
 
     const getListUser = async () => {
       try {
@@ -37,8 +38,9 @@ export default function ListAccount() {
         middleName: item.middleName,
         firstName: item.firstName,
         phone: item.phone,
-        address: item.address,
+        // address: item.address,
         role: item.role.roleName,
+        status: item.status.statusId,
     })));
 }, [data]);
 
@@ -46,9 +48,18 @@ export default function ListAccount() {
         console.log(`Chỉnh sửa ID: ${id}`);
       };
 
-      const handleBan = (id) => {
-        console.log(`Ban ID: ${id}`);
-      };
+      const handleBan = async (id) => {
+        try {
+          const response = await banOrUnbanAccount(id);
+          if (response.status === 200) {
+            showSnackbar('Ban tài khoản thành công!', "success");
+          } else {
+
+          }
+        } catch (error) {
+          showSnackbar('Ban tài khoản không thành công!', "error");
+        }
+      }
 
       const goToCreateAccount = () => {
         navigate('/CreateAccount');
@@ -70,14 +81,26 @@ export default function ListAccount() {
       valueGetter: (params) =>
         `${params.row.firstName || ''} ${params.row.middleName || ''} ${params.row.lastName || ''}`,
     },
-    { field: 'phone', headerName: 'Số điện thoại', width: 130, sortable: false },
-    // {
-    //   field: 'age',
-    //   headerName: 'Age',
-    //   type: 'number',
-    //   width: 90,
-    // },
-    { field: 'address', headerName: 'Địa chỉ', width: 270, sortable: false },
+    { field: 'phone', headerName: 'Số điện thoại', width: 200, sortable: false },
+    // { field: 'address', headerName: 'Địa chỉ', width: 270, sortable: false },
+
+    { field: 'status', headerName: 'Trạng thái', width: 200, 
+        renderCell: (params) => (
+          <div style={{ color: 
+            params.row.status === 1 ? 'green' : 
+            params.row.status === 2 ? 'red' : 
+            params.row.status === 3 ? 'gray' : ''
+          }}>
+            {params.row.status === 1 ? 'Hoạt động' : 
+            params.row.status === 2 ? 'Banned' : 
+            params.row.status === 3 ? 'Không hoạt động' : ''
+            }
+          </div>
+        ),
+       },
+
+ 
+
     { field: 'role', headerName: 'Role', width: 130, sortable: false },
     {
         field: 'action',
@@ -93,9 +116,11 @@ export default function ListAccount() {
                 sx={{height: '37px'}}
             >
             </Button>
-            <Button variant="outlined" color="error" sx={{marginLeft: '20px'}} onClick={() => handleBan(params.row.id)}>
-            Ban
-            </Button>
+            {params.row.status === 1 ? <Button variant="outlined" color="error" sx={{marginLeft: '20px'}} onClick={() => handleBan(params.row.id)}>Ban</Button> : 
+            params.row.status === 2 ? <Button variant="outlined" sx={{marginLeft: '20px'}} onClick={() => handleBan(params.row.id)}>Unban</Button> : 
+            <Button variant="outlined" sx={{marginLeft: '20px'}} disabled>Bị xóa</Button>
+            }
+            
             </div>
         ),
       },
