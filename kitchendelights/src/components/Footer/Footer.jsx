@@ -5,7 +5,7 @@ import { Grid } from "@mui/material";
 
 const Footer = () => {
     return (
-        <Box sx={{ backgroundColor: '#f8f8f8', p: 3, height: '200px' }}>
+        <Box sx={{ backgroundColor: '#f8f8f8', p: 3, height: '200px'}}>
             <Grid container spacing={2}>
                 <Grid item xs={6}>
                     <Box sx={{marginLeft:10, marginRight:20}}>

@@ -4,7 +4,6 @@ import {
   createBrowserRouter,
   Navigate,
 } from "react-router-dom";
-import HomePage from "../containers/HomePage";
 import CreateNews from "../containers/News/CreateNews";
 import ViewListNews from "../containers/News/ViewListNews";
 import ViewListRecipes from "../containers/Recipe/ViewListRecipe";
@@ -37,6 +36,7 @@ import CreateRecipe from "../containers/Recipe/CreateRecipe";
 import ListBlogDashboard from "../containers/DashBoard/BlogManagent/BlogList";
 import { Login } from "../containers/Authentication/Login";
 import { Register } from "../containers/Authentication/Register";
+import HomePage from "../containers/Home/HomePage";
 
 function AppRoute() {
   const router = createBrowserRouter([
