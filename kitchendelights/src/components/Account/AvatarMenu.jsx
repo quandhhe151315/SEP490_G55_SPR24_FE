@@ -60,20 +60,6 @@ function AvatarMenu({ handleClick, onMenuSelect }) {
         navigate('/ChangePassword');
     }
 
-    //Menu của Nhân
-    // const [currentComponent, setCurrentComponent] = useState(null);
-    // const [selectedMenuId, setSelectedMenuId] = useState('');
-
-    // const handleClick = (componentName) => {
-    //     setCurrentComponent(componentName);
-    // };
-
-    // const handleMenuSelect = (menuId) => {
-    //     setSelectedMenuId(menuId)
-    //     console.log('menuId', menuId);
-    //};
-
-
     return (
         <div>
             <GetInformationJWT setId={setId} />
