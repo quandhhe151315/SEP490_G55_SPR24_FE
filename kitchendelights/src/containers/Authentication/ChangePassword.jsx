@@ -39,7 +39,13 @@ function ChangePassword() {
 
     return (
         <div>
-            
+            <Appbar/>
+            <Grid container spacing={2} sx={{marginBottom: '2%'}}>
+        <Grid item xs={2} sx={{marginLeft: '10%'}}>
+          <AvatarMenu/>
+        </Grid>
+        <Grid item xs={1}  ></Grid>
+        <Grid item xs={7}  >
             <Box sx={{ display: 'flex' }}>
                 <Grid container spacing={2}>
                 <Grid item xs={12}>
@@ -76,7 +82,7 @@ function ChangePassword() {
                                     </Grid>
                             </Grid>
                             <Grid item xs container direction="row">
-                                <Button variant="contained" onClick={handleChangePassword} sx={{ bgcolor: "#ff5e00", marginTop: '10%', borderRadius: '15px', marginLeft: '40%', width: '180px', height: '42px', color: 'white' }}>Đổi mật khẩu</Button>
+                                <Button variant="contained" onClick={handleChangePassword} sx={{ bgcolor: "#ff5e00", marginTop: '10%', marginBottom:'5%', borderRadius: '15px', marginLeft: '40%', width: '180px', height: '42px', color: 'white' }}>Đổi mật khẩu</Button>
                             </Grid>
                         </Paper>
                     </Grid>
@@ -85,7 +91,8 @@ function ChangePassword() {
                 </Grid>
             </Box>
 
-
+            </Grid>
+            </Grid>
         </div>
     );
 }

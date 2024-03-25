@@ -52,13 +52,27 @@ function AvatarMenu({ handleClick, onMenuSelect }) {
         }
       }
 
-    // const goToMyProfile = () => {
-    //     navigate('/MyProfile');
-    // }
+    const goToMyProfile = () => {
+        navigate('/MyProfile');
+    }
 
-    // const goToChangePassword = () => {
-    //     navigate('/ChangePassword');
-    // }
+    const goToChangePassword = () => {
+        navigate('/ChangePassword');
+    }
+
+    //Menu của Nhân
+    // const [currentComponent, setCurrentComponent] = useState(null);
+    // const [selectedMenuId, setSelectedMenuId] = useState('');
+
+    // const handleClick = (componentName) => {
+    //     setCurrentComponent(componentName);
+    // };
+
+    // const handleMenuSelect = (menuId) => {
+    //     setSelectedMenuId(menuId)
+    //     console.log('menuId', menuId);
+    //};
+
 
     return (
         <div>
@@ -72,14 +86,14 @@ function AvatarMenu({ handleClick, onMenuSelect }) {
                         <ListItemText>Xin chào ...</ListItemText>
                     </MenuItem>
                     <Divider />
-                    <MenuItem onClick={() => handleClick('MyProfile')}>
+                    <MenuItem onClick={goToMyProfile}>
                         <ListItemIcon>
                             <ContactEmergencyIcon fontSize="small" sx={{ color: "#ff5e00" }} />
                         </ListItemIcon>
                         <ListItemText sx={{ fontWeight: 'bold' }}>Thông tin cá nhân</ListItemText>
                     </MenuItem>
 
-                    <MenuItem onClick={() => handleClick('ChangePassword')}>
+                    <MenuItem onClick={goToChangePassword}>
                         <ListItemIcon>
                             <PasswordIcon fontSize="small" sx={{ color: "#ff5e00" }} />
                         </ListItemIcon>

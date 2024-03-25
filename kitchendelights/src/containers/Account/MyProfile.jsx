@@ -65,51 +65,61 @@ function MyProfile() {
 
   return (
     <div>
+      <Appbar/>
+      
       <GetInformationJWT setId={setId}/>
-      <Box sx={{ display: 'flex' }}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-
-            <Stack spacing={2} sx={{marginTop: '2%'}}>
-              <Typography sx={{ fontSize: '30px', fontWeight: 'bold'}}>Thông tin cá nhân</Typography>
-              <Typography sx={{ fontSize: '16px'}}>Đây là nơi hiển thị những thông tin cá nhân</Typography>
-              <Paper sx={{ marginTop: '3%', borderRadius: '15px', border: '1px solid #bfb8b8', width: '77%', height: '100%'}}>
-                
-                  <Grid container spacing={2}>
-
-                    <Grid item xs={3}>
-                    <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '20%', marginLeft: '40%' }}>Email: </Typography>
-                    <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '30%', marginLeft: '40%' }}>Họ và tên: </Typography>
-                    <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '30%', marginLeft: '40%' }}>Mật khẩu: </Typography>
-                    <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '30%', marginLeft: '40%' }}>Số điện thoại: </Typography>
-                    <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '30%', marginLeft: '40%' }}>Địa chỉ: </Typography>
-                    </Grid>
-
-                    <Grid item xs={4}>
-                    <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '15%'}}>{email} </Typography>
-                    <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '22%'}}>{lastName} {middleName} {firstName} </Typography>
-                    <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '22%'}}>******** </Typography>
-                    <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '22%'}}>{phoneNumber} </Typography>
-                    <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '22%'}}>{address} </Typography>
-                    </Grid>
-
-                    <Grid item xs={4}>
-                    <Typography sx={{ marginTop: '50px' }}>
-                        <img src={image1} alt="Image news" style={{width: '100%', height: '100%', overflow: 'hidden'}}/>
-                        <br/>
-                        <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '5%', marginLeft: '45%' }}>Avatar</Typography>
-                      </Typography>
-                    </Grid>
-
-                    <Button variant="contained" sx={{ bgcolor: "#ff5e00", marginTop:'5%', marginBottom:'5%', borderRadius: '15px', marginLeft: '40%', width: '20%', height: '20%', color: 'white'}} onClick={goToChangeMyProfile}>Đổi thông tin</Button>
-
-                  </Grid>
-                
-              </Paper>
-            </Stack>
-          </Grid>
+      <Grid container spacing={2} sx={{marginBottom: '2%'}}>
+        <Grid item xs={2} sx={{marginLeft: '10%'}}>
+          <AvatarMenu/>
         </Grid>
-      </Box>
+        <Grid item xs={1}  ></Grid>
+        <Grid item xs={7}  >
+          <Box sx={{ display: 'flex' }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+
+                <Stack spacing={2} sx={{marginTop: '2%'}}>
+                  <Typography sx={{ fontSize: '30px', fontWeight: 'bold'}}>Thông tin cá nhân</Typography>
+                  <Typography sx={{ fontSize: '16px'}}>Đây là nơi hiển thị những thông tin cá nhân</Typography>
+                  <Paper sx={{ marginTop: '3%', borderRadius: '15px', border: '1px solid #bfb8b8', width: '77%', height: '100%'}}>
+                    
+                      <Grid container spacing={2}>
+
+                        <Grid item xs={3}>
+                        <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '20%', marginLeft: '40%' }}>Email: </Typography>
+                        <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '30%', marginLeft: '40%' }}>Họ và tên: </Typography>
+                        <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '30%', marginLeft: '40%' }}>Mật khẩu: </Typography>
+                        <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '30%', marginLeft: '40%' }}>Số điện thoại: </Typography>
+                        <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '30%', marginLeft: '40%' }}>Địa chỉ: </Typography>
+                        </Grid>
+
+                        <Grid item xs={4}>
+                        <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '15%'}}>{email} </Typography>
+                        <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '22%'}}>{lastName} {middleName} {firstName} </Typography>
+                        <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '22%'}}>******** </Typography>
+                        <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '22%'}}>{phoneNumber} </Typography>
+                        <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '22%'}}>{address} </Typography>
+                        </Grid>
+
+                        <Grid item xs={4}>
+                        <Typography sx={{ marginTop: '50px' }}>
+                            <img src={image1} alt="Image news" style={{width: '100%', height: '100%', overflow: 'hidden'}}/>
+                            <br/>
+                            <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '5%', marginLeft: '45%' }}>Avatar</Typography>
+                          </Typography>
+                        </Grid>
+
+                        <Button variant="contained" sx={{ bgcolor: "#ff5e00", marginTop:'5%', marginBottom:'5%', borderRadius: '15px', marginLeft: '40%', width: '20%', height: '20%', color: 'white'}} onClick={goToChangeMyProfile}>Đổi thông tin</Button>
+
+                      </Grid>
+                    
+                  </Paper>
+                </Stack>
+              </Grid>
+            </Grid>
+          </Box>
+        </Grid>
+      </Grid>
     </div>
   );
 }
