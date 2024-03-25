@@ -46,9 +46,8 @@ function BookMark() {
       if (response.status === 200) {
         toast.success("Xoá thành công ");
 
-        getBookMarkOfUsers();
+        getBookMarkOfUsers(id);
       } else {
-        toast.error("Khoong load dc list");
       }
     } catch (error) {
       console.error("ko xoá dc", error);
@@ -70,7 +69,7 @@ function BookMark() {
         console.error("Can not Load listbookmark! ");
       }
     } catch (error) {
-      toast.error("Khoong load dc listbookmark");
+      // toast.error("Khoong load dc listbookmark");
     }
   };
   return (

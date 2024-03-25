@@ -1,147 +1,51 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import { useTheme } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableFooter from "@mui/material/TableFooter";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import IconButton from "@mui/material/IconButton";
-import FirstPageIcon from "@mui/icons-material/FirstPage";
-import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
-import LastPageIcon from "@mui/icons-material/LastPage";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { removeCart, getListCart } from "../../services/ApiServices";
 import { toast } from "react-toastify";
-
-function TablePaginationActions(props) {
-  const theme = useTheme();
-  const { count, page, rowsPerPage, onPageChange } = props;
-
-  const handleFirstPageButtonClick = (event) => {
-    onPageChange(event, 0);
-  };
-
-  const handleBackButtonClick = (event) => {
-    onPageChange(event, page - 1);
-  };
-
-  const handleNextButtonClick = (event) => {
-    onPageChange(event, page + 1);
-  };
-
-  const handleLastPageButtonClick = (event) => {
-    onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
-  };
-
-  return (
-    <Box sx={{ flexShrink: 0, ml: 2.5 }}>
-      <IconButton
-        onClick={handleFirstPageButtonClick}
-        disabled={page === 0}
-        aria-label="first page"
-      >
-        {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
-      </IconButton>
-      <IconButton
-        onClick={handleBackButtonClick}
-        disabled={page === 0}
-        aria-label="previous page"
-      >
-        {theme.direction === "rtl" ? (
-          <KeyboardArrowRight />
-        ) : (
-          <KeyboardArrowLeft />
-        )}
-      </IconButton>
-      <IconButton
-        onClick={handleNextButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label="next page"
-      >
-        {theme.direction === "rtl" ? (
-          <KeyboardArrowLeft />
-        ) : (
-          <KeyboardArrowRight />
-        )}
-      </IconButton>
-      <IconButton
-        onClick={handleLastPageButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label="last page"
-      >
-        {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
-      </IconButton>
-    </Box>
-  );
-}
-
-TablePaginationActions.propTypes = {
-  count: PropTypes.number.isRequired,
-  onPageChange: PropTypes.func.isRequired,
-  page: PropTypes.number.isRequired,
-  rowsPerPage: PropTypes.number.isRequired,
-};
-
-function createData(image, name, price) {
-  return { image, name, price };
-}
-
-const rows = [
-  createData(1, "Cupcake", 305),
-  createData(2, "Donut", 452),
-  createData(3, "Eclair", 262),
-  createData(4, "Frozen yoghurt", 159),
-  createData(5, "Gingerbread", 356),
-  createData(6, "Honeycomb", 408),
-].sort((a, b) => (a.price < b.price ? -1 : 1));
+import Box from "@mui/material/Box";
+import { DataGrid } from "@mui/x-data-grid";
 
 export default function CartDetail() {
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-  // const getUserIdFromCookie = () => {
-  //   const cookies = document.cookie.split("; ");
-  //   for (const cookie of cookies) {
-  //     const [name, value] = cookie.split("=");
-  //     if (name === "userId") {
-  //       return value;
-  //     }
-  //   }
-  //   return null;
-  // };
-  // const id = getUserIdFromCookie();
-  // const [data, setdata] = useState([]);
+  const [loading, setloading] = useState(false);
+  const getUserIdFromCookie = () => {
+    const cookies = document.cookie.split("; ");
+    for (const cookie of cookies) {
+      const [name, value] = cookie.split("=");
+      if (name === "userId") {
+        return value;
+      }
+    }
+    return null;
+  };
+  const id = getUserIdFromCookie();
+  const userId = getUserIdFromCookie();
+  const [data, setdata] = useState([]);
 
-  // useEffect(() => {
-  //   getListCart(id);
-  // }, []);
-  // const getListCart = async () => {
-  //   try {
-  //     const response = await getListCart(id);
-  //     if (response.status === 200) {
-  //       setdata(response.data);
-  //       console.log("Load cart successful! ");
-  //     } else {
-  //       console.error("Can not Load cart! ");
-  //     }
-  //   } catch (error) {
-  //     toast.error("Khoong load dc cart");
-  //   }
-  // };
-  const handleDelete = async () => {
+  useEffect(() => {
+    getListCarts(id);
+  }, [loading]);
+  const getListCarts = async (id) => {
     try {
-      const response = await removeCart();
-      //  console.log(userId, recipeId);
+      const response = await getListCart(id);
+      if (response.status === 200) {
+        setdata(response.data);
+        console.log("data", response.data);
+        console.log("Load cart successful! ");
+      } else {
+        console.error("Can not Load cart! ");
+      }
+    } catch (error) {
+      toast.error("Khoong load dc cart");
+    }
+  };
+  const handleDelete = async (recipeId) => {
+    try {
+      const response = await removeCart(userId, recipeId);
+      console.log(userId, recipeId);
 
       if (response.status === 200) {
         toast.success("Xoá thành công ");
-
-        // getBookMarkOfUsers();
+        setloading(!loading);
       } else {
         toast.error("Khoong load dc list");
       }
@@ -149,78 +53,55 @@ export default function CartDetail() {
       console.error("ko xoá dc", error);
     }
   };
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
+  //Table
+  const columns = [
+    // { field: "recipeId", headerName: "ID", width: 90 },
+    {
+      field: "recipeTitle",
+      headerName: " Ten cong thuc",
+      width: 398,
+      // editable: true,
+    },
+    {
+      field: "recipePrice",
+      headerName: "Gia",
+      width: 398,
+      // editable: true,
+    },
+    {
+      field: "edit",
+      headerName: "Edit",
+      width: 100,
+      renderCell: (params) => {
+        console.log("params", params);
+        return (
+          <button onClick={() => handleDelete(params.row.recipeId)}>
+            <DeleteIcon />
+          </button>
+        );
+      },
+    },
+  ];
   return (
-    <TableContainer component={Paper}>
-      <Table
-        sx={{
-          minWidth: 500,
-          height: 600,
-        }}
-        aria-label="custom pagination table"
-      >
-        <TableBody>
-          {(rowsPerPage > 0
-            ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : rows
-          ).map((row) => (
-            <TableRow>
-              <TableCell component="th" scope="row">
-                {row.image}
-              </TableCell>
-              <TableCell style={{ width: 160 }} align="right">
-                {row.name}
-              </TableCell>
-              <TableCell style={{ width: 160 }} align="right">
-                {row.price}
-              </TableCell>
-              <TableCell style={{ width: 160 }} align="right">
-                <IconButton>
-                  <DeleteIcon onClick={handleDelete} />
-                </IconButton>
-              </TableCell>
-            </TableRow>
-          ))}
-          {emptyRows > 0 && (
-            <TableRow style={{ height: 53 * emptyRows }}>
-              <TableCell colSpan={6} />
-            </TableRow>
-          )}
-        </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
-              colSpan={3}
-              count={rows.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              slotProps={{
-                select: {
-                  inputProps: {
-                    "aria-label": "rows per page",
-                  },
-                  native: true,
-                },
-              }}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-              ActionsComponent={TablePaginationActions}
-            />
-          </TableRow>
-        </TableFooter>
-      </Table>
-    </TableContainer>
+    <div>
+      <Box sx={{ height: 400, width: "100%" }}>
+        <DataGrid
+          rows={data}
+          getRowId={(row) => row.recipeId}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 5,
+              },
+            },
+          }}
+          pageSizeOptions={[5]}
+          checkboxSelection
+          disableRowSelectionOnClick
+        />
+      </Box>
+    </div>
   );
 }

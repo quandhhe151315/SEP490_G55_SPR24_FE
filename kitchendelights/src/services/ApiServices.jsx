@@ -51,10 +51,13 @@ const addToCart = (userId, recipeId) => {
     recipeId,
   });
 };
+
 const removeCart = (userId, recipeId) => {
   return axios.delete("Cart/Remove", {
-    userId,
-    recipeId,
+    data: {
+      userId: userId,
+      recipeId: recipeId,
+    },
   });
 };
 const getListCart = (id) => {

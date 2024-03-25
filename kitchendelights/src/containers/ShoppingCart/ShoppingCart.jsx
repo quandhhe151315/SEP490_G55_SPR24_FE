@@ -80,7 +80,7 @@ function ShoppingCart() {
           Bạn có {data.length} sản phẩm trong giỏ hàng
         </Typography>
       </Paper>
-      <Grid container spacing={2} sx={{ marginTop: 0, marginBottom: 3 }}>
+      <Grid container spacing={2} sx={{ marginTop: 0, marginBottom: 1 }}>
         <Grid item xs={8}>
           <Paper
             sx={{
@@ -98,6 +98,28 @@ function ShoppingCart() {
           </Paper>
         </Grid>
       </Grid>
+      <Paper
+        sx={{
+          backgroundColor: "#ff5e00",
+          padding: 2,
+          marginTop: 1,
+          marginBottom: 2,
+          borderRadius: 3,
+          width: "64%",
+        }}
+      >
+        <Typography variant="h5" gutterBottom sx={{ color: "white" }}>
+          Giỏ hàng của bạn
+        </Typography>
+        <Typography
+          variant="body2"
+          color="textSecondary"
+          gutterBottom
+          sx={{ color: "white" }}
+        >
+          Bạn có {data.length} sản phẩm trong giỏ hàng
+        </Typography>
+      </Paper>
       <Footer />
     </div>
   );
