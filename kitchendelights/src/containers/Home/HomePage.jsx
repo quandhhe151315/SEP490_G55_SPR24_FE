@@ -12,7 +12,6 @@ function HomePage() {
     <div>
       <Appbar />
       <Box sx={{ml:10}}>
-        <h1>Trang chủ</h1>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
           <Stack sx={{ width: '60%',height:'600px',mr:4 }}><CarouselItem/></Stack>
           <Stack sx={{ mb: 2,mr:12 }}>
@@ -20,7 +19,6 @@ function HomePage() {
           </Stack>
         </Box>
       </Box>
-      {/* <Footer /> */}
     </div>
   );
 }

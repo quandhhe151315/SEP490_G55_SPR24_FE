@@ -68,14 +68,15 @@ export default function EditFormModal({
   } = useForm();
   React.useEffect(() => {
     const currentBlog = blogLists?.find((item) => item?.blogId === id);
+    console.log(currentBlog);
     reset({
       ...blogList,
       blogTitle: currentBlog?.blogTitle,
       blogContent: currentBlog?.blogContent,
       blogImage: currentBlog?.blogImage,
-      categoryId: currentBlog?.categoyId
+      categoryId: currentBlog?.categoyId,
     });
-  }, [blogList]);
+  }, [blogList, blogLists]);
   const userId = Cookies.get("userId");
   const onSubmit = async (data) => {
     if (!data?.blogTitle || !data?.blogContent) {

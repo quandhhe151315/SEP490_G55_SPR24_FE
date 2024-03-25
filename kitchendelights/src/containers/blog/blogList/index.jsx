@@ -11,6 +11,7 @@ import MessageData from "./MessageData";
 
 export default function BlogList() {
   const [categorySelect, setCategorySelect] = useState();
+  
   const { blogList } = useGetBlogList({
     id: "",
     category: categorySelect,
