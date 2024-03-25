@@ -22,6 +22,7 @@ import DashboardMenu from "../../../components/Dashboard/Menu/DashboardMenu";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import ApporoveDialog from "./ApporoveDialog";
+import { toast } from "react-toastify";
 
 function ListRecipeDashBoard() {
 
@@ -83,6 +84,7 @@ function ListRecipeDashBoard() {
             if (response.status === 200) {
                 setOpen(false);
                 getListRecipe();
+                toast.success('Xóa recipe thành công');
             } else {
                 console.log('loi respondata', response.data);
             }
