@@ -10,7 +10,6 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SearchIcon from "@mui/icons-material/Search";
-import { Login } from "../Authentication/Login";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import GetInformationJWT from "../JWT/GetInformationJWT";
@@ -116,7 +115,8 @@ export default function PrimarySearchAppBar() {
   };
 
   const goToMyProfile = () => {
-    navigate("/UserProfile");
+    navigate("/MyProfile");
+    // navigate("/UserProfile");
   };
 
   const goToBlog = () => {
@@ -250,6 +250,7 @@ export default function PrimarySearchAppBar() {
           />
         </Toolbar>
       </AppBar>
+<<<<<<< Updated upstream
       {userIdExist != null && renderMenu}
       {loginForm && (
         <>
@@ -257,6 +258,9 @@ export default function PrimarySearchAppBar() {
           <Login loginSuccess={loginSuccess} />
         </>
       )}
+=======
+      {(userIdExist != null ) && renderMenu}
+>>>>>>> Stashed changes
     </Box>
   );
 }
