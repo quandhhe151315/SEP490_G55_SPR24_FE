@@ -36,11 +36,8 @@ import CreateRecipe from "../containers/Recipe/CreateRecipe";
 import ListBlogDashboard from "../containers/DashBoard/BlogManagent/BlogList";
 import { Login } from "../containers/Authentication/Login";
 import { Register } from "../containers/Authentication/Register";
-<<<<<<< Updated upstream
 import HomePage from "../containers/Home/HomePage";
-=======
 import ViewDetailMenu from "../containers/Menu/ViewDetailMenu";
->>>>>>> Stashed changes
 
 function AppRoute() {
   const router = createBrowserRouter([

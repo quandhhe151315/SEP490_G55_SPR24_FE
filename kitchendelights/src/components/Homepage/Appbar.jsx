@@ -250,17 +250,7 @@ export default function PrimarySearchAppBar() {
           />
         </Toolbar>
       </AppBar>
-<<<<<<< Updated upstream
-      {userIdExist != null && renderMenu}
-      {loginForm && (
-        <>
-          {isOverlayOpen && <Overlay onClick={closeLoginForm} />}
-          <Login loginSuccess={loginSuccess} />
-        </>
-      )}
-=======
       {(userIdExist != null ) && renderMenu}
->>>>>>> Stashed changes
     </Box>
   );
 }
