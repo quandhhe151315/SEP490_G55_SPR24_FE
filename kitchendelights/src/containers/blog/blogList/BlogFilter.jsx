@@ -1,7 +1,8 @@
-import { Stack, TextField, Typography } from "@mui/material";
-import React from "react";
+import { Button, Stack, TextField, Typography } from "@mui/material";
+import React, { useState } from "react";
 
-export default function BlogFilter() {
+export default function BlogFilter({ setSearchKey }) {
+  const [searchKeyInput, setSearchKeyInput] = useState("");
   return (
     <Stack
       className=""
@@ -30,9 +31,21 @@ export default function BlogFilter() {
             paddingLeft: "16px",
             minWidth: "600px",
           }}
+          onChange={(e) => {
+            if (!e.target.value) {
+              setSearchKey("");
+            }
+            setSearchKeyInput(e.target.value);
+          }}
           placeholder="Tìm kiếm bài viết"
         ></input>
-        <Stack sx={{ display: "flex", flexDirection: 'row', gap:2 }}>
+        <Button
+          variant="contained"
+          onClick={() => setSearchKey(searchKeyInput)}
+        >
+          Tim kiem
+        </Button>
+        <Stack sx={{ display: "flex", flexDirection: "row", gap: 2 }}>
           <Typography>Sắp xếp theo: </Typography>
           <Typography>Mới nhất</Typography>
         </Stack>
