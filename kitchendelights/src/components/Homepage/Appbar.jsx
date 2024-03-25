@@ -13,9 +13,10 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Login } from "../Authentication/Login";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
-import GetInformationJWT from '../JWT/GetInformationJWT';
-import Cookies from 'js-cookie';
-import TextField from '@mui/material/TextField';
+import GetInformationJWT from "../JWT/GetInformationJWT";
+import Cookies from "js-cookie";
+import TextField from "@mui/material/TextField";
+import { Stack, Grid } from "@mui/material";
 
 const Overlay = styled("div")(({ theme }) => ({
   position: "fixed",
@@ -31,55 +32,32 @@ const Overlay = styled("div")(({ theme }) => ({
   cursor: "pointer",
 }));
 
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "black",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(0, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(1)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
-      marginTop: "1ch",
-    },
-  },
-}));
-
-const CategoryButton = ({goToPage, text, leftLG, leftMD, leftSM, leftXS, rightLG}) => {
+const CategoryButton = ({
+  goToPage,
+  text,
+  leftLG,
+  leftMD,
+  leftSM,
+  leftXS,
+  rightLG,
+}) => {
   return (
     <Button
-              color="secondary"
-              size="large"
-              variant="text"
-              sx={{color: "#000000", fontWeight: "bold", marginLeft: {xs: leftXS, sm: leftSM, md: leftMD, lg: leftLG}, marginRight: {lg: rightLG}}}
-              onClick={goToPage}
-            >
-            {text}
-            </Button>
+      color="secondary"
+      size="large"
+      variant="text"
+      sx={{
+        color: "#000000",
+        fontWeight: "bold",
+        marginLeft: { xs: leftXS, sm: leftSM, md: leftMD, lg: leftLG },
+        marginRight: { lg: rightLG },
+      }}
+      onClick={goToPage}
+    >
+      {text}
+    </Button>
   );
 };
-
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  border: "2px solid gray",
-  marginRight: theme.spacing(-6),
-  marginLeft: 0,
-  marginTop: 10,
-  marginBottom: 10,
-  width: "100%",
-  borderRadius: "15px",
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(3),
-    width: 280,
-    height: 40,
-  },
-}));
 
 export default function PrimarySearchAppBar() {
   const [loginForm, setLoginForm] = useState(false);
@@ -96,10 +74,9 @@ export default function PrimarySearchAppBar() {
   };
 
   useEffect(() => {
-    if(userId != -1){
+    if (userId != -1) {
       setUserIdExist(true);
-    }
-    else{
+    } else {
       setUserIdExist(false);
     }
   }, [userId]);
@@ -119,7 +96,7 @@ export default function PrimarySearchAppBar() {
     handleMenuClose();
     setLoginForm(true);
     setIsOverlayOpen(true);
-  }
+  };
 
   const closeLoginForm = () => {
     setLoginForm(false);
@@ -145,16 +122,16 @@ export default function PrimarySearchAppBar() {
   };
 
   const goToBlog = () => {
-    navigate('/blog');
-  }
+    navigate("/blog");
+  };
 
   const handleLogout = () => {
-    Cookies.remove('jwt');
+    Cookies.remove("jwt");
     setUserIdExist(false);
-    navigate('/KitchenDelights');
-  }
+    navigate("/KitchenDelights");
+  };
 
-  const menuId = 'primary-search-account-menu';
+  const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -170,71 +147,113 @@ export default function PrimarySearchAppBar() {
       onClose={handleMenuClose}
     >
       {userIdExist == false && (
-      <>
-        <MenuItem onClick={openLoginForm}>Đăng nhập</MenuItem>
-      </>
-    )}
-          {userIdExist == true && (
-      <>
-        <MenuItem onClick={goToMyProfile}>Thông tin cá nhân</MenuItem>
-        <MenuItem onClick={handleLogout}>Đăng xuất</MenuItem>
-      </>
-    )}
+        <>
+          <MenuItem onClick={openLoginForm}>Đăng nhập</MenuItem>
+        </>
+      )}
+      {userIdExist == true && (
+        <>
+          <MenuItem onClick={goToMyProfile}>Thông tin cá nhân</MenuItem>
+          <MenuItem onClick={handleLogout}>Đăng xuất</MenuItem>
+        </>
+      )}
     </Menu>
   );
 
   return (
-    <Box sx={{ flexGrow: 1, minWidth: '70%'}}  color="primary" >
-      <GetInformationJWT setId={setUserId}/>
-      <AppBar position="static" sx={{ bgcolor: "#ffffff", height: "120px", borderRadius: "5px" }}>
-          <Toolbar>
-            <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ marginTop: '20px' ,display: { xs: 'none', sm: 'block', color: "#000000", fontSize: "20px"}, marginRight: { xs: '1%', sm: '2%', md: '5%', lg: '10%' } }}
-          >
-            Kitchen Delights
-          </Typography>
-          <CategoryButton goToPage={goToHomePage} text={"Trang chủ"} leftLG="10%" leftMD="5%" leftSM="2%" leftXS="1%"/>
-          <CategoryButton goToPage={goToRepice} text={"Công thức nấu ăn"}/>
-          <CategoryButton goToPage={goToNews} text={"Tin tức"}/>
-          <CategoryButton goToPage={goToBlog} text={"Blog"} />
-            <Search>
-            <StyledInputBase placeholder="Tìm những gì bạn thích" inputProps={{ 'aria-label': 'search' }} sx={{ color: "rgba(0, 0, 0, 0.54)" }}/>
-            </Search>
-            <SearchIcon sx={{bgcolor: "#ff5e00", borderRadius: '15px', width: '48px', height: '42px'}}/>
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              sx={{ marginLeft: '20px', marginRight: '15%'}}
-            >
-              <AccountCircleIcon fontSize="large"/>
-            </IconButton>
-        </Toolbar>
-
+    <Box sx={{ flexGrow: 1, minWidth: "70%", height: "250px" }} color="primary">
+      <GetInformationJWT setId={setUserId} />
+      <AppBar sx={{ bgcolor: "#ffffff", height: "146px" }}>
         <Toolbar>
-          {/* Load category ... Thêm menu subcategory */}
-          <CategoryButton text={"Thịt"} leftLG="25%"/>
-          <CategoryButton text={"Đồ ăn chay"}/>
-          <CategoryButton text={"Dinh dưỡng"}/>
-          <CategoryButton text={"Truyền thống"}/>
-          <CategoryButton text={"Quốc gia"}/>
-          <CategoryButton text={"Rau & Salad"}/>
-          <CategoryButton text={"Tráng miệng"}/>
-          <CategoryButton text={"Đồ uống"}/>
-          {/* Load category ... Thêm menu subcategory */}
+          <Box>
+            <Grid sx={{ display: "flex", ml: 10, mt: 5 }}>
+              <Grid item xs={6} sx={{ mr: 10 }}>
+                <Typography
+                  variant="h4"
+                  fontWeight="bold"
+                  sx={{ color: "#ff5e00", textTransform: "uppercase", mb: 2 }}
+                >
+                  KitchenDelights
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <input
+                  style={{
+                    height: "36px",
+                    borderRadius: "5px",
+                    outline: "none",
+                    border: "1px",
+                    borderStyle: "solid",
+                    borderColor: "#ccc",
+                    paddingLeft: "16px",
+                    minWidth: "400px",
+                  }}
+                  placeholder="Tìm kiếm"
+                />
+                <Button
+                 sx={{
+                  backgroundColor: '#ff5e00',
+                  '&:hover': {
+                    backgroundColor: '#ff7e30', 
+                  },
+                  '& .MuiSvgIcon-root': {
+                    color: 'white', 
+                  },
+                  '& .MuiButton-label': {
+                    display: 'flex',
+                  },padding:'8px 8px 7px 8px', minWidth: '6px',ml:-5.1
+                }}
+                >
+                  <SearchIcon/>
+                </Button>
+              </Grid>
+              <Grid item xs={2}>
+                <IconButton
+                  size="large"
+                  edge="end"
+                  aria-label="account of current user"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  onClick={handleProfileMenuOpen}
+                  sx={{ ml: 10, mt: -2, color: "#ff5e00" }}
+                >
+                  <AccountCircleIcon sx={{ fontSize: "46px" }} />
+                </IconButton>
+              </Grid>
+            </Grid>
+
+            <Stack
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                gap: "10px",
+                ml: 8.6,
+                mb: 1,
+              }}
+            >
+              <CategoryButton goToPage={goToHomePage} text={"Trang chủ"} />
+              <CategoryButton goToPage={goToRepice} text={"Công thức nấu ăn"} />
+              <CategoryButton goToPage={goToRepice} text={"Nguyên liệu"} />
+              <CategoryButton goToPage={goToNews} text={"Tin tức"} />
+              <CategoryButton goToPage={goToBlog} text={"Blog"} />
+            </Stack>
+          </Box>
+
+          <SearchIcon
+            sx={{
+              width: "24px",
+              height: "24px",
+              zIndex: 1,
+              cursor: "pointer",
+            }}
+          />
         </Toolbar>
       </AppBar>
-      {(userIdExist != null ) && renderMenu}
+      {userIdExist != null && renderMenu}
       {loginForm && (
         <>
           {isOverlayOpen && <Overlay onClick={closeLoginForm} />}
-          <Login loginSuccess={loginSuccess}/>
+          <Login loginSuccess={loginSuccess} />
         </>
       )}
     </Box>

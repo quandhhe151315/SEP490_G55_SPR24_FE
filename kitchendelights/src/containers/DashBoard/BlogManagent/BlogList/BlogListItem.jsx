@@ -26,7 +26,7 @@ import EditFormModal from "../EditFormModal";
 import DeleteBlogModal from "../DeleteBlogModal";
 export default function BlogListItem() {
   const [blogLists, setBlogList] = useState();
-  const { blogList } = useGetBlogList({ search: "abc" });
+  const { blogList } = useGetBlogList({ search: "" });
   useEffect(() => {
     setBlogList(blogList);
   }, [blogList]);
