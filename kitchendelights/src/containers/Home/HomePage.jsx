@@ -20,7 +20,7 @@ function HomePage() {
           </Stack>
         </Box>
       </Box>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

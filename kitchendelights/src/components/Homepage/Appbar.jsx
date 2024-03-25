@@ -77,7 +77,7 @@ export default function PrimarySearchAppBar() {
     if (userId != -1) {
       setUserIdExist(true);
     } else {
-      setUserIdExist(false);s
+      setUserIdExist(false);
     }
   }, [userId]);
 
