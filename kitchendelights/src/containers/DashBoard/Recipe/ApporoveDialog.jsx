@@ -19,7 +19,8 @@ import Checkbox from "@mui/material/Checkbox";
 import { updateCategoryRecipe, updateStatusRecipe } from "../../../services/ApiServices";
 import { set } from "date-fns";
 import { toast } from "react-toastify";
-
+import { RichTextReadOnly } from "mui-tiptap";
+import useExtensions from "../../../components/Richtext/useExtension.ts";
 
 function CategoryCheckbox({ category, recipeId, handleUpdateCategoryRecipe  }) {
     const [isChecked, setIsChecked] = useState(false);
@@ -53,6 +54,7 @@ function ApporoveDialog({ open, handleClose, recipeId }) {
     const [categories, setCategories] = useState([]);
     const [checkCount, setCheckCount] = useState(0);
     const [selectedCategories, setSelectedCategories] = useState([]);
+    const [ingredients, setIngredients] = useState([{}]);
 
     const handleGetAllCategory = async () => {
         try {
@@ -73,6 +75,7 @@ function ApporoveDialog({ open, handleClose, recipeId }) {
             const response = await getRecipeById(recipeId);
             if (response.status === 200) {
                 setRecipe(response.data);
+                setIngredients(response.data.recipeIngredients);
                 console.log('get recipe by id thanh cong');
             } else {
                 console.log('ko get thanh cong');
@@ -134,6 +137,9 @@ function ApporoveDialog({ open, handleClose, recipeId }) {
     //     setCheckCount(prevCount => prevCount + (isChecked ? 1 : -1));
     //   };
 
+    const extensions = useExtensions({
+        placeholder: "Add your own content here...",
+      });
 
     useEffect(() => {
         if (open) {
@@ -165,15 +171,15 @@ function ApporoveDialog({ open, handleClose, recipeId }) {
                                 <Typography gutterBottom variant="h4" component="div">
                                     {recipe.recipeTitle}
                                 </Typography>
-                                <CardActionArea>
+                                
                                     <CardMedia
+                                        style={{ height: 600,width: 900, marginTop:20, objectFit:'contain', marginLeft:70}}
                                         component="img"
-                                        height="140"
                                         image={recipe.featuredImage}
                                         alt={recipe.recipeTitle}
                                     />
 
-                                    <Box sx={{ height: 340, width: 560, marginLeft: '20%' }}>
+                                    <Box sx={{ height: 340, width: 560, marginLeft: '20%', marginTop:'10px' }}>
                                         <iframe
                                             width="100%"
                                             height="100%"
@@ -184,13 +190,16 @@ function ApporoveDialog({ open, handleClose, recipeId }) {
                                             allowFullScreen
                                         />
                                     </Box>
-                                </CardActionArea>
+                                
                             </CardContent>
                             <CardContent>
-                                <Typography variant="body2">
+                                <Typography variant="h5" sx={{ marginTop: '45px', marginLeft: '20px'}}>
+                                    Mô tả về món ăn
+                                </Typography>
+                                <Typography sx={{textAlign:'left', marginLeft:'5%', marginTop:'10px'}}>
                                     {recipe.recipeDescription || `đây là mô tả cho công thức của ${recipe.recipeTitle}`}
                                 </Typography>
-                                <Grid sx={{ display: 'flex', marginTop: '15px' }} container spacing={2}>
+                                <Grid sx={{ display: 'flex', marginTop: '25px' }} container spacing={2}>
                                     <Grid item xs={8}>
                                         <Grid container spacing={2} alignItems="flex-start">
                                             <Grid item xs={6} sm={4}>
@@ -209,22 +218,21 @@ function ApporoveDialog({ open, handleClose, recipeId }) {
                                     </Grid>
                                     <Grid item xs={4}></Grid>
                                 </Grid>
-                                <Typography variant="h5" sx={{ marginTop: '15px', marginLeft: '20px' }}>
+                                <Typography variant="h5" sx={{ marginTop: '25px', marginLeft: '20px' }}>
                                     Nguyên Liệu
                                 </Typography>
-                                {/* {recipe.ingredients.map((ingredient, index) => (
-                                    <Typography key={index} sx={{marginLeft:'20px'}}>
-                                        {ingredient}
+                                {ingredients.map((ingredient, index) => (
+                                    <Typography key={index} sx={{ marginLeft: '5%', marginTop:'10px' }}>
+                                        {ingredient.ingredientName} : {ingredient.unitValue} {ingredient.ingredientUnit}
                                     </Typography>
-                                    ))} */}
+                                ))}
+                                
 
-                                <Typography variant="h5" sx={{ marginTop: '15px', marginLeft: '20px' }}>
-                                    Cách làm :
-                                </Typography>
+                                
 
-                                {/* đang làm */}
-                                <Typography>
-                                    {recipe.recipeContent}
+                                {/* Cách làm */}
+                                <Typography sx={{marginLeft:'5%'}}>
+                                <RichTextReadOnly content={recipe?.recipeContent} extensions={extensions}/>
                                 </Typography>
                             </CardContent>
 

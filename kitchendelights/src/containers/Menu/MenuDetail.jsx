@@ -196,7 +196,7 @@ function MenuDetail({ menuId }) {
         
         <Box sx={{marginTop:'20px'}}>
           <Grid container spacing={3}>
-            {listRecipe.map((item) => {
+            {listRecipe.filter(item => item.recipeStatus !== 3).map((item) => {
               return (
                 <Grid item lg={3} md={6} xs={12}>
                   <Card sx={{ maxWidth: 345 }}>
