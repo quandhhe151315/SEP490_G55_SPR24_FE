@@ -66,8 +66,8 @@ const MainListItems = () => {
   }
   
   const goToBlogsManager = () => {
-    // Link toi duong dan
-    // navigate('/ListAccount');
+  
+     navigate('/blog/management');
   }
   const goToCommentManager = () => {
     navigate('/comment/list');
@@ -83,7 +83,7 @@ const MainListItems = () => {
       <ItemButton goToManager={goToBlogsManager} text="Quản lý Blog" Icon={<ArtTrackIcon/>}/>
       <ItemButton goToManager={goToCommentManager} text="Quản lý Bình luận" Icon={<CommentIcon/>}/>
     </React.Fragment>
-  );
+  ); 
 };
 
 const SecondaryListItems = () => {

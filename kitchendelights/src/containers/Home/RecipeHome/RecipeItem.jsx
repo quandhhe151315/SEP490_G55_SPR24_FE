@@ -16,7 +16,7 @@ import CommentIcon from '@mui/icons-material/Comment';
 export default function RecipeItem() {
   return (
     <Box>
-      <Card sx={{ maxWidth: 345 }}>
+      <Card sx={{ width: '100%' }}>
         <CardActionArea>
           <div style={{ position: "relative" }}>
             <img
