@@ -57,7 +57,7 @@ export default function RecipeItem({ item }) {
             <Stack direction={"row"} justifyContent={"space-between"} mt={1}>
               <Rating
                 name="read-only"
-                value={5}
+                value={item?.recipeRating}
                 readOnly
                 sx={{ color: "#ff5e00", mr: 2 }}
               />
