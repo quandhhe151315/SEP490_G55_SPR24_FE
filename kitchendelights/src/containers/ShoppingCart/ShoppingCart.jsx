@@ -12,28 +12,11 @@ import Divider from "@mui/material/Divider";
 import Avatar from "@mui/material/Avatar";
 import { deepOrange } from "@mui/material/colors";
 import Footer from "../../components/Footer/Footer";
+import { useCount } from "../../store";
 
 function ShoppingCart() {
-  const data = [
-    {
-      image: image,
-      title: "Sườn xào chua ngọt",
-      price: "100.000đ",
-      delete: false,
-    },
-    {
-      image: image,
-      title: "Sườn xào chua ngọt",
-      price: "100.000đ",
-      delete: false,
-    },
-    {
-      image: image,
-      title: "Sườn xào chua ngọt",
-      price: "100.000đ",
-      delete: false,
-    },
-  ];
+  const { recipeCountNumber } = useCount();
+
   return (
     <div>
       <Appbar />{" "}
@@ -77,10 +60,10 @@ function ShoppingCart() {
           gutterBottom
           sx={{ color: "white" }}
         >
-          Bạn có {data.length} sản phẩm trong giỏ hàng
+          Bạn có {recipeCountNumber} sản phẩm trong giỏ hàng
         </Typography>
       </Paper>
-      <Grid container spacing={2} sx={{ marginTop: 0, marginBottom: 1 }}>
+      <Grid container spacing={2} sx={{ marginTop: 0, marginBottom: 0 }}>
         <Grid item xs={8}>
           <Paper
             sx={{
@@ -117,7 +100,7 @@ function ShoppingCart() {
           gutterBottom
           sx={{ color: "white" }}
         >
-          Bạn có {data.length} sản phẩm trong giỏ hàng
+          {/* Bạn có {data.length} sản phẩm trong giỏ hàng */}
         </Typography>
       </Paper>
       <Footer />

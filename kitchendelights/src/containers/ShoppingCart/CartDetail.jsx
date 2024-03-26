@@ -4,9 +4,19 @@ import { removeCart, getListCart } from "../../services/ApiServices";
 import { toast } from "react-toastify";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
+import CardMedia from "@mui/material/CardMedia";
+import { useCount, useSum } from "../../store";
 
 export default function CartDetail() {
+  const [data, setdata] = useState([]);
   const [loading, setloading] = useState(false);
+  const { countRecipe } = useCount();
+  const { sumPrice } = useSum();
+
+  useEffect(() => {
+    const sum = data?.reduce((total, item) => total + item.recipePrice, 0);
+    sumPrice(sum);
+  }, [data, loading]);
   const getUserIdFromCookie = () => {
     const cookies = document.cookie.split("; ");
     for (const cookie of cookies) {
@@ -19,11 +29,15 @@ export default function CartDetail() {
   };
   const id = getUserIdFromCookie();
   const userId = getUserIdFromCookie();
-  const [data, setdata] = useState([]);
+
+  useEffect(() => {
+    countRecipe(data.length);
+  }, [data, loading]);
 
   useEffect(() => {
     getListCarts(id);
   }, [loading]);
+
   const getListCarts = async (id) => {
     try {
       const response = await getListCart(id);
@@ -56,7 +70,15 @@ export default function CartDetail() {
 
   //Table
   const columns = [
-    // { field: "recipeId", headerName: "ID", width: 90 },
+    {
+      field: "featuredImage",
+      headerName: "ID",
+      width: 90,
+      renderCell: (params) => {
+        console.log("params", params);
+        return <CardMedia component={"img"} image={params.row.featuredImage} />;
+      },
+    },
     {
       field: "recipeTitle",
       headerName: " Ten cong thuc",
@@ -85,8 +107,9 @@ export default function CartDetail() {
   ];
   return (
     <div>
-      <Box sx={{ height: 400, width: "100%" }}>
+      <Box sx={{}}>
         <DataGrid
+          sx={{ minHeight: "600px" }}
           rows={data}
           getRowId={(row) => row.recipeId}
           columns={columns}

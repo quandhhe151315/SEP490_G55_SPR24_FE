@@ -6,8 +6,10 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import VNPAY from "../../assets/images/VNPAY.jpg";
+import { useSum } from "../../store";
 
 export default function ImgMediaCard() {
+  const { priceSum } = useSum();
   return (
     <Card
       sx={{
@@ -57,7 +59,7 @@ export default function ImgMediaCard() {
       </CardActions>
       <CardContent sx={{}}>
         <Typography gutterBottom variant="h7" component="div">
-          Giá tạm tính
+          Giá tạm tính :{priceSum}
         </Typography>
         <Typography
           gutterBottom
