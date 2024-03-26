@@ -235,6 +235,9 @@ export default function PrimarySearchAppBar() {
               <CategoryButton goToPage={goToHomePage} text={"Trang chủ"} />
               <CategoryButton goToPage={goToRepice} text={"Công thức nấu ăn"} />
               <CategoryButton goToPage={goToRepice} text={"Nguyên liệu"} />
+              <CategoryButton goToPage={goToRepice} text={"Bữa ăn"} />
+              <CategoryButton goToPage={goToRepice} text={"Ngày lễ"} />
+              <CategoryButton goToPage={goToRepice} text={"Quốc gia"} />
               <CategoryButton goToPage={goToNews} text={"Tin tức"} />
               <CategoryButton goToPage={goToBlog} text={"Blog"} />
             </Stack>
