@@ -30,8 +30,7 @@ const DashboardItems = () => {
   const navigate = useNavigate();
 
   const goToDashboardManager = () => {
-    // Link toi duong dan
-    // navigate('/ListAccount');
+    navigate('/DashBoardMenu')
   }
 
   return(

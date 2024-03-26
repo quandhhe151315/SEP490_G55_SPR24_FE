@@ -38,6 +38,7 @@ import { Login } from "../containers/Authentication/Login";
 import { Register } from "../containers/Authentication/Register";
 import HomePage from "../containers/Home/HomePage";
 import ViewDetailMenu from "../containers/Menu/ViewDetailMenu";
+import DashBoard from "../containers/DashBoard/DashBoard";
 
 function AppRoute() {
   const router = createBrowserRouter([
@@ -121,7 +122,7 @@ function AppRoute() {
       element: <ListCategoryDashboard />,
     },
     {
-      path: "/DashboardMenu",
+      path: "/Dashboard",
       element: <DashboardMenu />,
     },
     {
@@ -151,6 +152,10 @@ function AppRoute() {
     {
       path: "/comment/list",
       element: <ListCommentDashboard />,
+    },
+    {
+      path: "/DashBoardMenu",
+      element: <DashBoard/>,
     },
     // {
     //   path: "/UserProfile",
