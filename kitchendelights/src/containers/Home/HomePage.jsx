@@ -3,9 +3,10 @@ import Appbar from "../../components/Homepage/Appbar";
 import GetInformationJWT from "../../components/JWT/GetInformationJWT";
 import Layoutspacing from "../../components/Layoutspacing";
 import Footer from "../../components/Footer/Footer";
-import { Box, Stack } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import NewsTrend from "./NewsOutstanding";
 import CarouselItem from "./CarouselHome/ CarouselItem";
+import RecipeItem from "./RecipeHome/RecipeItem";
 
 function HomePage() {
   return (
@@ -17,6 +18,10 @@ function HomePage() {
           <Stack sx={{ mb: 2,mr:12 }}>
             <NewsTrend />
           </Stack>
+        </Box>
+        <Box>
+        <Typography variant="h5" textTransform={'uppercase'} fontWeight={'bold'} textAlign={'center'}>Đánh giá cao</Typography>
+          <RecipeItem/>
         </Box>
       </Box>
     </div>
