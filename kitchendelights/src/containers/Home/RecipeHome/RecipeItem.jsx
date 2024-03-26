@@ -15,9 +15,15 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import CommentIcon from "@mui/icons-material/Comment";
 export default function RecipeItem({ item }) {
   return (
+    <a href={`/RecipeDetail/${item?.recipeId}`} style={{textDecoration:'none'}}>
     <Box>
+      
       <Card sx={{ width: "100%" }}>
+
+       
         <CardActionArea>
+          
+          
           <div style={{ position: "relative" }}>
             <img
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
@@ -25,6 +31,8 @@ export default function RecipeItem({ item }) {
               alt="recipe"
             />
           </div>
+         
+          
           <CardContent>
             <Typography
               gutterBottom
@@ -72,5 +80,6 @@ export default function RecipeItem({ item }) {
         </CardActionArea>
       </Card>
     </Box>
+    </a>
   );
 }
