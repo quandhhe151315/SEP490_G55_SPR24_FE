@@ -2,25 +2,26 @@ import React from "react";
 import RecipeItem from "./RecipeItem";
 import { Grid, Typography } from "@mui/material";
 
-export default function RecipeItemList({title, recipeItemList}) {
-  const recipeItemList = Array.from({ length: 6 });
+export default function RecipeItemList({ title, recipeItemLists }) {
   return (
     <>
       <Typography
-        variant="h5"
+        fontSize={20}
         textTransform={"uppercase"}
         fontWeight={"bold"}
-        mb={4}
+        mb={2}
       >
-        Đánh giá cao
+        {title}
       </Typography>
       <Grid container columnSpacing={8} rowSpacing={8}>
-        {recipeItemList.map((item) => {
-          return (
-            <Grid item xs={4}>
-              <RecipeItem />
-            </Grid>
-          );
+        {recipeItemLists.map((item, index) => {
+          if (index < 6) {
+            return (
+              <Grid item xs={4}>
+                <RecipeItem item={item} />
+              </Grid>
+            );
+          }
         })}
       </Grid>
     </>

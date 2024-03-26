@@ -12,11 +12,11 @@ import React from "react";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import "../../../assets/css/cardrecipe.css";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import CommentIcon from '@mui/icons-material/Comment';
-export default function RecipeItem() {
+import CommentIcon from "@mui/icons-material/Comment";
+export default function RecipeItem({ item }) {
   return (
     <Box>
-      <Card sx={{ width: '100%' }}>
+      <Card sx={{ width: "100%" }}>
         <CardActionArea>
           <div style={{ position: "relative" }}>
             <img
@@ -24,12 +24,7 @@ export default function RecipeItem() {
               src="https://media.cooky.vn/recipe/g1/4014/s320x240/recipe4014-636009205974008541.jpg"
               alt="recipe"
             />
-            <div class="favorite-container">
-              <Typography>59</Typography>
-              <FavoriteBorderIcon class="heart-icon" />
-            </div>
           </div>
-
           <CardContent>
             <Typography
               gutterBottom
@@ -37,21 +32,9 @@ export default function RecipeItem() {
               component="div"
               fontWeight={"bold"}
             >
-              Cơm chiên Dương Châu
+              {item?.recipeTitle}
             </Typography>
             <Typography variant="body2" color="text.secondary"></Typography>
-
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <Rating
-                name="read-only"
-                value={5}
-                readOnly
-                sx={{ color: "#ff5e00", mr: 2 }}
-              />
-              <Typography variant="h8" sx={{mr:4}}>145 bình chọn</Typography>
-              <Typography sx={{mr:2}}>95</Typography>
-              <CommentIcon/>
-            </div>
             <div
               style={{
                 display: "flex",
@@ -59,13 +42,32 @@ export default function RecipeItem() {
                 justifyContent: "space-between",
               }}
             >
-              <Typography variant="h6">50,000 VNĐ</Typography>
-             
+              <Typography variant="h6">
+                {item?.recipePrice ? `${item?.recipePrice} đ` : ""}
+              </Typography>
             </div>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end"}}>
-                <Typography sx={{mr:1}}>20</Typography>
-                <ShoppingCartIcon sx={{color:"#ff5e00"}}/>
-              </div>
+            <Stack direction={"row"} justifyContent={"space-between"} mt={1}>
+              <Rating
+                name="read-only"
+                value={5}
+                readOnly
+                sx={{ color: "#ff5e00", mr: 2 }}
+              />
+              <Stack direction={"row"} columnGap={1.5}>
+                <Stack direction={"row"} gap={1}>
+                  <Typography>95</Typography>
+                  <FavoriteBorderIcon width={16} />
+                </Stack>
+                <Stack direction={"row"} gap={1}>
+                  <Typography>95</Typography>
+                  <CommentIcon width={16} />
+                </Stack>
+                <Stack direction={"row"} gap={1}>
+                  <Typography>20</Typography>
+                  <ShoppingCartIcon sx={{ color: "#ff5e00" }} width={16} />
+                </Stack>
+              </Stack>
+            </Stack>
           </CardContent>
         </CardActionArea>
       </Card>

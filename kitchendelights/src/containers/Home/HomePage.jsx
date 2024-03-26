@@ -8,8 +8,14 @@ import NewsTrend from "./NewsOutstanding";
 import CarouselItem from "./CarouselHome/ CarouselItem";
 import RecipeItem from "./RecipeHome/RecipeItem";
 import RecipeItemList from "./RecipeHome";
+import { useGetAllRecipeASCbyRating } from "../../hook/useGetAllRecipeASCbyRating";
+import { useGetAllRecipePaid } from "../../hook/useGetAllRecipePaid";
+import { useGetAllRecipeFree } from "../../hook/useGetAllRecipeFree";
 
 function HomePage() {
+  const { allRecipeASCbyRating } = useGetAllRecipeASCbyRating();
+  const { allRecipePaid } = useGetAllRecipePaid();
+  const { allRecipeFree } = useGetAllRecipeFree();
   return (
     <div>
       <Appbar />
@@ -22,9 +28,23 @@ function HomePage() {
             <NewsTrend />
           </Grid>
         </Grid>
-        <Box sx={{ width: "100%", marginX: "auto" }}>
-     
-          <RecipeItemList />
+        <Box sx={{ width: "100%", marginX: "auto", mt: 6 }}>
+          <RecipeItemList
+            title={"Công thức giảm giá"}
+            recipeItemLists={allRecipeASCbyRating}
+          />
+        </Box>
+        <Box sx={{ width: "100%", marginX: "auto", mt: 6 }}>
+          <RecipeItemList
+            title={"Công thức miễn phí mới"}
+            recipeItemLists={allRecipeFree}
+          />
+        </Box>
+        <Box sx={{ width: "100%", marginX: "auto", mt: 6 }}>
+          <RecipeItemList
+            title={"Công thức trả phí mới"}
+            recipeItemLists={allRecipePaid}
+          />
         </Box>
       </Box>
     </div>
