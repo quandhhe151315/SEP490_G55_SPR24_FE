@@ -19,32 +19,10 @@ import Checkbox from "@mui/material/Checkbox";
 import { updateCategoryRecipe, updateStatusRecipe } from "../../../services/ApiServices";
 import { set } from "date-fns";
 import { toast } from "react-toastify";
-
-
-function CategoryCheckbox({ category, recipeId, handleUpdateCategoryRecipe  }) {
-    const [isChecked, setIsChecked] = useState(false);
-
-    const handleCheckboxChange = (event) => {
-        
-        const checked = event.target.checked;
-        setIsChecked(checked);
-        handleUpdateCategoryRecipe(recipeId, category.categoryId, checked ? 1 : 2);
-        
-    };
-
-    return (
-        <FormControlLabel
-            control={
-                <Checkbox
-                    onChange={handleCheckboxChange}
-                    checked={isChecked}
-                />
-            }
-            label={category.categoryName}
-            sx={{ display: 'block', wordWrap: 'break-word' }}
-        />
-    );
-}
+import { RichTextReadOnly } from "mui-tiptap";
+import useExtensions from "../../../components/Richtext/useExtension.ts";
+import EmbedVideo from "../../../components/Video/EmbedVideo.jsx";
+import CategoryCheckbox from "./CategoryCheckbox";
 
 
 
@@ -53,6 +31,8 @@ function ApporoveDialog({ open, handleClose, recipeId }) {
     const [categories, setCategories] = useState([]);
     const [checkCount, setCheckCount] = useState(0);
     const [selectedCategories, setSelectedCategories] = useState([]);
+    const [ingredients, setIngredients] = useState([{}]);
+    const [categoriesRecipe, setCategoriesRecipe] = useState([]);
 
     const handleGetAllCategory = async () => {
         try {
@@ -68,11 +48,13 @@ function ApporoveDialog({ open, handleClose, recipeId }) {
         }
     };
 
-    const handleGetRecipeById = async () => {
+    const handleGetRecipeById = async (recipeId) => {
         try {
             const response = await getRecipeById(recipeId);
             if (response.status === 200) {
                 setRecipe(response.data);
+                setIngredients(response.data.recipeIngredients);
+                setSelectedCategories(response.data.categories.map(category => category.categoryId));
                 console.log('get recipe by id thanh cong');
             } else {
                 console.log('ko get thanh cong');
@@ -88,59 +70,69 @@ function ApporoveDialog({ open, handleClose, recipeId }) {
         groups[category.parentId] = group;
         return groups;
     }, {});
+    
 
-    const handleUpdateCategoryRecipe = useCallback( async (recipeId, categoryId, type) => {
+    const handleUpdateCategoryRecipe = async (recipeId, categoryId, type, event) => {
+        event.preventDefault();
         try {
             const reponse = await updateCategoryRecipe(recipeId, categoryId, type);
             if (reponse.status === 200) {
-                // setSelectedCategories(prevState => ({
-                //     ...prevState,
-                //     [categoryId]: type === 1
-                // }));
 
-                console.log('add category thanh cong');
+                console.log('update category thanh cong');
 
             } else {
-                console.log('add category that bai');
+                console.log('update category that bai');
             }
         } catch (error) {
-            console.error('loi khi add category cho recipe', error);
+            console.error('loi khi update category cho recipe', error);
         }
-    },[]);
+    };
 
     const handleApproveRecipe = async () => {
+        if(selectedCategories.length === 0) {
+            toast.error('Vui lòng chọn ít nhất 1 category');
+            return;
+        }
+
         try {
-            // const selectiedCategoryIds = Object.keys(selectedCategories).filter(id => selectedCategories[id]);
-            // if (selectiedCategoryIds.length === 0) {
-            //     toast.error('Chưa chọn category');
-            // }
-            // else {
-                const response = await updateStatusRecipe(recipeId, 1);
-                if (response.status === 200) {
-                    handleClose();
-                    console.log('approve thanh cong');
-                    toast.success('Duyệt công thức thành công');
-                } else {
-                    console.log('approve that bai');
-                    toast.error('Duyệt công thức thất bại');
-                }
-            //}
+            const response = await updateStatusRecipe(recipeId, 1);
+            if (response.status === 200) {
+                handleClose();
+                console.log('approve thanh cong');
+                toast.success('Duyệt công thức thành công');
+            } else {
+                console.log('approve that bai');
+                toast.error('Duyệt công thức thất bại');
+            }
+            
         } catch (error) {
             console.error('loi khi approve recipe', error);
         }
     };
 
-    // const handleCheckboxChange = (isChecked) => {
-    //     setCheckCount(prevCount => prevCount + (isChecked ? 1 : -1));
-    //   };
+    const extensions = useExtensions({
+        placeholder: "Add your own content here...",
+    });
 
+
+    const handleCheckboxChange = (event, categoryId) => {
+        event.preventDefault();
+        let newSelectedCategories = [...selectedCategories];
+        if (event.target.checked) {
+            newSelectedCategories.push(categoryId);
+            handleUpdateCategoryRecipe(recipeId, categoryId, 1, event);
+        } else {
+            newSelectedCategories = newSelectedCategories.filter(id => id !== categoryId);
+            handleUpdateCategoryRecipe(recipeId, categoryId, 2, event);
+        }
+        setSelectedCategories(newSelectedCategories);
+    };
 
     useEffect(() => {
         if (open) {
             handleGetAllCategory();
-            handleGetRecipeById();
-            console.log('recipeId', recipeId);
-            console.log(recipe);
+            handleGetRecipeById(recipeId);
+            
         }
     }, [open, recipeId]);
     return (
@@ -165,32 +157,27 @@ function ApporoveDialog({ open, handleClose, recipeId }) {
                                 <Typography gutterBottom variant="h4" component="div">
                                     {recipe.recipeTitle}
                                 </Typography>
-                                <CardActionArea>
-                                    <CardMedia
-                                        component="img"
-                                        height="140"
-                                        image={recipe.featuredImage}
-                                        alt={recipe.recipeTitle}
-                                    />
 
-                                    <Box sx={{ height: 340, width: 560, marginLeft: '20%' }}>
-                                        <iframe
-                                            width="100%"
-                                            height="100%"
-                                            src="https://www.youtube.com/embed/c9GfHgMk1ac"
-                                            title="YouTube video player"
-                                            frameBorder={0}
-                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                            allowFullScreen
-                                        />
-                                    </Box>
-                                </CardActionArea>
+                                <CardMedia
+                                    style={{ height: 600, width: 900, marginTop: 20, objectFit: 'contain', marginLeft: 70 }}
+                                    component="img"
+                                    image={recipe.featuredImage}
+                                    alt={recipe.recipeTitle}
+                                />
+                                <Box sx={{ height: 340, width: 560, marginLeft: '20%', marginTop: '10px' }}>
+                                <EmbedVideo url={recipe.videoLink} />
+                                    
+                                </Box>
+
                             </CardContent>
                             <CardContent>
-                                <Typography variant="body2">
+                                <Typography variant="h5" sx={{ marginTop: '45px', marginLeft: '20px' }}>
+                                    Mô tả về món ăn
+                                </Typography>
+                                <Typography sx={{ textAlign: 'left', marginLeft: '5%', marginTop: '10px' }}>
                                     {recipe.recipeDescription || `đây là mô tả cho công thức của ${recipe.recipeTitle}`}
                                 </Typography>
-                                <Grid sx={{ display: 'flex', marginTop: '15px' }} container spacing={2}>
+                                <Grid sx={{ display: 'flex', marginTop: '25px' }} container spacing={2}>
                                     <Grid item xs={8}>
                                         <Grid container spacing={2} alignItems="flex-start">
                                             <Grid item xs={6} sm={4}>
@@ -209,22 +196,21 @@ function ApporoveDialog({ open, handleClose, recipeId }) {
                                     </Grid>
                                     <Grid item xs={4}></Grid>
                                 </Grid>
-                                <Typography variant="h5" sx={{ marginTop: '15px', marginLeft: '20px' }}>
+                                <Typography variant="h5" sx={{ marginTop: '25px', marginLeft: '20px' }}>
                                     Nguyên Liệu
                                 </Typography>
-                                {/* {recipe.ingredients.map((ingredient, index) => (
-                                    <Typography key={index} sx={{marginLeft:'20px'}}>
-                                        {ingredient}
+                                {ingredients.map((ingredient, index) => (
+                                    <Typography key={index} sx={{ marginLeft: '5%', marginTop: '10px' }}>
+                                        {ingredient.ingredientName} : {ingredient.unitValue} {ingredient.ingredientUnit}
                                     </Typography>
-                                    ))} */}
+                                ))}
 
-                                <Typography variant="h5" sx={{ marginTop: '15px', marginLeft: '20px' }}>
-                                    Cách làm :
-                                </Typography>
 
-                                {/* đang làm */}
-                                <Typography>
-                                    {recipe.recipeContent}
+
+
+                                {/* Cách làm */}
+                                <Typography sx={{ marginLeft: '5%' }}>
+                                    <RichTextReadOnly content={recipe?.recipeContent} extensions={extensions} />
                                 </Typography>
                             </CardContent>
 
@@ -236,13 +222,13 @@ function ApporoveDialog({ open, handleClose, recipeId }) {
                             <Grid container spacing={2}>
                                 {Object.entries(categoryByParentId).map(([parentId, categories], index) => (
                                     <Grid sx={{ marginTop: '10px' }} item xs={3} key={index}>
-                                        {categories.map((category, index) => (
+                                        {categories.map((category) => (
                                             <CategoryCheckbox
-                                                key={index}
                                                 category={category}
-                                                recipeId={recipeId}
-                                                handleUpdateCategoryRecipe={handleUpdateCategoryRecipe}
+                                                handleCheckboxChange={handleCheckboxChange}
+                                                selectedCategories={selectedCategories}
                                             />
+
                                         ))}
                                     </Grid>
                                 ))}
@@ -255,8 +241,8 @@ function ApporoveDialog({ open, handleClose, recipeId }) {
                     <Button onClick={handleClose}>Cancel</Button>
                     <Button onClick={() => {
                         handleApproveRecipe();
-                        
-                    }}>Approve</Button>
+
+                    }}>{recipe.recipeStatus === 1 ? 'Save' : 'Approve'}</Button>
                 </DialogActions>
             </Dialog>
         </div>
