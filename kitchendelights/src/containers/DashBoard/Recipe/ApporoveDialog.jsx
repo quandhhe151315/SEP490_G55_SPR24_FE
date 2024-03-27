@@ -21,6 +21,7 @@ import { set } from "date-fns";
 import { toast } from "react-toastify";
 import { RichTextReadOnly } from "mui-tiptap";
 import useExtensions from "../../../components/Richtext/useExtension.ts";
+import EmbedVideo from "../../../components/Video/EmbedVideo.jsx";
 
 function CategoryCheckbox({ category, handleCheckboxChange, selectedCategories  }) {
     
@@ -41,6 +42,7 @@ function CategoryCheckbox({ category, handleCheckboxChange, selectedCategories  
         />
     );
 }
+
 
 
 
@@ -186,12 +188,12 @@ function ApporoveDialog({ open, handleClose, recipeId }) {
                                     image={recipe.featuredImage}
                                     alt={recipe.recipeTitle}
                                 />
-
+                                <EmbedVideo url="https://www.youtube.com/playlist?list=PLz6H3RqQFdcwFwQECBcZVYAmXVhc0gPR1" />
                                 <Box sx={{ height: 340, width: 560, marginLeft: '20%', marginTop: '10px' }}>
                                     <iframe
                                         width="100%"
                                         height="100%"
-                                        src="https://www.youtube.com/embed/c9GfHgMk1ac"
+                                        src="https://www.youtube.com/watch?v=tbaQLjWdV04"
                                         title="YouTube video player"
                                         frameBorder={0}
                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
