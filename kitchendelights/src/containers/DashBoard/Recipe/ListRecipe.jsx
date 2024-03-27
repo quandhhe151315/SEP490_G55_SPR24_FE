@@ -23,6 +23,7 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import ApporoveDialog from "./ApporoveDialog";
 import { toast } from "react-toastify";
+import EditRecipeCategory from "./EditRecipeCategoryDialog";
 
 function ListRecipeDashBoard() {
 
@@ -30,6 +31,7 @@ function ListRecipeDashBoard() {
 
     const [open, setOpen] = useState(false);
     const [openApprove, setOpenApprove] = useState(false);
+    const [openEdit, setOpenEdit] = useState(false);
     const [Recipes, setRecipes] = useState([]);
     const [selectedRecipeId, setSelectedRecipeId] = useState('');
 
@@ -54,6 +56,14 @@ function ListRecipeDashBoard() {
     const handleCloseApprove = () => {
         setOpenApprove(false);
 
+    };
+
+    //open and close dialog edit
+    const handleOpenEdit = () => {
+        setOpenEdit(true);
+    };
+    const handleCloseEdit = () => {
+        setOpenEdit(false);
     };
 
     //style table
@@ -151,7 +161,7 @@ function ListRecipeDashBoard() {
                                                 {recipe.recipeStatus === 1 ? (
                                                     <Button sx={{paddingRight:'45px'}} onClick={() => {
                                                         setSelectedRecipeId(recipe.recipeId);
-                                                        handleOpenApprove(true);
+                                                        handleCloseApprove(true);
                                                     }}>Edit</Button>
                                                 ) : (
                                                     <Button onClick={() => {
@@ -203,6 +213,12 @@ function ListRecipeDashBoard() {
                 handleClose={handleCloseApprove}
                 recipeId={selectedRecipeId}
             />
+
+            {/* <EditRecipeCategory
+            open={openEdit}
+            handleClose={handleCloseEdit}
+            recipeId={selectedRecipeId}
+            /> */}
 
         </div>
     );

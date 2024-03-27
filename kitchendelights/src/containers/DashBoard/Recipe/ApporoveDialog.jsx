@@ -22,27 +22,7 @@ import { toast } from "react-toastify";
 import { RichTextReadOnly } from "mui-tiptap";
 import useExtensions from "../../../components/Richtext/useExtension.ts";
 import EmbedVideo from "../../../components/Video/EmbedVideo.jsx";
-
-function CategoryCheckbox({ category, handleCheckboxChange, selectedCategories  }) {
-    
-    return (
-        <FormControlLabel
-            key={category.categoryId}
-            control={
-                <Checkbox
-                    value={category.categoryId}
-                    onChange={(event) => {
-                        handleCheckboxChange(event, category.categoryId);
-                    }}
-                    checked={selectedCategories.includes(category.categoryId)}
-                />
-            }
-            label={category.categoryName}
-            sx={{ display: 'block', wordWrap: 'break-word' }}
-        />
-    );
-}
-
+import CategoryCheckbox from "./CategoryCheckbox";
 
 
 
@@ -148,10 +128,6 @@ function ApporoveDialog({ open, handleClose, recipeId }) {
         setSelectedCategories(newSelectedCategories);
     };
 
-    function isCategorySelected(categoryId) {
-        return selectedCategories.some(category => category.id === categoryId);
-      }
-
     useEffect(() => {
         if (open) {
             handleGetAllCategory();
@@ -188,17 +164,9 @@ function ApporoveDialog({ open, handleClose, recipeId }) {
                                     image={recipe.featuredImage}
                                     alt={recipe.recipeTitle}
                                 />
-                                <EmbedVideo url="https://www.youtube.com/playlist?list=PLz6H3RqQFdcwFwQECBcZVYAmXVhc0gPR1" />
                                 <Box sx={{ height: 340, width: 560, marginLeft: '20%', marginTop: '10px' }}>
-                                    <iframe
-                                        width="100%"
-                                        height="100%"
-                                        src="https://www.youtube.com/watch?v=tbaQLjWdV04"
-                                        title="YouTube video player"
-                                        frameBorder={0}
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                        allowFullScreen
-                                    />
+                                <EmbedVideo url={recipe.videoLink} />
+                                    
                                 </Box>
 
                             </CardContent>
