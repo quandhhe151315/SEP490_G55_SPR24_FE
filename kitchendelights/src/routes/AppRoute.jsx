@@ -25,7 +25,6 @@ import DashboardMenu from "../components/Dashboard/Menu/DashboardMenu";
 import ViewDetailNews from "../containers/News/ViewDetailNews";
 import AddRecipeToMenuDialog from "../containers/Menu/AddRecipeToMenu";
 import ListRecipeDashBoard from "../containers/DashBoard/Recipe/ListRecipe";
-import CreateRecipeDashBoard from "../containers/DashBoard/Recipe/CreateRecipe";
 
 import ListCommentDashboard from "../containers/Comment/CommentList";
 import UpDateCommentItem from "../containers/Comment/UpdateComment/UpDateCommentItem";
@@ -136,10 +135,6 @@ function AppRoute() {
     {
       path: "/ListRecipeDashBoard",
       element: <ListRecipeDashBoard />,
-    },
-    {
-      path: "/CreateRecipeDashBoard",
-      element: <CreateRecipeDashBoard />,
     },
     {
       path: "/ListNews",
