@@ -10,3 +10,10 @@ export const getAllRecipeFree = () => {
 export const getAllRecipePaid = () => {
   return axios.get("/Recipe/GetAllRecipePaid");
 };
+export const getAllCountry = () => {
+  return axios.get("/Country/GetAllCountry");
+};
+
+export const getAllIngredient = () => {
+  return axios.get("/Ingredient/GetAllIngredient");
+};

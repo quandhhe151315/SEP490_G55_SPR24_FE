@@ -56,6 +56,7 @@ const deleteBlog = (id) => {
 const updateComment = (payload) => {
   return baseAxios.put(`/Comment/Update`, payload);
 };
+
 export {
   createBlog,
   uploadImage,
