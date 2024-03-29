@@ -45,7 +45,7 @@ export default function ListAccount() {
 }, [data]);
 
     const handleEdit = (id) => {
-        console.log(`Chỉnh sửa ID: ${id}`);
+        navigate(`/ChangeRole/${id}`);
       };
 
       const handleBan = async (id) => {

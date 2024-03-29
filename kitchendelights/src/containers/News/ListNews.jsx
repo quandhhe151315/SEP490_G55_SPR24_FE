@@ -7,12 +7,14 @@ import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
 import { listNews } from '../../services/ApiServices';
 import DoneIcon from '@mui/icons-material/Done';
-import Typography from '@mui/material/Typography';
+import { deleteNews, acceptNews } from '../../services/NewsService';
+import { useSnackbar } from '../../components/Snackbar/Snackbar';
+
 export default function ListNews() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [rows, setRows] = useState([]);
-
+  const { showSnackbar } = useSnackbar();
 
     const getListUser = async () => {
       try {
@@ -40,17 +42,35 @@ export default function ListNews() {
     })));
 }, [data]);
 
-    const handleEdit = (id) => {
-        console.log(`Chỉnh sửa ID: ${id}`);
-      };
+    const handleViewDetailNews = (id) => {
+      console.log(`Ban ID: ${id}`);
+    };
 
-      const handleBan = (id) => {
-        console.log(`Ban ID: ${id}`);
-      };
+    const handleAcceptNews = async (id) => {
+      try {
+        const response = await acceptNews(id);
+        if (response.status === 200) {
+          showSnackbar('Duyệt tin tức thành công!', "success");
+        } else {
 
-      const goToCreateAccount = () => {
-        navigate('/CreateAccount');
+        }
+      } catch (error) {
+        showSnackbar('Duyệt tin tức không thành công!', "error");
       }
+      };
+
+      const handleDeleteNews = async (id) => {
+        try {
+          const response = await deleteNews(id);
+          if (response.status === 200) {
+            showSnackbar('Xóa tin tức thành công!', "success");
+          } else {
+
+          }
+        } catch (error) {
+          showSnackbar('Xóa tin tức không thành công!', "error");
+        }
+      };
 
     const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
@@ -64,8 +84,8 @@ export default function ListNews() {
       width: 120,
       sortable: false,
         renderCell: (params) => (
-            <div style={{ color: params.row.newsStatus ? 'green' : 'red' }}>
-                {params.row.newsStatus ? 'Xuất bản' : 'Chờ duyệt'}
+            <div style={{ color: params.row.newsStatus === 1 ? 'green' : 'red' }}>
+                {params.row.newsStatus === 1 ? 'Xuất bản' : 'Chờ duyệt'}
             </div>
         ),
     },
@@ -78,17 +98,17 @@ export default function ListNews() {
             <Button
                 variant="outlined"
                 startIcon={<EditIcon sx={{marginLeft: '10px'}}/>}
-                onClick={() => handleEdit(params.row.id)}
+                onClick={() => handleViewDetailNews(params.row.id)}
                 sx={{height: '37px'}}
             >
             </Button>
-            <Button variant="outlined" color="error" sx={{marginLeft: '5%'}} onClick={() => handleBan(params.row.id)}>
+            <Button variant="outlined" color="error" sx={{marginLeft: '5%'}} onClick={() => handleDeleteNews(params.row.id)}>
             Xóa
             </Button>
             <Button
                 variant="outlined"
                 startIcon={<DoneIcon sx={{marginLeft: '10px'}}/>}
-                onClick={() => handleEdit(params.row.id)}
+                onClick={() => handleAcceptNews(params.row.id)}
                 sx={{height: '37px', marginLeft: '5%'}}
             >
             </Button>
@@ -100,7 +120,7 @@ export default function ListNews() {
   return (
     <div>
         <Box>
-            <Box sx={{ display: 'flex' }}>
+            <Box sx={{ display: 'flex', marginBottom: '6%' }}>
                 
                 <DashboardMenu dashboardTitle={"Quản lý tin tức"}/>
                 <DataGrid
@@ -117,19 +137,20 @@ export default function ListNews() {
                 />
                 
             </Box>
-            <Button 
+            {/* <Button 
                 variant="contained" 
                 sx={{ 
                     bgcolor: "#ff5e00", 
                     borderRadius: '15px' , 
-                    marginTop: '40px',
+                    marginTop: '1%',
+                    marginBottom: '1%',
                     marginLeft: '1720px',
                     color: 'white' 
                 }}
-                onClick={goToCreateAccount}
+                onClick={}
                 >
-                Tạo tài khoản mới
-            </Button>
+                Tạo tin tức mới
+            </Button> */}
         </Box>
     </div>
   )

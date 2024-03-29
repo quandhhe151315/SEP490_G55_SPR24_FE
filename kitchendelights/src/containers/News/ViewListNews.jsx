@@ -11,15 +11,12 @@ import Button from '@mui/material/Button';
 import { Link, useNavigate } from "react-router-dom";
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
-import image1 from '../../assets/images/news1.jpg';
-import ForwardIcon from '@mui/icons-material/Forward';
 import { listNews ,getNewsById } from '../../services/ApiServices';
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
 import CardMedia from "@mui/material/CardMedia";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import Footer from '../../components/Footer/Footer'
+import Cookies from 'js-cookie';
+import { searchNews } from '../../services/NewsService';
 
 const DisplaySearchNews = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -51,47 +48,24 @@ const DisplayStyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const DisplayItemNews = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-  marginTop: '30px',
-}));
-
-
 function ViewListNews() {
   const [data, setData] = useState([]);
-  const [page, setPage] = useState(0);
-  const [isForwardPage, setIsForwardPage] = useState(true);
-  const [isNextPage, setIsNextPage] = useState(false);
+  // const [page, setPage] = useState(0);
+  // const [isForwardPage, setIsForwardPage] = useState(true);
+  // const [isNextPage, setIsNextPage] = useState(false);
+
+  const [searchText, setSearchText] = useState('');
 
   const navigate = useNavigate();
-
-  // const getNewsById = async (id) => {
-  //   try {
-  //     const response = await getNewsById(1);
-
-  //     if (response.status === 200) {
-  //       setData(response.data);
-  //       console.log(response.data);
-  //     } else {
-  //       console.error('Can not get news!');
-  //     }
-  //   } catch (error) {
-  //     console.error('Can not load news data!', error);
-  //   }
-  // };
+  const role = Cookies.get('role');
 
   const getAllListNews = async () => {
     try {
       const response = await listNews();
       if (response.status === 200) {
         setData(response.data);
-        console.log('Load news successful! ');
       } else {
-        console.error('Can not Load news! ');
+
       }
     } catch (error) {
       console.error('Can not load news data!', error);
@@ -99,11 +73,24 @@ function ViewListNews() {
   };
 
   useEffect(() => {
-    getAllListNews();
-  }, []);
+    if (searchText === '') {
+      getAllListNews();
+    } else {
+      SearchNews();
+    }
+  }, [searchText]);
   
-  const SearchNews = () => {
-    navigate('/KitchenDelights');
+  const SearchNews = async () => {
+    try {
+      const response = await searchNews(searchText);
+      if (response.status === 200) {
+        setData(response.data);
+      } else {
+        console.error('Can not get news!');
+      }
+    } catch (error) {
+      console.error('Can not load news data!', error);
+    }
   }
   const goToCreateNews = () => {
     navigate('/CreateNews');
@@ -113,26 +100,25 @@ function ViewListNews() {
     navigate(`/ViewDetailNews/${id}`);
   }
 
-  const getNextNewsPage = () => {
-    if(data[page + 6].newsId >= data.length){
-      setIsForwardPage(false);
-      setIsNextPage(true);
-    }
-    setPage(page + 6);
-  }
+  // const getNextNewsPage = () => {
+  //   if(data[page + 6].newsId >= data.length){
+  //     setIsForwardPage(false);
+  //     setIsNextPage(true);
+  //   }
+  //   setPage(page + 6);
+  // }
 
-  const getForwardNewsPage = () => {
-    if(data[page - 6].newsId <= data.length || page === 0){
-      setIsForwardPage(true);
-      setIsNextPage(false);
-    }
-    setPage(page - 6);
-  }
+  // const getForwardNewsPage = () => {
+  //   if(data[page - 6].newsId <= data.length || page === 0){
+  //     setIsForwardPage(true);
+  //     setIsNextPage(false);
+  //   }
+  //   setPage(page - 6);
+  // }
 
   return (
     <div>
         <Appbar />
-          
           <Typography sx={{ marginLeft: '280px', fontSize: '16px', marginRight: '255px', marginTop: '50px'}}>
             <Typography color="#ff5e00" sx={{fontSize: '30px', fontWeight: 'bold'}}> Tin tức </Typography>
             Đây là chuyên mục bạn có thể đọc những mẩu tin về chuyên ngành ẩm thực.
@@ -142,6 +128,8 @@ function ViewListNews() {
                 <Grid xs={4}>
                   <DisplaySearchNews >
                   <DisplayStyledInputBase
+                    value={searchText}
+                    onChange={(e) => setSearchText(e.target.value)}
                     placeholder="Tìm tin tức bạn muốn"
                     inputProps={{ 'aria-label': 'search' }}
                     sx={{ color: "rgba(0, 0, 0, 0.54)" }}
@@ -158,15 +146,15 @@ function ViewListNews() {
                 </Grid>
 
                 <Grid xs={4}>
+                {role === "Writer" && (
+
                 <Button variant="contained" sx={{ bgcolor: "#ff5e00", marginTop:'20px', borderRadius: '15px', width: '100%', height: '42px', color: 'white'}} onClick={goToCreateNews}>Tạo tin tức mới</Button>
+                  )}
+
                 </Grid>
 
               </Grid>
-              
-              
-            </Box>
-
-           
+            </Box>          
                 <Box sx={{marginTop: '2%', marginBottom: '2%'}}>
                 <Grid container spacing={3}>
                   {data.map((item) => {
@@ -175,7 +163,7 @@ function ViewListNews() {
                         <Card sx={{ maxWidth: 345 }} onClick={() => {viewDetailNews(item.newsId)}}>
                           <CardMedia
                             component={"img"}
-                            height={140}
+                            height={240}
                             image={item.featuredImage}
                             alt="green iguana"
                           />
