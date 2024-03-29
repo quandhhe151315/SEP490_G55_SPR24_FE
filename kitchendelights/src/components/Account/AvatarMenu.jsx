@@ -60,6 +60,10 @@ function AvatarMenu({ handleClick, onMenuSelect }) {
         navigate('/ChangePassword');
     }
 
+    const goToBecomeChef = () => {
+        navigate("/BecomeChef");
+      };
+
     return (
         <div>
             <GetInformationJWT setId={setId} />
@@ -126,7 +130,7 @@ function AvatarMenu({ handleClick, onMenuSelect }) {
 
             <Paper sx={{ width: 250, maxWidth: '100%', marginTop: '20px', marginLeft: '46%', border: '1px solid #bfb8b8' }}>
                 <MenuList>
-                    <MenuItem>
+                    <MenuItem onClick={goToBecomeChef}>
                         <ListItemIcon>
                             <ContactsIcon fontSize="small" sx={{ color: "#ff5e00" }} />
                         </ListItemIcon>

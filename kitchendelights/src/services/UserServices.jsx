@@ -12,6 +12,14 @@ const deleteAccount = (id) => {
     return axios.patch(`/User/Delete?id=${id}`);
 }
 
+const changeRole = (userId, roleId) => {
+    return axios.patch(`/User/Role`, { userId,roleId });
+}
+
+const becomeChefAPI = (userId, cardFront, cardBack, verificationFront, verificationBack) => {
+    return axios.post(`/Verification/Create`, {userId, cardFront, cardBack, verificationFront, verificationBack});
+}
+
 export {
-    createAccount, banOrUnbanAccount, deleteAccount
+    createAccount, banOrUnbanAccount, deleteAccount, changeRole, becomeChefAPI
 };

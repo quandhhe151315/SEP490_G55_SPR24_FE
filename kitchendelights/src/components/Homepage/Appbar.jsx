@@ -110,6 +110,7 @@ export default function PrimarySearchAppBar() {
   const goToNews = () => {
     navigate("/ViewListNews");
   };
+  
   const goToRepice = () => {
     navigate("/ViewListRecipes");
   };
@@ -125,6 +126,8 @@ export default function PrimarySearchAppBar() {
 
   const handleLogout = () => {
     Cookies.remove("jwt");
+    Cookies.remove("userId");
+    Cookies.remove("role");
     setUserIdExist(false);
     navigate("/KitchenDelights");
   };
