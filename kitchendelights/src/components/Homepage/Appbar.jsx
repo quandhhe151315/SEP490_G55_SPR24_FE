@@ -16,6 +16,8 @@ import GetInformationJWT from "../JWT/GetInformationJWT";
 import Cookies from "js-cookie";
 import TextField from "@mui/material/TextField";
 import { Stack, Grid } from "@mui/material";
+import BtnHandleHoverItem from "./BtnHandleHoverItem";
+import IngredientHoverBtn from "./IngredientHoverBtn";
 
 const Overlay = styled("div")(({ theme }) => ({
   position: "fixed",
@@ -31,7 +33,7 @@ const Overlay = styled("div")(({ theme }) => ({
   cursor: "pointer",
 }));
 
-const CategoryButton = ({
+export const CategoryButton = ({
   goToPage,
   text,
   leftLG,
@@ -39,6 +41,8 @@ const CategoryButton = ({
   leftSM,
   leftXS,
   rightLG,
+  onMouseOver,
+  onMouseOut,
 }) => {
   return (
     <Button
@@ -51,6 +55,8 @@ const CategoryButton = ({
         marginLeft: { xs: leftXS, sm: leftSM, md: leftMD, lg: leftLG },
         marginRight: { lg: rightLG },
       }}
+      onMouseOver={onMouseOver}
+      onMouseOut={onMouseOut}
       onClick={goToPage}
     >
       {text}
@@ -101,10 +107,6 @@ export default function PrimarySearchAppBar() {
 
   const goToHomePage = () => {
     navigate("/KitchenDelights");
-  };
-
-  const goToBookMark = () => {
-    navigate("/BookMark");
   };
 
   const goToNews = () => {
@@ -237,10 +239,10 @@ export default function PrimarySearchAppBar() {
             >
               <CategoryButton goToPage={goToHomePage} text={"Trang chủ"} />
               <CategoryButton goToPage={goToRepice} text={"Công thức nấu ăn"} />
-              <CategoryButton goToPage={goToRepice} text={"Nguyên liệu"} />
+              <IngredientHoverBtn />
               <CategoryButton goToPage={goToRepice} text={"Bữa ăn"} />
               <CategoryButton goToPage={goToRepice} text={"Ngày lễ"} />
-              <CategoryButton goToPage={goToRepice} text={"Quốc gia"} />
+              <BtnHandleHoverItem />
               <CategoryButton goToPage={goToNews} text={"Tin tức"} />
               <CategoryButton goToPage={goToBlog} text={"Blog"} />
             </Stack>
@@ -256,7 +258,7 @@ export default function PrimarySearchAppBar() {
           />
         </Toolbar>
       </AppBar>
-      {(userIdExist != null ) && renderMenu}
+      {userIdExist != null && renderMenu}
     </Box>
   );
 }
