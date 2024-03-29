@@ -25,7 +25,6 @@ import DashboardMenu from "../components/Dashboard/Menu/DashboardMenu";
 import ViewDetailNews from "../containers/News/ViewDetailNews";
 import AddRecipeToMenuDialog from "../containers/Menu/AddRecipeToMenu";
 import ListRecipeDashBoard from "../containers/DashBoard/Recipe/ListRecipe";
-import CreateRecipeDashBoard from "../containers/DashBoard/Recipe/CreateRecipe";
 
 import ListCommentDashboard from "../containers/Comment/CommentList";
 import UpDateCommentItem from "../containers/Comment/UpdateComment/UpDateCommentItem";
@@ -38,6 +37,7 @@ import { Login } from "../containers/Authentication/Login";
 import { Register } from "../containers/Authentication/Register";
 import HomePage from "../containers/Home/HomePage";
 import ViewDetailMenu from "../containers/Menu/ViewDetailMenu";
+import DashBoard from "../containers/DashBoard/DashBoard";
 
 function AppRoute() {
   const router = createBrowserRouter([
@@ -121,7 +121,7 @@ function AppRoute() {
       element: <ListCategoryDashboard />,
     },
     {
-      path: "/DashboardMenu",
+      path: "/Dashboard",
       element: <DashboardMenu />,
     },
     {
@@ -137,10 +137,6 @@ function AppRoute() {
       element: <ListRecipeDashBoard />,
     },
     {
-      path: "/CreateRecipeDashBoard",
-      element: <CreateRecipeDashBoard />,
-    },
-    {
       path: "/ListNews",
       element: <ListNews />,
     },
@@ -151,6 +147,10 @@ function AppRoute() {
     {
       path: "/comment/list",
       element: <ListCommentDashboard />,
+    },
+    {
+      path: "/DashBoardMenu",
+      element: <DashBoard/>,
     },
     // {
     //   path: "/UserProfile",

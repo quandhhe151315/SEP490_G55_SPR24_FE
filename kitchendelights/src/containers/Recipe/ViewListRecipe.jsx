@@ -161,7 +161,7 @@ function ViewListRecipes() {
         </Typography>
         <Box>
           <Grid container spacing={3}>
-            {data.map((item) => {
+            {data.filter(item => item.recipeStatus === 1).map((item) => {
               return (
                 <Grid item lg={3} md={6} xs={12}>
                   <Card sx={{ maxWidth: 345 }}>
@@ -289,7 +289,7 @@ function ViewListRecipes() {
         </Typography>
         <Box>
           <Grid container spacing={3}>
-            {data2.map((item) => {
+            {data2.filter(item => item.recipeStatus === 1).map((item) => {
               return (
                 <Grid item lg={3} md={6} xs={12}>
                   <Card sx={{ maxWidth: 345 }}>

@@ -1,0 +1,20 @@
+.favorite-container {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 15%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #ff5e00;
+  }
+  
+  .favorite-container:hover .heart-icon {
+    color: red;
+    transform: scale(1.2); 
+  }
+  
+  .heart-icon {
+    font-size: 40px;
+    transition: color 0.3s ease, transform 0.3s ease; 
+  }

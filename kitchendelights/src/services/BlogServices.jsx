@@ -2,9 +2,15 @@
 import axios from "axios";
 import { BASE_URL } from "../constant";
 import instanceAxios from "./CustomizeAxios";
+import Cookies from "js-cookie";
+
+const token = Cookies.get('jwt');
+
 const instance = axios.create({
+
   headers: {
     "Content-Type": "multipart/form-data",
+    "Authorization": `Bearer ${token}`,
   },
   baseURL: BASE_URL,
 });
@@ -12,6 +18,7 @@ const instance = axios.create({
 const baseAxios = axios.create({
   headers: {
     "Content-Type": "application/json",
+    "Authorization": `Bearer ${token}`,
   },
   baseURL: BASE_URL,
 });
@@ -49,6 +56,7 @@ const deleteBlog = (id) => {
 const updateComment = (payload) => {
   return baseAxios.put(`/Comment/Update`, payload);
 };
+
 export {
   createBlog,
   uploadImage,
