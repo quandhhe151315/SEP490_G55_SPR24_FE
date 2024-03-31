@@ -21,9 +21,8 @@ import { getRecipes, updateStatusRecipe } from "../../../services/ApiServices";
 import DashboardMenu from "../../../components/Dashboard/Menu/DashboardMenu";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import ApporoveDialog from "./ApporoveDialog";
+import ApporoveDialog from "./ApporoveAndEditDialog";
 import { toast } from "react-toastify";
-import EditRecipeCategory from "./EditRecipeCategoryDialog";
 
 function ListRecipeDashBoard() {
 
@@ -161,7 +160,7 @@ function ListRecipeDashBoard() {
                                                 {recipe.recipeStatus === 1 ? (
                                                     <Button sx={{paddingRight:'45px'}} onClick={() => {
                                                         setSelectedRecipeId(recipe.recipeId);
-                                                        handleCloseApprove(true);
+                                                        handleOpenApprove(true);
                                                     }}>Edit</Button>
                                                 ) : (
                                                     <Button onClick={() => {
@@ -213,12 +212,6 @@ function ListRecipeDashBoard() {
                 handleClose={handleCloseApprove}
                 recipeId={selectedRecipeId}
             />
-
-            {/* <EditRecipeCategory
-            open={openEdit}
-            handleClose={handleCloseEdit}
-            recipeId={selectedRecipeId}
-            /> */}
 
         </div>
     );

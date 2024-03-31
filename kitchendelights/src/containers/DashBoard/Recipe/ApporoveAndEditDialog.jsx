@@ -1,38 +1,31 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, {useEffect, useState, useRef } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
-import { getRecipeById, getAllCategory } from "../../../services/ApiServices";
+import { getRecipeById, getAllCategory } from "../../../services/ApiServices.jsx";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
-import CardActionArea from "@mui/material/CardActionArea";
-import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import { updateCategoryRecipe, updateStatusRecipe } from "../../../services/ApiServices";
-import { set } from "date-fns";
+import { updateCategoryRecipe, updateStatusRecipe } from "../../../services/ApiServices.jsx";
 import { toast } from "react-toastify";
 import { RichTextReadOnly } from "mui-tiptap";
 import useExtensions from "../../../components/Richtext/useExtension.ts";
 import EmbedVideo from "../../../components/Video/EmbedVideo.jsx";
-import CategoryCheckbox from "./CategoryCheckbox";
-
+import CategoryCheckbox from "./CategoryCheckbox.jsx";
 
 
 function ApporoveDialog({ open, handleClose, recipeId }) {
     const [recipe, setRecipe] = useState({});
     const [categories, setCategories] = useState([]);
-    const [checkCount, setCheckCount] = useState(0);
-    const [selectedCategories, setSelectedCategories] = useState([]);
+    const selectedCategoriesRef = useRef([]);
+    const unselectedCategoriesRef = useRef([]);
     const [ingredients, setIngredients] = useState([{}]);
-    const [categoriesRecipe, setCategoriesRecipe] = useState([]);
 
     const handleGetAllCategory = async () => {
         try {
@@ -54,7 +47,7 @@ function ApporoveDialog({ open, handleClose, recipeId }) {
             if (response.status === 200) {
                 setRecipe(response.data);
                 setIngredients(response.data.recipeIngredients);
-                setSelectedCategories(response.data.categories.map(category => category.categoryId));
+                selectedCategoriesRef.current = (response.data.categories.map(category => category.categoryId));
                 console.log('get recipe by id thanh cong');
             } else {
                 console.log('ko get thanh cong');
@@ -70,28 +63,23 @@ function ApporoveDialog({ open, handleClose, recipeId }) {
         groups[category.parentId] = group;
         return groups;
     }, {});
-    
-
-    const handleUpdateCategoryRecipe = async (recipeId, categoryId, type, event) => {
-        event.preventDefault();
-        try {
-            const reponse = await updateCategoryRecipe(recipeId, categoryId, type);
-            if (reponse.status === 200) {
-
-                console.log('update category thanh cong');
-
-            } else {
-                console.log('update category that bai');
-            }
-        } catch (error) {
-            console.error('loi khi update category cho recipe', error);
-        }
-    };
 
     const handleApproveRecipe = async () => {
-        if(selectedCategories.length === 0) {
+        if (selectedCategoriesRef.current.length === 0) {
             toast.error('Vui lòng chọn ít nhất 1 category');
             return;
+        }
+
+        //add category for recipe
+        for (let categoryId of selectedCategoriesRef.current) {
+            await updateCategoryRecipe(recipeId, categoryId, 1);
+            console.log('add category for recipe');
+        }
+
+        //remove category for recipe
+        for (let categoryId of unselectedCategoriesRef.current) {
+            await updateCategoryRecipe(recipeId, categoryId, 2);
+            console.log('remove category for recipe');
         }
 
         try {
@@ -104,7 +92,7 @@ function ApporoveDialog({ open, handleClose, recipeId }) {
                 console.log('approve that bai');
                 toast.error('Duyệt công thức thất bại');
             }
-            
+
         } catch (error) {
             console.error('loi khi approve recipe', error);
         }
@@ -116,23 +104,25 @@ function ApporoveDialog({ open, handleClose, recipeId }) {
 
 
     const handleCheckboxChange = (event, categoryId) => {
-        event.preventDefault();
-        let newSelectedCategories = [...selectedCategories];
+
         if (event.target.checked) {
-            newSelectedCategories.push(categoryId);
-            handleUpdateCategoryRecipe(recipeId, categoryId, 1, event);
+            if (!selectedCategoriesRef.current.includes(categoryId)) {
+                selectedCategoriesRef.current.push(categoryId);
+                unselectedCategoriesRef.current = unselectedCategoriesRef.current.filter(id => id !== categoryId);
+            }
         } else {
-            newSelectedCategories = newSelectedCategories.filter(id => id !== categoryId);
-            handleUpdateCategoryRecipe(recipeId, categoryId, 2, event);
+            selectedCategoriesRef.current = selectedCategoriesRef.current.filter(id => id !== categoryId);
+            if (!unselectedCategoriesRef.current.includes(categoryId)) {
+                unselectedCategoriesRef.current.push(categoryId);
+            }
         }
-        setSelectedCategories(newSelectedCategories);
+
     };
 
     useEffect(() => {
         if (open) {
             handleGetAllCategory();
             handleGetRecipeById(recipeId);
-            
         }
     }, [open, recipeId]);
     return (
@@ -165,8 +155,8 @@ function ApporoveDialog({ open, handleClose, recipeId }) {
                                     alt={recipe.recipeTitle}
                                 />
                                 <Box sx={{ height: 340, width: 560, marginLeft: '20%', marginTop: '10px' }}>
-                                <EmbedVideo url={recipe.videoLink} />
-                                    
+                                    <EmbedVideo url={recipe.videoLink} />
+
                                 </Box>
 
                             </CardContent>
@@ -205,9 +195,6 @@ function ApporoveDialog({ open, handleClose, recipeId }) {
                                     </Typography>
                                 ))}
 
-
-
-
                                 {/* Cách làm */}
                                 <Typography sx={{ marginLeft: '5%' }}>
                                     <RichTextReadOnly content={recipe?.recipeContent} extensions={extensions} />
@@ -215,6 +202,8 @@ function ApporoveDialog({ open, handleClose, recipeId }) {
                             </CardContent>
 
                         </Card>
+
+                        {/* render list category để chọn cho recipe này */}
                         <Typography variant="h5" sx={{ marginTop: '25px', marginLeft: '20px' }}>
                             Chọn category cho công thức này
                         </Typography>
@@ -226,20 +215,19 @@ function ApporoveDialog({ open, handleClose, recipeId }) {
                                             <CategoryCheckbox
                                                 category={category}
                                                 handleCheckboxChange={handleCheckboxChange}
-                                                selectedCategories={selectedCategories}
+                                                selectedCategoriesRef={selectedCategoriesRef}
                                             />
-
                                         ))}
                                     </Grid>
                                 ))}
                             </Grid>
-
                         </Box>
+
                     </Box>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={() => {
+                    <Button sx={{marginRight:'30px'}} onClick={handleClose}>Cancel</Button>
+                    <Button sx={{marginRight:'70px'}} onClick={() => {
                         handleApproveRecipe();
 
                     }}>{recipe.recipeStatus === 1 ? 'Save' : 'Approve'}</Button>
