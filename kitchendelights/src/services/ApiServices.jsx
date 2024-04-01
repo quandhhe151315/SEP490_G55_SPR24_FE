@@ -217,15 +217,15 @@ const listUsers = () => {
   return axios.get("/User/List");
 };
 
-const getBlogList = () => {
-  return axios.get(`/Blog/Get`);
+const getBlogList = (params) => {
+  return axios.get(`/Blog/Get`, { params : params });
 };
 
 const getBlogDetail = (id) => {
   return axios.get(`/Blog/Get?id=${id}`);
 };
-const createBlog = () => {
-  return axios.post(`/Blog/Create`);
+const createBlog = (content) => {
+  return axios.post(`/Blog/Create`, content );
 };
 
 //menu API
