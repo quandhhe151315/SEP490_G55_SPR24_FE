@@ -38,7 +38,7 @@ import { addRecipeToBookMark } from "../../services/ApiServices";
 import CommentSection from "../../containers/BoxComment/CommentSection";
 import Cookies from "js-cookie";
 import Footer from "../../components/Footer/Footer.jsx";
-import RandomRecipes from "./RandomRecipe.jsx";
+import RandomRecipes from "./RandomRecipe";
 function RecipeDetail() {
   const navigate = useNavigate();
   const [data, setdata] = useState();
