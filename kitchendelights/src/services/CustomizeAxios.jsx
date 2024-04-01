@@ -2,22 +2,24 @@ import axios from "axios";
 import { BASE_URL } from "../constant";
 import Cookies from "js-cookie";
 const instance = axios.create({
-  baseURL: BASE_URL,
-  // baseURL: "http://localhost:5050/api",
+  baseURL: "http://localhost:5050/api",
 });
 
 // Add a request interceptor
-instance.interceptors.request.use(function (config) {
-  // Do something before request is sent
-  const token = Cookies.get('jwt'); // Replace with your token
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+instance.interceptors.request.use(
+  function (config) {
+    // Do something before request is sent
+    const token = Cookies.get("jwt"); // Replace with your token
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  function (error) {
+    // Do something with request error
+    return Promise.reject(error);
   }
-  return config;
-}, function (error) {
-  // Do something with request error
-  return Promise.reject(error);
-});
+);
 
 // instance.interceptors.response.use(
 //   function (response) {

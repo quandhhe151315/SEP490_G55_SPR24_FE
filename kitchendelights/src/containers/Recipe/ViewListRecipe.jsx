@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import Appbar from "../../components/Homepage/Appbar";
 import Typography from "@mui/material/Typography";
@@ -11,7 +11,6 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import CardMedia from "@mui/material/CardMedia";
-import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Unstable_Grid2";
 import ForwardIcon from "@mui/icons-material/Forward";
 import ShoingCartIconpp from "@mui/icons-material/ShoppingCart";
@@ -19,9 +18,10 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Rating from "@mui/material/Rating";
 import { Stack } from "@mui/material";
-import { getRecipes} from "../../services/ApiServices";
+import { getRecipes, addToCart, getListCart } from "../../services/ApiServices";
 import { toast } from "react-toastify";
-import image from "../../assets/images/news1.jpg";
+import Footer from "../../components/Footer/Footer";
+import { useCart } from "../../store";
 
 const DisplaySearchNews = styled("div")(({ theme }) => ({
   display: "flex",
@@ -53,63 +53,124 @@ const DisplayStyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const data3 = [
-  {
-    name1: "Thịt bò",
-    name2: "Rau củ",
-    name3: "Món ăn giàu dinh dưỡng ",
-    name4: "Thịt gà",
-    name5: "Thịt vịt",
-    name6: "Đồ ăn tốt cho sức khoẻ",
-  },
-];
-
-const DisplayItemNews = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-  marginTop: "30px",
-}));
-
 function ViewListRecipes() {
   const navigate = useNavigate();
-  const [data, setdata] = useState([]);
-  const [data2, setdata2] = useState([]);
+  const [freeRecipes, setFreeRecipes] = useState([]);
+  const [paidRecipes, setPaidRecipes] = useState([]);
+  const [currentPageFree, setCurrentPageFree] = useState(1);
+  const [currentPagePaid, setCurrentPagePaid] = useState(1);
+  const { setDataCart } = useCart();
+  const recipesPerPage = 8;
+
+  const isUserLoggedIn = () => {
+    const cookies = document.cookie.split("; ");
+    return cookies.some((cookie) => cookie.startsWith("userId="));
+  };
 
   const SearchNews = () => {
     navigate("/KitchenDelights");
   };
+
   const GoToCart = () => {
     navigate("/ShoppingCart");
   };
-  //
 
   useEffect(() => {
     getListRecipes();
   }, []);
+  const getUserIdFromCookie = () => {
+    const cookies = document.cookie.split("; ");
+    for (const cookie of cookies) {
+      const [name, value] = cookie.split("=");
+      if (name === "userId") {
+        return value;
+      }
+    }
+    return null;
+  };
 
+  const userId = getUserIdFromCookie();
+  // const recipeId = 8;
+  const handleAddToCart = async (recipeId) => {
+    if (!isUserLoggedIn()) {
+      navigate("/Login"); // Chuyển hướng đến trang login nếu chưa đăng nhập
+      return;
+    }
+    try {
+      const response = await addToCart(userId, recipeId);
+
+      if (response.status === 200) {
+        toast.success("Thêm vào giỏ hàng thành công");
+        getListCarts(userId);
+      } else {
+        console.log("lỗi khi thêm vào cart");
+      }
+    } catch (error) {
+      console.error("lỗi khi thêmm vào cart", error);
+    }
+  };
+  const getListCarts = async (id) => {
+    try {
+      const response = await getListCart(id);
+      if (response.status === 200) {
+        setDataCart(response.data);
+      } else {
+        console.error("Can not Load cart! ");
+      }
+    } catch (error) {
+      toast.error("Khoong load dc cart");
+    }
+  };
   const getListRecipes = async () => {
     try {
       const response = await getRecipes();
       if (response.status === 200) {
         const dataFree = response?.data.filter((x) => x.isFree === true);
-        const dataNotFree = response?.data.filter((x) => x.isFree === false);
+        const dataPaid = response?.data.filter((x) => x.isFree === false);
 
-        setdata(dataFree);
-        setdata2(dataNotFree);
+        setFreeRecipes(dataFree);
+        setPaidRecipes(dataPaid);
       } else {
+        toast.error("Không thể tải danh sách công thức.");
       }
     } catch (error) {
-      toast.error("Khoong load dc list");
+      toast.error("Không thể tải danh sách công thức.");
     }
   };
+
+  const handleNextFree = () => {
+    setCurrentPageFree((prevPage) => prevPage + 1);
+  };
+
+  const handleForwardFree = () => {
+    setCurrentPageFree((prevPage) => Math.max(prevPage - 1, 1));
+  };
+
+  const handleNextPaid = () => {
+    setCurrentPagePaid((prevPage) => prevPage + 1);
+  };
+
+  const handleForwardPaid = () => {
+    setCurrentPagePaid((prevPage) => Math.max(prevPage - 1, 1));
+  };
+
+  const indexOfLastFreeRecipe = currentPageFree * recipesPerPage;
+  const indexOfFirstFreeRecipe = indexOfLastFreeRecipe - recipesPerPage;
+  const currentFreeRecipes = freeRecipes.slice(
+    indexOfFirstFreeRecipe,
+    indexOfLastFreeRecipe
+  );
+
+  const indexOfLastPaidRecipe = currentPagePaid * recipesPerPage;
+  const indexOfFirstPaidRecipe = indexOfLastPaidRecipe - recipesPerPage;
+  const currentPaidRecipes = paidRecipes.slice(
+    indexOfFirstPaidRecipe,
+    indexOfLastPaidRecipe
+  );
 
   return (
     <div>
       <Appbar />
-
       <Typography
         sx={{
           marginLeft: "320px",
@@ -161,118 +222,112 @@ function ViewListRecipes() {
         </Typography>
         <Box>
           <Grid container spacing={3}>
-            {data.filter(item => item.recipeStatus === 1).map((item) => {
-              return (
-                <Grid item lg={3} md={6} xs={12}>
-                  <Card sx={{ maxWidth: 345 }}>
-                    <CardMedia
-                      component={"img"}
-                      height={140}
-                      image={item.featuredImage}
-                      alt="green iguana"
-                    />
-                    <CardContent>
-                      <Typography
-                        sx={{
-                          textWrap: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                        }}
-                        gutterBottom
-                        variant="h6"
-                        component="div"
-                      >
-                        {item.recipeTitle}
-                      </Typography>
+            {freeRecipes
+              .filter((item) => item.recipeStatus === 1)
+              .map((item) => {
+                return (
+                  <Grid item lg={3} md={6} xs={12} key={item.recipeId}>
+                    <Card sx={{ maxWidth: 345 }}>
+                      <CardMedia
+                        component={"img"}
+                        height={140}
+                        image={item.featuredImage}
+                      />
+                      <CardContent>
+                        <Typography
+                          sx={{
+                            textWrap: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                          }}
+                          gutterBottom
+                          variant="h6"
+                          component="div"
+                        >
+                          {item.recipeTitle}
+                        </Typography>
 
-                      <Box
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <Typography component="legend" fontSize={11}>
+                            Đánh giá:
+                          </Typography>
+                          <Rating
+                            name="simple-controlled"
+                            value={item.recipeRating}
+                            size="small"
+                          />
+                        </Box>
+                      </CardContent>
+                      <CardActions
                         sx={{
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
+                          marginTop: -2,
                         }}
                       >
-                        {" "}
-                        <Rating
-                          name="simple-controlled"
-                          value={item.recipeRating}
-                          size="small"
-                        />
-                        <Typography component="legend" fontSize={11}>
-                          {item.vote} votes
-                        </Typography>
-                      </Box>
-                    </CardContent>
-                    <CardActions
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        marginTop: -2,
-                      }}
-                    >
-                      <Button size="small" endIcon={<FavoriteIcon />}>
-                        Like
-                      </Button>
-                      <Link to={`/RecipeDetail/${item.recipeId}`}>
-                        {" "}
-                        <Button size="small" endIcon={<VisibilityIcon />}>
-                          Xem
+                        <Button size="small" endIcon={<FavoriteIcon />}>
+                          Like
                         </Button>
-                      </Link>
-                    </CardActions>
-                  </Card>
-                </Grid>
-              );
-            })}
+                        <Link to={`/RecipeDetail/${item.recipeId}`}>
+                          <Button size="small" endIcon={<VisibilityIcon />}>
+                            Xem
+                          </Button>
+                        </Link>
+                      </CardActions>
+                    </Card>
+                  </Grid>
+                );
+              })}
           </Grid>
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginTop: "30px",
+            }}
+          >
+            <Button
+              variant="contained"
+              sx={{
+                bgcolor: "#ff5e00",
+                borderRadius: "15px",
+                width: "150px",
+                height: "42px",
+                color: "white",
+                opacity: currentPageFree === 1 ? 0.5 : 1,
+              }}
+              startIcon={<ForwardIcon sx={{ transform: "rotate(180deg)" }} />}
+              onClick={handleForwardFree}
+              disabled={currentPageFree === 1}
+            >
+              Forward
+            </Button>
+            <Button
+              variant="contained"
+              sx={{
+                bgcolor: "#ff5e00",
+                borderRadius: "15px",
+                width: "150px",
+                height: "42px",
+                color: "white",
+                opacity: indexOfLastFreeRecipe >= freeRecipes.length ? 0.5 : 1,
+              }}
+              endIcon={<ForwardIcon />}
+              onClick={handleNextFree}
+              disabled={indexOfLastFreeRecipe >= freeRecipes.length}
+            >
+              Next
+            </Button>
+          </Typography>
         </Box>
 
-        <Typography
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginTop: "30px",
-          }}
-        >
-          <Button
-            variant="contained"
-            sx={{
-              bgcolor: "#ff5e00",
-              borderRadius: "15px",
-              width: "150px",
-              height: "42px",
-              color: "white",
-            }}
-            startIcon={<ForwardIcon sx={{ transform: "rotate(180deg)" }} />}
-          >
-            Forward
-          </Button>
-          <Button
-            variant="contained"
-            sx={{
-              bgcolor: "#ff5e00",
-              borderRadius: "15px",
-              width: "150px",
-              height: "42px",
-              color: "white",
-            }}
-            endIcon={<ForwardIcon />}
-          >
-            {" "}
-            Next
-          </Button>
-        </Typography>
-      </Typography>
-
-      <Typography
-        sx={{
-          marginLeft: "320px",
-          fontSize: "16px",
-          marginRight: "255px",
-          marginTop: "50px",
-        }}
-      >
         <Typography
           sx={{
             marginLeft: "320px",
@@ -289,123 +344,129 @@ function ViewListRecipes() {
         </Typography>
         <Box>
           <Grid container spacing={3}>
-            {data2.filter(item => item.recipeStatus === 1).map((item) => {
-              return (
-                <Grid item lg={3} md={6} xs={12}>
-                  <Card sx={{ maxWidth: 345 }}>
-                    <CardMedia
-                      component={"img"}
-                      height={140}
-                      image={item.featuredImage}
-                      alt="green iguana"
-                    />
-                    <CardContent>
-                      <Typography
-                        sx={{
-                          overflow: "hidden",
-                          whiteSpace: "nowrap",
-                          textOverflow: "ellipsis",
-                        }}
-                        noWrap
-                        gutterBottom
-                        variant="h6"
-                        component="div"
-                      >
-                        {item.recipeTitle}
-                      </Typography>
-                      <Box
+            {paidRecipes
+              .filter((item) => item.recipeStatus === 1)
+              .map((item) => {
+                return (
+                  <Grid item lg={3} md={6} xs={12} key={item.recipeId}>
+                    <Card sx={{ maxWidth: 345 }}>
+                      <CardMedia
+                        component={"img"}
+                        height={140}
+                        image={item.featuredImage}
+                        alt="green iguana"
+                      />
+                      <CardContent>
+                        <Typography
+                          sx={{
+                            overflow: "hidden",
+                            whiteSpace: "nowrap",
+                            textOverflow: "ellipsis",
+                          }}
+                          noWrap
+                          gutterBottom
+                          variant="h6"
+                          component="div"
+                        >
+                          {item.recipeTitle}
+                        </Typography>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <Typography component="legend" fontSize={11}>
+                            Đánh giá:
+                          </Typography>
+                          <Rating
+                            name="simple-controlled"
+                            value={item.recipeRating}
+                            size="small"
+                          />
+                        </Box>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            marginTop: 1,
+                          }}
+                        >
+                          <Typography component="legend" fontSize={15}>
+                            Giá:
+                          </Typography>
+                          <Typography component="legend" fontSize={15}>
+                            {item.recipePrice}
+                          </Typography>
+                        </Box>
+                      </CardContent>
+                      <CardActions
                         sx={{
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
+                          marginTop: -2.5,
                         }}
                       >
-                        {" "}
-                        <Rating
-                          name="simple-controlled"
-                          value={item.recipeRating}
+                        <Button size="small" endIcon={<FavoriteIcon />}>
+                          Thích
+                        </Button>
+                        <Button
                           size="small"
-                        />
-                        <Typography component="legend" fontSize={11}>
-                          {item.vote} votes
-                        </Typography>
-                      </Box>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                          marginTop: 1,
-                        }}
-                      >
-                        <Typography component="legend" fontSize={15}>
-                          Giá:
-                        </Typography>
-                        <Typography component="legend" fontSize={15}>
-                          {item.recipePrice}
-                        </Typography>
-                      </Box>
-                    </CardContent>
-                    <CardActions
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        marginTop: -2.5,
-                      }}
-                    >
-                      <Button size="small" endIcon={<FavoriteIcon />}>
-                        Like
-                      </Button>
-                      <Button
-                        size="small"
-                        endIcon={<ShoingCartIconpp />}
-                        onClick={GoToCart}
-                      >
-                        Buy
-                      </Button>
-                    </CardActions>
-                  </Card>
-                </Grid>
-              );
-            })}
+                          endIcon={<ShoingCartIconpp />}
+                          onClick={() => handleAddToCart(item.recipeId)}
+                        >
+                          Mua
+                        </Button>
+                      </CardActions>
+                    </Card>
+                  </Grid>
+                );
+              })}
           </Grid>
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginTop: "30px",
+            }}
+          >
+            <Button
+              variant="contained"
+              sx={{
+                bgcolor: "#ff5e00",
+                borderRadius: "15px",
+                width: "150px",
+                height: "42px",
+                color: "white",
+                opacity: currentPagePaid === 1 ? 0.5 : 1,
+              }}
+              startIcon={<ForwardIcon sx={{ transform: "rotate(180deg)" }} />}
+              onClick={handleForwardPaid}
+              disabled={currentPagePaid === 1}
+            >
+              Forward
+            </Button>
+            <Button
+              variant="contained"
+              sx={{
+                bgcolor: "#ff5e00",
+                borderRadius: "15px",
+                width: "150px",
+                height: "42px",
+                color: "white",
+                opacity: indexOfLastPaidRecipe >= paidRecipes.length ? 0.5 : 1,
+              }}
+              endIcon={<ForwardIcon />}
+              onClick={handleNextPaid}
+              disabled={indexOfLastPaidRecipe >= paidRecipes.length}
+            >
+              Next
+            </Button>
+          </Typography>
         </Box>
-
-        <Typography
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginTop: "30px",
-          }}
-        >
-          <Button
-            variant="contained"
-            sx={{
-              bgcolor: "#ff5e00",
-              borderRadius: "15px",
-              width: "150px",
-              height: "42px",
-              color: "white",
-            }}
-            startIcon={<ForwardIcon sx={{ transform: "rotate(180deg)" }} />}
-          >
-            Forward
-          </Button>
-          <Button
-            variant="contained"
-            sx={{
-              bgcolor: "#ff5e00",
-              borderRadius: "15px",
-              width: "150px",
-              height: "42px",
-              color: "white",
-            }}
-            endIcon={<ForwardIcon />}
-          >
-            Next
-          </Button>
-        </Typography>
       </Typography>
       <Typography sx={{ marginTop: 3 }} />
       <Typography
@@ -536,6 +597,7 @@ function ViewListRecipes() {
           </Button>
         </Stack>
       </Typography>
+      <Typography sx={{ height: 8 }} />
     </div>
   );
 }
