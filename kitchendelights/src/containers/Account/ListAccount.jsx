@@ -154,7 +154,6 @@ export default function ListAccount() {
                 sx={{ 
                     bgcolor: "#ff5e00", 
                     borderRadius: '15px' , 
-                    marginTop: '40px',
                     marginLeft: '1720px',
                     color: 'white' 
                 }}

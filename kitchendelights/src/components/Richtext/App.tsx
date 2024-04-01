@@ -222,7 +222,6 @@ const AppCreateRecipe = () => {
   };
 
   const handleChangeRecipeIngredientName = (id,ingredientId, value) => {
-    console.log(value);
     setRecipeIngredientDataSend(prevRecipeIngre => {
       if (prevRecipeIngre.length > 0) {
         const updatedRecipeIngre = [...prevRecipeIngre];

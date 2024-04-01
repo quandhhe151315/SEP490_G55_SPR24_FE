@@ -40,6 +40,7 @@ import DashBoard from "../containers/DashBoard/DashBoard";
 import ChangeRole from "../containers/Account/ChangeRole";
 import { DenyAccess } from "../containers/Authentication/DenyAccess";
 import BecomeChef from "../containers/Account/BecomeChef";
+import MarketplaceManagement from "../containers/MarketPlace/MarketplaceManagement";
 
 function AppRoute() {
   const router = createBrowserRouter([
@@ -174,6 +175,7 @@ function AppRoute() {
     { path: "/Login", element: <Login />},
     { path: "/Register", element: <Register />},
     { path: "/BecomeChef", element: <BecomeChef />},
+    { path: "/Marketplace", element: <MarketplaceManagement />},
     { path: "/", element: <Navigate to="/KitchenDelights" /> },
   ]);
   return <RouterProvider router={router} />;
