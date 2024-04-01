@@ -108,6 +108,7 @@ export default function PrimarySearchAppBar() {
 
   // giỏ hàng
   const { dataCart, setDataCart } = useCart();
+  const { countRecipe } = useCount();
 
   const getUserIdFromCookie = () => {
     const cookies = document.cookie.split("; ");
@@ -129,6 +130,7 @@ export default function PrimarySearchAppBar() {
       const response = await getListCart(id);
       if (response.status === 200) {
         setDataCart(response.data);
+        countRecipe(response.data.count);
         console.log("Load cart successful! ");
       } else {
         console.error("Can not Load cart! ");
@@ -276,6 +278,15 @@ export default function PrimarySearchAppBar() {
                 </Button>
               </Grid>
               <Grid item xs={2}>
+                <IconButton aria-label="cart">
+                  <StyledBadge
+                    badgeContent={recipeCountNumber}
+                    color="secondary"
+                    onClick={GoToShopCart}
+                  >
+                    <ShoppingCartIcon />
+                  </StyledBadge>
+                </IconButton>
                 <IconButton
                   size="large"
                   edge="end"

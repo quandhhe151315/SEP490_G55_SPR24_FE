@@ -89,7 +89,6 @@ function ShoppingCart() {
       >
         Tiếp tục mua sắm!
       </Button>
-      <Footer />
     </div>
   );
 }
