@@ -20,18 +20,24 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { getRecipes, updateStatusRecipe } from "../../../services/ApiServices";
 import DashboardMenu from "../../../components/Dashboard/Menu/DashboardMenu";
 import Box from "@mui/material/Box";
-import { Grid } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import ApporoveDialog from "./ApporoveAndEditDialog";
+import { toast } from "react-toastify";
 
 function ListRecipeDashBoard() {
 
     const navigate = useNavigate();
 
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
+    const [openApprove, setOpenApprove] = useState(false);
+    const [openEdit, setOpenEdit] = useState(false);
     const [Recipes, setRecipes] = useState([]);
     const [selectedRecipeId, setSelectedRecipeId] = useState('');
 
+
+
     const goToCreateNewRecipe = () => {
-        navigate('/')
+        navigate('/CreateRecipe')
     }
 
     //open and close dialog delete
@@ -40,6 +46,23 @@ function ListRecipeDashBoard() {
     };
     const handleClose = () => {
         setOpen(false);
+    };
+
+    //open and close dialog approve
+    const handleOpenApprove = () => {
+        setOpenApprove(true);
+    };
+    const handleCloseApprove = () => {
+        setOpenApprove(false);
+
+    };
+
+    //open and close dialog edit
+    const handleOpenEdit = () => {
+        setOpenEdit(true);
+    };
+    const handleCloseEdit = () => {
+        setOpenEdit(false);
     };
 
     //style table
@@ -70,6 +93,7 @@ function ListRecipeDashBoard() {
             if (response.status === 200) {
                 setOpen(false);
                 getListRecipe();
+                toast.success('Xóa recipe thành công');
             } else {
                 console.log('loi respondata', response.data);
             }
@@ -93,35 +117,35 @@ function ListRecipeDashBoard() {
 
     useEffect(() => {
         getListRecipe();
-    }, []);
+    }, [openApprove]);
 
     return (
         <div>
-            <Box sx={{display:'flex'}}>
+            <Box sx={{ display: 'flex' }}>
                 <DashboardMenu dashboardTitle={"Quản lý công thức"} />
-                <Grid sx={{marginLeft:'30px', marginTop:'80px'}}>
-                    <Paper elevation={2} sx={{borderRadius: '15px', border: '1px solid #bfb8b8', width: '1200px', height: '650px', backgroundColor: '#FFFFFF' }}>
+                <Grid sx={{ marginLeft: '30px', marginTop: '80px' }}>
+                    <Paper elevation={2} sx={{ borderRadius: '15px', border: '1px solid #bfb8b8', width: '1200px', height: '650px', backgroundColor: '#FFFFFF' }}>
                         <Typography sx={{ fontSize: '24px', fontWeight: '', marginLeft: '10%', marginTop: '30px', color: '#4A5568' }}>
                             Danh sách Recipe
                         </Typography>
                         <CategoryButton text='Tạo Recipe mới' height='auto' width='auto' marginLeft='70%' marginTop='10px' onClick={goToCreateNewRecipe}></CategoryButton>
-                        
-                        <TableContainer sx={{ marginTop: '20px', maxHeight: '500px', overflow: 'auto', whiteSpace: 'nowrap'}}>
+
+                        <TableContainer sx={{ marginTop: '20px', maxHeight: '500px', overflow: 'auto', whiteSpace: 'nowrap' }}>
                             <Table sx={{ minWidth: 1000 }} aria-label="customized table">
                                 <TableHead>
                                     <TableRow>
-                                        <StyledTableCell align="left" style={{width: '5%'}}>ID</StyledTableCell>
-                                        <StyledTableCell align="left" style={{width: '15%', paddingLeft:'35px'}}>Recipe Title</StyledTableCell>
-                                        <StyledTableCell align="left" style={{width: '15%', paddingLeft:'40px'}}>Creator</StyledTableCell>
-                                        <StyledTableCell align="left" style={{width: '10%', paddingLeft:'5px'}}>Rating</StyledTableCell>
-                                        <StyledTableCell align="left" style={{width: '10%', paddingLeft:'25px'}}>Status</StyledTableCell>
-                                        <StyledTableCell align="left" style={{width: '10%'}}>Price</StyledTableCell>
-                                        <StyledTableCell align="left" style={{width: '10%', paddingLeft:'5px'}}>Created Date</StyledTableCell>
-                                        <StyledTableCell align="left" style={{width: '20%', paddingLeft:'100px'}}>Actions</StyledTableCell>
+                                        <StyledTableCell align="left" style={{ width: '5%' }}>ID</StyledTableCell>
+                                        <StyledTableCell align="left" style={{ width: '20%', paddingLeft: '35px' }}>Recipe Title</StyledTableCell>
+                                        <StyledTableCell align="left" style={{ width: '20%', paddingLeft: '40px' }}>Creator</StyledTableCell>
+                                        <StyledTableCell align="left" style={{ width: '10%', paddingLeft: '5px' }}>Rating</StyledTableCell>
+                                        <StyledTableCell align="left" style={{ width: '10%', paddingLeft: '25px' }}>Status</StyledTableCell>
+                                        <StyledTableCell align="left" style={{ width: '10%' }}>Price</StyledTableCell>
+                                        <StyledTableCell align="left" style={{ width: '10%', paddingLeft: '5px' }}>Created Date</StyledTableCell>
+                                        <StyledTableCell align="left" style={{ width: '10%', paddingLeft: '60px' }}>Actions</StyledTableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {Recipes.filter(recipe => recipe.recipeStatus !== 3).map((recipe) => (
+                                    {Recipes.filter(recipe => recipe.recipeStatus !== 0).map((recipe) => (
 
                                         <StyledTableRow key={recipe.recipeid}>
 
@@ -133,9 +157,20 @@ function ListRecipeDashBoard() {
                                             <StyledTableCell align="left">{recipe.recipePrice !== null && recipe.recipePrice !== undefined ? recipe.recipePrice : 'Free'}</StyledTableCell>
                                             <StyledTableCell align="left">{new Date(recipe.createDate).toLocaleDateString()}</StyledTableCell>
                                             <StyledTableCell>
-                                                <Button href="#text-buttons" >Edit</Button>
-                                                <Button href="#text-buttons" disabled={recipe.recipeStatus === 1}>Approve</Button>
-                                                <Button href="#text-buttons" onClick={() => {
+                                                {recipe.recipeStatus === 1 ? (
+                                                    <Button sx={{paddingRight:'45px'}} onClick={() => {
+                                                        setSelectedRecipeId(recipe.recipeId);
+                                                        handleOpenApprove(true);
+                                                    }}>Edit</Button>
+                                                ) : (
+                                                    <Button onClick={() => {
+                                                        setSelectedRecipeId(recipe.recipeId);
+                                                        handleOpenApprove(true);
+                                                    }}>
+                                                        Approve
+                                                    </Button>
+                                                )}
+                                                <Button onClick={() => {
                                                     setSelectedRecipeId(recipe.recipeId);
                                                     handleOpen(true);
                                                 }}>Delete</Button>
@@ -170,6 +205,13 @@ function ListRecipeDashBoard() {
                     </Button>
                 </DialogActions>
             </Dialog>
+
+            {/* //dialog Approve */}
+            <ApporoveDialog
+                open={openApprove}
+                handleClose={handleCloseApprove}
+                recipeId={selectedRecipeId}
+            />
 
         </div>
     );

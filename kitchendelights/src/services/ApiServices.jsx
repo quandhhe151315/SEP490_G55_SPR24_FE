@@ -12,8 +12,13 @@ const changePassword = (userId, oldPassword, password) => {
   return axios.patch("/User/ChangePassword", { userId, oldPassword, password });
 };
 
-const createNews = (userId, newsTitle, newsContent) => {
-  return axios.post("/News/Create", { userId, newsTitle, newsContent });
+const createNews = (userId, newsTitle, newsContent, featuredImage) => {
+  return axios.post("/News/Create", {
+    userId,
+    newsTitle,
+    newsContent,
+    featuredImage,
+  });
 };
 
 const listNews = () => {
@@ -163,7 +168,7 @@ const createRecipe = (
 const getRecipes = () => {
   return axios.get("/Recipe/GetAllRecipe");
 };
-const getRecipessById = (id) => {
+const getRecipeById = (id) => {
   return axios.get(`/Recipe/GetRecipeById?recipeId=${id}`);
 };
 const deleteRecipe = (id) => {
@@ -281,8 +286,12 @@ const updateMenu = (
     userId,
   });
 };
+const updateCategoryRecipe = (recipeId, categoryId, type) => {
+  return axios.put(
+    `/Recipe/UpdateCategoryRecipe?recipeId=${recipeId}&categoryId=${categoryId}&type=${type}`
+  );
+};
 
-const updateCategoryRecipe = (categoryId, recipeId) => {};
 const updateStatusRecipe = (recipeId, status) => {
   return axios.put(
     `Recipe/UpdateStatusRecipe?recipeId=${recipeId}&status=${status}`
@@ -304,7 +313,7 @@ export {
   postCreateCategory,
   getCategoryByParentId,
   getRecipes,
-  getRecipessById,
+  getRecipeById,
   deleteRecipe,
   listUsers,
   getBlogList,
@@ -336,4 +345,5 @@ export {
   createVoucher,
   getHistoryPayment,
   addVoucher,
+  updateCategoryRecipe,
 };

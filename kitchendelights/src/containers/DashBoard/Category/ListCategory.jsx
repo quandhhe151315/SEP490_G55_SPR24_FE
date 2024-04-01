@@ -104,8 +104,8 @@ function ListCategoryDashboard() {
     <div>
       <Box sx={{ display: 'flex' }}>
         <DashboardMenu dashboardTitle={"Quản lý Category"} />
-        <Grid sx={{marginTop:'80px', marginLeft: '80px'}}>
-          <Paper elevation={2} sx={{borderRadius: '15px', border: '1px solid #bfb8b8', width: '1100px', height: '650px', backgroundColor: '#FFFFFF' }}>
+        <Grid sx={{ marginTop: '80px', marginLeft: '80px' }}>
+          <Paper elevation={2} sx={{ borderRadius: '15px', border: '1px solid #bfb8b8', width: '1100px', height: '650px', backgroundColor: '#FFFFFF' }}>
             <Typography sx={{ fontSize: '24px', fontWeight: '', marginLeft: '10%', marginTop: '30px', color: '#4A5568' }}>
               Danh sách category
             </Typography>
@@ -114,31 +114,32 @@ function ListCategoryDashboard() {
               <Table sx={{ minWidth: 1000 }} aria-label="customized table">
                 <TableHead>
                   <TableRow>
-                    <StyledTableCell align="left" style={{width: '15%'}}>ID</StyledTableCell>
-                    <StyledTableCell align="left" style={{width: '30%'}}>Category Name</StyledTableCell>
-                    <StyledTableCell align="left" style={{width: '30%'}}>Parent Name</StyledTableCell>
-                    <StyledTableCell align="left" style={{width: '25%', paddingLeft:'60px'}}>Actions</StyledTableCell>
+                    <StyledTableCell align="left" style={{ width: '15%' }}>ID</StyledTableCell>
+                    <StyledTableCell align="left" style={{ width: '30%' }}>Category Name</StyledTableCell>
+                    <StyledTableCell align="left" style={{ width: '30%' }}>Parent Name</StyledTableCell>
+                    <StyledTableCell align="left" style={{ width: '25%', paddingLeft: '60px' }}>Actions</StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {categories.map((category) => (
-                    <StyledTableRow key={category.categoryId}>
-
-                      <StyledTableCell align="left">{category.categoryId}</StyledTableCell>
-                      <StyledTableCell align="left">{category.categoryName}</StyledTableCell>
-                      <StyledTableCell align="left">{category.parentName !== null && category.parentName !== undefined ? category.parentName : 'None'}</StyledTableCell>
-                      <StyledTableCell>
-                        <Button onClick={() => {
-                          goToUpdateCategory(category.categoryId);
-
-                        }}>Update</Button>
-                        <Button onClick={() => {
-                          setSelectedCategoryId(category.categoryId);
-                          handleOpen(true);
-                        }}>Delete</Button>
-                      </StyledTableCell>
-                    </StyledTableRow>
-                  ))}
+                  {categories.map((category) => {
+                    const isParent = categories.some(otherCategory => otherCategory.parentId === category.categoryId);
+                    return (
+                      <StyledTableRow key={category.categoryId}>
+                        <StyledTableCell align="left">{category.categoryId}</StyledTableCell>
+                        <StyledTableCell align="left">{category.categoryName}</StyledTableCell>
+                        <StyledTableCell align="left">{category.parentName !== null && category.parentName !== undefined ? category.parentName : 'None'}</StyledTableCell>
+                        <StyledTableCell>
+                          <Button onClick={() => {
+                            goToUpdateCategory(category.categoryId);
+                          }}>Update</Button>
+                          <Button disabled={isParent} onClick={() => {
+                            setSelectedCategoryId(category.categoryId);
+                            handleOpen(true);
+                          }}>Delete</Button>
+                        </StyledTableCell>
+                      </StyledTableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
             </TableContainer>

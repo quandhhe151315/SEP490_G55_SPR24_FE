@@ -5,10 +5,12 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import {
+  Alert,
   FormControl,
   InputLabel,
   MenuItem,
   Select,
+  Snackbar,
   Stack,
   TextField,
 } from "@mui/material";
@@ -18,7 +20,7 @@ import Cookies from "js-cookie";
 import { Controller, useForm } from "react-hook-form";
 import BlogEditor from "../../../components/TextEditor/BlogEditor";
 import dayjs from "dayjs";
-import { uploadImage } from "../../../services/BlogServices";
+import { updateBlog, uploadImage } from "../../../services/BlogServices";
 import { useGetBlogList } from "../../../hook/useGetBlogList";
 
 const style = {
@@ -35,13 +37,18 @@ const style = {
   height: "90%",
 };
 
-export default function EditFormModal({ openModal, setOpenModal, id }) {
+export default function EditFormModal({
+  openModal,
+  setOpenModal,
+  id,
+  setBlogList,
+  blogLists,
+}) {
   const { blogList } = useGetBlogList({
     id: id,
     category: "",
     sort: "",
   });
-  console.log(blogList);
   const handleClose = () => {
     setOpenModal(false);
     setIsChangeImage(false);
@@ -60,8 +67,16 @@ export default function EditFormModal({ openModal, setOpenModal, id }) {
     reset,
   } = useForm();
   React.useEffect(() => {
-    reset(blogList);
-  }, [blogList]);
+    const currentBlog = blogLists?.find((item) => item?.blogId === id);
+    console.log(currentBlog);
+    reset({
+      ...blogList,
+      blogTitle: currentBlog?.blogTitle,
+      blogContent: currentBlog?.blogContent,
+      blogImage: currentBlog?.blogImage,
+      categoryId: currentBlog?.categoyId,
+    });
+  }, [blogList, blogLists]);
   const userId = Cookies.get("userId");
   const onSubmit = async (data) => {
     if (!data?.blogTitle || !data?.blogContent) {
@@ -71,50 +86,62 @@ export default function EditFormModal({ openModal, setOpenModal, id }) {
     }
     if (files?.[0]) {
       await uploadImage(files?.[0], "blog").then((res) => {
-        // createBlog({
-        //   ...data,
-        //   userId: Number(userId),
-        //   blogStatus: 0,
-        //   createDate: dayjs().toISOString(),
-        //   blogImage: res,
-        // })
-        //   .then((res) => {
-        //     if (res?.status) {
-        //       setStatusPostBlog(res.status);
-        //       setOpenSnackBar(true);
-        //       reset({});
-        //       setContentSnackbar("Đăng blog thành công");
-        //     }
-        //   })
-        //   .catch((e) => {
-        //     setStatusPostBlog(e?.response?.status);
-        //     setOpenSnackBar(true);
-        //     reset({});
-        //     setContentSnackbar("Đã có lỗi xảy ra");
-        //   });
+        updateBlog({
+          ...data,
+          blogImage: res,
+        })
+          .then((res) => {
+            if (res?.status) {
+              const newBlogList = blogLists?.map((item) => {
+                if (item?.blogId === data?.blogId) {
+                  return data;
+                }
+                return item;
+              });
+              setBlogList(newBlogList);
+              setStatusPostBlog(res.status);
+              setOpenSnackBar(true);
+              reset({});
+              setContentSnackbar("Sua blog thành công");
+              handleClose();
+              setFiles([]);
+            }
+          })
+          .catch((e) => {
+            setStatusPostBlog(e?.response?.status);
+            setOpenSnackBar(true);
+            reset({});
+            setContentSnackbar("Đã có lỗi xảy ra");
+          });
       });
     } else {
-      //   await createBlog({
-      //     ...data,
-      //     userId: Number(userId),
-      //     blogStatus: 0,
-      //     createDate: dayjs().toISOString(),
-      //     blogImage: "",
-      //   })
-      //     .then((res) => {
-      //       if (res.status) {
-      //         setStatusPostBlog(res.status);
-      //         setOpenSnackBar(true);
-      //         reset({});
-      //         setContentSnackbar("Đăng blog thành công");
-      //       }
-      //     })
-      //     .catch((e) => {
-      //       setStatusPostBlog(e?.response?.status);
-      //       setOpenSnackBar(true);
-      //       reset({});
-      //       setContentSnackbar("Đã có lỗi xảy ra");
-      //     });
+      await updateBlog({
+        ...data,
+      })
+        .then((res) => {
+          if (res.status) {
+            const newBlogList = blogLists?.map((item) => {
+              if (item?.blogId === data?.blogId) {
+                return data;
+              }
+              return item;
+            });
+            console.log(newBlogList);
+            setBlogList(newBlogList);
+            setStatusPostBlog(res.status);
+            setOpenSnackBar(true);
+            reset({});
+            setContentSnackbar("Đăng blog thành công");
+            handleClose();
+            setFiles([]);
+          }
+        })
+        .catch((e) => {
+          setStatusPostBlog(e?.response?.status);
+          setOpenSnackBar(true);
+          reset({});
+          setContentSnackbar("Đã có lỗi xảy ra");
+        });
     }
   };
   return (
@@ -248,6 +275,20 @@ export default function EditFormModal({ openModal, setOpenModal, id }) {
           </form>
         </Box>
       </Modal>
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        open={openSnackbar}
+        onClose={() => setOpenSnackBar(false)}
+      >
+        <Alert
+          onClose={() => setOpenSnackBar(false)}
+          severity={statusPostBlog < 400 ? "success" : "error"}
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          {contentSnackbar}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

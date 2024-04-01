@@ -222,67 +222,69 @@ function ViewListRecipes() {
         </Typography>
         <Box>
           <Grid container spacing={3}>
-            {currentFreeRecipes.map((item) => {
-              return (
-                <Grid item lg={3} md={6} xs={12} key={item.recipeId}>
-                  <Card sx={{ maxWidth: 345 }}>
-                    <CardMedia
-                      component={"img"}
-                      height={140}
-                      image={item.featuredImage}
-                    />
-                    <CardContent>
-                      <Typography
-                        sx={{
-                          textWrap: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                        }}
-                        gutterBottom
-                        variant="h6"
-                        component="div"
-                      >
-                        {item.recipeTitle}
-                      </Typography>
+            {data
+              .filter((item) => item.recipeStatus === 1)
+              .map((item) => {
+                return (
+                  <Grid item lg={3} md={6} xs={12} key={item.recipeId}>
+                    <Card sx={{ maxWidth: 345 }}>
+                      <CardMedia
+                        component={"img"}
+                        height={140}
+                        image={item.featuredImage}
+                      />
+                      <CardContent>
+                        <Typography
+                          sx={{
+                            textWrap: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                          }}
+                          gutterBottom
+                          variant="h6"
+                          component="div"
+                        >
+                          {item.recipeTitle}
+                        </Typography>
 
-                      <Box
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <Typography component="legend" fontSize={11}>
+                            Đánh giá:
+                          </Typography>
+                          <Rating
+                            name="simple-controlled"
+                            value={item.recipeRating}
+                            size="small"
+                          />
+                        </Box>
+                      </CardContent>
+                      <CardActions
                         sx={{
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
+                          marginTop: -2,
                         }}
                       >
-                        <Typography component="legend" fontSize={11}>
-                          Đánh giá:
-                        </Typography>
-                        <Rating
-                          name="simple-controlled"
-                          value={item.recipeRating}
-                          size="small"
-                        />
-                      </Box>
-                    </CardContent>
-                    <CardActions
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        marginTop: -2,
-                      }}
-                    >
-                      <Button size="small" endIcon={<FavoriteIcon />}>
-                        Like
-                      </Button>
-                      <Link to={`/RecipeDetail/${item.recipeId}`}>
-                        <Button size="small" endIcon={<VisibilityIcon />}>
-                          Xem
+                        <Button size="small" endIcon={<FavoriteIcon />}>
+                          Like
                         </Button>
-                      </Link>
-                    </CardActions>
-                  </Card>
-                </Grid>
-              );
-            })}
+                        <Link to={`/RecipeDetail/${item.recipeId}`}>
+                          <Button size="small" endIcon={<VisibilityIcon />}>
+                            Xem
+                          </Button>
+                        </Link>
+                      </CardActions>
+                    </Card>
+                  </Grid>
+                );
+              })}
           </Grid>
           <Typography
             sx={{
@@ -342,85 +344,87 @@ function ViewListRecipes() {
         </Typography>
         <Box>
           <Grid container spacing={3}>
-            {currentPaidRecipes.map((item) => {
-              return (
-                <Grid item lg={3} md={6} xs={12} key={item.recipeId}>
-                  <Card sx={{ maxWidth: 345 }}>
-                    <CardMedia
-                      component={"img"}
-                      height={140}
-                      image={item.featuredImage}
-                      alt="green iguana"
-                    />
-                    <CardContent>
-                      <Typography
-                        sx={{
-                          overflow: "hidden",
-                          whiteSpace: "nowrap",
-                          textOverflow: "ellipsis",
-                        }}
-                        noWrap
-                        gutterBottom
-                        variant="h6"
-                        component="div"
-                      >
-                        {item.recipeTitle}
-                      </Typography>
-                      <Box
+            {data2
+              .filter((item) => item.recipeStatus === 1)
+              .map((item) => {
+                return (
+                  <Grid item lg={3} md={6} xs={12} key={item.recipeId}>
+                    <Card sx={{ maxWidth: 345 }}>
+                      <CardMedia
+                        component={"img"}
+                        height={140}
+                        image={item.featuredImage}
+                        alt="green iguana"
+                      />
+                      <CardContent>
+                        <Typography
+                          sx={{
+                            overflow: "hidden",
+                            whiteSpace: "nowrap",
+                            textOverflow: "ellipsis",
+                          }}
+                          noWrap
+                          gutterBottom
+                          variant="h6"
+                          component="div"
+                        >
+                          {item.recipeTitle}
+                        </Typography>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <Typography component="legend" fontSize={11}>
+                            Đánh giá:
+                          </Typography>
+                          <Rating
+                            name="simple-controlled"
+                            value={item.recipeRating}
+                            size="small"
+                          />
+                        </Box>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            marginTop: 1,
+                          }}
+                        >
+                          <Typography component="legend" fontSize={15}>
+                            Giá:
+                          </Typography>
+                          <Typography component="legend" fontSize={15}>
+                            {item.recipePrice}
+                          </Typography>
+                        </Box>
+                      </CardContent>
+                      <CardActions
                         sx={{
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
+                          marginTop: -2.5,
                         }}
                       >
-                        <Typography component="legend" fontSize={11}>
-                          Đánh giá:
-                        </Typography>
-                        <Rating
-                          name="simple-controlled"
-                          value={item.recipeRating}
+                        <Button size="small" endIcon={<FavoriteIcon />}>
+                          Thích
+                        </Button>
+                        <Button
                           size="small"
-                        />
-                      </Box>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                          marginTop: 1,
-                        }}
-                      >
-                        <Typography component="legend" fontSize={15}>
-                          Giá:
-                        </Typography>
-                        <Typography component="legend" fontSize={15}>
-                          {item.recipePrice}
-                        </Typography>
-                      </Box>
-                    </CardContent>
-                    <CardActions
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        marginTop: -2.5,
-                      }}
-                    >
-                      <Button size="small" endIcon={<FavoriteIcon />}>
-                        Thích
-                      </Button>
-                      <Button
-                        size="small"
-                        endIcon={<ShoingCartIconpp />}
-                        onClick={() => handleAddToCart(item.recipeId)}
-                      >
-                        Mua
-                      </Button>
-                    </CardActions>
-                  </Card>
-                </Grid>
-              );
-            })}
+                          endIcon={<ShoingCartIconpp />}
+                          onClick={() => handleAddToCart(item.recipeId)}
+                        >
+                          Mua
+                        </Button>
+                      </CardActions>
+                    </Card>
+                  </Grid>
+                );
+              })}
           </Grid>
           <Typography
             sx={{

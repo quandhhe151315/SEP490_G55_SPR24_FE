@@ -6,15 +6,17 @@ import BlogFilter from "./BlogFilter";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useGetBlogList } from "../../../hook/useGetBlogList";
 import PrimarySearchAppBar from "../../../components/Homepage/Appbar";
-import { Link } from "react-router-dom";
+import { Link, useAsyncError } from "react-router-dom";
 import MessageData from "./MessageData";
 
 export default function BlogList() {
   const [categorySelect, setCategorySelect] = useState();
+  const [searchKey, setSearchKey] = useState("");
+  console.log(searchKey);
   const { blogList } = useGetBlogList({
     id: "",
     category: categorySelect,
-    sort: "",
+    search: searchKey,
   });
   const blogsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
@@ -27,8 +29,8 @@ export default function BlogList() {
   return (
     <div style={{ backgroundColor: "#F9F9F9" }}>
       <PrimarySearchAppBar />
-      <Stack width={"100%"} bgcolor={"#F9F9F9"} mt={4} minHeight={"100vh"}>
-        <Stack sx={{ marginX: "auto", width: "80%", mt: 4 }}>
+      <Stack width={"100%"} bgcolor={"#F9F9F9"} minHeight={"100vh"}>
+        <Stack sx={{ marginX: "auto", width: "80%"}}>
           <Stack
             sx={{
               display: "flex",
@@ -43,7 +45,7 @@ export default function BlogList() {
               </a>
             </Stack>
           </Stack>
-          <BlogFilter />
+          <BlogFilter setSearchKey={setSearchKey} />
           <CategoriesList
             categorySelect={categorySelect}
             setCategorySelect={setCategorySelect}
@@ -89,7 +91,7 @@ export default function BlogList() {
               />
             </>
           ) : (
-            <MessageData/>
+            <MessageData />
           )}
         </Stack>
       </Stack>

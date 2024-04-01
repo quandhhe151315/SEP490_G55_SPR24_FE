@@ -25,17 +25,23 @@ const Register = () => {
   }
 
   const handleRegister = async () => {
-    try {
-      const response = await register(username, email, password);
-      if (response.status === 200) {
-        goToLoginPage();
-        showSnackbar('Register successful!', "success");
-      } else {
-
-      }
-    } catch (error) {
-      showSnackbar('Register failed!', "error");
+    if(repassword !== password){
+        showSnackbar('Nhập lại mật khẩu không trùng khớp với mật khẩu!', "error");
     }
+    else{
+      try {
+        const response = await register(username, email, password);
+        if (response.status === 200) {
+          goToLoginPage();
+          showSnackbar('Đăng kí tài khoản thành công!', "success");
+        } else {
+
+        }
+      } catch (error) {
+        showSnackbar('Đăng kí tài khoản thất bại!', "error");
+      }
+    }
+    
   };
 
   return (

@@ -10,7 +10,6 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SearchIcon from "@mui/icons-material/Search";
-import { Login } from "../Authentication/Login";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import GetInformationJWT from "../JWT/GetInformationJWT";
@@ -19,6 +18,10 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Badge from "@mui/material/Badge";
 import { useCart, useCount } from "../../store/store";
 import { getListCart } from "../../services/ApiServices";
+import TextField from "@mui/material/TextField";
+import { Stack, Grid } from "@mui/material";
+import BtnHandleHoverItem from "./BtnHandleHoverItem";
+import IngredientHoverBtn from "./IngredientHoverBtn";
 
 const Overlay = styled("div")(({ theme }) => ({
   position: "fixed",
@@ -57,6 +60,8 @@ const CategoryButton = ({
   leftSM,
   leftXS,
   rightLG,
+  onMouseOver,
+  onMouseOut,
 }) => {
   return (
     <Button
@@ -69,33 +74,14 @@ const CategoryButton = ({
         marginLeft: { xs: leftXS, sm: leftSM, md: leftMD, lg: leftLG },
         marginRight: { lg: rightLG },
       }}
+      onMouseOver={onMouseOver}
+      onMouseOut={onMouseOut}
       onClick={goToPage}
     >
       {text}
     </Button>
   );
 };
-
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  border: "2px solid gray",
-  marginRight: theme.spacing(-6),
-  marginLeft: 0,
-  marginTop: 10,
-  marginBottom: 10,
-  width: "100%",
-  borderRadius: "15px",
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(3),
-    width: 280,
-    height: 40,
-  },
-}));
 
 export default function PrimarySearchAppBar() {
   const { recipeCountNumber } = useCount();
@@ -173,19 +159,17 @@ export default function PrimarySearchAppBar() {
     navigate("/KitchenDelights");
   };
 
-  const goToBookMark = () => {
-    navigate("/BookMark");
-  };
-
   const goToNews = () => {
     navigate("/ViewListNews");
   };
+
   const goToRepice = () => {
     navigate("/ViewListRecipes");
   };
 
   const goToMyProfile = () => {
-    navigate("/UserProfile");
+    navigate("/MyProfile");
+    // navigate("/UserProfile");
   };
 
   const goToBlog = () => {
@@ -198,6 +182,7 @@ export default function PrimarySearchAppBar() {
   const handleLogout = () => {
     Cookies.remove("jwt");
     Cookies.remove("userId");
+    Cookies.remove("role");
     setUserIdExist(false);
     navigate("/KitchenDelights");
   };
@@ -241,99 +226,101 @@ export default function PrimarySearchAppBar() {
   }));
 
   return (
-    <Box sx={{ flexGrow: 1, minWidth: "70%" }} color="primary">
+    <Box sx={{ flexGrow: 1, minWidth: "70%", height: "250px" }} color="primary">
       <GetInformationJWT setId={setUserId} />
-      <AppBar
-        position="static"
-        sx={{ bgcolor: "#ffffff", height: "120px", borderRadius: "5px" }}
-      >
+      <AppBar sx={{ bgcolor: "#ffffff", height: "146px" }}>
         <Toolbar>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{
-              marginTop: "20px",
-              display: {
-                xs: "none",
-                sm: "block",
-                color: "#000000",
-                fontSize: "20px",
-              },
-              marginRight: { xs: "1%", sm: "2%", md: "5%", lg: "10%" },
-            }}
-          >
-            Kitchen Delights
-          </Typography>
-          <CategoryButton
-            goToPage={goToHomePage}
-            text={"Trang chủ"}
-            leftLG="10%"
-            leftMD="5%"
-            leftSM="2%"
-            leftXS="1%"
-          />
-          <CategoryButton goToPage={goToRepice} text={"Công thức nấu ăn"} />
-          <CategoryButton goToPage={goToNews} text={"Tin tức"} />
-          <CategoryButton goToPage={goToBlog} text={"Blog"} />
-          <Search>
-            <StyledInputBase
-              placeholder="Tìm những gì bạn thích"
-              inputProps={{ "aria-label": "search" }}
-              sx={{ color: "rgba(0, 0, 0, 0.54)" }}
-            />
-          </Search>
+          <Box>
+            <Grid sx={{ display: "flex", ml: 10, mt: 5 }}>
+              <Grid item xs={6} sx={{ mr: 10 }}>
+                <Typography
+                  variant="h4"
+                  fontWeight="bold"
+                  sx={{ color: "#ff5e00", textTransform: "uppercase", mb: 2 }}
+                >
+                  KitchenDelights
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <input
+                  style={{
+                    height: "36px",
+                    borderRadius: "5px",
+                    outline: "none",
+                    border: "1px",
+                    borderStyle: "solid",
+                    borderColor: "#ccc",
+                    paddingLeft: "16px",
+                    minWidth: "400px",
+                  }}
+                  placeholder="Tìm kiếm"
+                />
+                <Button
+                  sx={{
+                    backgroundColor: "#ff5e00",
+                    "&:hover": {
+                      backgroundColor: "#ff7e30",
+                    },
+                    "& .MuiSvgIcon-root": {
+                      color: "white",
+                    },
+                    "& .MuiButton-label": {
+                      display: "flex",
+                    },
+                    padding: "8px 8px 7px 8px",
+                    minWidth: "6px",
+                    ml: -5.1,
+                  }}
+                >
+                  <SearchIcon />
+                </Button>
+              </Grid>
+              <Grid item xs={2}>
+                <IconButton
+                  size="large"
+                  edge="end"
+                  aria-label="account of current user"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  onClick={handleProfileMenuOpen}
+                  sx={{ ml: 10, mt: -2, color: "#ff5e00" }}
+                >
+                  <AccountCircleIcon sx={{ fontSize: "46px" }} />
+                </IconButton>
+              </Grid>
+            </Grid>
+
+            <Stack
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                gap: "10px",
+                ml: 8.6,
+                mb: 1,
+              }}
+            >
+              <CategoryButton goToPage={goToHomePage} text={"Trang chủ"} />
+              <CategoryButton goToPage={goToRepice} text={"Công thức nấu ăn"} />
+              <IngredientHoverBtn />
+              <CategoryButton goToPage={goToRepice} text={"Bữa ăn"} />
+              <CategoryButton goToPage={goToRepice} text={"Ngày lễ"} />
+              <BtnHandleHoverItem />
+              <CategoryButton goToPage={goToNews} text={"Tin tức"} />
+              <CategoryButton goToPage={goToBlog} text={"Blog"} />
+            </Stack>
+          </Box>
+
           <SearchIcon
             sx={{
-              bgcolor: "#ff5e00",
-              borderRadius: "15px",
-              width: "48px",
-              height: "42px",
+              width: "24px",
+              height: "24px",
+              zIndex: 1,
+              cursor: "pointer",
             }}
           />
-          <IconButton aria-label="cart">
-            <StyledBadge
-              badgeContent={dataCart?.count}
-              color="secondary"
-              onClick={GoToShopCart}
-            >
-              <ShoppingCartIcon />
-            </StyledBadge>
-          </IconButton>
-
-          <IconButton
-            size="large"
-            edge="end"
-            aria-label="account of current user"
-            aria-controls={menuId}
-            aria-haspopup="true"
-            onClick={handleProfileMenuOpen}
-            sx={{ marginLeft: "20px", marginRight: "15%" }}
-          >
-            <AccountCircleIcon fontSize="large" />
-          </IconButton>
-        </Toolbar>
-
-        <Toolbar>
-          {/* Load category ... Thêm menu subcategory */}
-          <CategoryButton text={"Thịt"} leftLG="25%" />
-          <CategoryButton text={"Đồ ăn chay"} />
-          <CategoryButton text={"Dinh dưỡng"} />
-          <CategoryButton text={"Truyền thống"} />
-          <CategoryButton text={"Quốc gia"} />
-          <CategoryButton text={"Rau & Salad"} />
-          <CategoryButton text={"Tráng miệng"} />
-          <CategoryButton text={"Đồ uống"} />
-          {/* Load category ... Thêm menu subcategory */}
         </Toolbar>
       </AppBar>
       {userIdExist != null && renderMenu}
-      {loginForm && (
-        <>
-          {isOverlayOpen && <Overlay onClick={closeLoginForm} />}
-          <Login loginSuccess={loginSuccess} />
-        </>
-      )}
     </Box>
   );
 }

@@ -27,7 +27,7 @@ import {
   listAllCountry,
 } from "../../services/ApiServices.jsx";
 import {
-  getRecipessById,
+  getRecipeById,
   getMenuByUserIdAndCheckExistRecipe,
 } from "../../services/ApiServices";
 import moment from "moment";
@@ -168,7 +168,7 @@ function RecipeDetail() {
   }, [recipeId]);
   const handleGetRecipessById = async () => {
     try {
-      const response = await getRecipessById(recipeId);
+      const response = await getRecipeById(recipeId);
       if (response.status === 200) {
         setdata(response.data);
         console.log("data", response);

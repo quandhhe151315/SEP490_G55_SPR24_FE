@@ -20,26 +20,37 @@ function ChangePassword() {
     const { showSnackbar } = useSnackbar();
 
     const handleChangePassword = async () => {
-        try {
-          const response = await changePassword(Cookies.get('userId'), password, newPassword);
-          if (response.status === 200) {
-            showSnackbar('Change password successful!', 'success');
-            navigate('/ChangePassword');
-            setPassword('');
-            setNewPassword('');
-            setReNewPassword('');
-          } else {
-            console.error('Change error! ');
-          }
-        } catch (error) {
-            showSnackbar('Change password failed!', 'error');
-            console.error('Change error:', error);
+        if(reNewPassword !== newPassword){
+            showSnackbar('Nhập lại mật khẩu không trùng khớp với mật khẩu!', "error");
         }
+        else{
+            try {
+            const response = await changePassword(Cookies.get('userId'), password, newPassword);
+            if (response.status === 200) {
+                showSnackbar('Change password successful!', 'success');
+                navigate('/ChangePassword');
+                setPassword('');
+                setNewPassword('');
+                setReNewPassword('');
+            } else {
+
+            }
+            } catch (error) {
+                showSnackbar('Change password failed!', 'error');
+            }
+        }
+        
       };
 
     return (
         <div>
-            
+            <Appbar/>
+            <Grid container spacing={2} sx={{marginBottom: '2%'}}>
+        <Grid item xs={2} sx={{marginLeft: '10%'}}>
+          <AvatarMenu/>
+        </Grid>
+        <Grid item xs={1}  ></Grid>
+        <Grid item xs={7}  >
             <Box sx={{ display: 'flex' }}>
                 <Grid container spacing={2}>
                 <Grid item xs={12}>
@@ -58,25 +69,25 @@ function ChangePassword() {
                                 <Grid item xs={12}>
                                     <Grid container direction="column">
                                         <Grid item xs container direction="row">
-                                            <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '20%' }}>Nhập mật khẩu cũ: </Typography>
+                                            <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '10%' }}>Nhập mật khẩu cũ: </Typography>
                                             <TextField size='small' type="input" value={password} onChange={(e) => setPassword(e.target.value)} sx={{ width: '30%', height: '10px', fontSize: '16px', fontWeight: 'bold', marginTop: '3%', marginLeft: '10%' }} />
                                         </Grid>
 
                                         <Grid item xs container direction="row">
-                                            <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '20%' }}>Nhập mật khẩu mới: </Typography>
-                                            <TextField size='small' type="input" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} sx={{ width: '30%', height: '10px', fontSize: '16px', fontWeight: 'bold', marginTop: '3%', marginLeft: '8.8%' }} />
+                                            <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '10%' }}>Nhập mật khẩu mới: </Typography>
+                                            <TextField size='small' type="input" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} sx={{ width: '30%', height: '10px', fontSize: '16px', fontWeight: 'bold', marginTop: '3%', marginLeft: '8.5%' }} />
                                         </Grid>
 
                                         <Grid item xs container direction="row">
-                                            <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '20%' }}>Nhập lại mật khẩu mới: </Typography>
-                                            <TextField size='small' type="input" value={reNewPassword} onChange={(e) => setReNewPassword(e.target.value)} sx={{ width: '30%', height: '10px', fontSize: '16px', fontWeight: 'bold', marginTop: '3%', marginLeft: '6.5%' }} />
+                                            <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '10%' }}>Nhập lại mật khẩu mới: </Typography>
+                                            <TextField size='small' type="input" value={reNewPassword} onChange={(e) => setReNewPassword(e.target.value)} sx={{ width: '30%', height: '10px', fontSize: '16px', fontWeight: 'bold', marginTop: '3%', marginLeft: '6%' }} />
                                         </Grid>
                                     </Grid>
 
                                     </Grid>
                             </Grid>
                             <Grid item xs container direction="row">
-                                <Button variant="contained" onClick={handleChangePassword} sx={{ bgcolor: "#ff5e00", marginTop: '10%', borderRadius: '15px', marginLeft: '40%', width: '180px', height: '42px', color: 'white' }}>Đổi mật khẩu</Button>
+                                <Button variant="contained" onClick={handleChangePassword} sx={{ bgcolor: "#ff5e00", marginTop: '10%', marginBottom:'5%', borderRadius: '15px', marginLeft: '40%', width: '180px', height: '42px', color: 'white' }}>Đổi mật khẩu</Button>
                             </Grid>
                         </Paper>
                     </Grid>
@@ -85,7 +96,8 @@ function ChangePassword() {
                 </Grid>
             </Box>
 
-
+            </Grid>
+            </Grid>
         </div>
     );
 }

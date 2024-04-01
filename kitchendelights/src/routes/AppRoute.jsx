@@ -4,7 +4,6 @@ import {
   createBrowserRouter,
   Navigate,
 } from "react-router-dom";
-import HomePage from "../containers/HomePage";
 import CreateNews from "../containers/News/CreateNews";
 import ViewListNews from "../containers/News/ViewListNews";
 import ViewListRecipes from "../containers/Recipe/ViewListRecipe";
@@ -26,17 +25,21 @@ import DashboardMenu from "../components/Dashboard/Menu/DashboardMenu";
 import ViewDetailNews from "../containers/News/ViewDetailNews";
 import AddRecipeToMenuDialog from "../containers/Menu/AddRecipeToMenu";
 import ListRecipeDashBoard from "../containers/DashBoard/Recipe/ListRecipe";
-import CreateRecipeDashBoard from "../containers/DashBoard/Recipe/CreateRecipe";
 
 import ListCommentDashboard from "../containers/Comment/CommentList";
 import UpDateCommentItem from "../containers/Comment/UpdateComment/UpDateCommentItem";
 import ListNews from "../containers/News/ListNews";
 import MenuDetail from "../containers/Menu/MenuDetail";
-import UserProfile from "../containers/Account/UserProfile";
 import CreateRecipe from "../containers/Recipe/CreateRecipe";
 import ListBlogDashboard from "../containers/DashBoard/BlogManagent/BlogList";
 import { Login } from "../containers/Authentication/Login";
 import { Register } from "../containers/Authentication/Register";
+import HomePage from "../containers/Home/HomePage";
+import ViewDetailMenu from "../containers/Menu/ViewDetailMenu";
+import DashBoard from "../containers/DashBoard/DashBoard";
+import ChangeRole from "../containers/Account/ChangeRole";
+import { DenyAccess } from "../containers/Authentication/DenyAccess";
+import BecomeChef from "../containers/Account/BecomeChef";
 
 function AppRoute() {
   const router = createBrowserRouter([
@@ -100,7 +103,7 @@ function AppRoute() {
       element: <CreateCategory />,
     },
     {
-      path: "/UpdateCategory/:categoryId",
+      path: "/UpdateCategory/:CategoryId",
       element: <UpdateCategory />,
     },
     {
@@ -120,7 +123,7 @@ function AppRoute() {
       element: <ListCategoryDashboard />,
     },
     {
-      path: "/DashboardMenu",
+      path: "/Dashboard",
       element: <DashboardMenu />,
     },
     {
@@ -136,10 +139,6 @@ function AppRoute() {
       element: <ListRecipeDashBoard />,
     },
     {
-      path: "/CreateRecipeDashBoard",
-      element: <CreateRecipeDashBoard />,
-    },
-    {
       path: "/ListNews",
       element: <ListNews />,
     },
@@ -152,17 +151,29 @@ function AppRoute() {
       element: <ListCommentDashboard />,
     },
     {
-      path: "/UserProfile",
-      element: <UserProfile />,
+      path: "/DashBoardMenu",
+      element: <DashBoard/>,
+    },
+     {
+      path: "/ChangeRole/:userId",
+      element: <ChangeRole />,
     },
     {
       path: "/blog/management",
       element: <ListBlogDashboard />,
     },
-
+    {
+      path: "/ViewDetailMenu/:menuId",
+      element: <ViewDetailMenu />,
+    },
+    {
+      path: "/DenyAccess",
+      element: <DenyAccess />,
+    },
     { path: "/CreateRecipe", element: <CreateRecipe /> },
     { path: "/Login", element: <Login />},
     { path: "/Register", element: <Register />},
+    { path: "/BecomeChef", element: <BecomeChef />},
     { path: "/", element: <Navigate to="/KitchenDelights" /> },
   ]);
   return <RouterProvider router={router} />;

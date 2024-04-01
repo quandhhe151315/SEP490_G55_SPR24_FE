@@ -12,12 +12,17 @@ import { useSnackbar } from '../../components/Snackbar/Snackbar';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const role = Cookies.get('role');
 
   const navigate = useNavigate();
   const { showSnackbar } = useSnackbar();
 
   const goToHomePage = () => {
     navigate('/');
+  }
+
+  const goToDashboard = () => {
+    navigate('/DashBoardMenu');
   }
 
   const goToRegisterPage = () => {
@@ -34,7 +39,13 @@ const Login = () => {
       if (response.status === 200) {
         Cookies.set('jwt', response.data, { expires: 7 });
         showSnackbar('Login successful!', "success");
-        goToHomePage();
+        
+        {role === "Administrator" || role === "Moderator" ? (
+          goToDashboard()
+        ) : (
+          goToHomePage()
+        )}
+
       } else {
         
       }
@@ -73,7 +84,7 @@ const Login = () => {
                     Quên mật khẩu
                   </Link>
                   </Stack>
-                    <ClassicButton text="Đăng nhập" left="41%" right="40%" top="5%" onClick={handleLogin}/>
+                    <ClassicButton text="Đăng nhập" left="41%" right="40%" top="5%" onClick={handleLogin} bot="8%"/>
                   </Grid>
              
                 </Box>

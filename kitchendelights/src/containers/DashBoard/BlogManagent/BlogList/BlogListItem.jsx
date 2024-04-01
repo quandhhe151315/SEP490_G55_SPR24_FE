@@ -16,6 +16,11 @@ import {
   Pagination,
   PaginationItem,
   Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useGetBlogList } from "../../../../hook/useGetBlogList";
@@ -24,9 +29,10 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import DoneIcon from "@mui/icons-material/Done";
 import EditFormModal from "../EditFormModal";
 import DeleteBlogModal from "../DeleteBlogModal";
+import UpdateStatusModal from "../UpdateStatusModal";
 export default function BlogListItem() {
   const [blogLists, setBlogList] = useState();
-  const { blogList } = useGetBlogList();
+  const { blogList } = useGetBlogList({ search: "" });
   useEffect(() => {
     setBlogList(blogList);
   }, [blogList]);
@@ -42,6 +48,8 @@ export default function BlogListItem() {
   const [editId, setEditId] = useState("");
   const [openDelModal, setOpenDelModal] = useState(false);
   const [delId, setDelId] = useState("");
+  const [openUpdateStatus, setOpenUpdateStatus] = useState(false);
+  const [openStatusId, setOpenStatusId] = useState("");
   return (
     <Box>
       <TableContainer>
@@ -119,11 +127,19 @@ export default function BlogListItem() {
                     >
                       <EditIcon style={{ color: "blue", cursor: "pointer" }} />
                     </Stack>
-                    {item?.blogStatus != 2 ? (
-                      <DoneIcon style={{ color: "green" }} />
-                    ) : (
-                      <ClearIcon style={{ color: "red" }} />
-                    )}
+                    <Stack
+                      onClick={() => {
+                        setOpenUpdateStatus(true);
+                        setOpenStatusId(item?.blogId);
+                      }}
+                    >
+                      {item?.blogStatus != 2 ? (
+                        <DoneIcon style={{ color: "green" }} />
+                      ) : (
+                        <ClearIcon style={{ color: "red" }} />
+                      )}
+                    </Stack>
+
                     <Stack
                       onClick={() => {
                         setOpenDelModal(true);
@@ -152,11 +168,24 @@ export default function BlogListItem() {
           marginBottom: 4,
         }}
       />
-      <EditFormModal openModal={open} setOpenModal={setOpen} id={editId} />
+      <EditFormModal
+        openModal={open}
+        setOpenModal={setOpen}
+        id={editId}
+        setBlogList={setBlogList}
+        blogLists={blogLists}
+      />
       <DeleteBlogModal
         delId={delId}
         openDelModal={openDelModal}
         setOpenDelModal={setOpenDelModal}
+        setBlogList={setBlogList}
+        blogList={blogLists}
+      />
+      <UpdateStatusModal
+        statusId={openStatusId}
+        openUpdateStatus={openUpdateStatus}
+        setOpenUpdateStatus={setOpenUpdateStatus}
         setBlogList={setBlogList}
         blogList={blogLists}
       />

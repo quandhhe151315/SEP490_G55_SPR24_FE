@@ -14,6 +14,7 @@ function GetInformationJWT(props) {
       Cookies.set("userId", decoded.id, { expires: 7 });
       if (setEmail) setEmail(decoded.email);
       if (setRole) setRole(decoded.role);
+      Cookies.set("role", decoded.role, { expires: 7 });
       if (setName) setName(decoded.name);
       if (setAvatar) setAvatar(decoded.avatar);
     }

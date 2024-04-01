@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Paper from '@mui/material/Paper';
 import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
@@ -10,11 +10,14 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import MyProfile from '../../containers/Account/MyProfile';
 import GetInformationJWT from '../JWT/GetInformationJWT';
 import { getMenus } from '../../services/ApiServices';
+import { useNavigate } from 'react-router-dom';
+
 const MenuListItems = ({ handleClick, onMenuSelect }) => {
     const [id, setId] = useState('');
     const [listMenu, setListMenu] = useState([]);
     const [showAll, setShowAll] = useState(false);
     const maxDisplay = 4;
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (id) {
@@ -34,14 +37,18 @@ const MenuListItems = ({ handleClick, onMenuSelect }) => {
             console.error('lỗi API getMenu', error);
         }
     };
+
+    const goToDetailMenu = (menuId) => {
+        navigate(`/ViewDetailMenu/${menuId}`);
+    }
+
     return (
       <React.Fragment>
         <GetInformationJWT setId={setId} />
         <MenuList>
         {listMenu.slice(0, showAll ? undefined : maxDisplay).map((menu, index) => (
                           <MenuItem key={index} onClick={(e)=>{
-                              onMenuSelect(menu.menuId);
-                              handleClick('MenuDetail');
+                            goToDetailMenu(menu.menuId)
                           }}>
                               <ListItemIcon>
                               <MenuBookIcon fontSize="small" sx={{ color: "#ff5e00" }} />

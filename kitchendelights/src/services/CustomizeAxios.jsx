@@ -1,14 +1,6 @@
 import axios from "axios";
-const getTokenFromCookie = () => {
-  const cookies = document.cookie.split("; ");
-  for (const cookie of cookies) {
-    const [name, value] = cookie.split("=");
-    if (name === "jwt") {
-      return value;
-    }
-  }
-  return null;
-};
+import { BASE_URL } from "../constant";
+import Cookies from "js-cookie";
 const instance = axios.create({
   baseURL: "http://localhost:5050/api",
 });
@@ -17,9 +9,9 @@ const instance = axios.create({
 instance.interceptors.request.use(
   function (config) {
     // Do something before request is sent
-    const token = getTokenFromCookie(); // Lấy token JWT
+    const token = Cookies.get("jwt"); // Replace with your token
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`; // Thêm token vào tiêu đề Authorization
+      config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
@@ -29,17 +21,17 @@ instance.interceptors.request.use(
   }
 );
 
-instance.interceptors.response.use(
-  function (response) {
-    // Any status code that lie within the range of 2xx cause this function to trigger
-    // Do something with response data
-    return response;
-  },
-  function (error) {
-    // Any status codes that falls outside the range of 2xx cause this function to trigger
-    // Do something with response error
-    return Promise.reject(error);
-  }
-);
+// instance.interceptors.response.use(
+//   function (response) {
+//     // Any status code that lie within the range of 2xx cause this function to trigger
+//     // Do something with response data
+//     return response;
+//   },
+//   function (error) {
+//     // Any status codes that falls outside the range of 2xx cause this function to trigger
+//     // Do something with response error
+//     return Promise.reject(error);
+//   }
+// );
 
 export default instance;
