@@ -222,7 +222,7 @@ function ViewListRecipes() {
         </Typography>
         <Box>
           <Grid container spacing={3}>
-            {data
+            {freeRecipes
               .filter((item) => item.recipeStatus === 1)
               .map((item) => {
                 return (
@@ -344,7 +344,7 @@ function ViewListRecipes() {
         </Typography>
         <Box>
           <Grid container spacing={3}>
-            {data2
+            {paidRecipes
               .filter((item) => item.recipeStatus === 1)
               .map((item) => {
                 return (
@@ -598,7 +598,6 @@ function ViewListRecipes() {
         </Stack>
       </Typography>
       <Typography sx={{ height: 8 }} />
-      <Footer />
     </div>
   );
 }
