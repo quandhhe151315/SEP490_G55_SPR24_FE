@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import '../../assets/css/Login.css'
@@ -8,11 +8,11 @@ import ClassicButton from '../../components/Button/ClassicButton';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import { useSnackbar } from '../../components/Snackbar/Snackbar';
+import { jwtDecode } from "jwt-decode";
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const role = Cookies.get('role');
 
   const navigate = useNavigate();
   const { showSnackbar } = useSnackbar();
@@ -39,12 +39,14 @@ const Login = () => {
       if (response.status === 200) {
         Cookies.set('jwt', response.data, { expires: 7 });
         showSnackbar('Login successful!', "success");
+        const decoded = jwtDecode(response.data);
+        if(decoded.role === "Administrator" || decoded.role === "Moderator"){
         
-        {role === "Administrator" || role === "Moderator" ? (
-          goToDashboard()
-        ) : (
-          goToHomePage()
-        )}
+          goToDashboard();
+        }
+        else{
+          goToHomePage();
+        }
 
       } else {
         
