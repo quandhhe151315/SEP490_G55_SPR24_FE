@@ -6,17 +6,18 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import VNPAY from "../../assets/images/VNPAY.jpg";
-import { useSum, useVoucher } from "../../store";
+import { useSum, useVoucher, voucherCode } from "../../store";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Grid from "@mui/material/Grid";
-import { addVoucher } from "../../services/ApiServices";
-
-import { getAllVoucherByUserId } from "../../services/ApiServices";
+import {
+  addVoucher,
+  getListCart,
+  getAllVoucherByUserId,
+} from "../../services/ApiServices";
 import { toast } from "react-toastify";
 
 export default function ImgMediaCard() {
-  const [selectedVoucher, setSelectedVoucher] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -26,13 +27,9 @@ export default function ImgMediaCard() {
   const handleCloseModal = () => {
     setModalOpen(false);
   };
-
-  const handleVoucherSelect = (voucher) => {
-    setSelectedVoucher(voucher);
-    handleCloseModal();
-  };
-  const { priceSum } = useSum();
-  const { sumVoucher } = useVoucher();
+  const { setVoucher, voucher } = voucherCode();
+  const { sumPrice, priceSum } = useSum();
+  const { setSumVoucher, sumVoucher } = useVoucher();
   const [loading, setloading] = useState(false);
   const [data, setdata] = useState([]);
   const getUserIdFromCookie = () => {
@@ -47,11 +44,28 @@ export default function ImgMediaCard() {
   };
   const userId = getUserIdFromCookie();
   const id = getUserIdFromCookie();
-  const discountCode = selectedVoucher?.voucherCode;
   useEffect(() => {
     getListVoucher(userId);
   }, [loading]);
 
+  const handleVoucherSelect = (voucher) => {
+    handleCloseModal();
+    addVoucherCode(voucher.voucherCode);
+  };
+  const getListCarts = async (id) => {
+    try {
+      const response = await getListCart(id);
+      if (response.status === 200) {
+        setVoucher(response.data.items[0]?.voucherCode ?? "");
+        setSumVoucher(response.data.totalPricePostVoucher);
+        sumPrice(response.data.totalPricePreVoucher);
+      } else {
+        console.error("Can not Load cart! ");
+      }
+    } catch (error) {
+      toast.error("Khoong load dc cart");
+    }
+  };
   const getListVoucher = async (userId) => {
     try {
       const response = await getAllVoucherByUserId(userId);
@@ -65,10 +79,11 @@ export default function ImgMediaCard() {
     }
   };
 
-  const addVoucherCode = async () => {
+  const addVoucherCode = async (voucherCode) => {
     try {
-      const response = await addVoucher(id, discountCode);
-      console.log("addvoucher", id, discountCode);
+      const response = await addVoucher(id, voucherCode);
+      getListCarts(id);
+
       toast.success("Add thành công");
       if (response.status === 200) {
         console.log("add thanh cong");
@@ -79,7 +94,6 @@ export default function ImgMediaCard() {
       console.error("ko add dc", error);
     }
   };
-  console.log(addVoucherCode);
   return (
     <Card
       sx={{
@@ -149,7 +163,7 @@ export default function ImgMediaCard() {
           component="div"
           sx={{ marginLeft: 1 }}
         >
-          Mã giảm giá: {selectedVoucher?.voucherCode ?? ""}
+          Mã giảm giá: {voucher}
         </Typography>
         <Button
           size="small"

@@ -5,7 +5,14 @@ import { toast } from "react-toastify";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 import CardMedia from "@mui/material/CardMedia";
-import { useCount, useSum, useVoucher, useName, useCart } from "../../store";
+import {
+  useCount,
+  useSum,
+  useVoucher,
+  useName,
+  useCart,
+  voucherCode,
+} from "../../store";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 export default function CartDetail() {
@@ -18,6 +25,7 @@ export default function CartDetail() {
   const { setSumVoucher } = useVoucher();
   const { setuserName } = useName();
   const { setDataCart } = useCart();
+  const { setVoucher } = voucherCode();
   useEffect(() => {
     setuserName(data1?.userName);
   }, [data1, loading]);
@@ -29,10 +37,11 @@ export default function CartDetail() {
     sumPrice(sum);
     console.log("sum", sum);
   }, [data1, loading]);
-
   useEffect(() => {
     countRecipe(data1?.count);
+    setVoucher(data1?.items[0]?.voucherCode ?? "");
   }, [data1, loading]);
+
   const getUserIdFromCookie = () => {
     const cookies = document.cookie.split("; ");
     for (const cookie of cookies) {

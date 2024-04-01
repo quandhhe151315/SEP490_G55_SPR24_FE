@@ -18,10 +18,17 @@ export const useName = create((set) => ({
 
 export const useCart = create((set) => ({
   dataCart: "",
-  setDataCart: (data) => set({ dataCart: data }),
+  setDataCart: (data) => {
+    set({ dataCart: data });
+  },
 }));
 
 export const useVoucher = create((set) => ({
   sumVoucher: 0,
   setSumVoucher: (sum) => set({ sumVoucher: sum }),
+}));
+
+export const voucherCode = create((set) => ({
+  voucher: "",
+  setVoucher: (code) => set({ voucher: code }),
 }));
