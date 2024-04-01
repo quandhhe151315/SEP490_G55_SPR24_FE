@@ -15,7 +15,10 @@ import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import GetInformationJWT from "../JWT/GetInformationJWT";
 import Cookies from "js-cookie";
-import TextField from "@mui/material/TextField";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import Badge from "@mui/material/Badge";
+import { useCart, useCount } from "../../store/store";
+import { getListCart } from "../../services/ApiServices";
 
 const Overlay = styled("div")(({ theme }) => ({
   position: "fixed",
@@ -95,6 +98,7 @@ const Search = styled("div")(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+  const { recipeCountNumber } = useCount();
   const [loginForm, setLoginForm] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [isOverlayOpen, setIsOverlayOpen] = useState(true);
@@ -115,6 +119,36 @@ export default function PrimarySearchAppBar() {
       setUserIdExist(false);
     }
   }, [userId]);
+
+  // giỏ hàng
+  const { dataCart, setDataCart } = useCart();
+
+  const getUserIdFromCookie = () => {
+    const cookies = document.cookie.split("; ");
+    for (const cookie of cookies) {
+      const [name, value] = cookie.split("=");
+      if (name === "userId") {
+        return value;
+      }
+    }
+    return null;
+  };
+  const id = getUserIdFromCookie();
+  useEffect(() => {
+    getListCarts(id);
+  }, []);
+
+  const getListCarts = async (id) => {
+    try {
+      const response = await getListCart(id);
+      if (response.status === 200) {
+        setDataCart(response.data);
+        console.log("Load cart successful! ");
+      } else {
+        console.error("Can not Load cart! ");
+      }
+    } catch (error) {}
+  };
 
   const isMenuOpen = Boolean(anchorEl);
   const navigate = useNavigate();
@@ -157,6 +191,9 @@ export default function PrimarySearchAppBar() {
   const goToBlog = () => {
     navigate("/blog");
   };
+  const GoToShopCart = () => {
+    navigate("/ShoppingCart");
+  };
 
   const handleLogout = () => {
     Cookies.remove("jwt");
@@ -193,6 +230,15 @@ export default function PrimarySearchAppBar() {
       )}
     </Menu>
   );
+
+  const StyledBadge = styled(Badge)(({ theme }) => ({
+    "& .MuiBadge-badge": {
+      right: -3,
+      top: 13,
+      border: `2px solid ${theme.palette.background.paper}`,
+      padding: "0 4px",
+    },
+  }));
 
   return (
     <Box sx={{ flexGrow: 1, minWidth: "70%" }} color="primary">
@@ -245,6 +291,16 @@ export default function PrimarySearchAppBar() {
               height: "42px",
             }}
           />
+          <IconButton aria-label="cart">
+            <StyledBadge
+              badgeContent={dataCart?.count}
+              color="secondary"
+              onClick={GoToShopCart}
+            >
+              <ShoppingCartIcon />
+            </StyledBadge>
+          </IconButton>
+
           <IconButton
             size="large"
             edge="end"

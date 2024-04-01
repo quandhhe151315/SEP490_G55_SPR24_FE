@@ -5,18 +5,34 @@ import { toast } from "react-toastify";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 import CardMedia from "@mui/material/CardMedia";
-import { useCount, useSum } from "../../store";
+import { useCount, useSum, useVoucher, useName, useCart } from "../../store";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 export default function CartDetail() {
   const [data, setdata] = useState([]);
+  const [data1, setdata1] = useState();
   const [loading, setloading] = useState(false);
+  const isSmallScreen = useMediaQuery("(max-width:600px)");
   const { countRecipe } = useCount();
   const { sumPrice } = useSum();
+  const { setSumVoucher } = useVoucher();
+  const { setuserName } = useName();
+  const { setDataCart } = useCart();
+  useEffect(() => {
+    setuserName(data1?.userName);
+  }, [data1, loading]);
+  useEffect(() => {
+    setSumVoucher(data1?.totalPricePostVoucher);
+  }, [data1, loading]);
+  useEffect(() => {
+    const sum = data1?.totalPricePreVoucher;
+    sumPrice(sum);
+    console.log("sum", sum);
+  }, [data1, loading]);
 
   useEffect(() => {
-    const sum = data?.reduce((total, item) => total + item.recipePrice, 0);
-    sumPrice(sum);
-  }, [data, loading]);
+    countRecipe(data1?.count);
+  }, [data1, loading]);
   const getUserIdFromCookie = () => {
     const cookies = document.cookie.split("; ");
     for (const cookie of cookies) {
@@ -31,10 +47,6 @@ export default function CartDetail() {
   const userId = getUserIdFromCookie();
 
   useEffect(() => {
-    countRecipe(data.length);
-  }, [data, loading]);
-
-  useEffect(() => {
     getListCarts(id);
   }, [loading]);
 
@@ -42,8 +54,12 @@ export default function CartDetail() {
     try {
       const response = await getListCart(id);
       if (response.status === 200) {
-        setdata(response.data);
-        console.log("data", response.data);
+        setdata(response.data.items);
+        setdata1(response.data);
+        setDataCart(response.data);
+
+        console.log("data", response.data.items);
+        console.log("data1", response.data);
         console.log("Load cart successful! ");
       } else {
         console.error("Can not Load cart! ");
@@ -55,10 +71,10 @@ export default function CartDetail() {
   const handleDelete = async (recipeId) => {
     try {
       const response = await removeCart(userId, recipeId);
-      console.log(userId, recipeId);
 
       if (response.status === 200) {
         toast.success("Xoá thành công ");
+
         setloading(!loading);
       } else {
         toast.error("Khoong load dc list");
@@ -69,34 +85,79 @@ export default function CartDetail() {
   };
 
   //Table
+  // const columns = [
+  //   {
+  //     field: "featuredImage",
+  //     headerName: "",
+  //     width: 100,
+  //     renderCell: (params) => {
+  //       console.log("params", params);
+  //       return <CardMedia component={"img"} image={params.row.featuredImage} />;
+  //     },
+  //   },
+  //   {
+  //     field: "recipeTitle",
+  //     headerName: " Tên công thức",
+  //     width: 391,
+  //     // editable: true,
+  //   },
+  //   {
+  //     field: "recipePrice",
+  //     headerName: "Giá",
+  //     width: 300,
+  //     // editable: true,
+  //   },
+  //   {
+  //     field: "edit",
+  //     headerName: "Xoá",
+  //     width: 80,
+  //     renderCell: (params) => {
+  //       console.log("params", params);
+  //       return (
+  //         <button onClick={() => handleDelete(params.row.recipeId)}>
+  //           <DeleteIcon />
+  //         </button>
+  //       );
+  //     },
+  //   },
+  // ];
+
   const columns = [
     {
       field: "featuredImage",
-      headerName: "ID",
-      width: 90,
+      headerName: "",
+      width: 200,
       renderCell: (params) => {
-        console.log("params", params);
-        return <CardMedia component={"img"} image={params.row.featuredImage} />;
+        return (
+          <CardMedia
+            component="img"
+            image={params.row.featuredImage}
+            style={{
+              width: isSmallScreen ? 60 : 120,
+              height: "auto",
+            }}
+          />
+        );
       },
     },
     {
       field: "recipeTitle",
-      headerName: " Ten cong thuc",
-      width: 398,
-      // editable: true,
+      headerName: "Tên công thức",
+
+      headerClassName: "header-bold",
+      width: isSmallScreen ? 200 : 400,
     },
     {
       field: "recipePrice",
-      headerName: "Gia",
-      width: 398,
-      // editable: true,
+
+      headerName: "Giá",
+      width: isSmallScreen ? 125 : 250,
     },
     {
       field: "edit",
-      headerName: "Edit",
-      width: 100,
+      headerName: "Xoá",
+      width: isSmallScreen ? 40 : 60,
       renderCell: (params) => {
-        console.log("params", params);
         return (
           <button onClick={() => handleDelete(params.row.recipeId)}>
             <DeleteIcon />
@@ -107,24 +168,21 @@ export default function CartDetail() {
   ];
   return (
     <div>
-      <Box sx={{}}>
-        <DataGrid
-          sx={{ minHeight: "600px" }}
-          rows={data}
-          getRowId={(row) => row.recipeId}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 5,
-              },
+      <DataGrid
+        sx={{ minWidth: "940px", minHeight: "600px" }}
+        rows={data}
+        getRowId={(row) => row.recipeId}
+        columns={columns}
+        initialState={{
+          pagination: {
+            paginationModel: {
+              pageSize: 5,
             },
-          }}
-          pageSizeOptions={[5]}
-          checkboxSelection
-          disableRowSelectionOnClick
-        />
-      </Box>
+          },
+        }}
+        pageSizeOptions={[5]}
+        // disableRowSelectionOnClick
+      />
     </div>
   );
 }

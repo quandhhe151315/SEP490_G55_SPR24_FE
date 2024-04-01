@@ -133,6 +133,14 @@
     z-index: 1000; /* Đảm bảo video hiển thị trên tất cả các phần khác của trang */
     transition: bottom 0.3s ease; /* Hiệu ứng chuyển đổi mượt mà */
   }
+
+  .voucher-item:hover{
+    background-color: rgba(225, 94, 0, 0.1);
+  }
+
+  .voucher-item{
+    cursor: pointer;
+  }
   
 
   

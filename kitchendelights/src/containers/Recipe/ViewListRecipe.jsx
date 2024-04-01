@@ -18,9 +18,10 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Rating from "@mui/material/Rating";
 import { Stack } from "@mui/material";
-import { getRecipes, addToCart } from "../../services/ApiServices";
+import { getRecipes, addToCart, getListCart } from "../../services/ApiServices";
 import { toast } from "react-toastify";
 import Footer from "../../components/Footer/Footer";
+import { useCart } from "../../store";
 
 const DisplaySearchNews = styled("div")(({ theme }) => ({
   display: "flex",
@@ -58,6 +59,7 @@ function ViewListRecipes() {
   const [paidRecipes, setPaidRecipes] = useState([]);
   const [currentPageFree, setCurrentPageFree] = useState(1);
   const [currentPagePaid, setCurrentPagePaid] = useState(1);
+  const { setDataCart } = useCart();
   const recipesPerPage = 8;
 
   const isUserLoggedIn = () => {
@@ -94,19 +96,29 @@ function ViewListRecipes() {
       navigate("/Login"); // Chuyển hướng đến trang login nếu chưa đăng nhập
       return;
     }
-    console.log("recipeId------", recipeId);
-
     try {
-      console.log("lấy dc", userId, recipeId);
       const response = await addToCart(userId, recipeId);
-      GoToCart();
+
       if (response.status === 200) {
-        console.log("Thêm vào cart thành công");
+        toast.success("Thêm vào giỏ hàng thành công");
+        getListCarts(userId);
       } else {
         console.log("lỗi khi thêm vào cart");
       }
     } catch (error) {
       console.error("lỗi khi thêmm vào cart", error);
+    }
+  };
+  const getListCarts = async (id) => {
+    try {
+      const response = await getListCart(id);
+      if (response.status === 200) {
+        setDataCart(response.data);
+      } else {
+        console.error("Can not Load cart! ");
+      }
+    } catch (error) {
+      toast.error("Khoong load dc cart");
     }
   };
   const getListRecipes = async () => {
@@ -218,7 +230,6 @@ function ViewListRecipes() {
                       component={"img"}
                       height={140}
                       image={item.featuredImage}
-                      alt="green iguana"
                     />
                     <CardContent>
                       <Typography
@@ -241,14 +252,14 @@ function ViewListRecipes() {
                           justifyContent: "space-between",
                         }}
                       >
+                        <Typography component="legend" fontSize={11}>
+                          Đánh giá:
+                        </Typography>
                         <Rating
                           name="simple-controlled"
                           value={item.recipeRating}
                           size="small"
                         />
-                        <Typography component="legend" fontSize={11}>
-                          {item.vote} votes
-                        </Typography>
                       </Box>
                     </CardContent>
                     <CardActions
@@ -362,14 +373,14 @@ function ViewListRecipes() {
                           justifyContent: "space-between",
                         }}
                       >
+                        <Typography component="legend" fontSize={11}>
+                          Đánh giá:
+                        </Typography>
                         <Rating
                           name="simple-controlled"
                           value={item.recipeRating}
                           size="small"
                         />
-                        <Typography component="legend" fontSize={11}>
-                          {item.vote} votes
-                        </Typography>
                       </Box>
                       <Box
                         sx={{

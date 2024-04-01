@@ -24,6 +24,7 @@ function BookMark() {
   };
   const [currentRecipeId, setCurrentRecipeId] = useState(null);
   const [data, setdata] = useState([]);
+  console.log("data1", data);
   const getUserIdFromCookie = () => {
     const cookies = document.cookie.split("; ");
     for (const cookie of cookies) {
@@ -61,7 +62,7 @@ function BookMark() {
       const response = await getBookMarkOfUser(id);
       if (response.status === 200) {
         setdata(response.data.recipes);
-        console.log("data", response);
+        // console.log("data", response);
         if (response.data.recipes.length > 0) {
           setCurrentRecipeId(response.data.recipes[0].recipeId);
         }

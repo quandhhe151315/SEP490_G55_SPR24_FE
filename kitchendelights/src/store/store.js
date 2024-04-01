@@ -8,7 +8,20 @@ export const useCount = create((set) => ({
 
 export const useSum = create((set) => ({
   priceSum: 0,
-  //   countRecipe: () => set((state) => ({ bears: state.bears + 1 })),
-  //   removeAllBears: () => set({ bears: 0 }),
   sumPrice: (sum) => set({ priceSum: sum }),
+}));
+
+export const useName = create((set) => ({
+  userName: "",
+  setuserName: (name) => set({ userName: name }),
+}));
+
+export const useCart = create((set) => ({
+  dataCart: "",
+  setDataCart: (data) => set({ dataCart: data }),
+}));
+
+export const useVoucher = create((set) => ({
+  sumVoucher: 0,
+  setSumVoucher: (sum) => set({ sumVoucher: sum }),
 }));

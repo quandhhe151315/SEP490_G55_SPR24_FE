@@ -64,6 +64,26 @@ const getListCart = (id) => {
   return axios.get(`/Cart/Get?id=${id}`);
 };
 
+//Voucher
+const getAllVoucherByUserId = (userId) => {
+  return axios.get(`Voucher/GetAllvouchers?userId=${userId}`);
+};
+const deleteVoucher = (voucherCode) => {
+  return axios.delete(`/Voucher/DeleteVoucher?voucherCode=${voucherCode}`);
+};
+const createVoucher = (id) => {
+  return axios.post(`/Voucher/CreateVoucher?id=${id}`);
+};
+
+const addVoucher = (id, discountCode) => {
+  return axios.put(`/Cart/Discount?id=${id}&discountCode=${discountCode}`);
+};
+
+//Payment
+const getHistoryPayment = (id) => {
+  return axios.get(`/Payment/History?id=${id}`);
+};
+
 // comment rating:
 const CreateReview = (recipeId, userId, ratingValue, ratingContent) => {
   return axios.post("Review/Create", {
@@ -268,6 +288,7 @@ const updateStatusRecipe = (recipeId, status) => {
     `Recipe/UpdateStatusRecipe?recipeId=${recipeId}&status=${status}`
   );
 };
+
 export {
   login,
   register,
@@ -310,4 +331,9 @@ export {
   getListCart,
   updateStatusRecipe,
   updateCategory,
+  getAllVoucherByUserId,
+  deleteVoucher,
+  createVoucher,
+  getHistoryPayment,
+  addVoucher,
 };

@@ -1,23 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import Appbar from "../../components/Homepage/Appbar";
 import Typography from "@mui/material/Typography";
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Icon,
-  IconButton,
-} from "@mui/material";
+import { Box, Button } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import Rating from "@mui/material/Rating";
-import ClassicButton from "../../components/Button/ClassicButton";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import PrintIcon from "@mui/icons-material/Print";
@@ -31,8 +20,7 @@ import Checkbox from "@mui/material/Checkbox";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import AddRecipeToMenuDialog from "../Menu/AddRecipeToMenu";
 import { toast } from "react-toastify";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import MailIcon from "@mui/icons-material/Mail";
+
 import {
   createRecipe,
   listAllIngredient,
