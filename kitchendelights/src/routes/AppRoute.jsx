@@ -42,6 +42,7 @@ import { DenyAccess } from "../containers/Authentication/DenyAccess";
 import BecomeChef from "../containers/Account/BecomeChef";
 import MarketplaceManagement from "../containers/MarketPlace/MarketplaceManagement";
 import BlogUser from "../containers/Blog/BlogUser";
+import RecipeByFilter from "../components/RecipeByFilterList";
 
 function AppRoute() {
   const router = createBrowserRouter([
@@ -135,6 +136,10 @@ function AppRoute() {
     {
       path: "/RecipeDetail/:recipeId",
       element: <RecipeDetail />,
+    },
+    {
+      path: "/recipeListByFilter",
+      element: <RecipeByFilter />,
     },
     {
       path: "/ListRecipeDashBoard",
