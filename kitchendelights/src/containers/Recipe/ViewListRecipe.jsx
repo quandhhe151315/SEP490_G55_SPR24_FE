@@ -22,6 +22,9 @@ import { getRecipes, addToCart, getListCart } from "../../services/ApiServices";
 import { toast } from "react-toastify";
 import Footer from "../../components/Footer/Footer";
 import { useCart, useCount } from "../../store";
+import { useGetAllRecipeFree } from "../../hook/useGetAllRecipeFree";
+import RecipeItemList from "../Home/RecipeHome";
+import { useGetAllRecipePaid } from "../../hook/useGetAllRecipePaid";
 
 const DisplaySearchNews = styled("div")(({ theme }) => ({
   display: "flex",
@@ -62,7 +65,8 @@ function ViewListRecipes() {
   const { setDataCart } = useCart();
   const { countRecipe } = useCount();
   const recipesPerPage = 8;
-
+  const { allRecipeFree } = useGetAllRecipeFree();
+  const { allRecipePaid } = useGetAllRecipePaid();
   const isUserLoggedIn = () => {
     const cookies = document.cookie.split("; ");
     return cookies.some((cookie) => cookie.startsWith("userId="));
@@ -216,14 +220,14 @@ function ViewListRecipes() {
             marginTop: "50px",
           }}
         ></Typography>
-        <Typography
-          color="#ff5e00"
-          sx={{ fontSize: "20px", fontWeight: "bold" }}
-        >
-          Công thức miễn phí
-        </Typography>
         <Box>
-          <Grid container spacing={3}>
+        <Box sx={{ width: "100%", marginX: "auto", mt: 6 }}>
+          <RecipeItemList
+            title={"Công thức miễn phí"}
+            recipeItemLists={allRecipeFree}
+          />
+        </Box>
+          {/* <Grid container spacing={3}>
             {freeRecipes
               .filter((item) => item.recipeStatus === 1)
               .map((item) => {
@@ -287,7 +291,7 @@ function ViewListRecipes() {
                   </Grid>
                 );
               })}
-          </Grid>
+          </Grid> */}
           <Typography
             sx={{
               display: "flex",
@@ -338,14 +342,14 @@ function ViewListRecipes() {
             marginTop: "50px",
           }}
         ></Typography>
-        <Typography
-          color="#ff5e00"
-          sx={{ fontSize: "20px", fontWeight: "bold" }}
-        >
-          Công thức trả phí
-        </Typography>
         <Box>
-          <Grid container spacing={3}>
+        <Box sx={{ width: "100%", marginX: "auto", mt: 6 }}>
+          <RecipeItemList
+            title={"Công thức trả phí "}
+            recipeItemLists={allRecipePaid}
+          />
+        </Box>
+          {/* <Grid container spacing={3}>
             {paidRecipes
               .filter((item) => item.recipeStatus === 1)
               .map((item) => {
@@ -427,7 +431,7 @@ function ViewListRecipes() {
                   </Grid>
                 );
               })}
-          </Grid>
+          </Grid> */}
           <Typography
             sx={{
               display: "flex",
