@@ -41,8 +41,12 @@ import ChangeRole from "../containers/Account/ChangeRole";
 import { DenyAccess } from "../containers/Authentication/DenyAccess";
 import BecomeChef from "../containers/Account/BecomeChef";
 import MarketplaceManagement from "../containers/MarketPlace/MarketplaceManagement";
+<<<<<<< Updated upstream
 import BlogUser from "../containers/Blog/BlogUser";
 import RecipeByFilter from "../components/RecipeByFilterList";
+=======
+import DetailMarketplace from "../containers/MarketPlace/DetailMarketplace";
+>>>>>>> Stashed changes
 
 function AppRoute() {
   const router = createBrowserRouter([
@@ -61,6 +65,10 @@ function AppRoute() {
     {
       path: "/ViewDetailNews/:id",
       element: <ViewDetailNews />,
+    },
+    {
+      path: "/DetailMarketplace/:id",
+      element: <DetailMarketplace />,
     },
     {
       path: "/ViewListRecipes",

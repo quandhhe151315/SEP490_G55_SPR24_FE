@@ -15,12 +15,24 @@ import axios from "./CustomizeAxios";
     return axios.post("/Ingredient/Create", { ingredientName,ingredientUnit });
   }
 
-  const createIngredientMarketplace = (ingredientId, marketplaceId) => {
-    return axios.post("/IngMarketplace/Create", { ingredientId,marketplaceId });
+  const createIngredientMarketplace = (ingredientId, marketplaceId, marketplaceLink) => {
+    return axios.post("/IngMarketplace/Create", { ingredientId, marketplaceId, marketplaceLink });
   }
 
+  const getListIngredientMarketplaceById = (id) => {
+    return axios.get(`/IngMarketplace/Get?id=${id}`);
+  }
+
+  const changeStatusMarketplace = (id) => {
+    return axios.patch(`/Marketplace/Status?id=${id}`);
+  }
+
+  const deleteMarketplaceLink = (ingredientId, marketplaceId) => {
+    return axios.delete(`/IngMarketplace/Delete?ingredientId=${ingredientId}&marketplaceId=${marketplaceId}`);
+  }
+  
   export {
-    listMarketplace, listIngredientMarketplace, createMarketplace, createIngredient, createIngredientMarketplace
+    listMarketplace, listIngredientMarketplace, createMarketplace, createIngredient, createIngredientMarketplace, getListIngredientMarketplaceById, changeStatusMarketplace, deleteMarketplaceLink
   };
 
   
