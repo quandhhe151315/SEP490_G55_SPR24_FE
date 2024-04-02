@@ -63,7 +63,9 @@ function AvatarMenu({ handleClick, onMenuSelect }) {
     const goToBecomeChef = () => {
         navigate("/BecomeChef");
       };
-
+    const goToMyBlog = () =>{
+        navigate('/myblog')
+    }
     return (
         <div>
             <GetInformationJWT setId={setId} />
@@ -115,11 +117,11 @@ function AvatarMenu({ handleClick, onMenuSelect }) {
                         <ListItemText>Đánh giá</ListItemText>
                     </MenuItem>
 
-                    <MenuItem>
+                    <MenuItem onClick={goToMyBlog}> 
                         <ListItemIcon>
                             <ArtTrackIcon fontSize="small" sx={{ color: "#ff5e00" }} />
                         </ListItemIcon>
-                        <ListItemText>Blog</ListItemText>
+                        <ListItemText>Blog của tôi</ListItemText>
                     </MenuItem>
                 </MenuList>
             </Paper> 
