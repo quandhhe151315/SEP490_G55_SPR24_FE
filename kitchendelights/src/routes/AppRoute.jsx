@@ -41,6 +41,7 @@ import ChangeRole from "../containers/Account/ChangeRole";
 import { DenyAccess } from "../containers/Authentication/DenyAccess";
 import BecomeChef from "../containers/Account/BecomeChef";
 import MarketplaceManagement from "../containers/MarketPlace/MarketplaceManagement";
+import BlogUser from "../containers/Blog/BlogUser";
 
 function AppRoute() {
   const router = createBrowserRouter([
@@ -177,6 +178,10 @@ function AppRoute() {
     { path: "/BecomeChef", element: <BecomeChef />},
     { path: "/Marketplace", element: <MarketplaceManagement />},
     { path: "/", element: <Navigate to="/KitchenDelights" /> },
+    {
+      path: "/myblog",
+      element: <BlogUser />,
+    },
   ]);
   return <RouterProvider router={router} />;
 }
