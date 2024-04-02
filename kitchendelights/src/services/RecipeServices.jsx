@@ -17,3 +17,7 @@ export const getAllCountry = () => {
 export const getAllIngredient = () => {
   return axios.get("/Ingredient/GetAllIngredient");
 };
+
+export const getRecipeByFilter = (params) => {
+  return axios.get("/Recipe/FilterRecipe", {params});
+};
