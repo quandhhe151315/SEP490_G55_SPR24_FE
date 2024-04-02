@@ -20,6 +20,10 @@ const becomeChefAPI = (userId, cardFront, cardBack, verificationFront, verificat
     return axios.post(`/Verification/Create`, {userId, cardFront, cardBack, verificationFront, verificationBack});
 }
 
+const verifyEmailAPI = (email) => {
+    return axios.post(`/User/EmailVerify`, {email});
+}
+
 export {
-    createAccount, banOrUnbanAccount, deleteAccount, changeRole, becomeChefAPI
+    createAccount, banOrUnbanAccount, deleteAccount, changeRole, becomeChefAPI, verifyEmailAPI
 };
