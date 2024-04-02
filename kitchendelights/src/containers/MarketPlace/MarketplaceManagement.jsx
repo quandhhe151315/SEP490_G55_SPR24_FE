@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
-import { listMarketplace, createMarketplace, createIngredient, createIngredientMarketplace } from '../../services/MarketPlaceService';
+import { listMarketplace, createMarketplace, createIngredient, createIngredientMarketplace, changeStatusMarketplace } from '../../services/MarketPlaceService';
 import { useSnackbar } from '../../components/Snackbar/Snackbar';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
@@ -82,58 +82,40 @@ export default function MarketplaceManagement() {
       }
     };
 
+    const [isSomethingChange, setIsSomethingChange] = useState(false);
+
     useEffect(() => {
       getListIngredient();
-        getListMarketplace();
+      getListMarketplace();
+    }, [isSomethingChange]);
+
+    useEffect(() => {
       setRows(data.map(item => ({
         id: item.marketplaceId,
         marketplaceName: item.marketplaceName,
         marketplaceLogo: item.marketplaceLogo,
         marketplaceStatus: item.marketplaceStatus,
     })));
-}, [data]);
+}, [data, dataIngredients]);
 
     const handleViewDetailMarketplace = (id) => {
-      console.log(`ViewDetailMarketplace: ${id}`);
+      navigate(`/DetailMarketplace/${id}`);
     };
 
-    const handleAcceptNews = async (id) => {
-    //   try {
-    //     const response = await acceptNews(id);
-    //     if (response.status === 200) {
-    //       showSnackbar('Duyệt tin tức thành công!', "success");
-    //     } else {
-
-    //     }
-    //   } catch (error) {
-    //     showSnackbar('Duyệt tin tức không thành công!', "error");
-    //   }
-      };
-
-      const handleDeleteNews = async (id) => {
-        // try {
-        //   const response = await deleteNews(id);
-        //   if (response.status === 200) {
-        //     showSnackbar('Xóa tin tức thành công!', "success");
-        //   } else {
-
-        //   }
-        // } catch (error) {
-        //   showSnackbar('Xóa tin tức không thành công!', "error");
-        // }
-      };
-
       const handleChangeStatus = async (id) => {
-        // try {
-        //   const response = await deleteNews(id);
-        //   if (response.status === 200) {
-        //     showSnackbar('Xóa tin tức thành công!', "success");
-        //   } else {
+        
+        try {
+          const response = await changeStatusMarketplace(id);
+          if (response.status === 200) {
+            showSnackbar('Thay đổi thành công!', "success");
+            setIsSomethingChange(!isSomethingChange);
+          } else {
 
-        //   }
-        // } catch (error) {
-        //   showSnackbar('Xóa tin tức không thành công!', "error");
-        // }
+          }
+        } catch (error) {
+          showSnackbar('Thay đổi không thành công!', "error");
+        }
+        
       };
 
     const columns = [
@@ -229,6 +211,7 @@ export default function MarketplaceManagement() {
   const [openCreateLink, setOpenCreateLink] = React.useState(false);
   const [ingredientSelect, setIngredientSelect] = useState();
   const [marketplaceSelect, setMarketplaceSelect] = useState();
+  const [marketplaceLink, setMarketplaceLink] = useState('');
 
   const handleClickOpenCreateLink = () => {
     setOpenCreateLink(true);
@@ -248,7 +231,7 @@ export default function MarketplaceManagement() {
 
   const handleCreateNewLink = async () => {
     try {
-        const response = await createIngredientMarketplace(ingredientSelect, marketplaceSelect);
+        const response = await createIngredientMarketplace(ingredientSelect, marketplaceSelect, marketplaceLink);
         if (response.status === 200) {
           showSnackbar('Tạo liên kết mới thành công!', "success");
         } else {
@@ -295,7 +278,7 @@ export default function MarketplaceManagement() {
             
             <TabPanel value="2">
                 <Box >
-                <ListIngredientMarketplace dataIngredients={dataIngredients}/>
+                <ListIngredientMarketplace dataIngredients={dataIngredients} dataMarketplace={data}/>
                 </Box>
                 </TabPanel>
             </TabContext>
@@ -527,7 +510,19 @@ export default function MarketplaceManagement() {
               sx={{ width: '100%',  marginTop: '20%', marginBottom: '20%' }}
               renderInput={(params) => <TextField {...params} label="Chọn nguyên liệu" sx={{ borderRadius: '15px' }}/>}
             />
-            
+            <TextField
+            autoFocus
+            required
+            margin="dense"
+            id="name"
+            name="name"
+            label="Link liên kết đến nguyên liệu"
+            type="name"
+            fullWidth
+            variant="standard"
+            value={marketplaceLink}
+            onChange={(e) => setMarketplaceLink(e.target.value)}
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseCreateLink}>Hủy</Button>
