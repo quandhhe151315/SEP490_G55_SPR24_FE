@@ -11,9 +11,12 @@ import SellIcon from '@mui/icons-material/Sell';
 import DiscountIcon from '@mui/icons-material/Discount';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import ContactsIcon from '@mui/icons-material/Contacts';
-import ListIcon from '@mui/icons-material/List';
 import CommentIcon from '@mui/icons-material/Comment';
 import { useNavigate } from "react-router-dom";
+import StoreIcon from '@mui/icons-material/Store';
+import Cookies from 'js-cookie';
+import PasswordIcon from '@mui/icons-material/Password';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const ItemButton = ({goToManager, text, Icon}) => {
   return (
@@ -98,6 +101,10 @@ const SecondaryListItems = () => {
     // navigate('/ListAccount');
   }
 
+  const goToStoreManager = () => {
+    navigate('/Marketplace');
+  }
+
   return (
     <React.Fragment>
     {/* <ListSubheader component="div" inset>
@@ -105,8 +112,31 @@ const SecondaryListItems = () => {
     </ListSubheader> */}
       <ItemButton goToManager={goToDiscountManager} text="Quản lý mã giảm giá" Icon={<DiscountIcon/>}/>
       <ItemButton goToManager={goToAdsManager} text="Quản lý quảng cáo" Icon={<MonetizationOnIcon/>}/>
+      <ItemButton goToManager={goToStoreManager} text="Quản lý cửa hàng liên kết" Icon={<StoreIcon/>}/>
     </React.Fragment>
   );
 };
 
-export {DashboardItems, MainListItems, SecondaryListItems};
+const PersonalListItems = () => {
+  const navigate = useNavigate();
+
+  const goToChangePassword = () => {
+    // navigate('/ListAccount');
+  }
+
+  const logout = () => {
+    Cookies.remove("jwt");
+    Cookies.remove("userId");
+    Cookies.remove("role");
+    navigate("/KitchenDelights");
+  }
+
+  return (
+    <React.Fragment>
+      <ItemButton goToManager={goToChangePassword} text="Đổi mật khẩu" Icon={<PasswordIcon/>}/>
+      <ItemButton goToManager={logout} text="Đăng xuất" Icon={<LogoutIcon/>}/>
+    </React.Fragment>
+  );
+};
+
+export {DashboardItems, MainListItems, SecondaryListItems, PersonalListItems};

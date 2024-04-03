@@ -9,7 +9,8 @@ export default function RecipeItemList({ title, recipeItemLists }) {
         fontSize={20}
         textTransform={"uppercase"}
         fontWeight={"bold"}
-        mb={2}
+        mb={2} color="#ff5e00"
+      
       >
         {title}
       </Typography>

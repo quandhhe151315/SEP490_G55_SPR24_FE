@@ -40,6 +40,10 @@ import DashBoard from "../containers/DashBoard/DashBoard";
 import ChangeRole from "../containers/Account/ChangeRole";
 import { DenyAccess } from "../containers/Authentication/DenyAccess";
 import BecomeChef from "../containers/Account/BecomeChef";
+import MarketplaceManagement from "../containers/MarketPlace/MarketplaceManagement";
+import BlogUser from "../containers/Blog/BlogUser";
+import RecipeByFilter from "../components/RecipeByFilterList";
+import DetailMarketplace from "../containers/MarketPlace/DetailMarketplace";
 
 function AppRoute() {
   const router = createBrowserRouter([
@@ -58,6 +62,10 @@ function AppRoute() {
     {
       path: "/ViewDetailNews/:id",
       element: <ViewDetailNews />,
+    },
+    {
+      path: "/DetailMarketplace/:id",
+      element: <DetailMarketplace />,
     },
     {
       path: "/ViewListRecipes",
@@ -135,6 +143,10 @@ function AppRoute() {
       element: <RecipeDetail />,
     },
     {
+      path: "/recipeListByFilter",
+      element: <RecipeByFilter />,
+    },
+    {
       path: "/ListRecipeDashBoard",
       element: <ListRecipeDashBoard />,
     },
@@ -174,7 +186,12 @@ function AppRoute() {
     { path: "/Login", element: <Login />},
     { path: "/Register", element: <Register />},
     { path: "/BecomeChef", element: <BecomeChef />},
+    { path: "/Marketplace", element: <MarketplaceManagement />},
     { path: "/", element: <Navigate to="/KitchenDelights" /> },
+    {
+      path: "/myblog",
+      element: <BlogUser />,
+    },
   ]);
   return <RouterProvider router={router} />;
 }

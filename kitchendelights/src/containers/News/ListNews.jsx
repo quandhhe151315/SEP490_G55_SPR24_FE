@@ -9,6 +9,7 @@ import { listNews } from '../../services/ApiServices';
 import DoneIcon from '@mui/icons-material/Done';
 import { deleteNews, acceptNews } from '../../services/NewsService';
 import { useSnackbar } from '../../components/Snackbar/Snackbar';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 export default function ListNews() {
   const navigate = useNavigate();
@@ -97,7 +98,7 @@ export default function ListNews() {
             <div>
             <Button
                 variant="outlined"
-                startIcon={<EditIcon sx={{marginLeft: '10px'}}/>}
+                startIcon={<VisibilityIcon sx={{marginLeft: '10px'}}/>}
                 onClick={() => handleViewDetailNews(params.row.id)}
                 sx={{height: '37px'}}
             >

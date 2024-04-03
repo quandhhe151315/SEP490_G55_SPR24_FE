@@ -21,7 +21,7 @@ import { Stack } from "@mui/material";
 import { getRecipes, addToCart, getListCart } from "../../services/ApiServices";
 import { toast } from "react-toastify";
 import Footer from "../../components/Footer/Footer";
-import { useCart, useCount } from "../../store";
+import { useCart } from "../../store";
 import { searchRecipe } from "../../services/RecipeServices";
 
 const DisplaySearchNews = styled("div")(({ theme }) => ({
@@ -62,7 +62,6 @@ function ViewListRecipes() {
   const [currentPageFree, setCurrentPageFree] = useState(1);
   const [currentPagePaid, setCurrentPagePaid] = useState(1);
   const { setDataCart } = useCart();
-  const { countRecipe } = useCount();
   const recipesPerPage = 8;
 
   const isUserLoggedIn = () => {
@@ -126,7 +125,6 @@ function ViewListRecipes() {
       const response = await getListCart(id);
       if (response.status === 200) {
         setDataCart(response.data);
-        countRecipe(response.data.count);
       } else {
         console.error("Can not Load cart! ");
       }

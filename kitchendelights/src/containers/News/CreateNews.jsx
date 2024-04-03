@@ -28,7 +28,7 @@ function CreateNews() {
       
       setFeaturedImageName(file.name);
       if (file.type.startsWith('image/')) {
-        const resFeaturedImage = await uploadImage(file, "recipe");
+        const resFeaturedImage = await uploadImage(file, "variable");
         setFeaturedImage(resFeaturedImage);
       } else {
       }

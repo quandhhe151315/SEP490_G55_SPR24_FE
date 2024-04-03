@@ -228,7 +228,7 @@ export default function PrimarySearchAppBar() {
   }));
 
   return (
-    <Box sx={{ flexGrow: 1, minWidth: "70%", height: "250px" }} color="primary">
+    <Box sx={{ flexGrow: 1, minWidth: "70%", height: "180px" }} color="primary">
       <GetInformationJWT setId={setUserId} />
       <AppBar sx={{ bgcolor: "#ffffff", height: "146px" }}>
         <Toolbar>
