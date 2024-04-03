@@ -22,6 +22,7 @@ import { getRecipes, addToCart, getListCart } from "../../services/ApiServices";
 import { toast } from "react-toastify";
 import Footer from "../../components/Footer/Footer";
 import { useCart } from "../../store";
+import { searchRecipe } from "../../services/RecipeServices";
 
 const DisplaySearchNews = styled("div")(({ theme }) => ({
   display: "flex",
@@ -55,6 +56,7 @@ const DisplayStyledInputBase = styled(InputBase)(({ theme }) => ({
 
 function ViewListRecipes() {
   const navigate = useNavigate();
+  const [searchText, setSearchText] = useState("");
   const [freeRecipes, setFreeRecipes] = useState([]);
   const [paidRecipes, setPaidRecipes] = useState([]);
   const [currentPageFree, setCurrentPageFree] = useState(1);
@@ -67,16 +69,25 @@ function ViewListRecipes() {
     return cookies.some((cookie) => cookie.startsWith("userId="));
   };
 
-  const SearchNews = () => {
-    navigate("/KitchenDelights");
-  };
-
-  const GoToCart = () => {
-    navigate("/ShoppingCart");
+  const searchRecipes = async () => {
+    try {
+      const response = await searchRecipe(searchText);
+      if (response.status === 200) {
+        const dataFree = response?.data.filter((x) => x.isFree === true);
+        const dataPaid = response?.data.filter((x) => x.isFree === false);
+        setFreeRecipes(dataFree);
+        setPaidRecipes(dataPaid);
+      } else {
+      }
+    } catch (error) {}
   };
 
   useEffect(() => {
-    getListRecipes();
+    if (searchText === "") {
+      getListRecipes();
+    } else {
+      searchRecipes(searchText);
+    }
   }, []);
   const getUserIdFromCookie = () => {
     const cookies = document.cookie.split("; ");
@@ -189,6 +200,8 @@ function ViewListRecipes() {
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <DisplaySearchNews>
             <DisplayStyledInputBase
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
               placeholder="Tìm công thức bạn muốn"
               inputProps={{ "aria-label": "search" }}
               sx={{ color: "rgba(0, 0, 0, 0.54)" }}
@@ -202,7 +215,7 @@ function ViewListRecipes() {
                 height: "42px",
                 color: "white",
               }}
-              onClick={SearchNews}
+              onClick={searchRecipes}
             />
           </DisplaySearchNews>
         </Box>

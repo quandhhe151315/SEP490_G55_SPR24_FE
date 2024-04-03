@@ -218,14 +218,14 @@ const listUsers = () => {
 };
 
 const getBlogList = (params) => {
-  return axios.get(`/Blog/Get`, { params : params });
+  return axios.get(`/Blog/Get`, { params: params });
 };
 
 const getBlogDetail = (id) => {
   return axios.get(`/Blog/Get?id=${id}`);
 };
 const createBlog = (content) => {
-  return axios.post(`/Blog/Create`, content );
+  return axios.post(`/Blog/Create`, content);
 };
 
 //menu API
