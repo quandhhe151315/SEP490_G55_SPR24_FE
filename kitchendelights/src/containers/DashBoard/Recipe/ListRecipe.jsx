@@ -89,7 +89,7 @@ function ListRecipeDashBoard() {
 
     const handleConfirmDelete = async () => {
         try {
-            const response = await updateStatusRecipe(selectedRecipeId, 3);
+            const response = await updateStatusRecipe(selectedRecipeId, 0);
             if (response.status === 200) {
                 setOpen(false);
                 getListRecipe();
