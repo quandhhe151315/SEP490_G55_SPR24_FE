@@ -53,12 +53,12 @@ export default function CreateAccount() {
       const response = await createAccount(userName,firstName,middleName,lastName,email,phone,password,"Avatar Default",1,role);
       if (response.status === 200) {
         goToListAccount();
-        showSnackbar('Create account successful!', "success");
+        showSnackbar('Tạo tài khoản thành công!', "success");
       } else {
 
       }
     } catch (error) {
-      showSnackbar('Create account failed!', "error");
+      showSnackbar('Tạo tài khoản thất bại!', "error");
     }
   };
 

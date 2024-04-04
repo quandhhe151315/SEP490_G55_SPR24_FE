@@ -22,12 +22,13 @@ function ChangePassword() {
     const handleChangePassword = async () => {
         if(reNewPassword !== newPassword){
             showSnackbar('Nhập lại mật khẩu không trùng khớp với mật khẩu!', "error");
-        }
-        else{
+        } else if (newPassword.length < 6 || password.length < 6) {
+            showSnackbar('Mật khẩu phải dài hơn 6 kí tự!', "error");
+        } else{
             try {
             const response = await changePassword(Cookies.get('userId'), password, newPassword);
             if (response.status === 200) {
-                showSnackbar('Change password successful!', 'success');
+                showSnackbar('Thay đổi mật khẩu thành công!', 'success');
                 navigate('/ChangePassword');
                 setPassword('');
                 setNewPassword('');
@@ -36,7 +37,7 @@ function ChangePassword() {
 
             }
             } catch (error) {
-                showSnackbar('Change password failed!', 'error');
+                showSnackbar('Mật khẩu cũ không đúng!', 'error');
             }
         }
         

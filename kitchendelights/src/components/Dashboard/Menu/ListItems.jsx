@@ -51,8 +51,7 @@ const MainListItems = () => {
   }
 
   const goToChefManager = () => {
-    // Link toi duong dan
-    // navigate('/ListAccount');
+    navigate('/ChefVerificationManagement');
   }
 
   const goToRecipeManager = () => {
@@ -68,7 +67,7 @@ const MainListItems = () => {
   }
   
   const goToBlogsManager = () => {
-  
+
      navigate('/blog/management');
   }
   const goToCommentManager = () => {
