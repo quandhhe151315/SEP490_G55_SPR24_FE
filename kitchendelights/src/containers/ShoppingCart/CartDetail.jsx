@@ -73,9 +73,7 @@ export default function CartDetail() {
       } else {
         console.error("Can not Load cart! ");
       }
-    } catch (error) {
-      toast.error("Khoong load dc cart");
-    }
+    } catch (error) {}
   };
   const handleDelete = async (recipeId) => {
     try {

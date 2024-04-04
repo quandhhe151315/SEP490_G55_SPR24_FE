@@ -83,11 +83,14 @@ const createVoucher = (id) => {
 const addVoucher = (id, discountCode) => {
   return axios.put(`/Cart/Discount?id=${id}&discountCode=${discountCode}`);
 };
-
+const checkInteraction = (id, type) => {
+  return axios.patch(`/User/Interact?id=${id}&type=${type}`);
+};
 //Payment
 const getHistoryPayment = (id) => {
   return axios.get(`/Payment/History?id=${id}`);
 };
+const checkOut = () => {};
 
 // comment rating:
 const CreateReview = (recipeId, userId, ratingValue, ratingContent) => {
@@ -362,8 +365,12 @@ export {
   getHistoryPayment,
   addVoucher,
   updateCategoryRecipe,
+
   getNumberRevenueInThisMonth,
   getNumberRevenueInFiveMonth,
   getNumberUserCreatedInThisMonth,
   getNumberRecipeCreatedInThisMonth,
+
+  checkInteraction,
+
 };

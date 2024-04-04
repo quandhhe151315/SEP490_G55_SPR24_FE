@@ -68,9 +68,10 @@ export default function ListIngredientMarketplace({ dataIngredients, dataMarketp
     })));
   }, [dataDisplay]);
 
-      const handleDeleteLink = async (information) => {
+      const handleDeleteLink = async (id, url) => {
+        const marketId = getMarketId(id, url);
         try {
-          const response = await deleteMarketplaceLink(information.id, information.marketplaceId);
+          const response = await deleteMarketplaceLink(id, marketId);
           if (response.status === 200) {
             showSnackbar('Xóa đường dẫn thành công!', "success");
           } else {
@@ -80,6 +81,12 @@ export default function ListIngredientMarketplace({ dataIngredients, dataMarketp
           showSnackbar('Xóa đường dẫn không thành công!', "error");
         }
       };
+
+      const getMarketId = (ingreId, url) => {
+        const foundItem = data.find(item => item.ingredientId === ingreId && item.marketplaceLogo === url);
+        return foundItem.marketplaceId;
+      };
+
 
   const [openCreateLink, setOpenCreateLink] = React.useState(false);
   const [ingredientSelect, setIngredientSelect] = useState();
@@ -120,7 +127,6 @@ export default function ListIngredientMarketplace({ dataIngredients, dataMarketp
         { field: 'marketplaceId', headerName: 'ID Cửa Hàng', width: 100, sortable: false},
         { field: 'marketplaceLogo', headerName: 'Logo Cửa Hàng', width: 550, sortable: false,
         renderCell: (params) => {
-          const { row: { information } } = params;
           return (
           <div style={{ position: 'relative' }}>
             {params.value && Array.isArray(params.value) && params.value.map((url, index) => (
@@ -138,7 +144,7 @@ export default function ListIngredientMarketplace({ dataIngredients, dataMarketp
                     borderRadius: 15,
                     cursor: 'pointer',
                   }}
-                  onClick={() => handleDeleteLink(params.row)}
+                  onClick={() => handleDeleteLink(params.row.id, url)}
                 >
                   X
                 </button>

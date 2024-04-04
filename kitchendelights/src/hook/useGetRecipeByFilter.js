@@ -10,8 +10,17 @@
 import useSWR from "swr";
 import { getRecipeByFilter } from "../services/RecipeServices";
 export const useGetRecipeByFilter = (params) => {
-  const { data, isLoading,error } = useSWR(
-    ["/Recipe/FilterRecipe", params?.country, params?.ingredient],
+  const { data, isLoading, error } = useSWR(
+    [
+      "/Recipe/GetAllRecipe",
+      params?.name,
+      params?.country,
+      params?.ingredient,
+      params?.category,
+      params?.isfree,
+      params?.orderby,
+      params?.sort
+    ],
     () => getRecipeByFilter(params)
   );
   return { recipList: data?.data, isLoading, error };

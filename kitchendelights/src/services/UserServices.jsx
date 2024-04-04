@@ -24,6 +24,14 @@ const verifyEmailAPI = (email) => {
     return axios.post(`/User/EmailVerify`, {email});
 }
 
+const getListBecomeChef = () => {
+    return axios.get(`/Verification/Get`);
+}
+
+const acceptVerifycationChef = (verificationId, verificationStatus) => {
+    return axios.patch("/Verification/Update", { verificationId, verificationStatus });
+}
+
 export {
-    createAccount, banOrUnbanAccount, deleteAccount, changeRole, becomeChefAPI, verifyEmailAPI
+    createAccount, banOrUnbanAccount, deleteAccount, changeRole, becomeChefAPI, verifyEmailAPI, getListBecomeChef, acceptVerifycationChef
 };

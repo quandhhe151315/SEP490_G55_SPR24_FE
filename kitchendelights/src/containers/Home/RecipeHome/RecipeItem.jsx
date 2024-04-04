@@ -47,7 +47,7 @@ export default function RecipeItem({ item }) {
                   justifyContent: "space-between",
                 }}
               >
-                <Typography variant="h6">
+                <Typography variant="h6" sx={{height:'40px'}}>
                   {item?.recipePrice ? `${item?.recipePrice} đ` : ""}
                 </Typography>
               </div>

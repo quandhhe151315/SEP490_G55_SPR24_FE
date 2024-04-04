@@ -44,6 +44,7 @@ import MarketplaceManagement from "../containers/MarketPlace/MarketplaceManageme
 import BlogUser from "../containers/Blog/BlogUser";
 import RecipeByFilter from "../components/RecipeByFilterList";
 import DetailMarketplace from "../containers/MarketPlace/DetailMarketplace";
+import ChefManagement from "../containers/Account/ChefManagement";
 
 function AppRoute() {
   const router = createBrowserRouter([
@@ -187,6 +188,7 @@ function AppRoute() {
     { path: "/Register", element: <Register />},
     { path: "/BecomeChef", element: <BecomeChef />},
     { path: "/Marketplace", element: <MarketplaceManagement />},
+    { path: "/ChefVerificationManagement", element: <ChefManagement />},
     { path: "/", element: <Navigate to="/KitchenDelights" /> },
     {
       path: "/myblog",

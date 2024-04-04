@@ -22,6 +22,7 @@ import TextField from "@mui/material/TextField";
 import { Stack, Grid } from "@mui/material";
 import BtnHandleHoverItem from "./BtnHandleHoverItem";
 import IngredientHoverBtn from "./IngredientHoverBtn";
+import CategoryHoverItem from "./CategoryHoverItem";
 
 const Overlay = styled("div")(({ theme }) => ({
   position: "fixed",
@@ -313,8 +314,7 @@ export default function PrimarySearchAppBar() {
               <CategoryButton goToPage={goToHomePage} text={"Trang chủ"} />
               <CategoryButton goToPage={goToRepice} text={"Công thức nấu ăn"} />
               <IngredientHoverBtn />
-              <CategoryButton goToPage={goToRepice} text={"Bữa ăn"} />
-              <CategoryButton goToPage={goToRepice} text={"Ngày lễ"} />
+              <CategoryHoverItem />
               <BtnHandleHoverItem />
               <CategoryButton goToPage={goToNews} text={"Tin tức"} />
               <CategoryButton goToPage={goToBlog} text={"Blog"} />
