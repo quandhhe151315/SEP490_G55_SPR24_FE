@@ -83,7 +83,9 @@ const createVoucher = (id) => {
 const addVoucher = (id, discountCode) => {
   return axios.put(`/Cart/Discount?id=${id}&discountCode=${discountCode}`);
 };
-
+const checkInteraction = (id, type) => {
+  return axios.patch(`/User/Interact?id=${id}&type=${type}`);
+};
 //Payment
 const getHistoryPayment = (id) => {
   return axios.get(`/Payment/History?id=${id}`);
@@ -346,4 +348,5 @@ export {
   getHistoryPayment,
   addVoucher,
   updateCategoryRecipe,
+  checkInteraction,
 };
