@@ -101,18 +101,6 @@ function MenuDetail({ menuId }) {
     }
   };
 
-  // const CustomTextField = styled(TextField)({
-  //   '& input': {
-  //     fontSize: '46px',
-  //     color: '#000000'
-  //   },
-  //   '& label': {
-  //     fontSize: '46px',
-  //     fontWeight: 'bold',
-  //     color: '#000000'
-  //   }
-  // });
-
   useEffect(() => {
     setIsEditing(false);
     getMenuInFomation(menuId);
@@ -196,7 +184,7 @@ function MenuDetail({ menuId }) {
         
         <Box sx={{marginTop:'20px'}}>
           <Grid container spacing={3}>
-            {listRecipe.filter(item => item.recipeStatus !== 3).map((item) => {
+            {listRecipe.filter(item => item.recipeStatus === 1 ).map((item) => {
               return (
                 <Grid item lg={3} md={6} xs={12}>
                   <Card sx={{ maxWidth: 345 }}>
