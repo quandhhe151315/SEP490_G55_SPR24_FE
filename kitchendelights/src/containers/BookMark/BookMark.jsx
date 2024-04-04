@@ -23,7 +23,6 @@ function BookMark() {
   const onAddNew = () => {
     navigate("/ViewListRecipes");
   };
-  const [currentRecipeId, setCurrentRecipeId] = useState(null);
   const [data, setdata] = useState([]);
   console.log("data1", data);
   const getUserIdFromCookie = () => {
@@ -39,8 +38,7 @@ function BookMark() {
   const id = getUserIdFromCookie();
   const uId = id;
   const type = 2;
-  const rId = currentRecipeId;
-  const handleDeleteBookMark = async () => {
+  const handleDeleteBookMark = async (rId) => {
     try {
       const response = await removeRecipeFromBookMark(uId, rId, type);
       console.log(uId, rId, type);
@@ -64,9 +62,6 @@ function BookMark() {
       if (response.status === 200) {
         setdata(response.data.recipes);
         // console.log("data", response);
-        if (response.data.recipes.length > 0) {
-          setCurrentRecipeId(response.data.recipes[0].recipeId);
-        }
       } else {
         console.error("Can not Load listbookmark! ");
       }
@@ -169,7 +164,7 @@ function BookMark() {
                               width: 75,
                             }}
                             variant="contained"
-                            onClick={handleDeleteBookMark}
+                            onClick={()=>handleDeleteBookMark(item.recipeId)}
                           >
                             Xoá
                           </Button>
