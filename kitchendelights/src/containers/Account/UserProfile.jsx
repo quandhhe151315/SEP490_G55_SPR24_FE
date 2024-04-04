@@ -28,8 +28,7 @@ function UserProfile() {
             <Grid item xs={2} sx={{marginLeft: '10%'}}>
                 <AvatarMenu handleClick={handleClick} onMenuSelect={handleMenuSelect}/>
             </Grid>
-            <Grid item xs={1}  ></Grid>
-            <Grid item xs={7}  >
+            <Grid item xs={10}  >
             {currentComponent === 'MyProfile' && <MyProfile />}
             {currentComponent === 'ChangePassword' && <ChangePassword />}
             {currentComponent === 'MenuDetail' && <MenuDetail menuId={selectedMenuId} />}
