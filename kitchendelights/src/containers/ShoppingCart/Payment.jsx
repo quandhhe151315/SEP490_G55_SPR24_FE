@@ -14,6 +14,8 @@ import {
   addVoucher,
   getListCart,
   getAllVoucherByUserId,
+  checkInteraction,
+  createVoucher,
 } from "../../services/ApiServices";
 import { toast } from "react-toastify";
 
@@ -21,6 +23,7 @@ export default function ImgMediaCard() {
   const [modalOpen, setModalOpen] = useState(false);
 
   const handleOpenModal = () => {
+    checkVouchers();
     setModalOpen(true);
   };
 
@@ -44,6 +47,8 @@ export default function ImgMediaCard() {
   };
   const userId = getUserIdFromCookie();
   const id = getUserIdFromCookie();
+  const type = "recipe";
+  const [check, setcheck] = useState(false);
   useEffect(() => {
     getListVoucher(userId);
   }, [loading]);
@@ -59,6 +64,41 @@ export default function ImgMediaCard() {
         setVoucher(response.data.items[0]?.voucherCode ?? "");
         setSumVoucher(response.data.totalPricePostVoucher);
         sumPrice(response.data.totalPricePreVoucher);
+      } else {
+        console.error("Can not Load cart! ");
+      }
+    } catch (error) {
+      toast.error("Khoong load dc cart");
+    }
+  };
+
+  // useEffect(() => {
+  //   checkVouchers();
+  // }, [userId, type]);
+  const checkVouchers = async () => {
+    try {
+      const response = await checkInteraction(Number(userId), type);
+
+      if (response.status === 200) {
+        setcheck(response.data);
+      } else {
+        console.error("Can not Load cart! ");
+      }
+    } catch (error) {
+      toast.error("Khoong load dc cart");
+    }
+  };
+  useEffect(() => {
+    debugger;
+    if (check) {
+      createVouchers(id);
+    }
+  }, [check]);
+  const createVouchers = async (id) => {
+    try {
+      const response = await createVoucher(id);
+      if (response.status === 200) {
+        setloading(!loading);
       } else {
         console.error("Can not Load cart! ");
       }
