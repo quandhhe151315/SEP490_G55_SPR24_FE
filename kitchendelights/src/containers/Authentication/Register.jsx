@@ -27,8 +27,10 @@ const Register = () => {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
-    if (password === '' || username === '') {
-      showSnackbar('Không được để trống username hoặc mật khẩu!', "error");
+    if (password === '' || username === '' || email === '') {
+      showSnackbar('Không được để trống username, email hoặc mật khẩu !', "error");
+    } else if (password.length < 6) {
+      showSnackbar('Mật khẩu phải dài hơn 6 kí tự!', "error");
     } else if (repassword !== password) {
       showSnackbar('Nhập lại mật khẩu không trùng khớp với mật khẩu!', "error");
     } else {
