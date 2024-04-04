@@ -90,6 +90,7 @@ const checkInteraction = (id, type) => {
 const getHistoryPayment = (id) => {
   return axios.get(`/Payment/History?id=${id}`);
 };
+const checkOut = () => {};
 
 // comment rating:
 const CreateReview = (recipeId, userId, ratingValue, ratingContent) => {

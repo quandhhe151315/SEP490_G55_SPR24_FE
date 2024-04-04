@@ -82,11 +82,8 @@ export default function ImgMediaCard() {
       if (response.status === 200) {
         setcheck(response.data);
       } else {
-        console.error("Can not Load cart! ");
       }
-    } catch (error) {
-      toast.error("Khoong load dc cart");
-    }
+    } catch (error) {}
   };
   useEffect(() => {
     debugger;
@@ -102,9 +99,7 @@ export default function ImgMediaCard() {
       } else {
         console.error("Can not Load cart! ");
       }
-    } catch (error) {
-      toast.error("Khoong load dc cart");
-    }
+    } catch (error) {}
   };
   const getListVoucher = async (userId) => {
     try {
@@ -112,11 +107,8 @@ export default function ImgMediaCard() {
       if (response.status === 200) {
         setdata(response.data);
       } else {
-        console.error("Can not Load cart! ");
       }
-    } catch (error) {
-      toast.error("Khoong load dc cart");
-    }
+    } catch (error) {}
   };
 
   const addVoucherCode = async (voucherCode) => {
