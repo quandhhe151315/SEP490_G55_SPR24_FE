@@ -7,7 +7,11 @@ import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
 import { getListBecomeChef, acceptVerifycationChef, changeRole } from '../../services/UserServices';
 import { useSnackbar } from '../../components/Snackbar/Snackbar';
-
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogActions from '@mui/material/DialogActions';
+import CardMedia from "@mui/material/CardMedia";
 export default function ChefManagement() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
@@ -35,13 +39,27 @@ export default function ChefManagement() {
         userId: item.userId,
         username: item.username,
         createDate: item.createDate,
+
+        cardFront: item.cardFront,
+        cardBack: item.cardBack,
+        verificationFront: item.verificationFront,
+        verificationBack: item.verificationBack,
+
         verificationStatus: item.verificationStatus,
         verificationDate: item.verificationDate,
     })));
 }, [data]);
 
-    const handleViewVerification = (id) => {
-        // navigate(`/ChangeRole/${id}`);
+const [open, setOpen] = useState(false);
+const [imageToShow, setImageToShow] = useState('');
+
+const handleCloseDialog = () => {
+  setOpen(false);
+};
+    const handleViewVerification = (image) => {
+      setImageToShow(image);
+      setOpen(true);
+      
       };
 
       const handleAccept = async (id, userId) => {
@@ -81,15 +99,63 @@ export default function ChefManagement() {
         }
       }
 
-      const goToCreateAccount = () => {
-        navigate('/CreateAccount');
-      }
-
     const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
     { field: 'userId', headerName: 'Id người dùng', width: 150 },
     { field: 'username', headerName: 'Username', width: 250 },
-    { field: 'verificationStatus', headerName: 'Trạng thái', width: 200, 
+    { field: 'cardFront', headerName: 'CCCD Mặt trước', width: 150, sortable: false,
+    renderCell: (params) => (
+        <div>
+        <Button
+            variant="outlined"
+            startIcon={<VisibilityIcon sx={{marginLeft: '10px'}}/>}
+            onClick={() => handleViewVerification(params.row.cardFront)}
+            sx={{height: '37px'}}
+        >
+        </Button>
+        </div>
+        ),
+      },
+      { field: 'cardBack', headerName: 'CCCD Mặt sau', width: 150, sortable: false,
+    renderCell: (params) => (
+        <div>
+        <Button
+            variant="outlined"
+            startIcon={<VisibilityIcon sx={{marginLeft: '10px'}}/>}
+            onClick={() => handleViewVerification(params.row.cardBack)}
+            sx={{height: '37px'}}
+        >
+        </Button>
+        </div>
+        ),
+      },
+      { field: 'verificationFront', headerName: 'Xác nhận mặt trước', width: 150, sortable: false,
+      renderCell: (params) => (
+          <div>
+          <Button
+              variant="outlined"
+              startIcon={<VisibilityIcon sx={{marginLeft: '10px'}}/>}
+              onClick={() => handleViewVerification(params.row.verificationFront)}
+              sx={{height: '37px'}}
+          >
+          </Button>
+          </div>
+          ),
+        },
+        { field: 'verificationBack', headerName: 'Xác nhận mặt sau', width: 150, sortable: false,
+    renderCell: (params) => (
+        <div>
+        <Button
+            variant="outlined"
+            startIcon={<VisibilityIcon sx={{marginLeft: '10px'}}/>}
+            onClick={() => handleViewVerification(params.row.verificationBack)}
+            sx={{height: '37px'}}
+        >
+        </Button>
+        </div>
+        ),
+      },
+    { field: 'verificationStatus', headerName: 'Trạng thái', width: 150, 
         renderCell: (params) => (
           <div style={{ color: 
             params.row.verificationStatus === 1 ? 'green' : 
@@ -111,16 +177,9 @@ export default function ChefManagement() {
         sortable: false,
         renderCell: (params) => (
             <div>
-            <Button
-                variant="outlined"
-                startIcon={<VisibilityIcon sx={{marginLeft: '10px'}}/>}
-                onClick={() => handleViewVerification(params.row.id)}
-                sx={{height: '37px'}}
-            >
-            </Button>
             {
             params.row.verificationStatus === 0 ? <Button variant="outlined" sx={{marginLeft: '20px'}} onClick={() => handleAccept(params.row.id, params.row.userId)}>Duyệt</Button> : 
-            <Button variant="outlined" sx={{marginLeft: '20px'}} disabled>Đã duyệt</Button>
+            <Button variant="outlined" disabled>Đã duyệt</Button>
             }
             {
             params.row.verificationStatus === 0 ? <Button
@@ -164,18 +223,36 @@ export default function ChefManagement() {
                 />
                 
             </Box>
-            <Button 
-                variant="contained" 
-                sx={{ 
-                    bgcolor: "#ff5e00", 
-                    borderRadius: '15px' , 
-                    marginLeft: '1720px',
-                    color: 'white' 
-                }}
-                onClick={goToCreateAccount}
-                >
-                Tạo tài khoản mới
-            </Button>
+            <Dialog
+        open={open}
+        onClose={handleCloseDialog}
+        PaperProps={{
+          component: 'form',
+          onSubmit: (event) => {
+            event.preventDefault();
+            const formData = new FormData(event.currentTarget);
+            const formJson = Object.fromEntries(formData.entries());
+            // setNewMarketplaceName(formJson.name);
+
+            handleCloseDialog();
+          },
+        }}
+      >
+        <DialogTitle>Chi tiết ảnh</DialogTitle>
+        <DialogContent>
+        <CardMedia
+                            component={"img"}
+                            height={600}
+                            image={imageToShow}
+                            alt="green iguana"
+                          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog}>Xong</Button>
+
+        </DialogActions>
+            </Dialog>
+
         </Box>
     </div>
   )
