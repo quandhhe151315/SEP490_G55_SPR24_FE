@@ -157,17 +157,18 @@ export default function CreateFormItem() {
               )}
             />
           </Stack>
-          <label htmlFor="choose_image" style={{}}>
-            <input
-              type="file"
-              accept="image/*"
-              id="choose_image"
-              style={{ overflow: "hidden", marginTop: "80px" }}
-              onChange={(event) => {
-                setFiles(event?.target?.files);
-              }}
-            />
-          </label>
+
+          <input
+            type="file"
+            accept="image/*"
+            id="choose_image"
+            title="Chọn ảnh"
+            style={{ overflow: "hidden", marginTop: "80px" }}
+            onChange={(event) => {
+              setFiles(event?.target?.files);
+            }}
+          />
+          <label htmlFor="choose_image" style={{}}>Chọn ảnh</label>
           <Stack
             sx={{
               justifyContent: "center",

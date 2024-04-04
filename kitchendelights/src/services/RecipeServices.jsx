@@ -1,7 +1,7 @@
 import axios from "./CustomizeAxios";
 
-export const getAllRecipeASCbyRating = () => {
-  return axios.get("/Recipe/GetAllRecipeASCbyRating");
+export const getAllRecipebyRating = (params) => {
+  return axios.get("/Recipe/HighRating",{params});
 };
 
 export const getAllRecipeFree = () => {
@@ -19,5 +19,15 @@ export const getAllIngredient = () => {
 };
 
 export const getRecipeByFilter = (params) => {
-  return axios.get("/Recipe/FilterRecipe", {params});
+  return axios.get("/Recipe/GetAllRecipe", { params });
+};
+export const getAllCategory = () => {
+  return axios.get("/Category/GetAllCategoy");
+};
+
+export const getCategoryByParentId = (parentId) => {
+  const url = parentId
+    ? `/Category/GetCategoryByParentId?parentId=${parentId}`
+    : "/Category/GetCategoryByParentId";
+  return axios.get(url);
 };
