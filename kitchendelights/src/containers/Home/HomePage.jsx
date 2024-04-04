@@ -8,14 +8,13 @@ import NewsTrend from "./NewsOutstanding";
 import CarouselItem from "./CarouselHome/ CarouselItem";
 import RecipeItem from "./RecipeHome/RecipeItem";
 import RecipeItemList from "./RecipeHome";
-import { useGetAllRecipeASCbyRating } from "../../hook/useGetAllRecipeASCbyRating";
-import { useGetAllRecipePaid } from "../../hook/useGetAllRecipePaid";
-import { useGetAllRecipeFree } from "../../hook/useGetAllRecipeFree";
+import { useGetRecipeByFilter } from "../../hook/useGetRecipeByFilter";
+import { useGetAllRecipebyRating } from "../../hook/useGetAllRecipebyRating";
 
 function HomePage() {
-  const { allRecipeASCbyRating } = useGetAllRecipeASCbyRating();
-  const { allRecipePaid } = useGetAllRecipePaid();
-  const { allRecipeFree } = useGetAllRecipeFree();
+  const { allRecipebyRating } = useGetAllRecipebyRating({count:6});
+  const { recipList: allRecipeFree } = useGetRecipeByFilter({ isfree: 2 });
+  const { recipList: allRecipePaid } = useGetRecipeByFilter({ isfree: 1 });
   return (
     <div>
       <Appbar />
@@ -30,8 +29,8 @@ function HomePage() {
         </Grid>
         <Box sx={{ width: "100%", marginX: "auto", mt: 6 }}>
           <RecipeItemList
-            title={"Công thức giảm giá"}
-            recipeItemLists={allRecipeASCbyRating}
+            title={"Công thức yêu thích"}
+            recipeItemLists={allRecipebyRating}
           />
         </Box>
         <Box sx={{ width: "100%", marginX: "auto", mt: 6 }}>
