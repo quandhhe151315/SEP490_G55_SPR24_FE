@@ -45,6 +45,7 @@ import BlogUser from "../containers/Blog/BlogUser";
 import RecipeByFilter from "../components/RecipeByFilterList";
 import DetailMarketplace from "../containers/MarketPlace/DetailMarketplace";
 import ChefManagement from "../containers/Account/ChefManagement";
+import ViewAdvertisement from "../containers/Advertisement/ViewAdvertisement";
 import MyRecipe from "../containers/Recipe/MyRecipe";
 
 function AppRoute() {
@@ -72,6 +73,10 @@ function AppRoute() {
     {
       path: "/ViewListRecipes",
       element: <ViewListRecipes />,
+    },
+    {
+      path: "/AdsManagement",
+      element: <ViewAdvertisement />,
     },
 
     {
@@ -166,9 +171,9 @@ function AppRoute() {
     },
     {
       path: "/DashBoardMenu",
-      element: <DashBoard/>,
+      element: <DashBoard />,
     },
-     {
+    {
       path: "/ChangeRole/:userId",
       element: <ChangeRole />,
     },
@@ -189,11 +194,11 @@ function AppRoute() {
       element: <MyRecipe />,
     },
     { path: "/CreateRecipe", element: <CreateRecipe /> },
-    { path: "/Login", element: <Login />},
-    { path: "/Register", element: <Register />},
-    { path: "/BecomeChef", element: <BecomeChef />},
-    { path: "/Marketplace", element: <MarketplaceManagement />},
-    { path: "/ChefVerificationManagement", element: <ChefManagement />},
+    { path: "/Login", element: <Login /> },
+    { path: "/Register", element: <Register /> },
+    { path: "/BecomeChef", element: <BecomeChef /> },
+    { path: "/Marketplace", element: <MarketplaceManagement /> },
+    { path: "/ChefVerificationManagement", element: <ChefManagement /> },
     { path: "/", element: <Navigate to="/KitchenDelights" /> },
     {
       path: "/myblog",
