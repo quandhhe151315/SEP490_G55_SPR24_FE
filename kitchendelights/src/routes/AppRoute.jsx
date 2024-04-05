@@ -45,6 +45,7 @@ import BlogUser from "../containers/Blog/BlogUser";
 import RecipeByFilter from "../components/RecipeByFilterList";
 import DetailMarketplace from "../containers/MarketPlace/DetailMarketplace";
 import ChefManagement from "../containers/Account/ChefManagement";
+import MyRecipe from "../containers/Recipe/MyRecipe";
 
 function AppRoute() {
   const router = createBrowserRouter([
@@ -182,6 +183,10 @@ function AppRoute() {
     {
       path: "/DenyAccess",
       element: <DenyAccess />,
+    },
+    {
+      path: "/MyRecipe",
+      element: <MyRecipe />,
     },
     { path: "/CreateRecipe", element: <CreateRecipe /> },
     { path: "/Login", element: <Login />},

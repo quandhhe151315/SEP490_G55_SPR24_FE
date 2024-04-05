@@ -174,6 +174,9 @@ const getRecipes = () => {
 const getRecipeById = (id) => {
   return axios.get(`/Recipe/GetRecipeById?recipeId=${id}`);
 };
+const getRecipeByUserId = (id) => {
+  return axios.get(`/Recipe/GetAllRecipeByUserId?userId=${id}`);
+};
 const deleteRecipe = (id) => {
   return axios.delete(`/Recipe/DeleteRecipe?recipeId=${id}`);
 };
@@ -365,12 +368,10 @@ export {
   getHistoryPayment,
   addVoucher,
   updateCategoryRecipe,
-
   getNumberRevenueInThisMonth,
   getNumberRevenueInFiveMonth,
   getNumberUserCreatedInThisMonth,
   getNumberRecipeCreatedInThisMonth,
-
   checkInteraction,
-
+  getRecipeByUserId,
 };

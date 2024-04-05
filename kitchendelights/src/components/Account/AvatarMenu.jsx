@@ -69,6 +69,10 @@ function AvatarMenu({ handleClick, onMenuSelect }) {
     const goToMyBookMark = () => {
         navigate('/BookMark/');
     }
+    const goToMyRecipe = () => {
+        navigate('/MyRecipe');
+    }
+    
     return (
         <div>
             <GetInformationJWT setId={setId} />
@@ -106,7 +110,7 @@ function AvatarMenu({ handleClick, onMenuSelect }) {
                         <ListItemText>Công thức yêu thích</ListItemText>
                     </MenuItem>
 
-                    <MenuItem>
+                    <MenuItem onClick={goToMyRecipe}>
                         <ListItemIcon>
                             <LocalPizzaIcon fontSize="small" sx={{ color: "#ff5e00" }} />
                         </ListItemIcon>

@@ -24,13 +24,13 @@ function ViewDetailMenu() {
                     <AvatarMenu />
                 </Grid>
                 <Grid item xs={7}  >
-                    
-                        
-                            
-                                <MenuDetail menuId={menuId} />
-                            
-                        
-                    
+
+
+
+                    <MenuDetail menuId={menuId} />
+
+
+
 
                 </Grid>
             </Grid>
