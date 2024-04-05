@@ -365,12 +365,10 @@ export {
   getHistoryPayment,
   addVoucher,
   updateCategoryRecipe,
-
   getNumberRevenueInThisMonth,
   getNumberRevenueInFiveMonth,
   getNumberUserCreatedInThisMonth,
   getNumberRecipeCreatedInThisMonth,
-
   checkInteraction,
 
 };
