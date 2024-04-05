@@ -133,7 +133,7 @@ function MenuDetail({ menuId }) {
 
   return (
     <div>
-      <Paper elevation={2} style={{ marginLeft: '20px', marginTop: '32px', height: '800px', width:'1100px', overflow:'auto' }}>
+      <Paper elevation={2} style={{ marginLeft: '20px', marginTop: '32px', height: '850px', width:'1100px', overflow:'auto' }}>
         {isEditing ? (
           <>
             <TextField sx={{ display: "block", fontSize: '46px', fontWeight: 'bold', marginLeft: '5%', marginTop: '20px', color: '#000000' }}
@@ -204,8 +204,8 @@ function MenuDetail({ menuId }) {
 
         <Divider sx={{ marginTop: '10px' }} />
 
-        <Box sx={{ marginTop: '20px' }}>
-          <Grid container spacing={3} sx={{ marginLeft: '10px', marginRight: '10px' }}>
+        <Box sx={{ marginTop: '20px', marginLeft: '10px', marginRight: '10px' }}>
+          <Grid container spacing={3} >
             {/* Danh sách công thức */}
             {listRecipe.map((item, index) => (
               <Grid item lg={3} md={6} xs={12} key={index}>
