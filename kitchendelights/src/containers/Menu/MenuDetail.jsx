@@ -27,6 +27,10 @@ import Rating from "@mui/material/Rating";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Link } from "react-router-dom";
+import Avatar from "@mui/material/Avatar";
+import Stack from "@mui/material/Stack";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import { removeRecipeFromMenu } from "../../services/ApiServices";
 
 
 function MenuDetail({ menuId }) {
@@ -54,6 +58,10 @@ function MenuDetail({ menuId }) {
     } catch (error) {
       console.error('loi khi get menu', error);
     }
+  };
+
+  const onAddNew = () => {
+    navigate("/ViewListRecipes");
   };
 
   const handleEditMenu = async () => {
@@ -101,17 +109,19 @@ function MenuDetail({ menuId }) {
     }
   };
 
-  // const CustomTextField = styled(TextField)({
-  //   '& input': {
-  //     fontSize: '46px',
-  //     color: '#000000'
-  //   },
-  //   '& label': {
-  //     fontSize: '46px',
-  //     fontWeight: 'bold',
-  //     color: '#000000'
-  //   }
-  // });
+  const handleDeleteRecipeFromMenu = async (recipeId) => {
+    try {
+      const response = await removeRecipeFromMenu(menuId, recipeId);
+      if (response.status === 200) {
+        console.log('remove recipe from menu', menuId, recipeId);
+        getMenuInFomation(menuId);
+      } else {
+        console.log('ko remove thanh cong', response);
+      }
+    } catch (error) {
+      console.error('loi khi remove recipe from menu', error);
+    }
+  };
 
   useEffect(() => {
     setIsEditing(false);
@@ -123,7 +133,7 @@ function MenuDetail({ menuId }) {
 
   return (
     <div>
-      <Paper elevation={2} style={{ marginLeft: '20px', marginTop: '32px', minHeight: '700px' }}>
+      <Paper elevation={2} style={{ marginLeft: '20px', marginTop: '32px', height: '850px', width:'1100px', overflow:'auto' }}>
         {isEditing ? (
           <>
             <TextField sx={{ display: "block", fontSize: '46px', fontWeight: 'bold', marginLeft: '5%', marginTop: '20px', color: '#000000' }}
@@ -193,73 +203,121 @@ function MenuDetail({ menuId }) {
         )}
 
         <Divider sx={{ marginTop: '10px' }} />
-        
-        <Box sx={{marginTop:'20px'}}>
-          <Grid container spacing={3}>
-            {listRecipe.filter(item => item.recipeStatus !== 3).map((item) => {
-              return (
-                <Grid item lg={3} md={6} xs={12}>
-                  <Card sx={{ maxWidth: 345 }}>
-                    <CardMedia
-                      component={"img"}
-                      height={140}
-                      image={item.featuredImage}
-                      alt="green iguana"
-                    />
-                    <CardContent>
-                      <Typography
-                        sx={{
-                          textWrap: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                        }}
-                        gutterBottom
-                        variant="h6"
-                        component="div"
-                      >
-                        {item.recipeTitle}
-                      </Typography>
 
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        {" "}
-                        <Rating
-                          name="simple-controlled"
-                          value={item.recipeRating}
-                          size="small"
-                        />
-                        <Typography component="legend" fontSize={11}>
-                          {item.vote} votes
-                        </Typography>
-                      </Box>
-                    </CardContent>
-                    <CardActions
+        <Box sx={{ marginTop: '20px', marginLeft: '10px', marginRight: '10px' }}>
+          <Grid container spacing={3} >
+            {/* Danh sách công thức */}
+            {listRecipe.map((item, index) => (
+              <Grid item lg={3} md={6} xs={12} key={index}>
+                <Card sx={{ maxWidth: 345, position: "relative" }}>
+                  <CardMedia
+                    component={"img"}
+                    height={140}
+                    image={item.featuredImage}
+                    alt="green iguana"
+                  />
+                  <CardContent>
+                    <Typography
+                      gutterBottom
+                      variant="h6"
+                      component="div"
+                      sx={{
+                        overflow: "hidden",
+                        whiteSpace: "nowrap",
+                        textOverflow: "ellipsis",
+                      }}
+                    >
+                      {item.recipeTitle}
+                    </Typography>
+                    <Rating
+                      name="simple-controlled"
+                      value={item.recipeRating}
+                      size="small"
+                    />
+                    <Box
                       sx={{
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "space-between",
-                        marginTop: -2,
+                        flexDirection: "column",
                       }}
                     >
-                      <Button size="small" endIcon={<FavoriteIcon />}>
-                        Like
-                      </Button>
+                      <Stack
+                        direction="row"
+                        spacing={2}
+                        sx={{ marginTop: "8px" }}
+                      >
+                        <Avatar sx={{ width: 24, height: 24 }} />
+                        <Typography>{item.userName}</Typography>
+                      </Stack>
+                    </Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        marginTop: "8px",
+                      }}
+                    >
                       <Link to={`/RecipeDetail/${item.recipeId}`}>
-                        {" "}
-                        <Button size="small" endIcon={<VisibilityIcon />}>
+                        <Button
+                          variant="contained"
+                          sx={{
+                            bgcolor: "#ff5e00",
+                            color: "white",
+                            borderRadius: 3,
+                            width: 75,
+                          }}
+                        >
                           Xem
                         </Button>
                       </Link>
-                    </CardActions>
-                  </Card>
-                </Grid>
-              );
-            })}
+                      <Button
+                        sx={{
+                          bgcolor: "#ff5e00",
+                          color: "white",
+                          borderRadius: 3,
+                          width: 75,
+                        }}
+                        variant="contained"
+                        onClick={() => handleDeleteRecipeFromMenu(item.recipeId)}
+                      >
+                        Xoá
+                      </Button>
+                    </Box>
+                  </CardContent>
+                  <CardActions
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      marginTop: -2,
+                      position: "absolute",
+                      top: 0,
+                      right: 0,
+                    }}
+                  ></CardActions>
+                </Card>
+              </Grid>
+            ))}
+            {/* Card thêm mới công thức */}
+            <Grid item lg={3} md={6} xs={12}>
+              <Card
+                sx={{
+                  textAlign: "center",
+                  backgroundColor: "#f0f0f0",
+                  cursor: "pointer",
+                }}
+                onClick={onAddNew}
+              >
+                <CardContent>
+                  <AddCircleIcon style={{ fontSize: 48, color: "#3f51b5" }} />
+                  <Typography variant="h6" color="textSecondary" component="div">
+                    Thêm công thức
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
           </Grid>
         </Box>
 

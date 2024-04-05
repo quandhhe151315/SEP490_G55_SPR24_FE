@@ -174,6 +174,9 @@ const getRecipes = () => {
 const getRecipeById = (id) => {
   return axios.get(`/Recipe/GetRecipeById?recipeId=${id}`);
 };
+const getRecipeByUserId = (id) => {
+  return axios.get(`/Recipe/GetAllRecipeByUserId?userId=${id}`);
+};
 const deleteRecipe = (id) => {
   return axios.delete(`/Recipe/DeleteRecipe?recipeId=${id}`);
 };
@@ -301,6 +304,22 @@ const updateStatusRecipe = (recipeId, status) => {
   );
 };
 
+const getNumberRevenueInThisMonth = () => {
+  return axios.get("/Payment/GetNumberRevenueInThisMonth");
+};
+
+const getNumberRevenueInFiveMonth = () => {
+  return axios.get("/Payment/GetNumberRevenueInNumberMonth?numMonth=5");
+};
+
+const getNumberUserCreatedInThisMonth = () => {
+  return axios.get("/User/GetNumberUserCreatedInThisMonth");
+};
+
+const getNumberRecipeCreatedInThisMonth = () => {
+  return axios.get("/Recipe/GetNumberRecipeCreatedInThisMonth");
+};
+
 export {
   login,
   register,
@@ -349,5 +368,10 @@ export {
   getHistoryPayment,
   addVoucher,
   updateCategoryRecipe,
+  getNumberRevenueInThisMonth,
+  getNumberRevenueInFiveMonth,
+  getNumberUserCreatedInThisMonth,
+  getNumberRecipeCreatedInThisMonth,
   checkInteraction,
+  getRecipeByUserId,
 };

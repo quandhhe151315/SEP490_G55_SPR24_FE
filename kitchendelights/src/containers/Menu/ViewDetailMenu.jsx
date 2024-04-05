@@ -1,4 +1,4 @@
-import React, { useState ,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import AvatarMenu from '../../components/Account/AvatarMenu';
 import Appbar from '../../components/Homepage/Appbar';
 import Box from '@mui/material/Box';
@@ -18,23 +18,21 @@ function ViewDetailMenu() {
 
     return (
         <div>
-            <Appbar/>
-            <Grid container spacing={2} sx={{marginBottom: '2%'}}>
-        <Grid item xs={2} sx={{marginLeft: '10%'}}>
-          <AvatarMenu/>
-        </Grid>
-        <Grid item xs={1}  ></Grid>
-        <Grid item xs={7}  >
-            <Box sx={{ display: 'flex' }}>
-                <Grid container spacing={0}>
-                <Grid item xs={12}>
-
-                    <MenuDetail menuId={menuId}/>
-                    </Grid>
+            <Appbar />
+            <Grid container spacing={2} sx={{ marginBottom: '2%' }}>
+                <Grid item xs={2} sx={{ marginLeft: '10%' }}>
+                    <AvatarMenu />
                 </Grid>
-            </Box>
+                <Grid item xs={7}  >
 
-            </Grid>
+
+
+                    <MenuDetail menuId={menuId} />
+
+
+
+
+                </Grid>
             </Grid>
         </div>
     );

@@ -62,14 +62,21 @@ function AvatarMenu({ handleClick, onMenuSelect }) {
 
     const goToBecomeChef = () => {
         navigate("/BecomeChef");
-      };
+    };
     const goToMyBlog = () =>{
         navigate('/myblog')
     }
+    const goToMyBookMark = () => {
+        navigate('/BookMark/');
+    }
+    const goToMyRecipe = () => {
+        navigate('/MyRecipe');
+    }
+    
     return (
         <div>
             <GetInformationJWT setId={setId} />
-            <Paper sx={{ width: 250, maxWidth: '100%', marginTop: '30px', marginLeft: '46%', border: '1px solid #bfb8b8' }}>
+            <Paper sx={{ width: 250, maxWidth: '100%', marginTop: '30px', border: '1px solid #bfb8b8' }}>
                 <MenuList>
                     <MenuItem>
                         <ListItemIcon>
@@ -94,16 +101,16 @@ function AvatarMenu({ handleClick, onMenuSelect }) {
                 </MenuList>
             </Paper>
 
-            <Paper sx={{ maxHeight:'500px', overflow:'auto', width: 250, maxWidth: '100%', marginTop: '20px', marginLeft: '46%', border: '1px solid #bfb8b8' }}>
+            <Paper sx={{ maxHeight:'500px', overflow:'auto', width: 250, maxWidth: '100%', marginTop: '20px', border: '1px solid #bfb8b8' }}>
                 <MenuList>
-                    <MenuItem>
+                    <MenuItem onClick={goToMyBookMark}>
                         <ListItemIcon>
                             <FavoriteIcon fontSize="small" sx={{ color: "#ff5e00" }} />
                         </ListItemIcon>
                         <ListItemText>Công thức yêu thích</ListItemText>
                     </MenuItem>
 
-                    <MenuItem>
+                    <MenuItem onClick={goToMyRecipe}>
                         <ListItemIcon>
                             <LocalPizzaIcon fontSize="small" sx={{ color: "#ff5e00" }} />
                         </ListItemIcon>
@@ -126,11 +133,11 @@ function AvatarMenu({ handleClick, onMenuSelect }) {
                 </MenuList>
             </Paper> 
 
-            <Paper sx={{ maxHeight:'500px', overflow:'auto', width: 250, maxWidth: '100%', marginTop: '20px', marginLeft: '46%', border: '1px solid #bfb8b8' }}>
+            <Paper sx={{ maxHeight:'500px', overflow:'auto', width: 250, maxWidth: '100%', marginTop: '20px', border: '1px solid #bfb8b8' }}>
                 <MenuListItems handleClick={handleClick} onMenuSelect={onMenuSelect}/>
             </Paper>
 
-            <Paper sx={{ width: 250, maxWidth: '100%', marginTop: '20px', marginLeft: '46%', border: '1px solid #bfb8b8' }}>
+            <Paper sx={{ width: 250, maxWidth: '100%', marginTop: '20px', border: '1px solid #bfb8b8' }}>
                 <MenuList>
                     <MenuItem onClick={goToBecomeChef}>
                         <ListItemIcon>
@@ -141,7 +148,7 @@ function AvatarMenu({ handleClick, onMenuSelect }) {
                 </MenuList>
             </Paper>
 
-            <Paper sx={{ width: 250, maxWidth: '100%', marginTop: '20px', marginLeft: '46%', border: '1px solid #bfb8b8' }}>
+            <Paper sx={{ width: 250, maxWidth: '100%', marginTop: '20px', border: '1px solid #bfb8b8' }}>
                 <MenuList>
                     <MenuItem onClick={handleClickOpen}>
                         <ListItemIcon>
