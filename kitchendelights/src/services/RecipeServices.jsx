@@ -29,9 +29,9 @@ export const getAllCategory = () => {
   return axios.get("/Category/GetAllCategoy");
 };
 
-export const getCategoryByParentId = (parentId) => {
-  const url = parentId
-    ? `/Category/GetCategoryByParentId?parentId=${parentId}`
-    : "/Category/GetCategoryByParentId";
+export const getCategoryByParentId = (params) => {
+  const url = params?.parentId
+  ? `/Category/GetCategoryByParentId?parentId=${params?.parentId}&categoryType=${params?.categoryType}`
+  : `/Category/GetCategoryByParentId?categoryType=${params?.categoryType}`;
   return axios.get(url);
 };

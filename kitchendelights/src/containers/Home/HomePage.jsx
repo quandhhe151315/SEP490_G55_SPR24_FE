@@ -10,6 +10,7 @@ import RecipeItem from "./RecipeHome/RecipeItem";
 import RecipeItemList from "./RecipeHome";
 import { useGetRecipeByFilter } from "../../hook/useGetRecipeByFilter";
 import { useGetAllRecipebyRating } from "../../hook/useGetAllRecipebyRating";
+import BlogLatest from "./BlogLatest";
 
 function HomePage() {
   const { allRecipebyRating } = useGetAllRecipebyRating({count:6});
@@ -44,6 +45,18 @@ function HomePage() {
             title={"Công thức trả phí mới"}
             recipeItemLists={allRecipePaid}
           />
+        </Box>
+        <Box sx={{ width: "100%", marginX: "auto", mt: 6 }}>
+        <Typography
+        fontSize={20}
+        textTransform={"uppercase"}
+        fontWeight={"bold"}
+        mb={2} color="#ff5e00"
+      
+      >
+        Blog mới nhất
+      </Typography>
+         <BlogLatest/>
         </Box>
       </Box>
     </div>

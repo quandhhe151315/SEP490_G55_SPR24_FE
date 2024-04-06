@@ -17,7 +17,7 @@ export default function TooltipItem({ categoryItem }) {
   };
   const navigate = useNavigate();
   const { categoryByParentId } = useGetCategoryByParentId(
-    categoryItem?.categoryId
+    categoryItem?.categoryId,categoryItem?.categoryType
   );
   return (
     <LightTooltip
