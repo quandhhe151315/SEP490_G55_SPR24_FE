@@ -47,7 +47,8 @@ import DetailMarketplace from "../containers/MarketPlace/DetailMarketplace";
 import ChefManagement from "../containers/Account/ChefManagement";
 import ViewAdvertisement from "../containers/Advertisement/ViewAdvertisement";
 import MyRecipe from "../containers/Recipe/MyRecipe";
-
+import CreateAdvertisement from "../containers/Advertisement/CreateAdvertisement";
+import UpdateAdvertisement from "../containers/Advertisement/UpdateAdvertisement";
 function AppRoute() {
   const router = createBrowserRouter([
     {
@@ -73,10 +74,6 @@ function AppRoute() {
     {
       path: "/ViewListRecipes",
       element: <ViewListRecipes />,
-    },
-    {
-      path: "/AdsManagement",
-      element: <ViewAdvertisement />,
     },
 
     {
@@ -113,6 +110,21 @@ function AppRoute() {
       element: <CreateBlog />,
     },
 
+    // ads
+    {
+      path: "/AdsManagement",
+      element: <ViewAdvertisement />,
+    },
+
+    {
+      path: "/CreateAdvertisement",
+      element: <CreateAdvertisement />,
+    },
+
+    {
+      path: "/UpdateAdvertisement/:advertisementId",
+      element: <UpdateAdvertisement />,
+    },
     {
       path: "/CreateCategory",
       element: <CreateCategory />,
