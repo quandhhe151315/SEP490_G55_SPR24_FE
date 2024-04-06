@@ -1,7 +1,7 @@
 import axios from "./CustomizeAxios";
 
-const getAds = (id) => {
-  return axios.get(`/Advertisement/GetAdvertismentById?id=${id}`);
+const getAds = () => {
+  return axios.get("/Advertisement/GetAdvertismentById");
 };
 const createAds = (advertisementImage, advertisementLink) => {
   return axios.post("/Advertisement/Create", {
