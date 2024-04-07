@@ -186,7 +186,7 @@ function BecomeChef() {
             
 
             <Button onClick={activeStep === steps.length - 1 ? handleCreateVerification : handleNext} sx={{ display: 'flex', flexDirection: 'row', pt: 2, marginBottom: '1%', marginRight: '1%', color: '#ff5e00', fontWeight: 'bold' }}>
-  {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+  {activeStep === steps.length - 1 ? 'Gửi' : 'Tiếp'}
 </Button>
           </Box>
         </React.Fragment>

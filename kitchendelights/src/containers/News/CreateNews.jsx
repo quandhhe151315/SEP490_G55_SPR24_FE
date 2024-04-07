@@ -28,7 +28,7 @@ function CreateNews() {
       
       setFeaturedImageName(file.name);
       if (file.type.startsWith('image/')) {
-        const resFeaturedImage = await uploadImage(file, "variable");
+        const resFeaturedImage = await uploadImage(file, "news");
         setFeaturedImage(resFeaturedImage);
       } else {
       }
@@ -40,18 +40,24 @@ function CreateNews() {
   }
 
   const handleCreateNews = async () => {
-    try {
-      const response = await createNews(Cookies.get('userId'), newsTitle, newsContent, featuredImage);
-      if (response.status === 200) {
-        showSnackbar('Tạo thành công và đang chờ được duyệt!', "success");
-        goToNews();
-        console.log('Create news successful! ');
-      } else {
-        console.error('Can not create news! ');
+    if (newsTitle === '' || newsContent === '' || featuredImage === '') {
+      showSnackbar('Không được để trống tiêu đề, ảnh giới thiệu hoặc nội dung !', "error");
+    } else if (newsTitle.length > 80) {
+      showSnackbar('Tiêu đề không được vượt quá 80 kí tự !', "error");
+    } else {
+      try {
+        const response = await createNews(Cookies.get('userId'), newsTitle, newsContent, featuredImage);
+        if (response.status === 200) {
+          showSnackbar('Tạo thành công và đang chờ được duyệt !', "success");
+          goToNews();
+        } else {
+
+        }
+      } catch (error) {
+        showSnackbar('Tạo thất bại !', "error");
       }
-    } catch (error) {
-      console.error('Create news error:', error);
     }
+    
   };
 
   
