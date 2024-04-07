@@ -23,6 +23,7 @@ import { toast } from "react-toastify";
 import Footer from "../../components/Footer/Footer";
 import { useCart } from "../../store";
 import { searchRecipe } from "../../services/RecipeServices";
+import AdBanner from "../../components/ADS/AdBanner";
 
 const DisplaySearchNews = styled("div")(({ theme }) => ({
   display: "flex",
@@ -340,7 +341,8 @@ function ViewListRecipes() {
             </Button>
           </Typography>
         </Box>
-
+        <Typography sx={{ marginTop: "50px" }} />
+        <AdBanner />
         <Typography
           sx={{
             marginLeft: "320px",
@@ -482,134 +484,7 @@ function ViewListRecipes() {
         </Box>
       </Typography>
       <Typography sx={{ marginTop: 3 }} />
-      <Typography
-        sx={{
-          marginLeft: 40,
-          color: "#ff5e00",
-          fontSize: 15,
-          fontWeight: "bold",
-        }}
-      >
-        Có thể bạn sẽ thích
-      </Typography>
-      <Typography sx={{ marginTop: 2 }} />
-      <Typography sx={{ marginLeft: 40 }}>
-        <Stack direction="row" spacing={2}>
-          <Button
-            sx={{
-              bgcolor: "#ff5e00",
-              borderRadius: "15px",
-              width: "150px",
-              height: "42px",
-              color: "white",
-            }}
-          >
-            Thịt bò
-          </Button>
-          <Button
-            sx={{
-              bgcolor: "#ff5e00",
-              borderRadius: "15px",
-              width: "150px",
-              height: "42px",
-              color: "white",
-            }}
-          >
-            Thịt gà
-          </Button>
-          <Button
-            sx={{
-              bgcolor: "#ff5e00",
-              borderRadius: "15px",
-              width: "200px",
-              height: "42px",
-              color: "white",
-            }}
-          >
-            Món ăn dinh dưỡng
-          </Button>
-          <Button
-            sx={{
-              bgcolor: "#ff5e00",
-              borderRadius: "15px",
-              width: "150px",
-              height: "42px",
-              color: "white",
-            }}
-          >
-            Thịt lợn
-          </Button>
-          <Button
-            sx={{
-              bgcolor: "#ff5e00",
-              borderRadius: "15px",
-              width: "150px",
-              height: "42px",
-              color: "white",
-            }}
-          >
-            Rau sạch
-          </Button>
-        </Stack>
-        <Typography sx={{ marginTop: 1 }} />
-        <Stack direction="row" spacing={2}>
-          <Button
-            sx={{
-              bgcolor: "#ff5e00",
-              borderRadius: "15px",
-              width: "150px",
-              height: "42px",
-              color: "white",
-            }}
-          >
-            Bánh mì
-          </Button>
-          <Button
-            sx={{
-              bgcolor: "#ff5e00",
-              borderRadius: "15px",
-              width: "150px",
-              height: "42px",
-              color: "white",
-            }}
-          >
-            Món ăn chay
-          </Button>
-          <Button
-            sx={{
-              bgcolor: "#ff5e00",
-              borderRadius: "15px",
-              width: "150px",
-              height: "42px",
-              color: "white",
-            }}
-          >
-            Đồ ăn healthy
-          </Button>
-          <Button
-            sx={{
-              bgcolor: "#ff5e00",
-              borderRadius: "15px",
-              width: "150px",
-              height: "42px",
-              color: "white",
-            }}
-          >
-            Phở
-          </Button>
-          <Button
-            sx={{
-              bgcolor: "#ff5e00",
-              borderRadius: "15px",
-              width: "150px",
-              height: "42px",
-              color: "white",
-            }}
-          >
-            Bánh ngọt
-          </Button>
-        </Stack>
-      </Typography>
+
       <Typography sx={{ height: 8 }} />
     </div>
   );

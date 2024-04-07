@@ -51,6 +51,14 @@ function RandomRecipes() {
     const shuffled = items.sort(() => 0.5 - Math.random());
     return shuffled.slice(0, count);
   };
+
+  const handleViewRecipe = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   const prevButton = <button className="slick-prev">«</button>;
   const nextButton = <button className="slick-next">»</button>;
   const settings = {
@@ -162,7 +170,11 @@ function RandomRecipes() {
                         Like
                       </Button>
                       <Link to={`/RecipeDetail/${item.recipeId}`}>
-                        <Button size="small" endIcon={<VisibilityIcon />}>
+                        <Button
+                          size="small"
+                          endIcon={<VisibilityIcon />}
+                          onClick={handleViewRecipe}
+                        >
                           Xem
                         </Button>
                       </Link>
