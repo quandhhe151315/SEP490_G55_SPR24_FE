@@ -170,13 +170,14 @@ function ViewListNews() {
                           <CardContent>
                             <Typography
                               sx={{
-                                textWrap: "nowrap",
                                 overflow: "hidden",
                                 textOverflow: "ellipsis",
                                 textAlign: "center",
+                                fontSize: '18px',
+                                fontWeight: 'bold',
+                                height: '80px',
                               }}
                               gutterBottom
-                              variant="h6"
                               component="div"
                             >
                               {item.newsTitle}

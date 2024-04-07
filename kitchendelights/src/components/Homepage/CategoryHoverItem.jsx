@@ -4,7 +4,7 @@ import TooltipItem from "./ToolTipItem";
 import { useGetCategoryByParentId } from "../../hook/useGetCategoryByParentId";
 
 export default function CategoryHoverItem() {
-  const { categoryByParentId } = useGetCategoryByParentId();
+  const { categoryByParentId } = useGetCategoryByParentId({categoryType:true});
   return (
     <>
       {categoryByParentId?.map((item) => {

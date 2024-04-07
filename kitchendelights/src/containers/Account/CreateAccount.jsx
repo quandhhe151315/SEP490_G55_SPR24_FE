@@ -49,16 +49,22 @@ export default function CreateAccount() {
 
   //statusId: 1 là active, 2 là banned, 3 là deleted
   const handleCreateAccount = async () => {
-    try {
-      const response = await createAccount(userName,firstName,middleName,lastName,email,phone,password,"Avatar Default",1,role);
-      if (response.status === 200) {
-        goToListAccount();
-        showSnackbar('Tạo tài khoản thành công!', "success");
-      } else {
+    if (password === '' || role === 9 || email === '') {
+      showSnackbar('Không được để trống email, password hoặc role !', "error");
+    } else if (password.length < 6) {
+      showSnackbar('Mật khẩu phải dài hơn 6 kí tự!', "error");
+    } else {
+      try {
+        const response = await createAccount(userName,firstName,middleName,lastName,email,phone,password,"Avatar Default",1,role);
+        if (response.status === 200) {
+          goToListAccount();
+          showSnackbar('Tạo tài khoản thành công!', "success");
+        } else {
 
+        }
+      } catch (error) {
+        showSnackbar('Tạo tài khoản thất bại!', "error");
       }
-    } catch (error) {
-      showSnackbar('Tạo tài khoản thất bại!', "error");
     }
   };
 

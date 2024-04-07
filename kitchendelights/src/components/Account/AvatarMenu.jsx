@@ -24,6 +24,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import { deleteAccount } from '../../services/UserServices';
+import Cookies from 'js-cookie';
 
 function AvatarMenu({ handleClick, onMenuSelect }) {
     const navigate = useNavigate();
@@ -39,11 +40,18 @@ function AvatarMenu({ handleClick, onMenuSelect }) {
       setOpen(false);
     };
 
+    const logout = () => {
+        Cookies.remove("jwt");
+        Cookies.remove("userId");
+        Cookies.remove("role");
+        navigate("/KitchenDelights");
+      }
+
     const handleDeleteAccount = async () => {
         try {
           const response = await deleteAccount(id);
           if (response.status === 200) {
-            navigate('/');
+            logout();
           } else {
 
           }
