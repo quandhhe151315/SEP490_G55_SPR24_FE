@@ -11,7 +11,6 @@ import axios from "./CustomizeAxios";
   const searchNews = (text) => {
     return axios.get(`/News/Search?search=${text}`);
   }
-  
   export {
     acceptNews, deleteNews, searchNews
   };

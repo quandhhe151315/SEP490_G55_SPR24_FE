@@ -15,11 +15,11 @@ export default function BlogLatest() {
     <div>
       <Grid
         container
-        columnSpacing={3}
-        rowSpacing={3}
+        columnSpacing={10}
+        rowSpacing={4}
         mt={2}
         height={"100%"}
-        mx={0}
+        mx={-4}
         width={"100%"}
       >
         {slicedBlogList?.map((item, index) => (
