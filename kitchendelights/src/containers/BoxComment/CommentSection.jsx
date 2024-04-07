@@ -109,11 +109,11 @@ const PostComment = ({ recipeId, loading, setLoading }) => {
       return;
     }
     if (!rating) {
-      toast.warning("Vui lòng vote sao trước khi đăng !");
+      toast.warning("Vui lòng vote sao !");
       return;
     }
     if (!newComment) {
-      toast.warning("Vui lòng nhập bình luận trước khi đăng !");
+      toast.warning("Vui lòng nhập bình luận !");
       return;
     }
     if (userId && newComment && recipeId) {
