@@ -7,6 +7,7 @@ export default function BlogSearch({ categoryId }) {
   const { blogList } = useGetBlogList({ category: categoryId });
   return (
     <Stack>
+    
       <Typography fontWeight={600} fontSize={20} mb={2}>
         Bài viết liên quan
       </Typography>
@@ -28,11 +29,19 @@ export default function BlogSearch({ categoryId }) {
         {blogList?.map((item, index) => {
           if (index < 6) {
             return (
+              <>   <a
+              href={`/blog/${item?.blogId}`}
+              style={{ textDecoration: "none",color:"black" }}
+            >
               <BlogSuggestItem key={`suggest_blog_${index}`} blogItem={item} />
+              </a>
+              </>
+              
             );
           }
         })}
       </Stack>
+     
     </Stack>
   );
 }

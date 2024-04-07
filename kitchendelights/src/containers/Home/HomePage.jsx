@@ -11,8 +11,10 @@ import RecipeItemList from "./RecipeHome";
 import { useGetRecipeByFilter } from "../../hook/useGetRecipeByFilter";
 import { useGetAllRecipebyRating } from "../../hook/useGetAllRecipebyRating";
 import BlogLatest from "./BlogLatest";
+import { useGetNews } from "../../hook/useGetNews";
 
 function HomePage() {
+  const { newsList } = useGetNews();
   const { allRecipebyRating } = useGetAllRecipebyRating({count:6});
   const { recipList: allRecipeFree } = useGetRecipeByFilter({ isfree: 2 });
   const { recipList: allRecipePaid } = useGetRecipeByFilter({ isfree: 1 });
@@ -25,7 +27,7 @@ function HomePage() {
             <CarouselItem />
           </Grid>
           <Grid sx={{ mb: 2 }} item xs={4}>
-            <NewsTrend />
+            <NewsTrend newsItemLists={newsList}/>
           </Grid>
         </Grid>
         <Box sx={{ width: "100%", marginX: "auto", mt: 6 }}>
