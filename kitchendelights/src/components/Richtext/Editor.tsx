@@ -15,6 +15,7 @@ import {
 } from "mui-tiptap";
 import EditorMenuControls from "../Richtext/EditorMenuControls.tsx";
 import useExtensions from "../Richtext/useExtension.ts";
+import { uploadImage } from '../../services/BlogServices.jsx';
 
 function fileListToImageFiles(fileList: FileList): File[] {
   return Array.from(fileList).filter((file) => {
@@ -50,8 +51,9 @@ const exampleContent =
       // into the editor content, though that can make the editor content very
       // large. You will probably want to use the same upload function here as
       // for the MenuButtonImageUpload `onUploadFiles` prop.
-      const attributesForImageFiles = files.map((file) => ({
-        src: URL.createObjectURL(file),
+      const attributesForImageFiles = files.map(async (file) => ({
+        src: await uploadImage(file, "news"),
+       
         alt: file.name,
       }));
 
