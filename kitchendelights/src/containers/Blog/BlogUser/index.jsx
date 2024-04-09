@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Stack,Box,Typography } from "@mui/material";
+import { Grid, Stack, Box, Typography } from "@mui/material";
 import Appbar from "../../../components/Homepage/Appbar";
 import AvatarMenu from "../../../components/Account/AvatarMenu";
 import BlogItemUser from "./BlogItem";
@@ -18,15 +18,16 @@ export default function BlogUser() {
               <Grid item xs={12}>
                 <Stack spacing={2} sx={{ marginTop: "2%" }}>
                   <Typography sx={{ fontSize: "30px", fontWeight: "bold" }}>
-                        Blog của tôi
+                    Blog của tôi
                   </Typography>
                   <Typography sx={{ fontSize: "16px" }}>
                     Đây là nơi hiển thị các bài đăng của bạn
                   </Typography>
-                
                 </Stack>
-                <Stack sx={{mt:1, height:'500px',border: "1px solid #bfb8b8"}}>
-                    <BlogItemUser/>
+                <Stack
+                  sx={{ mt: 1, height: "500px", border: "1px solid #bfb8b8" }}
+                >
+                  <BlogItemUser />
                 </Stack>
               </Grid>
             </Grid>

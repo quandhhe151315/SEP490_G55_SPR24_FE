@@ -8,13 +8,14 @@ import {
   Button,
   Rating,
 } from "@mui/material";
-import { formatDistanceToNow, set } from "date-fns";
+import { formatDistanceToNow } from "date-fns";
 import StarIcon from "@mui/icons-material/Star";
 import { CreateReview, GetReviewByRecipeId } from "../../services/ApiServices";
 import { useNavigate } from "react-router-dom";
 import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import { toast } from "react-toastify";
+
 const Comment = ({ avatarSrc, username, content, timestamp, rating }) => {
   return (
     <Paper
@@ -32,11 +33,11 @@ const Comment = ({ avatarSrc, username, content, timestamp, rating }) => {
           <Typography variant="subtitle1" gutterBottom>
             {username}
           </Typography>
-          {rating !== undefined && ( // Hiển thị rating nếu có
+          {rating !== undefined && (
             <Typography variant="caption" color="textSecondary">
               <Rating
                 value={rating}
-                precision={0.5} // Điều chỉnh độ chính xác của rating
+                precision={0.5}
                 readOnly
                 emptyIcon={<StarIcon fontSize="inherit" />}
                 icon={<StarIcon fontSize="inherit" />}
@@ -87,7 +88,7 @@ const ListComment = ({ comments }) => {
 const PostComment = ({ recipeId, loading, setLoading }) => {
   const navigate = useNavigate();
   const [newComment, setNewComment] = useState("");
-  const [rating, setRating] = useState(0); // Thêm state cho giá trị rating
+  const [rating, setRating] = useState(0);
   const isUserLoggedIn = () => {
     const cookies = document.cookie.split("; ");
     return cookies.some((cookie) => cookie.startsWith("userId="));
@@ -98,14 +99,21 @@ const PostComment = ({ recipeId, loading, setLoading }) => {
   };
 
   const handleRatingChange = (event, value) => {
-    setRating(value); // Cập nhật giá trị rating khi thay đổi
+    setRating(value);
   };
 
   const handleSubmit = async () => {
-    //recipeId , userId, ratingValue,ratingStatus,ratingContent
     if (!isUserLoggedIn()) {
       navigate("/Login");
-      toast.warning("Vui lòng đăng nhập để đánh giá !"); // Chuyển hướng đến trang login nếu chưa đăng nhập
+      toast.warning("Vui lòng đăng nhập để đánh giá !");
+      return;
+    }
+    if (!rating) {
+      toast.warning("Vui lòng vote sao !");
+      return;
+    }
+    if (!newComment) {
+      toast.warning("Vui lòng nhập bình luận !");
       return;
     }
     if (userId && newComment && recipeId) {
@@ -117,7 +125,6 @@ const PostComment = ({ recipeId, loading, setLoading }) => {
           newComment
         );
         if (response.status === 200) {
-          //  setListMenu(response.data);
           setRating(0);
           setNewComment("");
           setLoading(!loading);
