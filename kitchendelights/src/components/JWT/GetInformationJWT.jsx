@@ -12,9 +12,12 @@ function GetInformationJWT(props) {
           if (setId) setId(decoded.id);
           Cookies.set('userId', decoded.id, { expires: 7 });
           if (setEmail) setEmail(decoded.email);
+
           if (setRole) setRole(decoded.role);
           Cookies.set('role', decoded.role, { expires: 7 });
+
           if (setName) setName(decoded.name);
+          
           if (setAvatar) setAvatar(decoded.avatar);
         }
       }
@@ -27,4 +30,5 @@ function GetInformationJWT(props) {
         <div></div>
       );
 }
+
 export default GetInformationJWT;

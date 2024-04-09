@@ -50,7 +50,7 @@ function ChangePassword() {
         <Grid item xs={2} sx={{marginLeft: '10%'}}>
           <AvatarMenu/>
         </Grid>
-        <Grid item xs={1}  ></Grid>
+        
         <Grid item xs={7}  >
             <Box sx={{ display: 'flex' }}>
                 <Grid container spacing={2}>
@@ -65,7 +65,7 @@ function ChangePassword() {
                         </Grid>
 
                         <Grid container spacing={2}>
-                        <Paper item sx={{ marginTop: '3%', borderRadius: '15px', border: '1px solid #bfb8b8', width: '77%', height: '100%' }}>
+                        <Paper item sx={{ marginTop: '3%', borderRadius: '15px', border: '1px solid #bfb8b8', width: '77%', height: '100%', marginLeft: '1.5%' }}>
                             <Grid container>
                                 <Grid item xs={12}>
                                     <Grid container direction="column">

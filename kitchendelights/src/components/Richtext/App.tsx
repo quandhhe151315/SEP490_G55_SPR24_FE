@@ -404,26 +404,70 @@ const handleViewCreateNewRecipe = () => {
     };
   }
 
-  const handleAPICreateNewRecipe = async () => {
-    try {
-      const response = await createRecipe(Cookies.get('userId'),featuredImage, introduction, videoCooking, title, timeAmountPrepare, timeAmountCook, amountPeopleEat, recipeContentDataSend, isFree, recipeCost, countryId,recipeIngredientDataSend);
-      if (response.status === 200) {
-        showSnackbar('Create recipe successful!', "success");
-        navigate('/');
-      } else {
-
+  
+  const checkIngredientAndContentChange = () => {
+    let checkEmpty = false;
+    for (let index = 0; index < recipeIngredientDataSend.length; index ++) {
+      if(recipeIngredientDataSend[index].ingredientId === 0 || recipeIngredientDataSend[index].unitValue === 0){
+        console.log("1/" + index);
+        checkEmpty = true;
       }
-    } catch (error) {
-      showSnackbar('Create new recipe fail!', "error");
+    }
+    for (let index = 0; index < recipeContent.length; index ++) {
+      if(recipeContent[index].RecipeStepContent === '' || recipeContent[index].RecipeImage === ''){
+        console.log("2/" + index);
+        checkEmpty = true;
+      }
+    }
+    return checkEmpty;
+  }
+
+  const handleValidateInputNumber = (inputTime) => {
+    if (!isNaN(inputTime)) {
+      return true;
+    } else {
+      return false;
     }
   }
 
-  const [countryId, setCountryId] = useState();
+  const handleAPICreateNewRecipe = async () => {
+    const checkEmpty = checkIngredientAndContentChange();
+    const checkInputNumberTimeAmountPrepare = handleValidateInputNumber(timeAmountPrepare);
+    const checkInputNumberTimeAmountCook = handleValidateInputNumber(timeAmountCook);
+    const checkInputNumberAmountPeopleEat = handleValidateInputNumber(amountPeopleEat);
+
+    if (title === '' || introduction === '' || featuredImage === '' || timeAmountPrepare === '' || timeAmountCook === '' || amountPeopleEat === '') {
+      showSnackbar('Không được để trống tất cả các trường bắt buộc !', "error");
+    } else if (countryId === -1) {
+      showSnackbar('Quốc gia không được bỏ trống !', "error");
+    } else if (isFree === false && recipeCost === '' || isFree === false && videoCooking === '') {
+      showSnackbar('Giá công thức hoặc link video nấu ăn không được bỏ trống !', "error");
+    } else if (checkInputNumberTimeAmountPrepare === false || checkInputNumberTimeAmountCook === false || checkInputNumberAmountPeopleEat === false) {
+      showSnackbar('Thời gian hoặc số người phục vụ phải là số nguyên !', "error");
+    } else if (checkEmpty === true) {
+      showSnackbar('Nguyên liệu và cách làm không được bỏ trống !', "error");
+    } else {
+      try {
+        const response = await createRecipe(Cookies.get('userId'),featuredImage, introduction, videoCooking, title, timeAmountPrepare, timeAmountCook, amountPeopleEat, recipeContentDataSend, isFree, recipeCost, countryId,recipeIngredientDataSend);
+        if (response.status === 200) {
+          showSnackbar('Tạo công thức thành công !', "success");
+          navigate('/');
+        } else {
+
+        }
+      } catch (error) {
+        showSnackbar('Tạo công thức thất bại !', "error");
+      }
+    }
+  }
+
+  const [countryId, setCountryId] = useState(-1);
   const [isFree, setIsFree] = useState(false);
   const [recipeCost, setRecipeCost] = useState('');
 
   const handleIsFree = (event) => {
     setIsFree(event.target.checked);
+    setRecipeCost('');
   }
 
   const handleChangeCountryId = (countryId) => {
@@ -435,14 +479,14 @@ const handleViewCreateNewRecipe = () => {
       <Box sx={{ p: 3}}>
         <Grid container spacing={2}>
           <Grid item xs={8}>
-            <TitleContentUI text="Tiêu đề">
+            <TitleContentUI text="Tiêu đề *">
             <TextField value={title} onChange={(event) => setTitle(event.target.value)} required id="outlined-required" sx={{ width: '100%'}} placeholder="Nhập tiêu đề"/>
             </TitleContentUI>
           </Grid>
           <Grid item xs={4}>
             <Typography sx={{color: '#ff5e00', fontWeight: 'bold', fontSize: '20px'}}>
 
-      Ảnh giới thiệu
+      Ảnh giới thiệu *
 
       </Typography>
       <input
@@ -462,7 +506,7 @@ const handleViewCreateNewRecipe = () => {
         <Grid container spacing={2} sx={{marginTop: '1%'}}>
           <Grid item xs={12}>
             
-            <TitleContentUI text="Miêu tả sơ bộ">
+            <TitleContentUI text="Miêu tả sơ bộ *">
             <TextField value={introduction} onChange={(event) => setIntroduction(event.target.value)} required id="outlined-required" sx={{ width: '100%'}} placeholder="Nhập miêu tả" />
             </TitleContentUI>
           </Grid>
@@ -471,14 +515,14 @@ const handleViewCreateNewRecipe = () => {
         <Grid container spacing={2} sx={{marginTop: '5%'}}>
           <Grid item xs={6}>
 
-            <TitleContentUI text="Thời gian chuẩn bị món">
+            <TitleContentUI text="Thời gian chuẩn bị món *">
             <TextField value={timeAmountPrepare} onChange={(event) => setTimeAmountPrepare(event.target.value)} required id="outlined-required" sx={{ width: '100%'}} placeholder="Nhập thời gian (đơn vị là phút)" />
             
             </TitleContentUI>
             
           </Grid>
           <Grid item xs={6}>
-            <TitleContentUI text="Thời gian nấu món ăn">
+            <TitleContentUI text="Thời gian nấu món ăn *">
 
             <TextField value={timeAmountCook} onChange={(event) => setTimeAmountCook(event.target.value)} required id="outlined-required" sx={{ width: '100%'}} placeholder="Nhập thời gian (đơn vị là phút)" />
             
@@ -488,12 +532,12 @@ const handleViewCreateNewRecipe = () => {
         </Grid>
         <Grid container spacing={2} sx={{marginTop: '1%'}}>
           <Grid item xs={6}>
-            <TitleContentUI text="Số người phục vụ">
+            <TitleContentUI text="Số người phục vụ *">
             <TextField value={amountPeopleEat} onChange={(event) => setAmountPeopleEat(event.target.value)} required id="outlined-required" sx={{ width: '100%'}} placeholder="Nhập số người phục vụ" />
             </TitleContentUI>
           </Grid>
           <Grid item xs={6}>
-            <TitleContentUI text="Link video nấu ăn">
+            <TitleContentUI text="Link video nấu ăn (bắt buộc nếu là công thức trả phí)">
             <TextField value={videoCooking} onChange={(event) => setVideoCooking(event.target.value)} required id="outlined-required" sx={{ width: '100%'}} placeholder="Nhập link video nấu ăn" />
             </TitleContentUI>
           </Grid>
@@ -634,10 +678,10 @@ const handleViewCreateNewRecipe = () => {
             <ClassicButton text="Thêm bước làm" top="1%" width="20%" onClick={handleAddRowClickBL} />
 
             <Grid container spacing={2} sx={{marginTop: '1%'}}>
-            <Typography sx={{ color: '#ff5e00', fontWeight: 'bold', fontSize: '20px', marginBottom: '1%'}}>
+            <Typography sx={{ color: '#ff5e00', fontWeight: 'bold', fontSize: '20px', marginBottom: '1%', marginLeft: '1%'}}>
               Thông tin khác
             </Typography>
-            <Typography sx={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '1%'}}>
+            <Typography sx={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '1%', marginLeft: '1%'}}>
             Món ăn thuộc về nước nào (Chọn quốc gia). Đây có phải là công thức miễn phí hay trả phí. Và nếu là công thức trả phí thì điền giá cho công thức (Hãy nhấn vào ô bên dưới nếu là công thức trả phí).
             </Typography>
               <Grid item xs={5}>

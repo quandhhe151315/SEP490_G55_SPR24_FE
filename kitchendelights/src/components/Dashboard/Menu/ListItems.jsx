@@ -15,7 +15,7 @@ import CommentIcon from "@mui/icons-material/Comment";
 import { useNavigate } from "react-router-dom";
 import StoreIcon from "@mui/icons-material/Store";
 import Cookies from "js-cookie";
-import PasswordIcon from "@mui/icons-material/Password";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LogoutIcon from "@mui/icons-material/Logout";
 
 const ItemButton = ({ goToManager, text, Icon }) => {
@@ -159,8 +159,8 @@ const SecondaryListItems = () => {
 const PersonalListItems = () => {
   const navigate = useNavigate();
 
-  const goToChangePassword = () => {
-    // navigate('/ListAccount');
+  const goToHomePage = () => {
+    navigate('/KitchenDelights');
   };
 
   const logout = () => {
@@ -173,9 +173,9 @@ const PersonalListItems = () => {
   return (
     <React.Fragment>
       <ItemButton
-        goToManager={goToChangePassword}
-        text="Đổi mật khẩu"
-        Icon={<PasswordIcon />}
+        goToManager={goToHomePage}
+        text="Kitchen Delights"
+        Icon={<ArrowBackIcon />}
       />
       <ItemButton goToManager={logout} text="Đăng xuất" Icon={<LogoutIcon />} />
     </React.Fragment>
