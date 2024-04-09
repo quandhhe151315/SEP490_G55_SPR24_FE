@@ -1,12 +1,18 @@
 import { Stack, Box } from "@mui/material";
-import React from "react";
-import { useGetAllCategory } from "../../../hook/useGetAllCategory";
+import React, { useState } from "react";
+import { useGetCategoryByParentId } from "../../../hook/useGetCategoryByParentId";
 
 export default function CategoriesList({ categorySelect, setCategorySelect }) {
-  const { categoriesList } = useGetAllCategory();
+  const { categoryByParentId } = useGetCategoryByParentId({
+    categoryType: false,
+  });
+  const { categoryByParentId: categoriesItem } = useGetCategoryByParentId({
+    categoryType: true,
+    parentId: categoryByParentId?.[0]?.categoryId,
+  });
   return (
     <Stack sx={{ display: "flex", flexDirection: "row", gap: 2, mt: 2 }}>
-      {categoriesList?.map((item) => {
+      {categoriesItem?.map((item) => {
         return (
           <div onClick={() => setCategorySelect(item?.categoryId)}>
             <Box

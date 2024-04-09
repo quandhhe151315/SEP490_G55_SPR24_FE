@@ -24,9 +24,7 @@ export default function BlogUser() {
                     Đây là nơi hiển thị các bài đăng của bạn
                   </Typography>
                 </Stack>
-                <Stack
-                  sx={{ mt: 1, height: "500px", border: "1px solid #bfb8b8" }}
-                >
+                <Stack sx={{ mt: 1 }}>
                   <BlogItemUser />
                 </Stack>
               </Grid>

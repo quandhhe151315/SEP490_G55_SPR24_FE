@@ -12,7 +12,6 @@ import MessageData from "./MessageData";
 export default function BlogList() {
   const [categorySelect, setCategorySelect] = useState();
   const [searchKey, setSearchKey] = useState("");
-  console.log(searchKey);
   const { blogList } = useGetBlogList({
     id: "",
     category: categorySelect,
