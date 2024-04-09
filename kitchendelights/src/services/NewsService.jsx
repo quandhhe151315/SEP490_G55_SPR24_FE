@@ -12,6 +12,10 @@ import axios from "./CustomizeAxios";
     return axios.get(`/News/Search?search=${text}`);
   }
   
+  const listNewsUser = () => {
+    return axios.get(`/News/UserGet`);
+  }
+
   export {
-    acceptNews, deleteNews, searchNews
+    acceptNews, deleteNews, searchNews, listNewsUser
   };

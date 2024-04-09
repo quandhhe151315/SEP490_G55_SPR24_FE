@@ -21,7 +21,7 @@ export default function CreateRecipe() {
         <Appbar/>
         <Grid container spacing={2}>
             <Grid item xs={8}>
-            <Typography sx={{ marginLeft: '25%', fontSize: '16px', marginRight: '255px', marginTop: '4%'}}>
+            <Typography sx={{ marginLeft: '27%', fontSize: '16px', marginTop: '4%'}}>
                 <Breadcrumbs aria-label="breadcrumb" color="#ff5e00" sx={{fontSize: '30px', fontWeight: 'bold'}}>
                 <Link underline="hover" color="#ff5e00" onClick={goToViewListRecipe} sx={{fontSize: '30px', fontWeight: 'bold'}}>Công thức</Link>
                 <Typography color="#ff5e00" sx={{fontSize: '30px', fontWeight: 'bold'}}>Tạo công thức mới</Typography>
