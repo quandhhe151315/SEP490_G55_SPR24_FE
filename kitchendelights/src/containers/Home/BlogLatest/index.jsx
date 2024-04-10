@@ -1,11 +1,15 @@
 import { useGetBlogList } from "../../../hook/useGetBlogList";
 import BlogItem from "../../Blog/BlogList/BlogItem";
 import { Grid, Typography, Stack } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import BlogHomeItem from "./BlogHomeItem";
 import { useGetAdvertisementList } from "../../../hook/useGetAdvertisement";
-
+import CloseIcon from "@mui/icons-material/Close";
 export default function BlogLatest() {
+  const [showAd, setShowAd] = useState(true);
+  const handleCloseAds = () => {
+    setShowAd(false);
+  };
   const { blogList } = useGetBlogList({
     id: "",
   });
@@ -36,19 +40,45 @@ export default function BlogLatest() {
                 createDate={item?.createDate}
                 userName={item?.userName}
                 blogImage={item?.blogImage}
+                commentCount={item?.commentCount}
               />
             </Grid>
           ))}
         </Grid>
         <Grid item xs={4}>
-          <a href={advertisementList?.[0]?.advertisementLink} target="_blank" style={{textDecoration:'none',textTransform: 'uppercase',color:'#ff5e00'}}>
-            <Stack sx={{height: "350px", my: 9}}>
-              <Typography sx={{ textAlign: "center",mb:2 }}>
-                Quảng cáo
-              </Typography>
-              <img src={advertisementList?.[0]?.advertisementImage} style={{width:'100%',height:'350px',objectFit:'cover'}}/>
-            </Stack>
-          </a>
+        {showAd && (
+          <div style={{ position: "relative" }}>
+          <button
+            onClick={handleCloseAds}
+            style={{ position: "absolute", top: 8, right: -30,borderRadius:'50%',color: "#fff",cursor:'pointer',backgroundColor:'#ff5e00'}}
+          >
+            <CloseIcon />
+          </button>
+            <a
+              href={advertisementList?.[0]?.advertisementLink}
+              target="_blank"
+              style={{
+                textDecoration: "none",
+                textTransform: "uppercase",
+                color: "#ff5e00",
+              }}
+            >
+             
+              <Stack sx={{ height: "350px", my: 9 }}>
+               
+                <Typography sx={{ textAlign: "center", mb: 2 }}>
+                  Quảng cáo
+                </Typography>
+                <img
+                  src={advertisementList?.[0]?.advertisementImage}
+                  style={{ width: "100%", height: "350px", objectFit: "cover" }}
+                />
+              </Stack>
+            </a>
+            
+        
+           </div>
+             )}
         </Grid>
       </Grid>
     </div>

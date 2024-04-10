@@ -16,6 +16,7 @@ export default function BlogHomeItem({
   createDate,
   userName,
   blogImage,
+  commentCount
 }) {
   return (
     <a href={`/blog/${id}`} style={{ textDecoration: "none" }}>
@@ -97,7 +98,7 @@ export default function BlogHomeItem({
                       alignItems: "center",
                     }}
                   >
-                    <Typography>0 thao luan</Typography>
+                    <Typography>{commentCount} thao luan</Typography>
                   </Stack>
                 </Stack>
               </Stack>

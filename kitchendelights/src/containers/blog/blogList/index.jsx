@@ -40,7 +40,7 @@ export default function BlogList() {
           >
             <Stack>
               <a href="/blog/create">
-                <Button variant="outlined">Đăng Blog</Button>
+                <Button variant="contained" sx={{bgcolor:"#ff5e00"}}>Đăng Blog</Button>
               </a>
             </Stack>
           </Stack>
@@ -70,6 +70,7 @@ export default function BlogList() {
                         createDate={item?.createDate}
                         userName={item?.userName}
                         blogImage={item?.blogImage}
+                        commentCount={item?.commentCount}
                       />
                     </Grid>
                   );
@@ -83,7 +84,7 @@ export default function BlogList() {
                 sx={{
                   marginTop: 4,
                   "& .Mui-selected": {
-                    backgroundColor: "#FF642F",
+                    backgroundColor: "#ff5e00",
                   },
                   marginBottom: 4,
                 }}

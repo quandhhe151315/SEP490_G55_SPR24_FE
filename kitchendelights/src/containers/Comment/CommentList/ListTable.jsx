@@ -7,7 +7,7 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
-import { TableHead, Typography, Checkbox, Stack } from "@mui/material";
+import { TableHead, Typography, Checkbox, Stack,Pagination } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import { useGetComment } from "../../../hook/useGetComment";
 import { useState, useEffect } from "react";
@@ -52,7 +52,10 @@ export default function ListTable() {
               <TableCell sx={{ width: "10%", color: "#fff" }}>
                 Ngày tạo
               </TableCell>
-              <TableCell sx={{ width: "12%", color: "#fff" }}></TableCell>
+              <TableCell sx={{ width: "10%", color: "#fff" }}>
+                Trạng thái 
+              </TableCell>
+             
               <TableCell sx={{ width: "10%", color: "#fff" }}>
                 Hành động
               </TableCell>
@@ -61,11 +64,9 @@ export default function ListTable() {
           <TableBody>
             {currentComments?.map((item, index) => (
               <TableRow key={item.id}>
-                <TableCell sx={{ width: "1%" }}>
-                  <Checkbox />
-                </TableCell>
-                <TableCell>{item.id}</TableCell>
-                <TableCell>{item.userId}</TableCell>
+               <TableCell>{indexOfFirstComment + index + 1}</TableCell>
+                <TableCell>{item.userName}</TableCell>
+                <TableCell>{item.blogId}</TableCell>
                 <TableCell>
                   <Box
                     display="flex"
@@ -75,8 +76,9 @@ export default function ListTable() {
                     <Stack style={{ flex: 1 }}>{item.commentContent}</Stack>
                   </Box>
                 </TableCell>
-                <TableCell>{item.blogId}</TableCell>
-                <TableCell>{item.createdAt}</TableCell>
+              
+                <TableCell>{item.createDate}</TableCell>
+                <TableCell sx={{color:'green',textTransform:'uppercase'}}>Hiển thị</TableCell>
                 <TableCell>
                   <Stack
                     onClick={() => {
@@ -91,6 +93,19 @@ export default function ListTable() {
             ))}
           </TableBody>
         </Table>
+        <Pagination
+        count={Math.ceil(commentList?.length / commentPerPage)}
+        page={currentPage}
+        onChange={handlePageChange}
+        color="secondary"
+        sx={{
+          marginTop: 4,
+          "& .Mui-selected": {
+            backgroundColor: "#FF642F",
+          },
+          marginBottom: 4,
+        }}
+      />
       </TableContainer>
       <DeleteCommentModal
         delId={delId}
