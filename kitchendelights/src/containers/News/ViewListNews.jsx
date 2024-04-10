@@ -8,15 +8,18 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import SearchIcon from '@mui/icons-material/Search';
 import Button from '@mui/material/Button';
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
-import { listNews ,getNewsById } from '../../services/ApiServices';
+import { listNews } from '../../services/ApiServices';
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Cookies from 'js-cookie';
 import { searchNews } from '../../services/NewsService';
+import { listNewsUser } from '../../services/NewsService';
+import { checkUserFullNameExist } from '../../components/JWT/CheckValidate';
+import { useSnackbar } from '../../components/Snackbar/Snackbar.jsx';
 
 const DisplaySearchNews = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -55,13 +58,13 @@ function ViewListNews() {
   // const [isNextPage, setIsNextPage] = useState(false);
 
   const [searchText, setSearchText] = useState('');
-
+  const { showSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const role = Cookies.get('role');
 
   const getAllListNews = async () => {
     try {
-      const response = await listNews();
+      const response = await listNewsUser();
       if (response.status === 200) {
         setData(response.data);
       } else {
@@ -73,6 +76,7 @@ function ViewListNews() {
   };
 
   useEffect(() => {
+    checkUserFullNameExist();
     if (searchText === '') {
       getAllListNews();
     } else {
@@ -93,7 +97,11 @@ function ViewListNews() {
     }
   }
   const goToCreateNews = () => {
-    navigate('/CreateNews');
+    if(Cookies.get('userFullname') !== ''){
+      navigate('/CreateNews');
+    } else{
+      showSnackbar('Vui lòng thêm họ tên ở trang thông tin cá nhân để tiếp tục và thử lại !', "error");
+    }
   }
 
   const viewDetailNews = (id) => {
@@ -146,7 +154,7 @@ function ViewListNews() {
                 </Grid>
 
                 <Grid xs={4}>
-                {role === "Writer" && (
+                {(role === "Writer" || role === "Administrator" || role === "Moderator" ) && (
 
                 <Button variant="contained" sx={{ bgcolor: "#ff5e00", marginTop:'20px', borderRadius: '15px', width: '100%', height: '42px', color: 'white'}} onClick={goToCreateNews}>Tạo tin tức mới</Button>
                   )}

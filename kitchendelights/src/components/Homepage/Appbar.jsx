@@ -24,35 +24,6 @@ import BtnHandleHoverItem from "./BtnHandleHoverItem";
 import IngredientHoverBtn from "./IngredientHoverBtn";
 import CategoryHoverItem from "./CategoryHoverItem";
 
-const Overlay = styled("div")(({ theme }) => ({
-  position: "fixed",
-  top: 0,
-  left: 0,
-  width: "100%",
-  height: "100%",
-  backgroundColor: "rgba(0, 0, 0, 0.5)",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  zIndex: 10,
-  cursor: "pointer",
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "black",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(0, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(1)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
-      marginTop: "1ch",
-    },
-  },
-}));
-
 const CategoryButton = ({
   goToPage,
   text,
@@ -86,20 +57,14 @@ const CategoryButton = ({
 
 export default function PrimarySearchAppBar() {
   const { recipeCountNumber } = useCount();
-  const [loginForm, setLoginForm] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [isOverlayOpen, setIsOverlayOpen] = useState(true);
 
   const [userIdExist, setUserIdExist] = useState(false);
   const [userId, setUserId] = useState(-1);
-
-  const loginSuccess = () => {
-    setIsOverlayOpen(false);
-    closeLoginForm();
-    setUserIdExist(true);
-  };
+  const [role, setRole] = useState('');
 
   useEffect(() => {
+    setRole(Cookies.get('role'));
     if (userId != -1) {
       setUserIdExist(true);
     } else {
@@ -154,10 +119,6 @@ export default function PrimarySearchAppBar() {
     navigate("/Login");
   };
 
-  const closeLoginForm = () => {
-    setLoginForm(false);
-  };
-
   const goToHomePage = () => {
     navigate("/KitchenDelights");
   };
@@ -172,7 +133,10 @@ export default function PrimarySearchAppBar() {
 
   const goToMyProfile = () => {
     navigate("/MyProfile");
-    // navigate("/UserProfile");
+  };
+
+  const goToAdminManagement = () => {
+    navigate("/ListAccount");
   };
 
   const goToBlog = () => {
@@ -187,6 +151,7 @@ export default function PrimarySearchAppBar() {
     Cookies.remove("userId");
     Cookies.remove("role");
     setUserIdExist(false);
+    setRole('');
     navigate("/KitchenDelights");
   };
 
@@ -208,6 +173,11 @@ export default function PrimarySearchAppBar() {
       {userIdExist == false && (
         <>
           <MenuItem onClick={goToLogin}>Đăng nhập</MenuItem>
+        </>
+      )}
+      {(role === "Administrator" || role === "Moderator" ) && (
+        <>
+          <MenuItem onClick={goToAdminManagement}>Quản lý trang web</MenuItem>
         </>
       )}
       {userIdExist == true && (

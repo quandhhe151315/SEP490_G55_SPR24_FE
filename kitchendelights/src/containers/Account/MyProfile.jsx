@@ -72,7 +72,7 @@ function MyProfile() {
         <Grid item xs={2} sx={{ marginLeft: "10%" }}>
           <AvatarMenu />
         </Grid>
-        <Grid item xs={1}></Grid>
+        
         <Grid item xs={7}>
           <Box sx={{ display: "flex" }}>
             <Grid container spacing={2}>

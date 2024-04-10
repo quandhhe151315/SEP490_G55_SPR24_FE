@@ -2,7 +2,7 @@ import axios from "axios";
 import { BASE_URL } from "../constant";
 import Cookies from "js-cookie";
 const instance = axios.create({
-  baseURL: "http://localhost:5050/api",
+  baseURL: BASE_URL,
 });
 
 // Add a request interceptor

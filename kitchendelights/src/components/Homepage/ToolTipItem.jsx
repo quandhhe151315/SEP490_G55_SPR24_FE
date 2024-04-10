@@ -16,9 +16,10 @@ export default function TooltipItem({ categoryItem }) {
     setOpen(true);
   };
   const navigate = useNavigate();
-  const { categoryByParentId } = useGetCategoryByParentId(
-    categoryItem?.categoryId,categoryItem?.categoryType
-  );
+  const { categoryByParentId } = useGetCategoryByParentId({
+    parentId: categoryItem?.categoryId,
+    categoryType: categoryItem?.categoryType,
+  });
   return (
     <LightTooltip
       open={open}
