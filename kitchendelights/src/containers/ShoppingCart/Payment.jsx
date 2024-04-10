@@ -86,7 +86,6 @@ export default function ImgMediaCard() {
     } catch (error) {}
   };
   useEffect(() => {
-    debugger;
     if (check) {
       createVouchers(id);
     }
@@ -112,6 +111,30 @@ export default function ImgMediaCard() {
   };
 
   const addVoucherCode = async (voucherCode) => {
+    try {
+      const response = await addVoucher(id, voucherCode);
+      getListCarts(id);
+
+      toast.success("Add thành công");
+      if (response.status === 200) {
+        console.log("add thanh cong");
+      } else {
+        console.log("ko add dc");
+      }
+    } catch (error) {
+      console.error("ko add dc", error);
+    }
+  };
+
+  const handleCheckOut = async (
+    userId,
+    recipeId,
+    featuredImage,
+    recipeTitle,
+    recipePrice,
+    voucherCode,
+    discountPercentage
+  ) => {
     try {
       const response = await addVoucher(id, voucherCode);
       getListCarts(id);
@@ -170,6 +193,7 @@ export default function ImgMediaCard() {
             },
             color: "#000",
           }}
+          onClick={{ handleCheckOut }}
         >
           Thanh toán qua VNPAY
         </Button>

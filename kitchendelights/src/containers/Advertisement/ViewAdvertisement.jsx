@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import DashboardMenu from "../../components/Dashboard/Menu/DashboardMenu";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Box, Grid, Paper, Typography } from "@mui/material";
 import CategoryButton from "../../components/Button/CategoryButton";
-import { getAds, deleteAds } from "../../services/Advertisement";
+import { getAds, deleteAds, changeStatus } from "../../services/Advertisement";
 import { DataGrid } from "@mui/x-data-grid";
 import CardMedia from "@mui/material/CardMedia";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Button from "@mui/material/Button";
+import EditIcon from "@mui/icons-material/Edit";
+import StraightIcon from "@mui/icons-material/Straight";
 export default function ViewAdvertisement() {
   const navigate = useNavigate();
   const [loading, setloading] = useState(false);
@@ -21,6 +23,7 @@ export default function ViewAdvertisement() {
   useEffect(() => {
     getADS();
   }, [loading]);
+
   const getADS = async () => {
     try {
       const response = await getAds();
@@ -33,13 +36,27 @@ export default function ViewAdvertisement() {
       console.error("lỗi khi tải danh sách ads", error);
     }
   };
+
+  const handlechangStatus = async (id, status) => {
+    try {
+      const statusReal = status == 1 ? 2 : 1;
+      const response = await changeStatus(id, statusReal);
+
+      if (response.status === 200) {
+        setloading(!loading);
+      } else {
+      }
+    } catch (error) {
+      console.error("ko xoá dc", error);
+    }
+  };
   const handleDelete = async (id) => {
     try {
       const response = await deleteAds(id);
 
       if (response.status === 200) {
         toast.success("Xoá thành công ");
-
+        debugger;
         setloading(!loading);
       } else {
         toast.error("Khoong load dc list");
@@ -83,7 +100,7 @@ export default function ViewAdvertisement() {
     {
       field: "advertisementStatus",
       headerName: "Trạng thái",
-      width: isSmallScreen ? 50 : 100,
+      width: isSmallScreen ? 100 : 200,
       renderCell: (params) => (
         <div
           style={{
@@ -98,20 +115,46 @@ export default function ViewAdvertisement() {
           {params.row.advertisementStatus === 1
             ? "Hoạt động"
             : params.row.advertisementStatus === 2
-            ? "Ẩn"
+            ? "không hoạt động"
             : ""}
         </div>
       ),
     },
+
     {
       field: "edit",
-      headerName: "Xoá",
-      width: isSmallScreen ? 40 : 60,
+      headerName: "Hành động",
+      width: isSmallScreen ? 120 : 200,
       renderCell: (params) => {
         return (
-          <button onClick={() => handleDelete(params.row.advertisementId)}>
-            <DeleteIcon />
-          </button>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <button
+              onClick={() =>
+                handlechangStatus(
+                  params.row.advertisementId,
+                  params.row.advertisementStatus
+                )
+              }
+            >
+              <StraightIcon />
+            </button>
+
+            <Link to={`/UpdateAdvertisement/${params.row.advertisementId}`}>
+              <button style={{ marginLeft: 8, marginRight: 8 }}>
+                <EditIcon />
+              </button>
+            </Link>
+
+            <button onClick={() => handleDelete(params.row.advertisementId)}>
+              <DeleteIcon />
+            </button>
+          </div>
         );
       },
     },
