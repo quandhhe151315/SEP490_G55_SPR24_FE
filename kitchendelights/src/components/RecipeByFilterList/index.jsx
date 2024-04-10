@@ -17,7 +17,7 @@ export default function RecipeByFilter() {
     ingredient: ingredientId,
     category: childCategoryId,
   });
-  if (!isLoading) {
+  if (!recipList || recipList.length === 0) {
     return (
       <div>
         <PrimarySearchAppBar />
