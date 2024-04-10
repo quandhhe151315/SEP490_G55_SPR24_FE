@@ -49,6 +49,7 @@ import ViewAdvertisement from "../containers/Advertisement/ViewAdvertisement";
 import MyRecipe from "../containers/Recipe/MyRecipe";
 import CreateAdvertisement from "../containers/Advertisement/CreateAdvertisement";
 import UpdateAdvertisement from "../containers/Advertisement/UpdateAdvertisement";
+import HistoryPayment from "../containers/ShoppingCart/HistoryPayment";
 function AppRoute() {
   const router = createBrowserRouter([
     {
@@ -215,6 +216,10 @@ function AppRoute() {
     {
       path: "/myblog",
       element: <BlogUser />,
+    },
+    {
+      path: "//HistoryPayment",
+      element: <HistoryPayment />,
     },
   ]);
   return <RouterProvider router={router} />;
