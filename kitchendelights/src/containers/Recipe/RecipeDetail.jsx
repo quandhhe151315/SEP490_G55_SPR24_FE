@@ -21,6 +21,8 @@ import MenuBookIcon from "@mui/icons-material/MenuBook";
 import AddRecipeToMenuDialog from "../Menu/AddRecipeToMenu";
 import { toast } from "react-toastify";
 
+import { RichTextReadOnly } from "mui-tiptap";
+import useExtensions from "../../components/Richtext/useExtension.ts";
 import {
   createRecipe,
   listAllIngredient,
@@ -123,7 +125,6 @@ function RecipeDetail() {
   const handleAddBookMark = async () => {
     try {
       const response = await addRecipeToBookMark(uId, rId, type);
-      console.log("12333", uId, rId, type);
       GoToBookMark();
       toast.success("Thêm vào danh sách thành công");
       if (response.status === 200) {
@@ -183,6 +184,10 @@ function RecipeDetail() {
   const handleScrollToComment = () => {
     commentRef.current.scrollIntoView({ behavior: "smooth" });
   };
+
+  const extensions = useExtensions({
+    placeholder: "Nội dung của bạn ...",
+  });
 
   return (
     <div>
@@ -360,9 +365,10 @@ function RecipeDetail() {
           </Card>
 
           <CardContent>
-            <Typography gutterBottom variant="h6" component="div">
-              {data?.recipeContent}
-            </Typography>
+            <RichTextReadOnly
+              content={data?.recipeContent}
+              extensions={extensions}
+            />
           </CardContent>
           <CardContent>
             <Stack direction="row" spacing={2}>
@@ -397,6 +403,7 @@ function RecipeDetail() {
             <Typography sx={{ fontSize: 25, fontWeight: "bold" }}>
               Cách làm
             </Typography>
+
             <Typography gutterBottom variant="h6" component="div">
               {data?.recipeContent}
             </Typography>

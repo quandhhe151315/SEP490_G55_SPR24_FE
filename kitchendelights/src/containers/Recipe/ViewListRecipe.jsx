@@ -286,9 +286,6 @@ function ViewListRecipes() {
                           marginTop: -2,
                         }}
                       >
-                        <Button size="small" endIcon={<FavoriteIcon />}>
-                          Like
-                        </Button>
                         <Link to={`/RecipeDetail/${item.recipeId}`}>
                           <Button size="small" endIcon={<VisibilityIcon />}>
                             Xem
@@ -425,9 +422,6 @@ function ViewListRecipes() {
                           marginTop: -2.5,
                         }}
                       >
-                        <Button size="small" endIcon={<FavoriteIcon />}>
-                          Thích
-                        </Button>
                         <Button
                           size="small"
                           endIcon={<ShoingCartIconpp />}
