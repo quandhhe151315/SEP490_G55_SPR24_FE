@@ -10,6 +10,7 @@ import { useSum, useVoucher, voucherCode } from "../../store";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Grid from "@mui/material/Grid";
+import { useNavigate } from "react-router-dom";
 import {
   addVoucher,
   getListCart,
@@ -18,23 +19,18 @@ import {
   createVoucher,
 } from "../../services/ApiServices";
 import { toast } from "react-toastify";
+import { getURL } from "../../services/Payment";
 
 export default function ImgMediaCard() {
   const [modalOpen, setModalOpen] = useState(false);
-
-  const handleOpenModal = () => {
-    checkVouchers();
-    setModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setModalOpen(false);
-  };
+  const [URL, setURL] = useState("");
+  console.log("URL", URL);
   const { setVoucher, voucher } = voucherCode();
   const { sumPrice, priceSum } = useSum();
   const { setSumVoucher, sumVoucher } = useVoucher();
   const [loading, setloading] = useState(false);
   const [data, setdata] = useState([]);
+  const amount = sumVoucher;
   const getUserIdFromCookie = () => {
     const cookies = document.cookie.split("; ");
     for (const cookie of cookies) {
@@ -47,11 +43,16 @@ export default function ImgMediaCard() {
   };
   const userId = getUserIdFromCookie();
   const id = getUserIdFromCookie();
-  const type = "recipe";
-  const [check, setcheck] = useState(false);
+  const handleOpenModal = () => {
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
   useEffect(() => {
     getListVoucher(userId);
-  }, [loading]);
+  }, [userId]);
 
   const handleVoucherSelect = (voucher) => {
     handleCloseModal();
@@ -71,35 +72,38 @@ export default function ImgMediaCard() {
       toast.error("Khoong load dc cart");
     }
   };
-
-  // useEffect(() => {
-  //   checkVouchers();
-  // }, [userId, type]);
-  const checkVouchers = async () => {
-    try {
-      const response = await checkInteraction(Number(userId), type);
-
-      if (response.status === 200) {
-        setcheck(response.data);
-      } else {
-      }
-    } catch (error) {}
-  };
-  useEffect(() => {
-    if (check) {
-      createVouchers(id);
+  const handleReturnUrl = () => {
+    if (amount) {
+      window.location.href = URL;
     }
-  }, [check]);
-  const createVouchers = async (id) => {
-    try {
-      const response = await createVoucher(id);
-      if (response.status === 200) {
-        setloading(!loading);
-      } else {
-        console.error("Can not Load cart! ");
-      }
-    } catch (error) {}
   };
+
+  useEffect(() => {
+    if (amount) {
+      VNPAYReturn(amount);
+    }
+  }, [amount]);
+  useEffect(() => {
+    // render sang URLVNPAY
+    if (URL) {
+      window.location.href = URL;
+    }
+  }, []);
+  const VNPAYReturn = async (amount) => {
+    try {
+      const response = await getURL(amount);
+      if (response.status === 200) {
+        debugger;
+        setURL(response.data);
+        // console.log("data", response);
+      } else {
+        console.error("Không lấy được URL ");
+      }
+    } catch (error) {
+      // toast.error("Khoong load dc listbookmark");
+    }
+  };
+
   const getListVoucher = async (userId) => {
     try {
       const response = await getAllVoucherByUserId(userId);
@@ -126,29 +130,6 @@ export default function ImgMediaCard() {
     }
   };
 
-  const handleCheckOut = async (
-    userId,
-    recipeId,
-    featuredImage,
-    recipeTitle,
-    recipePrice,
-    voucherCode,
-    discountPercentage
-  ) => {
-    try {
-      const response = await addVoucher(id, voucherCode);
-      getListCarts(id);
-
-      toast.success("Add thành công");
-      if (response.status === 200) {
-        console.log("add thanh cong");
-      } else {
-        console.log("ko add dc");
-      }
-    } catch (error) {
-      console.error("ko add dc", error);
-    }
-  };
   return (
     <Card
       sx={{
@@ -193,7 +174,8 @@ export default function ImgMediaCard() {
             },
             color: "#000",
           }}
-          onClick={{ handleCheckOut }}
+          //  onClick={handlePayment}
+          onClick={handleReturnUrl}
         >
           Thanh toán qua VNPAY
         </Button>
@@ -281,7 +263,6 @@ export default function ImgMediaCard() {
                       </Grid>
                     );
                   })}
-                  {/* Thêm các voucher khác tại đây */}
                 </Grid>
               </Box>
             </Typography>

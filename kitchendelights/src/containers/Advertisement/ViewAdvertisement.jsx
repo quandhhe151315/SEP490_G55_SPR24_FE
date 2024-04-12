@@ -69,8 +69,6 @@ export default function ViewAdvertisement() {
     {
       field: "advertisementId",
       headerName: "ID",
-
-      headerClassName: "header-bold",
       width: isSmallScreen ? 50 : 100,
     },
     {
@@ -164,52 +162,41 @@ export default function ViewAdvertisement() {
       <Box sx={{ display: "flex" }}>
         <DashboardMenu dashboardTitle={"Quản lý quảng cáo"} />
         <Grid sx={{ marginTop: "80px", marginLeft: "80px" }}>
-          <Paper
-            elevation={2}
+          <Typography
             sx={{
-              borderRadius: "15px",
-              border: "1px solid #bfb8b8",
-              width: "1100px",
-              height: "650px",
-              backgroundColor: "#FFFFFF",
+              fontSize: "24px",
+              fontWeight: "",
+              marginLeft: "10%",
+              marginTop: "30px",
+              color: "#4A5568",
             }}
           >
-            <Typography
-              sx={{
-                fontSize: "24px",
-                fontWeight: "",
-                marginLeft: "10%",
-                marginTop: "30px",
-                color: "#4A5568",
-              }}
-            >
-              Danh sách quảng cáo
-            </Typography>
-            <CategoryButton
-              text="Tạo quảng cáo mới"
-              height="auto"
-              width="auto"
-              marginLeft="70%"
-              marginTop="10px"
-              onClick={goToCreateADS}
-            ></CategoryButton>
-            <Typography marginBottom={2} />
-            <DataGrid
-              sx={{ minWidth: "940px", minHeight: "300px" }}
-              rows={ADS}
-              getRowId={(row) => row.advertisementId}
-              columns={columns}
-              initialState={{
-                pagination: {
-                  paginationModel: {
-                    pageSize: 5,
-                  },
+            Danh sách quảng cáo
+          </Typography>
+          <CategoryButton
+            text="Tạo quảng cáo mới"
+            height="auto"
+            width="auto"
+            marginLeft="70%"
+            marginTop="10px"
+            onClick={goToCreateADS}
+          ></CategoryButton>
+          <Typography marginBottom={2} />
+          <DataGrid
+            sx={{ width: "1100px", height: "450px" }}
+            rows={ADS}
+            getRowId={(row) => row.advertisementId}
+            columns={columns}
+            initialState={{
+              pagination: {
+                paginationModel: {
+                  pageSize: 5,
                 },
-              }}
-              pageSizeOptions={[5]}
-              // disableRowSelectionOnClick
-            />
-          </Paper>
+              },
+            }}
+            pageSizeOptions={[5]}
+            disableRowSelectionOnClick
+          />
         </Grid>
       </Box>
     </div>

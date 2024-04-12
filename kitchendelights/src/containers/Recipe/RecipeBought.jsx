@@ -15,10 +15,9 @@ import Stack from "@mui/material/Stack";
 import { toast } from "react-toastify";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import Button from "@mui/material/Button";
-import { removeRecipeFromBookMark } from "../../services/ApiServices";
+import { getRecipeBought } from "../../services/ApiServices";
 import AvatarMenu from "../../components/Account/AvatarMenu";
-
-function BookMark() {
+export default function RecipeBought() {
   const navigate = useNavigate();
   const onAddNew = () => {
     navigate("/ViewListRecipes");
@@ -34,32 +33,16 @@ function BookMark() {
     }
     return null;
   };
-  const id = getUserIdFromCookie();
-  const uId = id;
-  const type = 2;
-  const handleDeleteBookMark = async (rId) => {
-    try {
-      const response = await removeRecipeFromBookMark(uId, rId, type);
-      console.log(uId, rId, type);
+  const userId = getUserIdFromCookie();
 
-      if (response.status === 200) {
-        toast.success("Xoá thành công ");
-
-        getBookMarkOfUsers(id);
-      } else {
-      }
-    } catch (error) {
-      console.error("ko xoá dc", error);
-    }
-  };
   useEffect(() => {
-    getBookMarkOfUsers(id);
+    getRecipesBought(userId);
   }, []);
-  const getBookMarkOfUsers = async () => {
+  const getRecipesBought = async (userId) => {
     try {
-      const response = await getBookMarkOfUser(id);
+      const response = await getRecipeBought(userId);
       if (response.status === 200) {
-        setdata(response.data.recipes);
+        setdata(response.data);
         // console.log("data", response);
       } else {
         console.error("Can not Load listbookmark! ");
@@ -91,7 +74,7 @@ function BookMark() {
               color="#ff5e00"
               sx={{ marginLeft: 10, fontSize: "28px", fontWeight: "bold" }}
             >
-              Danh sách công thức yêu thích của tôi
+              Danh sách công thức đã mua
             </Typography>
             <Typography marginTop={6} />
             <Box sx={{ marginTop: "30px" }}>
@@ -101,14 +84,13 @@ function BookMark() {
                 sx={{ marginLeft: "10px", marginRight: "10px" }}
               >
                 {/* Danh sách công thức */}
-                {data.map((item, index) => (
+                {data?.map((item, index) => (
                   <Grid item lg={3} md={6} xs={12} key={index}>
                     <Card sx={{ maxWidth: 345, position: "relative" }}>
                       <CardMedia
                         component={"img"}
                         height={140}
                         image={item.featuredImage}
-                        alt="green iguana"
                       />
                       <CardContent>
                         <Typography
@@ -151,6 +133,7 @@ function BookMark() {
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "space-between",
+                            flexDirection: "column",
                           }}
                         >
                           <Stack
@@ -183,18 +166,6 @@ function BookMark() {
                               Xem
                             </Button>
                           </Link>
-                          <Button
-                            sx={{
-                              bgcolor: "#ff5e00",
-                              color: "white",
-                              borderRadius: 3,
-                              width: 75,
-                            }}
-                            variant="contained"
-                            onClick={() => handleDeleteBookMark(item.recipeId)}
-                          >
-                            Xoá
-                          </Button>
                         </Box>
                       </CardContent>
                       <CardActions
@@ -230,7 +201,7 @@ function BookMark() {
                         color="textSecondary"
                         component="div"
                       >
-                        Thêm công thức
+                        Mua thêm công thức
                       </Typography>
                     </CardContent>
                   </Card>
@@ -243,5 +214,3 @@ function BookMark() {
     </div>
   );
 }
-
-export default BookMark;

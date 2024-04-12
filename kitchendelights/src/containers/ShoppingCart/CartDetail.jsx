@@ -91,44 +91,6 @@ export default function CartDetail() {
     }
   };
 
-  //Table
-  // const columns = [
-  //   {
-  //     field: "featuredImage",
-  //     headerName: "",
-  //     width: 100,
-  //     renderCell: (params) => {
-  //       console.log("params", params);
-  //       return <CardMedia component={"img"} image={params.row.featuredImage} />;
-  //     },
-  //   },
-  //   {
-  //     field: "recipeTitle",
-  //     headerName: " Tên công thức",
-  //     width: 391,
-  //     // editable: true,
-  //   },
-  //   {
-  //     field: "recipePrice",
-  //     headerName: "Giá",
-  //     width: 300,
-  //     // editable: true,
-  //   },
-  //   {
-  //     field: "edit",
-  //     headerName: "Xoá",
-  //     width: 80,
-  //     renderCell: (params) => {
-  //       console.log("params", params);
-  //       return (
-  //         <button onClick={() => handleDelete(params.row.recipeId)}>
-  //           <DeleteIcon />
-  //         </button>
-  //       );
-  //     },
-  //   },
-  // ];
-
   const columns = [
     {
       field: "featuredImage",

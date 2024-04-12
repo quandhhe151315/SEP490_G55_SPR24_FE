@@ -44,10 +44,10 @@ import RandomRecipes from "./RandomRecipe";
 function RecipeDetail() {
   const navigate = useNavigate();
   const [data, setdata] = useState();
+  const [data1, setdata1] = useState([]);
   const { recipeId } = useParams();
 
   const commentRef = useRef(null);
-  //const {uId,rId ,type} = useParams();
   const getUserIdFromCookie = () => {
     const cookies = document.cookie.split("; ");
     for (const cookie of cookies) {
@@ -172,6 +172,7 @@ function RecipeDetail() {
       const response = await getRecipeById(recipeId);
       if (response.status === 200) {
         setdata(response.data);
+        setdata1(response.data.recipeIngredients);
         console.log("data", response);
       } else {
         console.error("Can not Load news! ");
@@ -386,10 +387,20 @@ function RecipeDetail() {
             <Typography sx={{ fontSize: 25, fontWeight: "bold" }}>
               Nguyên liệu
             </Typography>
+            {/* {data1.map((item) => {
+              return (
+                <div key={item.ingredientId}>
+                  <p>Ingredient ID: {item.ingredientId}</p>
+                  <p>Ingredient Name: {item.ingredientName}</p>
+                  <p>Unit Value: {item.unitValue}</p>
+                  <p>Ingredient Unit: {item.ingredientUnit}</p>
+                </div>
+              );
+            })} */}
             <FormGroup>
               <FormControlLabel
                 control={<Checkbox defaultChecked />}
-                label="400g graham cracker"
+                label={data1?.ingredientName}
               />
               <FormControlLabel
                 control={<Checkbox />}
