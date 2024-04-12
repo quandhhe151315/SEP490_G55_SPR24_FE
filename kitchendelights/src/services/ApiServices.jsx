@@ -216,7 +216,7 @@ const updateCategory = (categoryId, categoryName, categoryType, parentId) => {
 };
 
 const getCategoryByParentId = () => {
-  return axios.get("/Category/GetCategoryByParentId");
+  return axios.get("/Category/GetCategoryByParentId?categoryType=true");
 };
 
 const listUsers = () => {
