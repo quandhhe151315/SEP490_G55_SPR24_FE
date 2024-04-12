@@ -24,6 +24,9 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
 import { deleteAccount } from "../../services/UserServices";
+import ListAltIcon from "@mui/icons-material/ListAlt";
+import FastfoodIcon from "@mui/icons-material/Fastfood";
+
 import Cookies from "js-cookie";
 
 function AvatarMenu({ handleClick, onMenuSelect }) {
@@ -81,6 +84,9 @@ function AvatarMenu({ handleClick, onMenuSelect }) {
   };
   const goToMyRecipe = () => {
     navigate("/MyRecipe");
+  };
+  const goToRecipeBought = () => {
+    navigate("/PurchasedRecipe");
   };
 
   return (
@@ -148,6 +154,13 @@ function AvatarMenu({ handleClick, onMenuSelect }) {
             <ListItemText>Công thức của tôi</ListItemText>
           </MenuItem>
 
+          <MenuItem onClick={goToRecipeBought}>
+            <ListItemIcon>
+              <FastfoodIcon fontSize="small" sx={{ color: "#ff5e00" }} />
+            </ListItemIcon>
+            <ListItemText>Công thức đã mua</ListItemText>
+          </MenuItem>
+
           <MenuItem>
             <ListItemIcon>
               <CommentIcon fontSize="small" sx={{ color: "#ff5e00" }} />
@@ -163,7 +176,7 @@ function AvatarMenu({ handleClick, onMenuSelect }) {
           </MenuItem>
           <MenuItem onClick={goToHistory}>
             <ListItemIcon>
-              <ArtTrackIcon fontSize="small" sx={{ color: "#ff5e00" }} />
+              <ListAltIcon fontSize="small" sx={{ color: "#ff5e00" }} />
             </ListItemIcon>
             <ListItemText>Lịch sử mua hàng</ListItemText>
           </MenuItem>

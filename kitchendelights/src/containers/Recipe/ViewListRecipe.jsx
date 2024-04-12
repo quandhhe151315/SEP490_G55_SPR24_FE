@@ -17,14 +17,20 @@ import ShoingCartIconpp from "@mui/icons-material/ShoppingCart";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Rating from "@mui/material/Rating";
+import Cookies from "js-cookie";
 import { Stack } from "@mui/material";
-import { getRecipes, addToCart, getListCart } from "../../services/ApiServices";
+import {
+  getRecipes,
+  addToCart,
+  getListCart,
+  checkUserRecipe,
+} from "../../services/ApiServices";
 import { toast } from "react-toastify";
 import Footer from "../../components/Footer/Footer";
 import { useCart } from "../../store";
 import { searchRecipe } from "../../services/RecipeServices";
 import AdBanner from "../../components/ADS/AdBanner";
-
+import { getHistoryPayment } from "../../services/Payment";
 const DisplaySearchNews = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -57,39 +63,13 @@ const DisplayStyledInputBase = styled(InputBase)(({ theme }) => ({
 
 function ViewListRecipes() {
   const navigate = useNavigate();
+  const [recipeIddArray, setrecipeIddArray] = useState([]);
+  const [History, setHistory] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [freeRecipes, setFreeRecipes] = useState([]);
   const [paidRecipes, setPaidRecipes] = useState([]);
-  const [currentPageFree, setCurrentPageFree] = useState(1);
-  const [currentPagePaid, setCurrentPagePaid] = useState(1);
   const { setDataCart } = useCart();
-  const recipesPerPage = 8;
-
-  const isUserLoggedIn = () => {
-    const cookies = document.cookie.split("; ");
-    return cookies.some((cookie) => cookie.startsWith("userId="));
-  };
-
-  const searchRecipes = async () => {
-    try {
-      const response = await searchRecipe(searchText);
-      if (response.status === 200) {
-        const dataFree = response?.data.filter((x) => x.isFree === true);
-        const dataPaid = response?.data.filter((x) => x.isFree === false);
-        setFreeRecipes(dataFree);
-        setPaidRecipes(dataPaid);
-      } else {
-      }
-    } catch (error) {}
-  };
-
-  useEffect(() => {
-    if (searchText === "") {
-      getListRecipes();
-    } else {
-      searchRecipes(searchText);
-    }
-  }, []);
+  const role = Cookies.get("role");
   const getUserIdFromCookie = () => {
     const cookies = document.cookie.split("; ");
     for (const cookie of cookies) {
@@ -100,12 +80,17 @@ function ViewListRecipes() {
     }
     return null;
   };
-
   const userId = getUserIdFromCookie();
-  // const recipeId = 8;
+  const id = getUserIdFromCookie();
+
+  const isUserLoggedIn = () => {
+    const cookies = document.cookie.split("; ");
+    return cookies.some((cookie) => cookie.startsWith("userId="));
+  };
   const handleAddToCart = async (recipeId) => {
     if (!isUserLoggedIn()) {
-      navigate("/Login"); // Chuyển hướng đến trang login nếu chưa đăng nhập
+      navigate("/Login");
+      toast.error("Vui lòng đăng nhập để mua hàng"); // Chuyển hướng đến trang login nếu chưa đăng nhập
       return;
     }
     try {
@@ -121,6 +106,31 @@ function ViewListRecipes() {
       console.error("lỗi khi thêmm vào cart", error);
     }
   };
+
+  useEffect(() => {
+    searchRecipes();
+  }, [searchText, recipeIddArray]);
+  const searchRecipes = async () => {
+    try {
+      const response = await searchRecipe(searchText);
+      if (response.status === 200) {
+        const dataFree = response?.data.filter((x) => x.isFree === true);
+        const dataPaid = response?.data.filter((x) => x.isFree === false);
+
+        setFreeRecipes(dataFree);
+        if (role === "users") {
+          const dataPaids1 = dataPaid.filter(
+            (x) => !recipeIddArray.includes(Number(x.recipeId))
+          );
+          setPaidRecipes(dataPaids1);
+        } else {
+          setPaidRecipes(dataPaid);
+        }
+      } else {
+      }
+    } catch (error) {}
+  };
+
   const getListCarts = async (id) => {
     try {
       const response = await getListCart(id);
@@ -133,52 +143,33 @@ function ViewListRecipes() {
       toast.error("Khoong load dc cart");
     }
   };
-  const getListRecipes = async () => {
+
+  useEffect(() => {
+    getHistoryPayments(id);
+  }, [id]);
+
+  const getHistoryPayments = async () => {
     try {
-      const response = await getRecipes();
+      const response = await getHistoryPayment(id);
+      debugger;
       if (response.status === 200) {
-        const dataFree = response?.data.filter((x) => x.isFree === true);
-        const dataPaid = response?.data.filter((x) => x.isFree === false);
+        setHistory(response.data);
+        const recipeIds = new Set();
 
-        setFreeRecipes(dataFree);
-        setPaidRecipes(dataPaid);
+        // Lặp qua mỗi đối tượng trong mảng dữ liệu và thêm userId vào Set
+        response.data.forEach((item) => {
+          recipeIds.add(item.recipeId);
+        });
+
+        // Chuyển Set thành mảng để render
+        setrecipeIddArray(Array.from(recipeIds));
+        console.log("dataHistory", response.data);
+        console.log("Load cart successful! ");
       } else {
-        toast.error("Không thể tải danh sách công thức.");
+        console.error("Can not Load cart! ");
       }
-    } catch (error) {
-      toast.error("Không thể tải danh sách công thức.");
-    }
+    } catch (error) {}
   };
-
-  const handleNextFree = () => {
-    setCurrentPageFree((prevPage) => prevPage + 1);
-  };
-
-  const handleForwardFree = () => {
-    setCurrentPageFree((prevPage) => Math.max(prevPage - 1, 1));
-  };
-
-  const handleNextPaid = () => {
-    setCurrentPagePaid((prevPage) => prevPage + 1);
-  };
-
-  const handleForwardPaid = () => {
-    setCurrentPagePaid((prevPage) => Math.max(prevPage - 1, 1));
-  };
-
-  const indexOfLastFreeRecipe = currentPageFree * recipesPerPage;
-  const indexOfFirstFreeRecipe = indexOfLastFreeRecipe - recipesPerPage;
-  const currentFreeRecipes = freeRecipes.slice(
-    indexOfFirstFreeRecipe,
-    indexOfLastFreeRecipe
-  );
-
-  const indexOfLastPaidRecipe = currentPagePaid * recipesPerPage;
-  const indexOfFirstPaidRecipe = indexOfLastPaidRecipe - recipesPerPage;
-  const currentPaidRecipes = paidRecipes.slice(
-    indexOfFirstPaidRecipe,
-    indexOfLastPaidRecipe
-  );
 
   return (
     <div>
@@ -268,14 +259,25 @@ function ViewListRecipes() {
                             justifyContent: "space-between",
                           }}
                         >
-                          <Typography component="legend" fontSize={11}>
-                            Đánh giá:
-                          </Typography>
-                          <Rating
-                            name="simple-controlled"
-                            value={item.recipeRating}
-                            size="small"
-                          />
+                          <Stack
+                            direction="row"
+                            alignItems="center"
+                            spacing={1}
+                            sx={{ marginTop: "8px" }}
+                          >
+                            <Typography
+                              component="legend"
+                              fontSize={11}
+                              sx={{ marginRight: "8px" }}
+                            >
+                              Đánh giá:
+                            </Typography>
+                            <Rating
+                              name="simple-controlled"
+                              value={item.recipeRating}
+                              size="small"
+                            />
+                          </Stack>
                         </Box>
                       </CardContent>
                       <CardActions
@@ -287,7 +289,15 @@ function ViewListRecipes() {
                         }}
                       >
                         <Link to={`/RecipeDetail/${item.recipeId}`}>
-                          <Button size="small" endIcon={<VisibilityIcon />}>
+                          <Button
+                            size="small"
+                            // endIcon={<VisibilityIcon />}
+                            sx={{
+                              backgroundColor: "#ff5e00",
+                              color: "white",
+                              width: "maxWidth",
+                            }}
+                          >
                             Xem
                           </Button>
                         </Link>
@@ -312,11 +322,8 @@ function ViewListRecipes() {
                 width: "150px",
                 height: "42px",
                 color: "white",
-                opacity: currentPageFree === 1 ? 0.5 : 1,
               }}
               startIcon={<ForwardIcon sx={{ transform: "rotate(180deg)" }} />}
-              onClick={handleForwardFree}
-              disabled={currentPageFree === 1}
             >
               Forward
             </Button>
@@ -328,11 +335,8 @@ function ViewListRecipes() {
                 width: "150px",
                 height: "42px",
                 color: "white",
-                opacity: indexOfLastFreeRecipe >= freeRecipes.length ? 0.5 : 1,
               }}
               endIcon={<ForwardIcon />}
-              onClick={handleNextFree}
-              disabled={indexOfLastFreeRecipe >= freeRecipes.length}
             >
               Next
             </Button>
@@ -424,8 +428,12 @@ function ViewListRecipes() {
                       >
                         <Button
                           size="small"
-                          endIcon={<ShoingCartIconpp />}
                           onClick={() => handleAddToCart(item.recipeId)}
+                          sx={{
+                            backgroundColor: "#ff5e00",
+                            color: "white",
+                            width: "maxWidth",
+                          }}
                         >
                           Mua
                         </Button>
@@ -450,11 +458,8 @@ function ViewListRecipes() {
                 width: "150px",
                 height: "42px",
                 color: "white",
-                opacity: currentPagePaid === 1 ? 0.5 : 1,
               }}
               startIcon={<ForwardIcon sx={{ transform: "rotate(180deg)" }} />}
-              onClick={handleForwardPaid}
-              disabled={currentPagePaid === 1}
             >
               Forward
             </Button>
@@ -466,11 +471,8 @@ function ViewListRecipes() {
                 width: "150px",
                 height: "42px",
                 color: "white",
-                opacity: indexOfLastPaidRecipe >= paidRecipes.length ? 0.5 : 1,
               }}
               endIcon={<ForwardIcon />}
-              onClick={handleNextPaid}
-              disabled={indexOfLastPaidRecipe >= paidRecipes.length}
             >
               Next
             </Button>

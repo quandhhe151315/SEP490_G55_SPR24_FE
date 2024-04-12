@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbarQuickFilter } from "@mui/x-data-grid";
 import CardMedia from "@mui/material/CardMedia";
 import { Button, Card, Stack, Typography } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { getHistoryPayment } from "../../services/Payment";
 import Paper from "@mui/material/Paper";
 import Appbar from "../../components/Homepage/Appbar";
+import AvatarMenu from "../../components/Account/AvatarMenu";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Unstable_Grid2";
 export default function HistoryPayment() {
   const [data, setdata] = useState([]);
-  const [loading, setloading] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width:600px)");
   const getUserIdFromCookie = () => {
     const cookies = document.cookie.split("; ");
@@ -23,7 +25,7 @@ export default function HistoryPayment() {
   const id = getUserIdFromCookie();
   useEffect(() => {
     getHistoryPayments(id);
-  }, [loading]);
+  }, []);
   const getHistoryPayments = async (id) => {
     try {
       const response = await getHistoryPayment(id);
@@ -61,43 +63,65 @@ export default function HistoryPayment() {
   return (
     <div>
       <Appbar />
-      <Paper
-        sx={{
-          backgroundColor: "#ff5e00",
-          padding: 2,
-          marginTop: 3,
-          borderRadius: 3,
-          width: "64%",
-        }}
-      >
-        <Typography variant="h5" gutterBottom sx={{ color: "white" }}>
-          Lịch sử mua hàng của {data?.username}
-        </Typography>
-        <Typography
-          variant="body2"
-          color="textSecondary"
-          gutterBottom
-          sx={{ color: "white" }}
-        >
-          Bạn có {data?.lenght} sản phẩm đã mua
-        </Typography>
-      </Paper>
-      <Typography sx={{ marginTop: 2 }} />
-      <DataGrid
-        sx={{ minWidth: "940px", minHeight: "600px" }}
-        rows={data}
-        getRowId={(row) => row.recipeId}
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 5,
-            },
-          },
-        }}
-        pageSizeOptions={[5]}
-        // disableRowSelectionOnClick
-      />
+      <Grid container spacing={2} sx={{ marginBottom: "2%" }}>
+        <Grid item xs={2} sx={{ marginLeft: "10%" }}>
+          <AvatarMenu />
+        </Grid>
+        <Grid item xs={7} sx={{ marginTop: "28px" }}>
+          <Paper
+            elevation={2}
+            style={{
+              marginLeft: "20px",
+              height: "500px",
+              width: "1100px",
+              overflow: "auto",
+            }}
+          >
+            <Typography
+              marginTop={3}
+              sx={{
+                marginLeft: 10,
+                fontSize: "28px",
+                fontWeight: "bold",
+                color: "#ff5e00",
+              }}
+            >
+              Lịch sử mua hàng
+            </Typography>
+            <Typography marginTop={6} />
+            <Box sx={{ marginTop: "30px" }}>
+              <DataGrid
+                sx={{ minWidth: "940px", minHeight: "400px" }}
+                rows={data}
+                getRowId={(row) => row.recipeId}
+                columns={columns}
+                initialState={{
+                  pagination: {
+                    paginationModel: {
+                      pageSize: 5,
+                    },
+                  },
+                }}
+                pageSizeOptions={[5]}
+                disableRowSelectionOnClick
+                slots={{ toolbar: QuickSearchToolbar }}
+              />
+            </Box>
+          </Paper>
+        </Grid>
+      </Grid>
     </div>
+  );
+}
+function QuickSearchToolbar() {
+  return (
+    <Box
+      sx={{
+        p: 0,
+        pb: 0,
+      }}
+    >
+      <GridToolbarQuickFilter />
+    </Box>
   );
 }

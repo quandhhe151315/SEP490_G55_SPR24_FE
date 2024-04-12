@@ -1,26 +1,14 @@
 import axios from "./CustomizeAxios";
 
-const checkOut = (
-  userId,
-  recipeId,
-  featuredImage,
-  recipeTitle,
-  recipePrice,
-  voucherCode,
-  discountPercentage
-) => {
-  return axios.post("/Payment/Checkout", {
-    userId,
-    recipeId,
-    featuredImage,
-    recipeTitle,
-    recipePrice,
-    voucherCode,
-    discountPercentage,
-  });
+const checkOut = (cart) => {
+  return axios.post("/Payment/Checkout", cart);
 };
 const getHistoryPayment = (id) => {
   return axios.get(`/Payment/History?id=${id}`);
 };
 
-export { checkOut, getHistoryPayment };
+const getURL = (amount) => {
+  return axios.get(`/Cart/returnURLPayment?amount=${amount}`);
+};
+
+export { checkOut, getHistoryPayment, getURL };
