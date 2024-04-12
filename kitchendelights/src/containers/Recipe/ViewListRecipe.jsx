@@ -27,7 +27,7 @@ import {
 } from "../../services/ApiServices";
 import { toast } from "react-toastify";
 import Footer from "../../components/Footer/Footer";
-import { useCart } from "../../store";
+import { loadingflagstore, useCart } from "../../store";
 import { searchRecipe } from "../../services/RecipeServices";
 import AdBanner from "../../components/ADS/AdBanner";
 import { getHistoryPayment } from "../../services/Payment";
@@ -69,6 +69,8 @@ function ViewListRecipes() {
   const [freeRecipes, setFreeRecipes] = useState([]);
   const [paidRecipes, setPaidRecipes] = useState([]);
   const { setDataCart } = useCart();
+
+  const { loadingflag, setloadingflag } = loadingflagstore();
   const role = Cookies.get("role");
   const getUserIdFromCookie = () => {
     const cookies = document.cookie.split("; ");
@@ -99,6 +101,7 @@ function ViewListRecipes() {
       if (response.status === 200) {
         toast.success("Thêm vào giỏ hàng thành công");
         getListCarts(userId);
+        setloadingflag(!loadingflag);
       } else {
         console.log("lỗi khi thêm vào cart");
       }
