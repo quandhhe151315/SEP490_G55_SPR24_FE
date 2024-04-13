@@ -87,8 +87,8 @@ export default function BlogComment() {
   return (
     <Stack mt={4}>
       <Stack>
-        <Typography fontSize={22} fontWeight={600}>
-          Bình luận
+        <Typography fontSize={22} fontWeight={600} sx={{color:'#ff5e00'}}>
+          Bình luận 
         </Typography>
       </Stack>
       <Divider sx={{ width: "100%", mt: 1 }} />
@@ -151,9 +151,9 @@ export default function BlogComment() {
         />
         <Button
           variant="contained"
-          sx={{ mt: 1 }}
+          sx={{ mt: 1,bgcolor:"#ff5e00" }}
           onClick={postComment}
-          disabled={!content}
+          disabled={!content} 
         >
           Bình luận bài viết
         </Button>

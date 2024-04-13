@@ -25,6 +25,7 @@ export default function UpdateStatusModal({
   const handleClose = () => {
     setOpenUpdateStatus(false);
   };
+  
   const [statusPostBlog, setStatusPostBlog] = React.useState();
   const [openSnackbar, setOpenSnackBar] = React.useState(false);
   const [contentSnackbar, setContentSnackbar] = React.useState("");

@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import PrimarySearchAppBar from "../Homepage/Appbar";
 import { useLocation, useParams, useSearchParams } from "react-router-dom";
 import { useGetRecipeByFilter } from "../../hook/useGetRecipeByFilter";
 import { Box, Grid } from "@mui/material";
 import RecipeItemList from "../../containers/Home/RecipeHome";
+import BlogItem from "../../containers/Blog/BlogList/BlogItem";
 
 export default function RecipeByFilter() {
   const location = useLocation();
@@ -29,7 +30,7 @@ export default function RecipeByFilter() {
   }
   return (
     <div>
-      <PrimarySearchAppBar />
+      <PrimarySearchAppBar  />
       <Box width={"85%"} marginX={"auto"}>
         <Box sx={{ width: "100%", marginX: "auto" }}>
           <RecipeItemList title={""} recipeItemLists={recipList} />
