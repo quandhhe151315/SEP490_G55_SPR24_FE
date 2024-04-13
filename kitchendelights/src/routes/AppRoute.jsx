@@ -50,6 +50,9 @@ import MyRecipe from "../containers/Recipe/MyRecipe";
 import CreateAdvertisement from "../containers/Advertisement/CreateAdvertisement";
 import UpdateAdvertisement from "../containers/Advertisement/UpdateAdvertisement";
 import { ForgotPassword } from "../containers/Authentication/ForgotPassword";
+import HistoryPayment from "../containers/ShoppingCart/HistoryPayment";
+import RecipeBought from "../containers/Recipe/RecipeBought";
+import Ticket from "../containers/ShoppingCart/Ticket";
 function AppRoute() {
   const router = createBrowserRouter([
     {
@@ -217,6 +220,19 @@ function AppRoute() {
     {
       path: "/myblog",
       element: <BlogUser />,
+    },
+    {
+      path: "/HistoryPayment",
+      element: <HistoryPayment />,
+    },
+
+    {
+      path: "/PurchasedRecipe",
+      element: <RecipeBought />,
+    },
+    {
+      path: "/ticket",
+      element: <Ticket />,
     },
   ]);
   return <RouterProvider router={router} />;

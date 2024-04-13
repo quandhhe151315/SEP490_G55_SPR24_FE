@@ -12,17 +12,16 @@ export default function RecipeByFilter() {
   const countryId = queryParams.get("countryId");
   const childCategoryId = queryParams.get("childCategoryId");
 
-  const { recipList, error } = useGetRecipeByFilter({
+  const { recipList, error,isLoading } = useGetRecipeByFilter({
     country: countryId,
     ingredient: ingredientId,
     category: childCategoryId,
   });
-  console.log(error?.response?.status);
-  if (error?.response?.status === 404) {
+  if (!recipList || recipList.length === 0) {
     return (
       <div>
         <PrimarySearchAppBar />
-        <Box width={"85%"} marginX={"auto"} height={"300px"}>
+        <Box width={"85%"} marginX={"auto"} height={"600px"} sx={{color:"#ff5e00",textTransform:'uppercase'}}>
           Không tìm thấy công thức nấu ăn nào
         </Box>
       </div>

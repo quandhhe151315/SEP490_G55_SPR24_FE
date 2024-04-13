@@ -16,7 +16,7 @@ import GetInformationJWT from "../JWT/GetInformationJWT";
 import Cookies from "js-cookie";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Badge from "@mui/material/Badge";
-import { useCart, useCount } from "../../store/store";
+import { useCart, useCount, loadingflagstore } from "../../store/store";
 import { getListCart } from "../../services/ApiServices";
 import TextField from "@mui/material/TextField";
 import { Stack, Grid } from "@mui/material";
@@ -61,10 +61,10 @@ export default function PrimarySearchAppBar() {
 
   const [userIdExist, setUserIdExist] = useState(false);
   const [userId, setUserId] = useState(-1);
-  const [role, setRole] = useState('');
+  const [role, setRole] = useState("");
 
   useEffect(() => {
-    setRole(Cookies.get('role'));
+    setRole(Cookies.get("role"));
     if (userId != -1) {
       setUserIdExist(true);
     } else {
@@ -75,7 +75,7 @@ export default function PrimarySearchAppBar() {
   // giỏ hàng
   const { dataCart, setDataCart } = useCart();
   const { countRecipe } = useCount();
-
+  const { loadingflag, setloadingflag } = loadingflagstore();
   const getUserIdFromCookie = () => {
     const cookies = document.cookie.split("; ");
     for (const cookie of cookies) {
@@ -89,7 +89,7 @@ export default function PrimarySearchAppBar() {
   const id = getUserIdFromCookie();
   useEffect(() => {
     getListCarts(id);
-  }, []);
+  }, [loadingflag]);
 
   const getListCarts = async (id) => {
     try {
@@ -151,7 +151,7 @@ export default function PrimarySearchAppBar() {
     Cookies.remove("userId");
     Cookies.remove("role");
     setUserIdExist(false);
-    setRole('');
+    setRole("");
     navigate("/KitchenDelights");
   };
 
@@ -175,7 +175,7 @@ export default function PrimarySearchAppBar() {
           <MenuItem onClick={goToLogin}>Đăng nhập</MenuItem>
         </>
       )}
-      {(role === "Administrator" || role === "Moderator" ) && (
+      {(role === "Administrator" || role === "Moderator") && (
         <>
           <MenuItem onClick={goToAdminManagement}>Quản lý trang web</MenuItem>
         </>

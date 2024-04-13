@@ -17,7 +17,7 @@ export default function RecipeItem({ item }) {
   return (
     <a
       href={`/RecipeDetail/${item?.recipeId}`}
-      style={{ textDecoration: "none" }}
+      style={{ textDecoration: "none"}}
     >
       <Box>
         <Card sx={{ width: "100%" }}>
@@ -25,7 +25,7 @@ export default function RecipeItem({ item }) {
             <div style={{ position: "relative" }}>
               <img
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                src="https://media.cooky.vn/recipe/g1/4014/s320x240/recipe4014-636009205974008541.jpg"
+                src={item?.featuredImage}
                 alt="recipe"
               />
             </div>

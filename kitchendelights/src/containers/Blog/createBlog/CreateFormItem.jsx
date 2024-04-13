@@ -20,10 +20,17 @@ import dayjs from "dayjs";
 import { createBlog } from "../../../services/ApiServices.jsx";
 import { useGetAllCategory } from "../../../hook/useGetAllCategory.js";
 import { uploadImage } from "../../../services/BlogServices.jsx";
+import { useGetCategoryByParentId } from "../../../hook/useGetCategoryByParentId.js";
 
 export default function CreateFormItem() {
   const [files, setFiles] = useState();
-  const { categoriesList } = useGetAllCategory();
+  const { categoryByParentId } = useGetCategoryByParentId({
+    categoryType: false,
+  });
+  const { categoryByParentId: categoriesList } = useGetCategoryByParentId({
+    categoryType: true,
+    parentId: categoryByParentId?.[0]?.categoryId,
+  });
   const [statusPostBlog, setStatusPostBlog] = useState();
   const [openSnackbar, setOpenSnackBar] = useState(false);
   const [contentSnackbar, setContentSnackbar] = useState("");
@@ -168,7 +175,9 @@ export default function CreateFormItem() {
               setFiles(event?.target?.files);
             }}
           />
-          <label htmlFor="choose_image" style={{}}>Chọn ảnh</label>
+          <label htmlFor="choose_image" style={{}}>
+            Chọn ảnh
+          </label>
           <Stack
             sx={{
               justifyContent: "center",

@@ -23,7 +23,7 @@ export default function BlogFilter({ setSearchKey }) {
         <input
           style={{
             height: "36px",
-            borderRadius: "20px",
+            borderRadius: "10px",
             outline: "none",
             border: "1px",
             borderStyle: "solid",
@@ -39,11 +39,11 @@ export default function BlogFilter({ setSearchKey }) {
           }}
           placeholder="Tìm kiếm bài viết"
         ></input>
-        <Button
+        <Button sx={{mr:28,bgcolor:'#ff5e00'}}
           variant="contained"
           onClick={() => setSearchKey(searchKeyInput)}
         >
-          Tim kiem
+          Tìm kiếm
         </Button>
         <Stack sx={{ display: "flex", flexDirection: "row", gap: 2 }}>
           <Typography>Sắp xếp theo: </Typography>

@@ -1,3 +1,4 @@
+import { localeData } from "moment";
 import { create } from "zustand";
 export const useCount = create((set) => ({
   recipeCountNumber: 0,
@@ -31,4 +32,9 @@ export const useVoucher = create((set) => ({
 export const voucherCode = create((set) => ({
   voucher: "",
   setVoucher: (code) => set({ voucher: code }),
+}));
+//comment
+export const loadingflagstore = create((set) => ({
+  loadingflag: false,
+  setloadingflag: (load) => set({ loadingflag: load }),
 }));

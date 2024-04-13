@@ -108,21 +108,16 @@ function CreateAdvertisement() {
                       marginLeft="200px"
                       marginTop="80px"
                     ></CategoryButton>
-                  </Grid>
-                  <Grid item xs container direction="row">
-                    <Button
+                    <CategoryButton
                       onClick={() => {
                         GoToAds();
                       }}
-                      sx={{
-                        fontSize: "15px",
-                        marginTop: "5%",
-                        marginLeft: "500px",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      Quay lại danh sách quảng cáo
-                    </Button>
+                      text="Huỷ"
+                      height="auto"
+                      width="120px"
+                      marginLeft="200px"
+                      marginTop="80px"
+                    ></CategoryButton>
                   </Grid>
                 </Grid>
               </Grid>
