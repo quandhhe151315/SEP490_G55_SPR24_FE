@@ -12,10 +12,12 @@ import MessageData from "./MessageData";
 export default function BlogList() {
   const [categorySelect, setCategorySelect] = useState();
   const [searchKey, setSearchKey] = useState("");
+  const [sortKey,setSortKey] = useState('');
   const { blogList } = useGetBlogList({
     id: "",
     category: categorySelect,
     search: searchKey,
+    sort: sortKey
   });
   const blogsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
@@ -44,7 +46,7 @@ export default function BlogList() {
               </a>
             </Stack>
           </Stack>
-          <BlogFilter setSearchKey={setSearchKey} />
+          <BlogFilter setSearchKey={setSearchKey} setSortKey={setSortKey} />
           <CategoriesList
             categorySelect={categorySelect}
             setCategorySelect={setCategorySelect}
