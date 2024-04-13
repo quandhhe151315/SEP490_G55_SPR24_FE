@@ -90,25 +90,34 @@ function BecomeChef() {
       };
 
       const handleCreateVerification = async () => {
-        try {
           const results = [];
-          for (let i = 0; i < stateArrayDataSend.length; i++) {
-            const [state, setState, setData] = stateArrayDataSend[i];
-            const res = await uploadImage(state, "avatar");
-            results[i] = res;
+          try {
+            for (let i = 0; i < stateArrayDataSend.length; i++) {
+              const [state, setState, setData] = stateArrayDataSend[i];
+              const res = await uploadImage(state, "avatar");
+              results[i] = res;
+            }
+          } catch (error) {
+            
           }
+            
+         if (results.length !== 4) {
+          showSnackbar('Vui lòng chọn đủ 4 ảnh', "error");
+            }
+            else{  
+          try {
+            const response = await becomeChefAPI(Cookies.get('userId'), results[0], results[1], results[2], results[3]);
+            if (response.status === 200) {
+              showSnackbar('Tạo yêu cầu thành công và đang chờ được duyệt!', "success");
+              navigate('/MyProfile');
+            } else {
 
-
-          const response = await becomeChefAPI(Cookies.get('userId'), results[0], results[1], results[2], results[3]);
-          if (response.status === 200) {
-            showSnackbar('Tạo yêu cầu thành công và đang chờ được duyệt!', "success");
-            navigate('/MyProfile');
-          } else {
-
+            }
+          } catch (error) {
+            showSnackbar('Tạo yêu cầu thất bại ! Vui lòng thử lại sau', "error");
           }
-        } catch (error) {
-          showSnackbar('Tạo yêu cầu thất bại!', "error");
         }
+        
       };
 
     return (
@@ -116,11 +125,11 @@ function BecomeChef() {
 <Appbar />
       <GetInformationJWT setId={setId}/>
       <Box sx={{ display: 'flex' }}>
-        <Grid container spacing={0}>
-          <Grid item xs={4} sx={{marginLeft: '2%'}}>
+        <Grid container spacing={2}>
+          <Grid item xs={2} sx={{marginLeft: '10%'}}>
             <AvatarMenu />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={7}>
 
             <Stack spacing={2} sx={{marginTop: '2%'}}>
               <Typography sx={{ fontSize: '30px', fontWeight: 'bold'}}>Trở thành đầu bếp</Typography>

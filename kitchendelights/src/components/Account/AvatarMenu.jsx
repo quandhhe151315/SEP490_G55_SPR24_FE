@@ -25,6 +25,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import { deleteAccount } from '../../services/UserServices';
 import Cookies from 'js-cookie';
+import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 
 function AvatarMenu({ handleClick, onMenuSelect }) {
     const navigate = useNavigate();
@@ -142,6 +143,14 @@ function AvatarMenu({ handleClick, onMenuSelect }) {
             </Paper> 
 
             <Paper sx={{ maxHeight:'500px', overflow:'auto', width: 250, maxWidth: '100%', marginTop: '20px', border: '1px solid #bfb8b8' }}>
+            <MenuList>
+                    <MenuItem>
+                        <ListItemIcon>
+                            <KeyboardDoubleArrowDownIcon fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText>Menu của bạn</ListItemText>
+                    </MenuItem>
+                </MenuList>
                 <MenuListItems handleClick={handleClick} onMenuSelect={onMenuSelect}/>
             </Paper>
 
