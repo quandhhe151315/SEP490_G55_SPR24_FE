@@ -11,7 +11,7 @@ import Menu from "@mui/material/Menu";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/material/Button";
-import { useNavigate } from "react-router-dom";
+import { Router, useNavigate } from "react-router-dom";
 import GetInformationJWT from "../JWT/GetInformationJWT";
 import Cookies from "js-cookie";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
@@ -56,6 +56,7 @@ const CategoryButton = ({
 };
 
 export default function PrimarySearchAppBar() {
+  const [searchKeyInput, setSearchKeyInput] = useState("");
   const { recipeCountNumber } = useCount();
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -196,7 +197,7 @@ export default function PrimarySearchAppBar() {
       border: `2px solid ${theme.palette.background.paper}`,
       padding: "0 4px",
     },
-  }));
+  }))
 
   return (
     <Box sx={{ flexGrow: 1, minWidth: "70%", height: "180px" }} color="primary">
@@ -216,6 +217,7 @@ export default function PrimarySearchAppBar() {
               </Grid>
               <Grid item xs={6}>
                 <input
+                  onChange={(e)=>setSearchKeyInput(e.target.value)}
                   style={{
                     height: "36px",
                     borderRadius: "5px",
@@ -225,7 +227,8 @@ export default function PrimarySearchAppBar() {
                     borderColor: "#ccc",
                     paddingLeft: "16px",
                     minWidth: "400px",
-                  }}
+                  }} 
+                  value={searchKeyInput}
                   placeholder="Tìm kiếm"
                 />
                 <Button
@@ -243,6 +246,9 @@ export default function PrimarySearchAppBar() {
                     padding: "8px 8px 7px 8px",
                     minWidth: "6px",
                     ml: -5.1,
+                  }}
+                  onClick={()=>{
+                    navigate(`/searchitem?searchName=${searchKeyInput}`)
                   }}
                 >
                   <SearchIcon />

@@ -66,6 +66,7 @@ export default function BlogDetail() {
               content={blogDetail?.blogContent}
               createDate={blogDetail?.createDate}
               image={blogDetail?.blogImage}
+              categoryName={blogDetail?.categoryName}
             />
             <BlogComment />
           </Grid>

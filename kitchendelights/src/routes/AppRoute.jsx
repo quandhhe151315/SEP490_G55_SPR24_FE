@@ -3,6 +3,7 @@ import {
   RouterProvider,
   createBrowserRouter,
   Navigate,
+  redirect,
 } from "react-router-dom";
 import CreateNews from "../containers/News/CreateNews";
 import ViewListNews from "../containers/News/ViewListNews";
@@ -53,7 +54,15 @@ import { ForgotPassword } from "../containers/Authentication/ForgotPassword";
 import HistoryPayment from "../containers/ShoppingCart/HistoryPayment";
 import RecipeBought from "../containers/Recipe/RecipeBought";
 import Ticket from "../containers/ShoppingCart/Ticket";
+import SearchItemAll from "../components/searchItemAll";
+import { useGetProfile } from "../hook/useGetProfile";
+import Cookies from "js-cookie";
+import NotAuthorication from "../containers/403";
 function AppRoute() {
+  const userId = Cookies.get("userId");
+  const { profile } = useGetProfile(userId);
+  const roleId = profile?.role?.roleId;
+  console.log(roleId);
   const router = createBrowserRouter([
     {
       path: "/KitchenDelights",
@@ -118,6 +127,15 @@ function AppRoute() {
     {
       path: "/AdsManagement",
       element: <ViewAdvertisement />,
+      loader: async () => {
+        if (!!roleId) {
+          if (roleId !== 1 && roleId !== 2) {
+            return redirect("/403");
+          }
+          return null;
+        }
+        return null;
+      },
     },
 
     {
@@ -132,6 +150,15 @@ function AppRoute() {
     {
       path: "/CreateCategory",
       element: <CreateCategory />,
+      loader: async () => {
+        if (!!roleId) {
+          if (roleId !== 1 && roleId !== 2) {
+            return redirect("/403");
+          }
+          return null;
+        }
+        return null;
+      },
     },
     {
       path: "/UpdateCategory/:CategoryId",
@@ -148,11 +175,30 @@ function AppRoute() {
     {
       path: "/ListAccount",
       element: <ListAccount />,
+      loader: async () => {
+        if (!!roleId) {
+          if (roleId !== 1 && roleId !== 2) {
+            return redirect("/403");
+          }
+          return null;
+        }
+        return null;
+      },
     },
     {
       path: "/ViewListCategory",
       element: <ListCategoryDashboard />,
+      loader: async () => {
+        if (!!roleId) {
+          if (roleId !== 1 && roleId !== 2) {
+            return redirect("/403");
+          }
+          return null;
+        }
+        return null;
+      },
     },
+
     {
       path: "/Dashboard",
       element: <DashboardMenu />,
@@ -170,12 +216,34 @@ function AppRoute() {
       element: <RecipeByFilter />,
     },
     {
+      path: "/searchitem",
+      element: <SearchItemAll />,
+    },
+    {
       path: "/ListRecipeDashBoard",
       element: <ListRecipeDashBoard />,
+      loader: async () => {
+        if (!!roleId) {
+          if (roleId !== 1 && roleId !== 2) {
+            return redirect("/403");
+          }
+          return null;
+        }
+        return null;
+      },
     },
     {
       path: "/ListNews",
       element: <ListNews />,
+      loader: async () => {
+        if (!!roleId) {
+          if (roleId !== 1 && roleId !== 2) {
+            return redirect("/403");
+          }
+          return null;
+        }
+        return null;
+      },
     },
     {
       path: "/comment/test",
@@ -184,18 +252,54 @@ function AppRoute() {
     {
       path: "/comment/list",
       element: <ListCommentDashboard />,
+      loader: async () => {
+        if (!!roleId) {
+          if (roleId !== 1 && roleId !== 2) {
+            return redirect("/403");
+          }
+          return null;
+        }
+        return null;
+      },
     },
     {
       path: "/DashBoardMenu",
       element: <DashBoard />,
+      loader: async () => {
+        if (!!roleId) {
+          if (roleId !== 1 && roleId !== 2) {
+            return redirect("/403");
+          }
+          return null;
+        }
+        return null;
+      },
     },
     {
       path: "/ChangeRole/:userId",
       element: <ChangeRole />,
+      loader: async () => {
+        if (!!roleId) {
+          if (roleId !== 1 && roleId !== 2) {
+            return redirect("/403");
+          }
+          return null;
+        }
+        return null;
+      },
     },
     {
       path: "/blog/management",
       element: <ListBlogDashboard />,
+      loader: async () => {
+        if (!!roleId) {
+          if (roleId !== 1 && roleId !== 2) {
+            return redirect("/403");
+          }
+          return null;
+        }
+        return null;
+      },
     },
     {
       path: "/ViewDetailMenu/:menuId",
@@ -209,13 +313,49 @@ function AppRoute() {
       path: "/MyRecipe",
       element: <MyRecipe />,
     },
-    { path: "/CreateRecipe", element: <CreateRecipe /> },
+    {
+      path: "/CreateRecipe",
+      element: <CreateRecipe />,
+      loader: async () => {
+        if (!!roleId) {
+          if (roleId !== 1 && roleId !== 2) {
+            return redirect("/403");
+          }
+          return null;
+        }
+        return null;
+      },
+    },
     { path: "/Login", element: <Login /> },
     { path: "/Register", element: <Register /> },
     { path: "/BecomeChef", element: <BecomeChef /> },
-    { path: "/Marketplace", element: <MarketplaceManagement /> },
-    { path: "/ChefVerificationManagement", element: <ChefManagement /> },
     { path: "/ForgotPassword", element: <ForgotPassword/> },
+    {
+      path: "/Marketplace",
+      element: <MarketplaceManagement />,
+      loader: async () => {
+        if (!!roleId) {
+          if (roleId !== 1 && roleId !== 2) {
+            return redirect("/403");
+          }
+          return null;
+        }
+        return null;
+      },
+    },
+    {
+      path: "/ChefVerificationManagement",
+      element: <ChefManagement />,
+      loader: async () => {
+        if (!!roleId) {
+          if (roleId !== 1 && roleId !== 2) {
+            return redirect("/403");
+          }
+          return null;
+        }
+        return null;
+      },
+    },
     { path: "/", element: <Navigate to="/KitchenDelights" /> },
     {
       path: "/myblog",
@@ -225,6 +365,7 @@ function AppRoute() {
       path: "/HistoryPayment",
       element: <HistoryPayment />,
     },
+  
 
     {
       path: "/PurchasedRecipe",
@@ -233,6 +374,10 @@ function AppRoute() {
     {
       path: "/ticket",
       element: <Ticket />,
+    },
+    {
+      path: "/403",
+      element: <NotAuthorication />,
     },
   ]);
   return <RouterProvider router={router} />;

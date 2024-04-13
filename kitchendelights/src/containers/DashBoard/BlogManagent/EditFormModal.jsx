@@ -22,6 +22,7 @@ import BlogEditor from "../../../components/TextEditor/BlogEditor";
 import dayjs from "dayjs";
 import { updateBlog, uploadImage } from "../../../services/BlogServices";
 import { useGetBlogList } from "../../../hook/useGetBlogList";
+import { useGetCategoryByParentId } from "../../../hook/useGetCategoryByParentId";
 
 const style = {
   position: "absolute",
@@ -53,9 +54,15 @@ export default function EditFormModal({
     setOpenModal(false);
     setIsChangeImage(false);
   };
+  const { categoryByParentId } = useGetCategoryByParentId({
+    categoryType: false,
+  });
+  const { categoryByParentId: categoriesList } = useGetCategoryByParentId({
+    categoryType: true,
+    parentId: categoryByParentId?.[0]?.categoryId,
+  });
   const [files, setFiles] = useState();
   const [isChangeImage, setIsChangeImage] = useState(false);
-  const { categoriesList } = useGetAllCategory();
   const [statusPostBlog, setStatusPostBlog] = React.useState();
   const [openSnackbar, setOpenSnackBar] = useState(false);
   const [contentSnackbar, setContentSnackbar] = useState("");
