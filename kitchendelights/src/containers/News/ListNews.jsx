@@ -10,12 +10,34 @@ import DoneIcon from '@mui/icons-material/Done';
 import { deleteNews, acceptNews } from '../../services/NewsService';
 import { useSnackbar } from '../../components/Snackbar/Snackbar';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 export default function ListNews() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [rows, setRows] = useState([]);
   const { showSnackbar } = useSnackbar();
+
+  const [open, setOpen] = React.useState(false);
+
+  const [newsId, setNewsId] = useState();
+
+  const handleClickOpen = (id) => {
+    setNewsId(id);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleViewDetailNews = (idView) => {
+    navigate(`/ViewDetailNews/${idView}`);
+  }
 
     const getListUser = async () => {
       try {
@@ -43,10 +65,6 @@ export default function ListNews() {
     })));
 }, [data]);
 
-    const handleViewDetailNews = (id) => {
-      console.log(`Ban ID: ${id}`);
-    };
-
     const handleAcceptNews = async (id) => {
       try {
         const response = await acceptNews(id);
@@ -60,10 +78,11 @@ export default function ListNews() {
       }
       };
 
-      const handleDeleteNews = async (id) => {
+      const handleDeleteNews = async () => {
         try {
-          const response = await deleteNews(id);
+          const response = await deleteNews(newsId);
           if (response.status === 200) {
+            handleClose();
             showSnackbar('Xóa tin tức thành công!', "success");
           } else {
 
@@ -103,7 +122,7 @@ export default function ListNews() {
                 sx={{height: '37px'}}
             >
             </Button>
-            <Button variant="outlined" color="error" sx={{marginLeft: '5%'}} onClick={() => handleDeleteNews(params.row.id)}>
+            <Button variant="outlined" color="error" sx={{marginLeft: '5%'}} onClick={() => handleClickOpen(params.row.id)}>
             Xóa
             </Button>
             <Button
@@ -138,20 +157,27 @@ export default function ListNews() {
                 />
                 
             </Box>
-            {/* <Button 
-                variant="contained" 
-                sx={{ 
-                    bgcolor: "#ff5e00", 
-                    borderRadius: '15px' , 
-                    marginTop: '1%',
-                    marginBottom: '1%',
-                    marginLeft: '1720px',
-                    color: 'white' 
-                }}
-                onClick={}
+            <Dialog
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
                 >
-                Tạo tin tức mới
-            </Button> */}
+                    <DialogTitle id="alert-dialog-title">
+                    {"Bạn có chắc muốn xóa tin tức này?"}
+                    </DialogTitle>
+                    <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Sau khi xóa sẽ không thể khôi phục lại được. Nhấn "Xóa" để xóa tin tức hoặc nhấn "Hủy"
+                    </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                    <Button color="error" onClick={handleDeleteNews}>Xóa</Button>
+                    <Button onClick={handleClose} autoFocus>
+                        Hủy
+                    </Button>
+                    </DialogActions>
+                </Dialog>
         </Box>
     </div>
   )

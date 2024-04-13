@@ -49,6 +49,7 @@ import ViewAdvertisement from "../containers/Advertisement/ViewAdvertisement";
 import MyRecipe from "../containers/Recipe/MyRecipe";
 import CreateAdvertisement from "../containers/Advertisement/CreateAdvertisement";
 import UpdateAdvertisement from "../containers/Advertisement/UpdateAdvertisement";
+import { ForgotPassword } from "../containers/Authentication/ForgotPassword";
 import HistoryPayment from "../containers/ShoppingCart/HistoryPayment";
 import RecipeBought from "../containers/Recipe/RecipeBought";
 import Ticket from "../containers/ShoppingCart/Ticket";
@@ -214,6 +215,7 @@ function AppRoute() {
     { path: "/BecomeChef", element: <BecomeChef /> },
     { path: "/Marketplace", element: <MarketplaceManagement /> },
     { path: "/ChefVerificationManagement", element: <ChefManagement /> },
+    { path: "/ForgotPassword", element: <ForgotPassword/> },
     { path: "/", element: <Navigate to="/KitchenDelights" /> },
     {
       path: "/myblog",

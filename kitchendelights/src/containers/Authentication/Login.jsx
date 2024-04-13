@@ -85,7 +85,7 @@ const Login = () => {
                   <Link
                     component="button"
                     variant="body2"
-                    // onClick={goToForgotPasswordPage}
+                    onClick={goToForgotPasswordPage}
                     >
                     Quên mật khẩu
                   </Link>

@@ -1,7 +1,7 @@
 import React, { useEffect , useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { useSnackbar } from '../../components/Snackbar/Snackbar';
 import { listIngredientMarketplace, deleteMarketplaceLink, createIngredientMarketplace } from '../../services/MarketPlaceService';
 import AddIcon from '@mui/icons-material/Add';
@@ -13,14 +13,25 @@ import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
+import { useNavigate, Link  } from 'react-router-dom';
 
 export default function ListIngredientMarketplace({ dataIngredients, dataMarketplace }) {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [rows, setRows] = useState([]);
   const [dataDisplay, setDataDisplay] = useState([]);
-
+  const [link, setLink] = useState('');
   const { showSnackbar } = useSnackbar();
+
+  const getMarketplaceLink = (ingreId, url) => {
+    const foundItem = data.find(item => item.ingredientId === ingreId && item.marketplaceLogo === url);
+    return foundItem.marketplaceLink;
+  };
+
+  const handleGoToLinking = (id, url) => {
+    const marketplaceLink = getMarketplaceLink(id, url);
+    setLink(marketplaceLink);
+  }
 
   const getListIngreMarketplace = async () => {
       try {
@@ -125,13 +136,14 @@ export default function ListIngredientMarketplace({ dataIngredients, dataMarketp
         { field: 'id', headerName: 'ID', width: 70 },
         { field: 'ingredientName', headerName: 'Tên Nguyên Liệu', width: 350, sortable: false},
         { field: 'marketplaceId', headerName: 'ID Cửa Hàng', width: 100, sortable: false},
-        { field: 'marketplaceLogo', headerName: 'Logo Cửa Hàng', width: 550, sortable: false,
+        { field: 'marketplaceLogo', headerName: 'Logo Cửa Hàng', width: 750, sortable: false,
         renderCell: (params) => {
           return (
           <div style={{ position: 'relative' }}>
             {params.value && Array.isArray(params.value) && params.value.map((url, index) => (
               <div key={index} style={{ position: 'relative', display: 'inline-block' }}>
-                <img src={url} alt="Logo" style={{ width: 40, height: 40, marginRight: 20 }} />
+                {/* <img src={url} alt="Logo" style={{ width: 40, height: 40, marginRight: 20 }} onClick={() => handleGoToLinking(params.row.id, url)}/> */}
+                <Link to={link} onClick={() => handleGoToLinking(params.row.id, url)}><img src={url} alt="Logo" style={{ width: 40, height: 40, marginRight: 20 }} /></Link>
                 <button 
                   style={{
                     position: 'absolute',
@@ -158,7 +170,7 @@ export default function ListIngredientMarketplace({ dataIngredients, dataMarketp
     {
         field: 'action',    
         headerName: 'Hành động',
-        width: 550,
+        width: 250,
         renderCell: (params) => (
             <div>
             <Button
