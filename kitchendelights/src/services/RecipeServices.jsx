@@ -1,7 +1,7 @@
 import axios from "./CustomizeAxios";
 
 export const getAllRecipebyRating = (params) => {
-  return axios.get("/Recipe/HighRating",{params});
+  return axios.get("/Recipe/HighRating", { params });
 };
 
 export const getAllRecipeFree = () => {
@@ -31,7 +31,11 @@ export const getAllCategory = () => {
 
 export const getCategoryByParentId = (params) => {
   const url = params?.parentId
-  ? `/Category/GetCategoryByParentId?parentId=${params?.parentId}&categoryType=${params?.categoryType}`
-  : `/Category/GetCategoryByParentId?categoryType=${params?.categoryType}`;
+    ? `/Category/GetCategoryByParentId?parentId=${params?.parentId}&categoryType=${params?.categoryType}`
+    : `/Category/GetCategoryByParentId?categoryType=${params?.categoryType}`;
   return axios.get(url);
+};
+
+export const getAdvertisement = (id) => {
+  return axios.get("/Advertisement/GetAdvertismentById", { id: id });
 };

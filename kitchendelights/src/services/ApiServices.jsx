@@ -192,6 +192,14 @@ const getCategoryById = (id) => {
   return axios.get(`/Category/GetCategoryById?categoryId=${id}`);
 };
 
+const checkUserRecipe = (id) => {
+  return axios.get(`/Recipe/CheckUserOwnRecipePaid?userId=${id}`);
+};
+
+const getRecipeBought = (userId) => {
+  return axios.get(`/Recipe/GetRecipeUserBought?userId=${userId}`);
+};
+
 const postCreateCategory = (
   categoryId,
   categoryName,
@@ -216,7 +224,7 @@ const updateCategory = (categoryId, categoryName, categoryType, parentId) => {
 };
 
 const getCategoryByParentId = () => {
-  return axios.get("/Category/GetCategoryByParentId");
+  return axios.get("/Category/GetCategoryByParentId?categoryType=true");
 };
 
 const listUsers = () => {
@@ -374,4 +382,6 @@ export {
   getNumberRecipeCreatedInThisMonth,
   checkInteraction,
   getRecipeByUserId,
+  checkUserRecipe,
+  getRecipeBought,
 };

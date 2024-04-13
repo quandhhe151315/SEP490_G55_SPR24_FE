@@ -21,6 +21,8 @@ import MenuBookIcon from "@mui/icons-material/MenuBook";
 import AddRecipeToMenuDialog from "../Menu/AddRecipeToMenu";
 import { toast } from "react-toastify";
 
+import { RichTextReadOnly } from "mui-tiptap";
+import useExtensions from "../../components/Richtext/useExtension.ts";
 import {
   createRecipe,
   listAllIngredient,
@@ -42,10 +44,10 @@ import RandomRecipes from "./RandomRecipe";
 function RecipeDetail() {
   const navigate = useNavigate();
   const [data, setdata] = useState();
+  const [data1, setdata1] = useState([]);
   const { recipeId } = useParams();
 
   const commentRef = useRef(null);
-  //const {uId,rId ,type} = useParams();
   const getUserIdFromCookie = () => {
     const cookies = document.cookie.split("; ");
     for (const cookie of cookies) {
@@ -123,7 +125,6 @@ function RecipeDetail() {
   const handleAddBookMark = async () => {
     try {
       const response = await addRecipeToBookMark(uId, rId, type);
-      console.log("12333", uId, rId, type);
       GoToBookMark();
       toast.success("Thêm vào danh sách thành công");
       if (response.status === 200) {
@@ -171,6 +172,7 @@ function RecipeDetail() {
       const response = await getRecipeById(recipeId);
       if (response.status === 200) {
         setdata(response.data);
+        setdata1(response.data.recipeIngredients);
         console.log("data", response);
       } else {
         console.error("Can not Load news! ");
@@ -183,6 +185,10 @@ function RecipeDetail() {
   const handleScrollToComment = () => {
     commentRef.current.scrollIntoView({ behavior: "smooth" });
   };
+
+  const extensions = useExtensions({
+    placeholder: "Nội dung của bạn ...",
+  });
 
   return (
     <div>
@@ -360,9 +366,10 @@ function RecipeDetail() {
           </Card>
 
           <CardContent>
-            <Typography gutterBottom variant="h6" component="div">
-              {data?.recipeContent}
-            </Typography>
+            <RichTextReadOnly
+              content={data?.recipeContent}
+              extensions={extensions}
+            />
           </CardContent>
           <CardContent>
             <Stack direction="row" spacing={2}>
@@ -380,10 +387,20 @@ function RecipeDetail() {
             <Typography sx={{ fontSize: 25, fontWeight: "bold" }}>
               Nguyên liệu
             </Typography>
+            {/* {data1.map((item) => {
+              return (
+                <div key={item.ingredientId}>
+                  <p>Ingredient ID: {item.ingredientId}</p>
+                  <p>Ingredient Name: {item.ingredientName}</p>
+                  <p>Unit Value: {item.unitValue}</p>
+                  <p>Ingredient Unit: {item.ingredientUnit}</p>
+                </div>
+              );
+            })} */}
             <FormGroup>
               <FormControlLabel
                 control={<Checkbox defaultChecked />}
-                label="400g graham cracker"
+                label={data1?.ingredientName}
               />
               <FormControlLabel
                 control={<Checkbox />}
@@ -397,6 +414,7 @@ function RecipeDetail() {
             <Typography sx={{ fontSize: 25, fontWeight: "bold" }}>
               Cách làm
             </Typography>
+
             <Typography gutterBottom variant="h6" component="div">
               {data?.recipeContent}
             </Typography>
