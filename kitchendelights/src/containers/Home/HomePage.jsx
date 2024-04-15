@@ -16,8 +16,8 @@ import { useGetNews } from "../../hook/useGetNews";
 function HomePage() {
   const { newsList } = useGetNews();
   const { allRecipebyRating } = useGetAllRecipebyRating({ count: 6 });
-  const { recipList: allRecipeFree } = useGetRecipeByFilter({ isfree: 2 });
-  const { recipList: allRecipePaid } = useGetRecipeByFilter({ isfree: 1 });
+  const { recipList: allRecipeFree } = useGetRecipeByFilter({ isfree: 1 });
+  const { recipList: allRecipePaid } = useGetRecipeByFilter({ isfree: 2 });
   return (
     <div>
       <Appbar />
