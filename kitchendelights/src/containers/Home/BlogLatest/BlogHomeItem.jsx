@@ -60,7 +60,7 @@ export default function BlogHomeItem({
                       WebkitLineClamp={1}
                       variant="body1"
                     >
-                      {content}
+                     <div dangerouslySetInnerHTML={{ __html: content }}></div>
                     </Typography>
                   </Stack>
                 </Stack>

@@ -14,20 +14,20 @@ import CommentIcon from "@mui/icons-material/Comment";
 import ArtTrackIcon from "@mui/icons-material/ArtTrack";
 import ContactsIcon from "@mui/icons-material/Contacts";
 import { useNavigate } from "react-router-dom";
-import GetInformationJWT from "../JWT/GetInformationJWT";
-import { MenuListItems } from "./MenuListItem";
-import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import Button from "@mui/material/Button";
-import { deleteAccount } from "../../services/UserServices";
+import GetInformationJWT from '../JWT/GetInformationJWT';
+import { MenuListItems } from './MenuListItem';
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
+import { deleteAccount } from '../../services/UserServices';
+import Cookies from 'js-cookie';
+import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
-
-import Cookies from "js-cookie";
 
 function AvatarMenu({ handleClick, onMenuSelect }) {
   const navigate = useNavigate();
@@ -183,18 +183,17 @@ function AvatarMenu({ handleClick, onMenuSelect }) {
         </MenuList>
       </Paper>
 
-      <Paper
-        sx={{
-          maxHeight: "500px",
-          overflow: "auto",
-          width: 250,
-          maxWidth: "100%",
-          marginTop: "20px",
-          border: "1px solid #bfb8b8",
-        }}
-      >
-        <MenuListItems handleClick={handleClick} onMenuSelect={onMenuSelect} />
-      </Paper>
+      <Paper sx={{ maxHeight:'500px', overflow:'auto', width: 250, maxWidth: '100%', marginTop: '20px', border: '1px solid #bfb8b8' }}>
+            <MenuList>
+                    <MenuItem>
+                        <ListItemIcon>
+                            <KeyboardDoubleArrowDownIcon fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText>Menu của bạn</ListItemText>
+                    </MenuItem>
+                </MenuList>
+                <MenuListItems handleClick={handleClick} onMenuSelect={onMenuSelect}/>
+            </Paper>
 
       <Paper
         sx={{

@@ -32,6 +32,15 @@ const acceptVerifycationChef = (verificationId, verificationStatus) => {
     return axios.patch("/Verification/Update", { verificationId, verificationStatus });
 }
 
+const resetPassword = (email) => {
+    return axios.patch("/User/ResetToken", { email });
+}
+
+const forgotPassword = (email, password, resetToken) => {
+    return axios.patch("/User/ForgetPassword", { email, password, resetToken });
+}
+
+
 export {
-    createAccount, banOrUnbanAccount, deleteAccount, changeRole, becomeChefAPI, verifyEmailAPI, getListBecomeChef, acceptVerifycationChef
+    createAccount, banOrUnbanAccount, deleteAccount, changeRole, becomeChefAPI, verifyEmailAPI, getListBecomeChef, acceptVerifycationChef, resetPassword, forgotPassword
 };

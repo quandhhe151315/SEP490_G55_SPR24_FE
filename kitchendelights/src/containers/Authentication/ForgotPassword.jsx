@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import '../../assets/css/Login.css'
 import { TextField, Grid, Stack, Typography, Box } from '@mui/material';
-import {register} from '../../services/ApiServices'
+import { resetPassword, forgotPassword } from '../../services/UserServices';
 import ClassicButton from '../../components/Button/ClassicButton';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
@@ -16,25 +16,19 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import { verifyEmailAPI } from '../../services/UserServices';
 
-const Register = () => {
-  const [username, setUsername] = useState('');
+const ForgotPassword = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repassword, setRepassword] = useState('');
-
   const [code, setCode] = useState('');
-  const [codeValid, setCodeValid] = useState('');
+
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
-    if (password === '' || username === '' || email === '') {
-      showSnackbar('Không được để trống username, email hoặc mật khẩu !', "error");
-    } else if (password.length < 6) {
-      showSnackbar('Mật khẩu phải dài hơn 6 kí tự!', "error");
-    } else if (repassword !== password) {
-      showSnackbar('Nhập lại mật khẩu không trùng khớp với mật khẩu!', "error");
+    if (email === '') {
+      showSnackbar('Không được để trống email !', "error");
     } else {
-      showSnackbar('Vui lòng kiểm tra email!', "success");
+      showSnackbar('Vui lòng kiểm tra email của bạn!', "success");
       handleVerifyEmail();
       setOpen(true);
     }
@@ -51,37 +45,41 @@ const Register = () => {
     navigate('/Login');
   }
 
-  const goToForgotPasswordPage = () => {
-    navigate('/ForgotPassword');
+  const goToRegisterPage = () => {
+    navigate('/Register');
   }
 
   const handleVerifyEmail = async () => {
     try {
-      const response = await verifyEmailAPI(email);
+      const response = await resetPassword(email);
       if (response.status === 200) {
-        setCodeValid(response.data);
       } else {
 
       }
     } catch (error) {
-      showSnackbar('Xác thực thất bại! Vui lòng thử lại', "error");
+      showSnackbar('Xác thực thất bại! Vui lòng thử nhập lại email', "error");
     }
   }
 
-  const handleRegister = async () => {
-    if(code !== codeValid){
-      showSnackbar('Code không chính xác!', "error");
+  const handleForgotPassword = async () => {
+    if(code === '' || password === '' || repassword === ''){
+      showSnackbar('Không được để trống code hoặc mật khẩu!', "error");
+    }
+    else if(password !== repassword){
+      showSnackbar('Mật khẩu không trùng khớp với nhập lại mật khẩu!', "error");
+    } else if(password.length < 6) {
+      showSnackbar('Mật khẩu phải dài hơn 6 kí tự!', "error");
     } else {
       try {
-        const response = await register(username, email, password);
+        const response = await forgotPassword(email, password, code);
         if (response.status === 200) {
           goToLoginPage();
-          showSnackbar('Đăng kí tài khoản thành công!', "success");
+          showSnackbar('Đổi mật khẩu thành công!', "success");
         } else {
 
         }
       } catch (error) {
-        showSnackbar('Đăng kí tài khoản thất bại!', "error");
+        showSnackbar('Đổi mật khẩu thất bại. Vui lòng nhập đúng code !', "error");
       }
     }
       
@@ -92,14 +90,11 @@ const Register = () => {
          <Container fixed>
         <Box>
                 <Grid container spacing={2}>
-                <Typography sx={{ fontSize: '32px', marginTop: '10%',marginLeft: '37%',marginRight: '35%', }}>Đăng kí tài khoản</Typography>
+                <Typography sx={{ fontSize: '32px', marginTop: '10%',marginLeft: '37%',marginRight: '35%', }}>Quên mật khẩu</Typography>
                   </Grid>
                 
                   <Stack spacing={3} sx={{marginLeft: '35%', marginTop: '5%'}}>
-                    <TextField  isRequired size='large' type="input" placeholder='Nhập Username' value={username} onChange={(e) => setUsername(e.target.value)} sx={{ width: '40%', fontSize: '16px', fontWeight: 'bold' }} />
                     <TextField  required size='large' type="input" placeholder='Nhập Email' value={email} onChange={(e) => setEmail(e.target.value)} sx={{ width: '40%', fontSize: '16px', fontWeight: 'bold' }} />
-                    <TextField  required size='small' type="password" placeholder='Nhập Mật Khẩu' value={password} onChange={(e) => setPassword(e.target.value)} sx={{ width: '40%' , fontSize: '16px', fontWeight: 'bold' }} />
-                    <TextField  required size='small' type="password" placeholder='Nhập lại Mật Khẩu' value={repassword} onChange={(e) => setRepassword(e.target.value)} sx={{ width: '40%' , fontSize: '16px', fontWeight: 'bold' }} />
                   </Stack>
                   <Grid container spacing={2}>
                   <Stack spacing={3} sx={{marginLeft: '40%', marginTop: '5%'}}>
@@ -113,12 +108,12 @@ const Register = () => {
                   <Link
                     component="button"
                     variant="body2"
-                    onClick={goToForgotPasswordPage}
+                    onClick={goToRegisterPage}
                     >
-                    Quên mật khẩu
+                    Chưa có tài khoản ? Đăng kí
                   </Link>
                   </Stack>
-                    <ClassicButton text="Đăng kí" left="41%" right="40%" top="5%" onClick={handleClickOpen}/>
+                    <ClassicButton text="Gửi" left="41%" right="40%" top="5%" onClick={handleClickOpen}/>
                   </Grid>
              
                 </Box>
@@ -142,7 +137,7 @@ const Register = () => {
         <DialogTitle>Xác thực email</DialogTitle>
         <DialogContent>
           <DialogContentText sx={{marginBottom: '5%'}}>
-            Vui lòng nhập code vừa được gửi tới email đăng kí của bạn
+            Vui lòng nhập code vừa được gửi tới email của bạn và mật khẩu mới
           </DialogContentText>
           <TextField
             autoFocus
@@ -157,14 +152,40 @@ const Register = () => {
             value={code}
             onChange={(e) => setCode(e.target.value)}
           />
+          <TextField
+            autoFocus
+            required
+            margin="dense"
+            id="name"
+            name="name"
+            label="Nhập mật khẩu mới"
+            type="name"
+            fullWidth
+            variant="standard"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <TextField
+            autoFocus
+            required
+            margin="dense"
+            id="name"
+            name="name"
+            label="Nhập lại mật khẩu mới"
+            type="name"
+            fullWidth
+            variant="standard"
+            value={repassword}
+            onChange={(e) => setRepassword(e.target.value)}
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Hủy</Button>
-          <Button type="submit" onClick={handleRegister}>Tạo</Button>
+          <Button onClick={handleForgotPassword}>Đổi mật khẩu</Button>
         </DialogActions>
             </Dialog>
     </div>
   );
 };
 
-export { Register }; 
+export { ForgotPassword }; 

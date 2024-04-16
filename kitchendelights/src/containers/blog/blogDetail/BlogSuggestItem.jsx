@@ -29,6 +29,7 @@ export default function BlogSuggestItem({ blogItem }) {
             pb: 2,
           }}
         >
+         
           <Typography
             fontSize={14}
             fontWeight={600}

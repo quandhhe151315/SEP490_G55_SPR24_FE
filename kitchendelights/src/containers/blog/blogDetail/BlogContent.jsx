@@ -7,10 +7,12 @@ export default function BlogContent({
   image,
   createDate,
   userName,
+  categoryName
 }) {
   return (
     <Stack sx={{ mt: 2 }}>
       <Stack>
+      <Typography sx={{textTransform:'uppercase',color:'#ff5e00'}}>{categoryName}</Typography>
         <Typography fontSize={24} fontWeight={500}>
           {title}
         </Typography>

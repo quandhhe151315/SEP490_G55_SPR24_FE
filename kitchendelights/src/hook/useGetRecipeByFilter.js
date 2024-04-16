@@ -13,6 +13,7 @@ export const useGetRecipeByFilter = (params) => {
   const { data, isLoading, error } = useSWR(
     [
       "/Recipe/GetAllRecipe",
+      params?.searchName,
       params?.name,
       params?.country,
       params?.ingredient,

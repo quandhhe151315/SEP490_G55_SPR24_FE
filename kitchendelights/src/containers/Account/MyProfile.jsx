@@ -89,7 +89,7 @@ function MyProfile() {
                       marginTop: "3%",
                       borderRadius: "15px",
                       border: "1px solid #bfb8b8",
-                      width: "77%",
+                      width: '100%',
                       height: "100%",
                     }}
                   >

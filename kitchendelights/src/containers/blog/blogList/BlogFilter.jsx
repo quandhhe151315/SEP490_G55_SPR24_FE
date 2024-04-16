@@ -1,8 +1,26 @@
-import { Button, Stack, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
 
-export default function BlogFilter({ setSearchKey }) {
+export default function BlogFilter({ setSearchKey, setSortKey }) {
+
+  const [sort, setSort] = useState(''); 
   const [searchKeyInput, setSearchKeyInput] = useState("");
+
+  const handleChange = (event) => {
+    const value = event.target.value;
+    setSort(value);
+    setSortKey(value); 
+  };
+
   return (
     <Stack
       className=""
@@ -39,15 +57,29 @@ export default function BlogFilter({ setSearchKey }) {
           }}
           placeholder="Tìm kiếm bài viết"
         ></input>
-        <Button sx={{mr:28,bgcolor:'#ff5e00'}}
-          variant="contained"
+        <Button
+          sx={{ mr: 30, bgcolor: "#ff5e00",width: "100px",
+          height: "40px"}}
+          variant="contained" 
           onClick={() => setSearchKey(searchKeyInput)}
         >
           Tìm kiếm
         </Button>
         <Stack sx={{ display: "flex", flexDirection: "row", gap: 2 }}>
-          <Typography>Sắp xếp theo: </Typography>
-          <Typography>Mới nhất</Typography>
+        <FormControl sx={{ m: 1, minWidth: 136 }} size="small">
+            <InputLabel id="demo-select-small-label">Sắp xếp theo</InputLabel>
+            <Select
+              labelId="demo-select-small-label"
+              id="demo-select-small"
+              value={sort}
+              label="Age"
+              onChange={handleChange}
+            >
+              <MenuItem value="desc">Mới nhất</MenuItem>
+              <MenuItem value="asc">Cũ nhất</MenuItem>
+             
+            </Select>
+          </FormControl>
         </Stack>
       </Stack>
     </Stack>

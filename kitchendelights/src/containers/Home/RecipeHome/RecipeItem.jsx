@@ -58,7 +58,7 @@ export default function RecipeItem({ item }) {
                   readOnly
                   sx={{ color: "#ff5e00", mr: 2 }}
                 />
-                <Stack direction={"row"} columnGap={1.5}>
+                {/* <Stack direction={"row"} columnGap={1.5}>
                   <Stack direction={"row"} gap={1}>
                     <Typography>95</Typography>
                     <FavoriteBorderIcon width={16} />
@@ -71,7 +71,7 @@ export default function RecipeItem({ item }) {
                     <Typography>20</Typography>
                     <ShoppingCartIcon sx={{ color: "#ff5e00" }} width={16} />
                   </Stack>
-                </Stack>
+                </Stack> */}
               </Stack>
             </CardContent>
           </CardActionArea>

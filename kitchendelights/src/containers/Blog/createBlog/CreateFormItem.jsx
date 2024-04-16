@@ -164,20 +164,6 @@ export default function CreateFormItem() {
               )}
             />
           </Stack>
-
-          <input
-            type="file"
-            accept="image/*"
-            id="choose_image"
-            title="Chọn ảnh"
-            style={{ overflow: "hidden", marginTop: "80px" }}
-            onChange={(event) => {
-              setFiles(event?.target?.files);
-            }}
-          />
-          <label htmlFor="choose_image" style={{}}>
-            Chọn ảnh
-          </label>
           <Stack
             sx={{
               justifyContent: "center",
@@ -185,12 +171,34 @@ export default function CreateFormItem() {
               marginTop: 4,
             }}
           >
+            <label htmlFor="choose_image" style={{ display: 'inline-block', marginBottom: '10px' }}>
+              <Button
+                variant="contained"
+                component="span"
+                sx={{
+                  backgroundColor: "#ff5e00",
+                  "&:hover": {
+                    backgroundColor: "#FFCF96",
+                  },
+                }}
+              >
+                <CreateIcon sx={{ marginRight: "6px", fontSize: "16px" }} />
+                Chọn ảnh
+              </Button>
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              id="choose_image"
+              style={{ display: "none" }}
+              onChange={(event) => {
+                setFiles(event?.target?.files);
+              }}
+            />
             <Button
               type="submit"
               variant="contained"
               sx={{
-                mx: "0",
-                width: "150px",
                 backgroundColor: "#ff5e00",
                 "&:hover": {
                   backgroundColor: "#FFCF96",
