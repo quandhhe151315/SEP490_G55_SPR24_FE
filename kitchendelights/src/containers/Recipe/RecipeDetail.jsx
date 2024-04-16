@@ -337,11 +337,7 @@ function RecipeDetail() {
         <Card sx={{ width: 850 }}>
           <Card>
             <CardContent>
-              <div
-                className={`video-container ${
-                  scrollPosition > videoTopPosition ? "small" : ""
-                }`}
-              >
+              <div className="video-container ">
                 {data && data?.videoLink ? ( // Kiểm tra xem có dữ liệu video và embedUrl không
                   <>
                     <iframe
@@ -431,8 +427,8 @@ function RecipeDetail() {
           </CardContent>
         </Card>
       </Box>
-      {!printMode && <RandomRecipes />}
-      {!printMode && <Footer />}
+      {/* {!printMode && <RandomRecipes />} */}
+      {/* {!printMode && <Footer />} */}
     </div>
   );
 }
