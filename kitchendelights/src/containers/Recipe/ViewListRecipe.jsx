@@ -31,6 +31,7 @@ import { loadingflagstore, useCart } from "../../store";
 import { searchRecipe } from "../../services/RecipeServices";
 import AdBanner from "../../components/ADS/AdBanner";
 import { getHistoryPayment } from "../../services/Payment";
+import { useSnackbar } from "../../components/Snackbar/Snackbar";
 const DisplaySearchNews = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -63,7 +64,7 @@ const DisplayStyledInputBase = styled(InputBase)(({ theme }) => ({
 
 function ViewListRecipes() {
   const navigate = useNavigate();
-
+  const { showSnackbar } = useSnackbar();
   const [recipeIddArray, setrecipeIddArray] = useState([]);
   const [History, setHistory] = useState([]);
   const [searchText, setSearchText] = useState("");
@@ -71,7 +72,7 @@ function ViewListRecipes() {
   const [paidRecipes, setPaidRecipes] = useState([]);
   const [currentPageFree, setCurrentPageFree] = useState(1);
   const [currentPagePaid, setCurrentPagePaid] = useState(1);
-  const recipesPerPage = 8;
+  const recipesPerPage = 2;
 
   const paginateRecipes = (recipes, currentPage) => {
     const startIndex = (currentPage - 1) * recipesPerPage;
@@ -185,6 +186,16 @@ function ViewListRecipes() {
     } catch (error) {}
   };
 
+  const GoToCreateRecipe = () => {
+    if (Cookies.get("userFullname") !== "") {
+      navigate("/CreateRecipe");
+    } else {
+      showSnackbar(
+        "Vui lòng thêm họ tên ở trang thông tin cá nhân để tiếp tục và thử lại !"
+      );
+    }
+  };
+
   return (
     <div>
       <Appbar />
@@ -204,26 +215,52 @@ function ViewListRecipes() {
         </Typography>
 
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          <DisplaySearchNews>
-            <DisplayStyledInputBase
-              value={searchText}
-              onChange={(e) => setSearchText(e.target.value)}
-              placeholder="Tìm công thức bạn muốn"
-              inputProps={{ "aria-label": "search" }}
-              sx={{ color: "rgba(0, 0, 0, 0.54)" }}
-            />
-            <SearchIcon
-              sx={{
-                bgcolor: "#ff5e00",
-                borderRadius: "15px",
-                marginLeft: "16px",
-                width: "48px",
-                height: "42px",
-                color: "white",
-              }}
-              onClick={searchRecipes}
-            />
-          </DisplaySearchNews>
+          <Grid container spacing={15}>
+            <Grid xs={4}>
+              <DisplaySearchNews>
+                <DisplayStyledInputBase
+                  value={searchText}
+                  onChange={(e) => setSearchText(e.target.value)}
+                  placeholder="Tìm công thức bạn muốn"
+                  inputProps={{ "aria-label": "search" }}
+                  sx={{ color: "rgba(0, 0, 0, 0.54)" }}
+                />
+                <SearchIcon
+                  sx={{
+                    bgcolor: "#ff5e00",
+                    borderRadius: "15px",
+                    marginLeft: "16px",
+                    width: "48px",
+                    height: "42px",
+                    color: "white",
+                  }}
+                  onClick={searchRecipes}
+                />
+              </DisplaySearchNews>
+            </Grid>
+
+            <Grid xs={4}>
+              {(role === "Chef" ||
+                role === "Administrator" ||
+                role === "Moderator") && (
+                <Button
+                  variant="contained"
+                  sx={{
+                    bgcolor: "#ff5e00",
+                    marginTop: "20px",
+                    borderRadius: "15px",
+                    width: "100%",
+                    height: "42px",
+                    color: "white",
+                    marginLeft: "350px",
+                  }}
+                  onClick={GoToCreateRecipe}
+                >
+                  Tạo công thức nấu ăn
+                </Button>
+              )}
+            </Grid>
+          </Grid>
         </Box>
         <Typography
           sx={{

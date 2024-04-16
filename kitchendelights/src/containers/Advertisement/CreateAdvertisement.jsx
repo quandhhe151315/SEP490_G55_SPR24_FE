@@ -22,7 +22,11 @@ function CreateAdvertisement() {
     };
 
     if (file) {
-      reader.readAsDataURL(file);
+      if (file.type.startsWith("image/")) {
+        reader.readAsDataURL(file);
+      } else {
+        toast.error("Vui lòng chỉ chọn file ảnh!");
+      }
     }
   };
   const advertisementImage = image;

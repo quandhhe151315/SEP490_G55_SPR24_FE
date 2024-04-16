@@ -172,13 +172,15 @@ function RecipeDetail() {
       const response = await getRecipeById(recipeId);
       if (response.status === 200) {
         setdata(response.data);
+        console.log("rating", response.data.recipeRating);
         setdata1(response.data.recipeIngredients);
+        console.log("nguyenlieu", response.data.recipeIngredients);
         console.log("data", response);
       } else {
         console.error("Can not Load news! ");
       }
     } catch (error) {
-      toast.error("Khoong load dc list");
+      toast.error("Khoong load dc listRecipessDetail");
     }
   };
 
@@ -224,9 +226,10 @@ function RecipeDetail() {
               {moment(data?.createDate).format("DD/MM/YYYY")}
             </Typography>
             <Rating
-              name="half-rating"
-              defaultValue={2.5}
+              name="half-rating-read"
+              defaultValue={data?.recipeRating}
               precision={0.5}
+              readOnly
             ></Rating>
             <Typography sx={{ height: 30 }} />
           </Stack>

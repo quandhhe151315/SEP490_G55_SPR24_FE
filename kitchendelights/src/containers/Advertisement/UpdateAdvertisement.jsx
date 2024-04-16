@@ -24,7 +24,12 @@ function UpdateAdvertisement() {
     };
 
     if (file) {
-      reader.readAsDataURL(file);
+      if (file.type.startsWith("image/")) {
+        reader.readAsDataURL(file);
+      } else {
+        toast.error("Vui lòng chỉ chọn file ảnh!");
+        setImage(null);
+      }
     }
   };
   const advertisementLink = Link;
@@ -64,6 +69,14 @@ function UpdateAdvertisement() {
     }
   };
   const handleUpdateAds = async () => {
+    if (!advertisementLink) {
+      toast.error("Vui lòng nhập link ảnh!");
+      return;
+    }
+    if (!advertisementImage) {
+      toast.error("Vui lòng chọn ảnh!");
+      return;
+    }
     try {
       const response = await updateAds(
         advertisementId,
