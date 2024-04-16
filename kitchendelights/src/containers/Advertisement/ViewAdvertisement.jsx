@@ -15,6 +15,7 @@ import StraightIcon from "@mui/icons-material/Straight";
 export default function ViewAdvertisement() {
   const navigate = useNavigate();
   const [loading, setloading] = useState(false);
+
   const [ADS, setADS] = useState([]);
   const isSmallScreen = useMediaQuery("(max-width:600px)");
   const goToCreateADS = () => {
@@ -56,7 +57,6 @@ export default function ViewAdvertisement() {
 
       if (response.status === 200) {
         toast.success("Xoá thành công ");
-        debugger;
         setloading(!loading);
       } else {
         toast.error("Khoong load dc list");

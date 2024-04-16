@@ -63,11 +63,22 @@ const DisplayStyledInputBase = styled(InputBase)(({ theme }) => ({
 
 function ViewListRecipes() {
   const navigate = useNavigate();
+
   const [recipeIddArray, setrecipeIddArray] = useState([]);
   const [History, setHistory] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [freeRecipes, setFreeRecipes] = useState([]);
   const [paidRecipes, setPaidRecipes] = useState([]);
+  const [currentPageFree, setCurrentPageFree] = useState(1);
+  const [currentPagePaid, setCurrentPagePaid] = useState(1);
+  const recipesPerPage = 8;
+
+  const paginateRecipes = (recipes, currentPage) => {
+    const startIndex = (currentPage - 1) * recipesPerPage;
+    const endIndex = startIndex + recipesPerPage;
+    return recipes.slice(startIndex, endIndex);
+  };
+
   const { setDataCart } = useCart();
 
   const { loadingflag, setloadingflag } = loadingflagstore();
@@ -230,85 +241,86 @@ function ViewListRecipes() {
         </Typography>
         <Box>
           <Grid container spacing={3}>
-            {freeRecipes
-              .filter((item) => item.recipeStatus === 1)
-              .map((item) => {
-                return (
-                  <Grid item lg={3} md={6} xs={12} key={item.recipeId}>
-                    <Card sx={{ maxWidth: 345 }}>
-                      <CardMedia
-                        component={"img"}
-                        height={140}
-                        image={item.featuredImage}
-                      />
-                      <CardContent>
-                        <Typography
-                          sx={{
-                            textWrap: "nowrap",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                          }}
-                          gutterBottom
-                          variant="h6"
-                          component="div"
-                        >
-                          {item.recipeTitle}
-                        </Typography>
+            {paginateRecipes(
+              freeRecipes.filter((item) => item.recipeStatus === 1),
+              currentPageFree
+            ).map((item) => {
+              return (
+                <Grid item lg={3} md={6} xs={12} key={item.recipeId}>
+                  <Card sx={{ maxWidth: 345 }}>
+                    <CardMedia
+                      component={"img"}
+                      height={140}
+                      image={item.featuredImage}
+                    />
+                    <CardContent>
+                      <Typography
+                        sx={{
+                          textWrap: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                        gutterBottom
+                        variant="h6"
+                        component="div"
+                      >
+                        {item.recipeTitle}
+                      </Typography>
 
-                        <Box
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <Stack
-                            direction="row"
-                            alignItems="center"
-                            spacing={1}
-                            sx={{ marginTop: "8px" }}
-                          >
-                            <Typography
-                              component="legend"
-                              fontSize={11}
-                              sx={{ marginRight: "8px" }}
-                            >
-                              Đánh giá:
-                            </Typography>
-                            <Rating
-                              name="simple-controlled"
-                              value={item.recipeRating}
-                              size="small"
-                            />
-                          </Stack>
-                        </Box>
-                      </CardContent>
-                      <CardActions
+                      <Box
                         sx={{
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          marginTop: -2,
                         }}
                       >
-                        <Link to={`/RecipeDetail/${item.recipeId}`}>
-                          <Button
-                            size="small"
-                            // endIcon={<VisibilityIcon />}
-                            sx={{
-                              backgroundColor: "#ff5e00",
-                              color: "white",
-                              width: "maxWidth",
-                            }}
+                        <Stack
+                          direction="row"
+                          alignItems="center"
+                          spacing={1}
+                          sx={{ marginTop: "8px" }}
+                        >
+                          <Typography
+                            component="legend"
+                            fontSize={11}
+                            sx={{ marginRight: "8px" }}
                           >
-                            Xem
-                          </Button>
-                        </Link>
-                      </CardActions>
-                    </Card>
-                  </Grid>
-                );
-              })}
+                            Đánh giá:
+                          </Typography>
+                          <Rating
+                            name="simple-controlled"
+                            value={item.recipeRating}
+                            size="small"
+                          />
+                        </Stack>
+                      </Box>
+                    </CardContent>
+                    <CardActions
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        marginTop: -2,
+                      }}
+                    >
+                      <Link to={`/RecipeDetail/${item.recipeId}`}>
+                        <Button
+                          size="small"
+                          // endIcon={<VisibilityIcon />}
+                          sx={{
+                            backgroundColor: "#ff5e00",
+                            color: "white",
+                            width: "maxWidth",
+                          }}
+                        >
+                          Xem
+                        </Button>
+                      </Link>
+                    </CardActions>
+                  </Card>
+                </Grid>
+              );
+            })}
           </Grid>
           <Typography
             sx={{
@@ -327,6 +339,8 @@ function ViewListRecipes() {
                 color: "white",
               }}
               startIcon={<ForwardIcon sx={{ transform: "rotate(180deg)" }} />}
+              onClick={() => setCurrentPageFree((prevPage) => prevPage - 1)}
+              disabled={currentPageFree === 1}
             >
               Forward
             </Button>
@@ -340,6 +354,12 @@ function ViewListRecipes() {
                 color: "white",
               }}
               endIcon={<ForwardIcon />}
+              onClick={() => setCurrentPageFree((prevPage) => prevPage + 1)}
+              disabled={
+                paginateRecipes(freeRecipes, currentPageFree).length <
+                  recipesPerPage ||
+                paginateRecipes(freeRecipes, currentPageFree + 1).length === 0
+              }
             >
               Next
             </Button>
@@ -363,88 +383,89 @@ function ViewListRecipes() {
         </Typography>
         <Box>
           <Grid container spacing={3}>
-            {paidRecipes
-              .filter((item) => item.recipeStatus === 1)
-              .map((item) => {
-                return (
-                  <Grid item lg={3} md={6} xs={12} key={item.recipeId}>
-                    <Card sx={{ maxWidth: 345 }}>
-                      <CardMedia
-                        component={"img"}
-                        height={140}
-                        image={item.featuredImage}
-                        alt="green iguana"
-                      />
-                      <CardContent>
-                        <Typography
-                          sx={{
-                            overflow: "hidden",
-                            whiteSpace: "nowrap",
-                            textOverflow: "ellipsis",
-                          }}
-                          noWrap
-                          gutterBottom
-                          variant="h6"
-                          component="div"
-                        >
-                          {item.recipeTitle}
-                        </Typography>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <Typography component="legend" fontSize={11}>
-                            Đánh giá:
-                          </Typography>
-                          <Rating
-                            name="simple-controlled"
-                            value={item.recipeRating}
-                            size="small"
-                          />
-                        </Box>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                            marginTop: 1,
-                          }}
-                        >
-                          <Typography component="legend" fontSize={15}>
-                            Giá:
-                          </Typography>
-                          <Typography component="legend" fontSize={15}>
-                            {item.recipePrice}
-                          </Typography>
-                        </Box>
-                      </CardContent>
-                      <CardActions
+            {paginateRecipes(
+              paidRecipes.filter((item) => item.recipeStatus === 1),
+              currentPagePaid
+            ).map((item) => {
+              return (
+                <Grid item lg={3} md={6} xs={12} key={item.recipeId}>
+                  <Card sx={{ maxWidth: 345 }}>
+                    <CardMedia
+                      component={"img"}
+                      height={140}
+                      image={item.featuredImage}
+                      alt="green iguana"
+                    />
+                    <CardContent>
+                      <Typography
+                        sx={{
+                          overflow: "hidden",
+                          whiteSpace: "nowrap",
+                          textOverflow: "ellipsis",
+                        }}
+                        noWrap
+                        gutterBottom
+                        variant="h6"
+                        component="div"
+                      >
+                        {item.recipeTitle}
+                      </Typography>
+                      <Box
                         sx={{
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          marginTop: -2.5,
                         }}
                       >
-                        <Button
+                        <Typography component="legend" fontSize={11}>
+                          Đánh giá:
+                        </Typography>
+                        <Rating
+                          name="simple-controlled"
+                          value={item.recipeRating}
                           size="small"
-                          onClick={() => handleAddToCart(item.recipeId)}
-                          sx={{
-                            backgroundColor: "#ff5e00",
-                            color: "white",
-                            width: "maxWidth",
-                          }}
-                        >
-                          Mua
-                        </Button>
-                      </CardActions>
-                    </Card>
-                  </Grid>
-                );
-              })}
+                        />
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          marginTop: 1,
+                        }}
+                      >
+                        <Typography component="legend" fontSize={15}>
+                          Giá:
+                        </Typography>
+                        <Typography component="legend" fontSize={15}>
+                          {item.recipePrice}
+                        </Typography>
+                      </Box>
+                    </CardContent>
+                    <CardActions
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        marginTop: -2.5,
+                      }}
+                    >
+                      <Button
+                        size="small"
+                        onClick={() => handleAddToCart(item.recipeId)}
+                        sx={{
+                          backgroundColor: "#ff5e00",
+                          color: "white",
+                          width: "maxWidth",
+                        }}
+                      >
+                        Mua
+                      </Button>
+                    </CardActions>
+                  </Card>
+                </Grid>
+              );
+            })}
           </Grid>
           <Typography
             sx={{
@@ -463,6 +484,8 @@ function ViewListRecipes() {
                 color: "white",
               }}
               startIcon={<ForwardIcon sx={{ transform: "rotate(180deg)" }} />}
+              onClick={() => setCurrentPagePaid((prevPage) => prevPage - 1)}
+              disabled={currentPagePaid === 1}
             >
               Forward
             </Button>
@@ -476,6 +499,12 @@ function ViewListRecipes() {
                 color: "white",
               }}
               endIcon={<ForwardIcon />}
+              onClick={() => setCurrentPagePaid((prevPage) => prevPage + 1)}
+              disabled={
+                paginateRecipes(paidRecipes, currentPagePaid).length <
+                  recipesPerPage ||
+                paginateRecipes(paidRecipes, currentPagePaid + 1).length === 0
+              }
             >
               Next
             </Button>
