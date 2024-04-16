@@ -1,7 +1,7 @@
 import useSWR from "swr";
 import { getAllCategory } from "../services/ApiServices";
 import { getAdvertisement } from "../services/RecipeServices";
-import { getAds } from "../services/Advertisement";
+import { getAds, getAdsStatus } from "../services/Advertisement";
 export const useGetAdvertisementList = ({ id }) => {
   const { data, isLoading } = useSWR(
     "/api/Advertisement/GetAdvertismentById",
@@ -11,8 +11,8 @@ export const useGetAdvertisementList = ({ id }) => {
 };
 export const useGetAdvertisement = () => {
   const { data, isLoading } = useSWR(
-    "/api/Advertisement/GetAdvertismentById",
-    () => getAds()
+    "/api/Advertisement/GetAdvertismentActive",
+    () => getAdsStatus()
   );
   return { advertisementList: data?.data, isLoading };
 };

@@ -4,6 +4,7 @@ import { Grid, Typography, Stack } from "@mui/material";
 import React, { useState } from "react";
 import BlogHomeItem from "./BlogHomeItem";
 import { useGetAdvertisementList } from "../../../hook/useGetAdvertisement";
+import AdBanner from "../../../components/ADS/AdBanner";
 import CloseIcon from "@mui/icons-material/Close";
 export default function BlogLatest() {
   const [showAd, setShowAd] = useState(true);
@@ -45,7 +46,8 @@ export default function BlogLatest() {
             </Grid>
           ))}
         </Grid>
-        <Grid item xs={4}>
+        <AdBanner/>
+        {/* <Grid item xs={4}>
         {showAd && (
           <div style={{ position: "relative" }}>
           <button
@@ -79,7 +81,7 @@ export default function BlogLatest() {
         
            </div>
              )}
-        </Grid>
+        </Grid> */}
       </Grid>
     </div>
   );

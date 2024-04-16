@@ -1,12 +1,10 @@
 import React from 'react';
 import { Button, Paper } from '@mui/material';
 import Carousel from 'react-material-ui-carousel';
-import { useGetAdvertisementList } from '../../../hook/useGetAdvertisement';
+import { useGetAdvertisement } from '../../../hook/useGetAdvertisement';
 
 export default function CarouselItem(props) {
-    const { advertisementList } = useGetAdvertisementList({
-        id: "",
-      });
+    const { advertisementList } = useGetAdvertisement();
       
 
     return (
