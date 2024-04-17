@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { useParams } from "react-router-dom";
 import { getCategoryById } from "../../../services/ApiServices";
-import { getCategoryByParentId,updateCategory } from "../../../services/ApiServices";
+import { getCategoryByParentId, updateCategory } from "../../../services/ApiServices";
 import DashboardMenu from "../../../components/Dashboard/Menu/DashboardMenu";
 import Box from "@mui/material/Box";
 import { toast } from "react-toastify";
@@ -58,11 +58,11 @@ function UpdateCategory() {
     const handleUpdateCategory = async () => {
         try {
             const response = await updateCategory(CategoryId, categoryName, true, parentId);
-            if(response.status === 200) {
+            if (response.status === 200) {
                 console.log('update category thành công');
                 GoToListCategory();
                 toast.success('Cập nhật category thành công');
-            }else {
+            } else {
                 console.log(' update category thát bại');
             }
         } catch (error) {
@@ -80,9 +80,9 @@ function UpdateCategory() {
         <div>
             <Box sx={{ display: 'flex' }}>
                 <DashboardMenu dashboardTitle={"Quản lý Category"} />
-                
+
                 <Grid sx={{ marginTop: '80px', marginLeft: '80px' }}>
-                    <Paper sx={{borderRadius: '15px', border: '1px solid #bfb8b8', width: '1000px', height: '570px', backgroundColor: '#FFFFFF' }}>
+                    <Paper sx={{ borderRadius: '15px', border: '1px solid #bfb8b8', width: '1000px', height: '570px', backgroundColor: '#FFFFFF' }}>
                         <Typography sx={{ fontSize: '40px', fontWeight: 'bold', marginLeft: '20%', marginTop: '20px', color: '#0B488F' }}>
                             Cập nhật Category
                         </Typography>
@@ -104,12 +104,15 @@ function UpdateCategory() {
                                                 <MenuItem value={null}>
                                                     <em>None</em>
                                                 </MenuItem>
-                                                {parentCategories.filter(parent => parent.categoryId !== parseInt(CategoryId)).map((parent) => 
-                                                    <MenuItem key={parent.categoryId} value={parent.categoryId}>{parent.categoryName}</MenuItem>
+                                                {parentId === null ? null : (
+                                                    parentCategories.filter(parent => parent.categoryId !== parseInt(CategoryId)).map((parent) =>
+                                                        <MenuItem key={parent.categoryId} value={parent.categoryId}>{parent.categoryName}</MenuItem>
+                                                    )
+
                                                 )};
                                             </Select>
                                         </FormControl>
-                                        
+
                                     </Grid>
                                     <Grid item >
                                         <CategoryButton text='Cập nhật' height='auto' width='120px' marginLeft='10%' marginTop='80px' onClick={handleUpdateCategory}></CategoryButton>
