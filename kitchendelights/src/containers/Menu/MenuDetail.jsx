@@ -97,7 +97,7 @@ function MenuDetail({ menuId }) {
     try {
       const response = await deleteMenu(menuId);
       if (response.status === 200) {
-        navigate('/UserProfile');
+        navigate('/MyProfile');
         console.log('xoa thanh cong', response);
         setOpenDialog(false);
       } else {
