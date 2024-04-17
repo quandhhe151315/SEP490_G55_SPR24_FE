@@ -12,7 +12,7 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import PostAdd from "@mui/icons-material/PostAdd";
-import { getNumberRevenueInThisMonth, getNumberRevenueInFiveMonth, getNumberUserCreatedInThisMonth, getNumberRecipeCreatedInThisMonth } from "../../services/ApiServices";
+import { getNumberRevenueInThisMonth, getNumberRevenueInFiveMonth, getNumberUserCreatedInThisMonth, getNumberRecipeCreatedInThisMonth, getNumberOfRecipesAreBoughtInThisMonth, getNumberOfUserEachRole } from "../../services/ApiServices";
 import { useState } from "react";
 
 
@@ -24,6 +24,10 @@ function DashBoard() {
     const [revenues, setRevenues] = useState([null]);
     const [NumberUserCreatedInThisMonth, setNumberUserCreatedInThisMonth] = useState(0);
     const [NumberRecipeCreatedInThisMonth, setNumberRecipeCreatedInThisMonth] = useState(0);
+    const [NumberRecipeBoughtThisMonth, setNumberRecipeBoughtThisMonth] = useState(0);
+    const [numberUser, setNumberUser] = useState(0);
+    const [numberChef, setNumberChef] = useState(0);
+    const [numberWriter, setNumberWriter] = useState(0);
 
     const GetNumberRevenueInThisMonth = async () => {
         try {
@@ -36,7 +40,7 @@ function DashBoard() {
                 console.log("get revernue fail");
             }
         } catch (error) {
-
+            console.log(error);
         }
     }
 
@@ -54,7 +58,7 @@ function DashBoard() {
                 console.log("get revernue fail");
             }
         } catch (error) {
-
+            console.log(error);
         }
 
     }
@@ -69,7 +73,7 @@ function DashBoard() {
                 console.log("get Created User fail");
             }
         } catch (error) {
-
+            console.log(error);
         }
 
     }
@@ -79,27 +83,65 @@ function DashBoard() {
             const response = await getNumberRecipeCreatedInThisMonth();
             if (response.status === 200) {
                 setNumberRecipeCreatedInThisMonth(response.data);
-                console.log("get Created user success");
+                console.log("get create recipe success");
             } else {
-                console.log("get Created User fail");
+                console.log("get Created recipe fail");
             }
         } catch (error) {
-
+            console.log(error);
         }
     }
 
+    const GetNumberOfRecipeBoughtThisMonth = async () => {
+        try {
+            const response = await getNumberOfRecipesAreBoughtInThisMonth();
+            if (response.status === 200) {
+                setNumberRecipeBoughtThisMonth(response.data);
+                console.log("get number recipe bought success");
+            } else {
+                console.log("get number recipe bought fail");
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const GetNumberOfUserEachRole = async () => {
+        try {
+            const response = await getNumberOfUserEachRole();
+            if (response.status === 200) {
+
+                const data = response.data;
+
+                const userRole = data.find((item) => item.role === "Users");
+                const chefRole = data.find((item) => item.role === "Chef");
+                const writerRole = data.find((item) => item.role === "Writer");
+
+                setNumberUser(userRole ? userRole.numberOfUser : 0);
+                setNumberChef(chefRole ? chefRole.numberOfUser : 0);
+                setNumberWriter(writerRole ? writerRole.numberOfUser : 0);
+                console.log("get number user each role success");
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    console.log();
     useEffect(() => {
         GetNumberRevenueInThisMonth();
         GetNumberRevenueInFiveMonth();
         GetNumberUserCreatedInThisMonth();
         GetNumberRecipeCreatedInThisMonth();
+        GetNumberOfRecipeBoughtThisMonth();
+        GetNumberOfUserEachRole();
     }, []);
     return (
 
         <Box sx={{ display: 'flex' }}>
             <DashboardMenu dashboardTitle={"Dashboard"} />
             <Grid sx={{ marginLeft: '30px', marginTop: '80px' }}>
-                <Paper elevation={2} sx={{ border: '1px solid #bfb8b8', width: '1350px', height: '700px', backgroundColor: '#F1F1F1' }}>
+                <Paper elevation={2} sx={{ border: '1px solid #bfb8b8', width: '1300px', height: '700px', backgroundColor: '#F1F1F1' }}>
                     <Grid container spacing={2} sx={{ marginTop: '1px' }}>
                         <Grid item xs={3}>
                             <Paper elevation={2} sx={{ marginLeft: '10px', height: '180px', border: '1px solid #bfb8b8', backgroundColor: '#FFFFFF' }}>
@@ -109,7 +151,7 @@ function DashBoard() {
 
                                 <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px', marginLeft: '40px', justifyContent: 'space-between' }}>
                                     <Typography sx={{ fontWeight: 'Bold', fontSize: '28px' }}>
-                                        {Number("300").toLocaleString()}
+                                        {NumberRecipeBoughtThisMonth}
                                     </Typography>
                                     <ShoppingCartOutlinedIcon sx={{ fontSize: '60px', marginRight: '15px' }} />
                                 </Box>
@@ -216,14 +258,14 @@ function DashBoard() {
                                 <Typography sx={{ marginTop: '10px', marginLeft: '10px', color: '#7E909A', fontWeight: 'bold' }}>
                                     BIỂU ĐỒ TỈ LỆ NGƯỜI DÙNG
                                 </Typography>
-                                <Box sx={{ marginTop: '50px', marginLeft: '20px' }}>
+                                <Box sx={{ marginTop: '50px', marginLeft: '20px', display:'flex', width:'100%'}}>
                                     <PieChart
                                         series={[
                                             {
                                                 data: [
-                                                    { id: 0, value: 30, label: 'User' },
-                                                    { id: 1, value: 10, label: 'Chief' },
-                                                    { id: 2, value: 20, label: 'Writer' },
+                                                    { id: 0, value: numberUser, label: 'User' },
+                                                    { id: 1, value: numberChef, label: 'Chief' },
+                                                    { id: 2, value: numberWriter, label: 'Writer' },
                                                 ],
                                             },
                                         ]}
