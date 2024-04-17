@@ -137,7 +137,7 @@ export default function PrimarySearchAppBar() {
   };
 
   const goToAdminManagement = () => {
-    navigate("/ListAccount");
+    navigate("/DashBoardMenu");
   };
 
   const goToBlog = () => {
