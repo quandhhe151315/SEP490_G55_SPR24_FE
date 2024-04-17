@@ -43,9 +43,19 @@ export default function CreateFormItem() {
   } = useForm();
   const userId = cookies.get("userId");
   const onSubmit = async (data) => {
+    if (!userId) {
+      setOpenSnackBar(true);
+      setContentSnackbar("Vui lòng đăng nhập để đăng blog");
+      return;
+    }
     if (!data?.blogTitle || !data?.blogContent) {
       setOpenSnackBar(true);
       setContentSnackbar("Vui lòng nhập đầy đủ tiêu đề và nội dung !");
+      return;
+    }
+    if (!files?.[0]) {
+      setOpenSnackBar(true);
+      setContentSnackbar("Vui lòng nhập ảnh !");
       return;
     }
     if (files?.[0]) {
@@ -72,28 +82,6 @@ export default function CreateFormItem() {
             setContentSnackbar("Đã có lỗi xảy ra");
           });
       });
-    } else {
-      await createBlog({
-        ...data,
-        userId: Number(userId),
-        blogStatus: 0,
-        createDate: dayjs().toISOString(),
-        blogImage: "",
-      })
-        .then((res) => {
-          if (res.status) {
-            setStatusPostBlog(res.status);
-            setOpenSnackBar(true);
-            reset({});
-            setContentSnackbar("Đăng blog thành công");
-          }
-        })
-        .catch((e) => {
-          setStatusPostBlog(e?.response?.status);
-          setOpenSnackBar(true);
-          reset({});
-          setContentSnackbar("Đã có lỗi xảy ra");
-        });
     }
   };
   return (
@@ -169,9 +157,18 @@ export default function CreateFormItem() {
               justifyContent: "center",
               alignItems: "center",
               marginTop: 4,
+              position: "relative",// Đặt position: relative; cho container của nút
             }}
           >
-            <label htmlFor="choose_image" style={{ display: 'inline-block', marginBottom: '10px' }}>
+            <label
+              htmlFor="choose_image"
+              style={{
+                display: "inline-block",
+                marginBottom: "10px",
+                position: "absolute", 
+                left: 0, 
+              }}
+            >
               <Button
                 variant="contained"
                 component="span"
@@ -182,19 +179,30 @@ export default function CreateFormItem() {
                   },
                 }}
               >
-                <CreateIcon sx={{ marginRight: "6px", fontSize: "16px" }} />
-                Chọn ảnh
+                {files?.[0]?.name ? (
+                  <Typography>{files?.[0]?.name}</Typography>
+                ) : (
+                  <>
+                    <CreateIcon sx={{ marginRight: "6px", fontSize: "16px" }} />
+                    Chọn ảnh
+                  </>
+                )}
               </Button>
             </label>
+            {/* Input chọn ảnh */}
             <input
               type="file"
               accept="image/*"
               id="choose_image"
+              multiple={false}
               style={{ display: "none" }}
               onChange={(event) => {
-                setFiles(event?.target?.files);
+                if (!!event?.target?.files?.[0]?.name) {
+                  setFiles(event?.target?.files);
+                }
               }}
             />
+            {/* Nút đăng bài */}
             <Button
               type="submit"
               variant="contained"
@@ -202,7 +210,7 @@ export default function CreateFormItem() {
                 backgroundColor: "#ff5e00",
                 "&:hover": {
                   backgroundColor: "#FFCF96",
-                },
+                },mt:10
               }}
             >
               <CreateIcon sx={{ marginRight: "6px", fontSize: "16px" }} />
