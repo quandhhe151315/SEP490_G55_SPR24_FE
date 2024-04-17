@@ -24,7 +24,7 @@ export default function BlogItemUser() {
           </Typography>
         </Grid>
       ) : (
-        currentBlogs?.slice(0, 6)?.map((item, index) => (
+        currentBlogs?.slice(0, 6)?.filter(item => item.blogStatus === 1).map((item, index) => (
           <Grid item xs={12} key={`${item?.blogId}+${index}`}>
             <BlogHomeItem
               title={item?.blogTitle}

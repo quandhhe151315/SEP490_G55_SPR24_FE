@@ -156,8 +156,9 @@ function AppRoute() {
             return redirect("/403");
           }
           return null;
+        }else{
+          return redirect("/403");
         }
-        return null;
       },
     },
     {
