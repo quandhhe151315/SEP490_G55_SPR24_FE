@@ -15,7 +15,7 @@ export default function RecipeItemList({ title, recipeItemLists }) {
         {title}
       </Typography>
       <Grid container columnSpacing={10} rowSpacing={6}>
-        {recipeItemLists?.map((item, index) => {
+        {recipeItemLists?.filter(item => item.recipeStatus === 1).map((item, index) => {
           if (index < 6) {
             return (
               <Grid item xs={4}>
