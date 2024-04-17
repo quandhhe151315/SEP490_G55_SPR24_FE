@@ -327,6 +327,12 @@ const getNumberUserCreatedInThisMonth = () => {
 const getNumberRecipeCreatedInThisMonth = () => {
   return axios.get("/Recipe/GetNumberRecipeCreatedInThisMonth");
 };
+const getNumberOfRecipesAreBoughtInThisMonth = () => {
+  return axios.get("/Payment/GetNumberOfRecipesAreBoughtInThisMonth");
+};
+const getNumberOfUserEachRole = () => {
+  return axios.get("/User/GetNumberOfUserEachRole");
+};
 
 export {
   login,
@@ -384,4 +390,6 @@ export {
   getRecipeByUserId,
   checkUserRecipe,
   getRecipeBought,
+  getNumberOfRecipesAreBoughtInThisMonth,
+  getNumberOfUserEachRole,
 };
