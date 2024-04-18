@@ -227,8 +227,8 @@ const getCategoryByParentId = () => {
   return axios.get("/Category/GetCategoryByParentId?categoryType=true");
 };
 
-const listUsers = () => {
-  return axios.get("/User/List");
+const listUsers = (id) => {
+  return axios.get(`/User/List?id=${id}`);
 };
 
 const getBlogList = (params) => {

@@ -47,7 +47,6 @@ export default function ListIngredientMarketplace({ dataIngredients, dataMarketp
     }
 
     useEffect(() => {
-      
       getListIngreMarketplace();
     }, [data]);
 

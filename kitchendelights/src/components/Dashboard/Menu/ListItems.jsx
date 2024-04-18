@@ -138,11 +138,6 @@ const SecondaryListItems = () => {
       Dịch vụ
     </ListSubheader> */}
       <ItemButton
-        goToManager={goToDiscountManager}
-        text="Quản lý mã giảm giá"
-        Icon={<DiscountIcon />}
-      />
-      <ItemButton
         goToManager={goToAdsManager}
         text="Quản lý quảng cáo"
         Icon={<MonetizationOnIcon />}
