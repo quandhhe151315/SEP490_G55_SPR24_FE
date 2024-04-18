@@ -2,7 +2,6 @@ import React, { useEffect , useState } from 'react';
 import DashboardMenu from '../../components/Dashboard/Menu/DashboardMenu'
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
-import EditIcon from '@mui/icons-material/Edit';
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
 import { listNews } from '../../services/ApiServices';
@@ -15,7 +14,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-
+import CardMedia from "@mui/material/CardMedia";
 export default function ListNews() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
@@ -95,8 +94,21 @@ export default function ListNews() {
     const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
     { field: 'userName', headerName: 'Tác giả', width: 300, sortable: false },
-    { field: 'featuredImage', headerName: 'Ảnh', width: 300, sortable: false },
-    { field: 'newsTitle', headerName: 'Tiêu đề', width: 520, sortable: false },
+    // { field: 'featuredImage', headerName: 'Ảnh', width: 300, sortable: false },
+    { field: 'featuredImage', headerName: 'Ảnh', width: 150, sortable: false,
+    renderCell: (params) => (
+        <div>
+        <Button
+            variant="outlined"
+            startIcon={<VisibilityIcon sx={{marginLeft: '10px'}}/>}
+            onClick={() => handleViewImage(params.row.featuredImage)}
+            sx={{height: '37px'}}
+        >
+        </Button>
+        </div>
+        ),
+      },
+    { field: 'newsTitle', headerName: 'Tiêu đề', width: 650, sortable: false },
     { field: 'createDate', headerName: 'Ngày tạo', width: 110, sortable: false },
     {
       field: 'newsStatus',
@@ -125,6 +137,17 @@ export default function ListNews() {
             <Button variant="outlined" color="error" sx={{marginLeft: '5%'}} onClick={() => handleClickOpen(params.row.id)}>
             Xóa
             </Button>
+
+            {params.row.newsStatus === 1 ? (
+            <Button
+            variant="outlined"
+            disabled
+            startIcon={<DoneIcon sx={{marginLeft: '10px'}}/>}
+            onClick={() => handleAcceptNews(params.row.id)}
+            sx={{height: '37px', marginLeft: '5%'}}
+        >
+        </Button>
+          ) : (
             <Button
                 variant="outlined"
                 startIcon={<DoneIcon sx={{marginLeft: '10px'}}/>}
@@ -132,10 +155,24 @@ export default function ListNews() {
                 sx={{height: '37px', marginLeft: '5%'}}
             >
             </Button>
+          )}
+            
             </div>
         ),
       },
   ];
+
+  const [openImage, setOpenImage] = useState(false);
+  const [imageToShow, setImageToShow] = useState('');
+
+  const handleCloseDialogImage = () => {
+    setOpenImage(false);
+  };
+      const handleViewImage = (image) => {
+        setImageToShow(image);
+        setOpenImage(true);
+        
+        };
 
   return (
     <div>
@@ -178,6 +215,36 @@ export default function ListNews() {
                     </Button>
                     </DialogActions>
                 </Dialog>
+
+                <Dialog
+        open={openImage}
+        onClose={handleCloseDialogImage}
+        PaperProps={{
+          component: 'form',
+          onSubmit: (event) => {
+            event.preventDefault();
+            const formData = new FormData(event.currentTarget);
+            const formJson = Object.fromEntries(formData.entries());
+            // setNewMarketplaceName(formJson.name);
+
+            handleCloseDialogImage();
+          },
+        }}
+      >
+        <DialogTitle>Chi tiết ảnh</DialogTitle>
+        <DialogContent>
+        <CardMedia
+                            component={"img"}
+                            height={300}
+                            image={imageToShow}
+                            alt="green iguana"
+                          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialogImage}>Xong</Button>
+
+        </DialogActions>
+            </Dialog>
         </Box>
     </div>
   )

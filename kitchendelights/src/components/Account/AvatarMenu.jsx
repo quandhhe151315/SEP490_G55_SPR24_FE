@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Divider from "@mui/material/Divider";
 import Paper from "@mui/material/Paper";
 import MenuList from "@mui/material/MenuList";
@@ -34,6 +34,7 @@ function AvatarMenu({ handleClick, onMenuSelect }) {
 
   const [id, setId] = useState("");
   const [open, setOpen] = React.useState(false);
+  const [role, setRole] = useState("");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -42,6 +43,10 @@ function AvatarMenu({ handleClick, onMenuSelect }) {
   const handleClose = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    setRole(Cookies.get("role"));
+  }, [id]);
 
   const logout = () => {
     Cookies.remove("jwt");
@@ -195,7 +200,13 @@ function AvatarMenu({ handleClick, onMenuSelect }) {
                 <MenuListItems handleClick={handleClick} onMenuSelect={onMenuSelect}/>
             </Paper>
 
-      <Paper
+      
+
+
+
+      {(role === "user") && (
+        <>
+        <Paper
         sx={{
           width: 250,
           maxWidth: "100%",
@@ -210,8 +221,12 @@ function AvatarMenu({ handleClick, onMenuSelect }) {
             </ListItemIcon>
             <ListItemText>Trở thành đầu bếp</ListItemText>
           </MenuItem>
-        </MenuList>
-      </Paper>
+        </MenuList> 
+        </Paper>
+        </>
+      )}
+
+      
 
       <Paper
         sx={{

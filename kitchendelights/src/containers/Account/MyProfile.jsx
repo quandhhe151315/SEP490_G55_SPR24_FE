@@ -198,8 +198,8 @@ function MyProfile() {
                       <Grid item xs={4}>
                         <Typography sx={{ marginTop: "50px" }}>
                           <img
-                            src={image1}
-                            alt="Image news"
+                            src={avatar}
+                            alt="Image"
                             style={{
                               width: "100%",
                               height: "100%",
