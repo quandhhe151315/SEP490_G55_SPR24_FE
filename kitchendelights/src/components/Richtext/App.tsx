@@ -231,16 +231,25 @@ const AppCreateRecipe = () => {
     setRecipeIngredientDataSendLength(recipeIngredientDataSendLength + 1);
   };
 
-  const handleDeleteRowNL = (index) => {
+  const handleDeleteRowNL = (position) => {
     const newRowsNL = [];
     for (let i = 0; i < rowsNL.length; i++) {
-      if (i !== index) {
+      if (i !== position) {
         newRowsNL.push(rowsNL[i]);
       }
     }
     setRowsNL(newRowsNL);
-
+    setRecipeIngredientLength(recipeIngredientLength);
+    setRecipeIngredientDataSendLength(recipeIngredientDataSendLength);
+    handleDeleteNewRecipeIngredient(position);
   };
+
+  const handleDeleteNewRecipeIngredient = (position) => {
+    setRecipeIngredientView(prevRecipeIngre => {
+      const newArray = prevRecipeIngre.slice(0, position);
+      return newArray;
+    });
+  }
 
   const handleChangeRecipeIngredientName = (id,ingredientId, value) => {
     setRecipeIngredientDataSend(prevRecipeIngre => {
@@ -297,26 +306,13 @@ const AppCreateRecipe = () => {
     setRecipeIngredientDataSend(prevRecipeIngre => [...prevRecipeIngre,{ ingredientId: 0, unitValue: 0 }]);
   }
 
-  const handleDeleteNewRecipeContent = () => {
-    setRecipeIngredientDataSend(prevRecipeIngre => {
-      const newArray = [...prevRecipeIngre];
-      newArray.pop();
-      return newArray;
-    });
-    setRecipeIngredientView(prevRecipeIngre => {
-      const newArray = [...prevRecipeIngre];
-      newArray.pop();
-      return newArray;
-    });
-  }
-
   const handleAddRowClickBL = () => {
     handleCreateNewRecipeContent();
 
     setRowsBL(prevRows => [...prevRows, 
     <Grid container spacing={2} sx={{marginTop: '2px', marginLeft: '2px'}}>
       <Grid item xs={8}>
-      <TextField required id="outlined-required" sx={{ width: '100%'}} placeholder="Ghi chi tiết cách làm" onChange={(event) => handleChangeRecipeContent(recipeLength + 1, event.target.value)}/>
+      <TextField required id="outlined-required" sx={{ width: '100%'}} placeholder="Ghi chi tiết cách làm món ăn (Hệ thống đã tự hiển thị số cách)" onChange={(event) => handleChangeRecipeContent(recipeLength + 1, event.target.value)}/>
       </Grid>
 
               <Grid item xs={4}>
@@ -347,18 +343,26 @@ const AppCreateRecipe = () => {
     setRecipeLength(recipeLength + 1);
   };
 
-  const handleDeleteRowBL = (index) => {
+  const handleDeleteRowBL = (position) => {
+    // recipeIngredientView
     const newRowsBL = [];
-
     for (let i = 0; i < rowsBL.length; i++) {
 
-      if (i !== index) {
+      if (i !== position) {
         newRowsBL.push(rowsBL[i]);
       }
     }
     setRowsBL(newRowsBL);
-    handleDeleteNewRecipeContent();
+    setRecipeLength(recipeLength);
+    handleDeleteNewRecipeContent(position);
   };
+
+  const handleDeleteNewRecipeContent = (position) => {
+    setRecipeContent(prevRecipeIngre => {
+      const newArray = prevRecipeIngre.slice(0, position);
+      return newArray;
+    });
+  }
 
   const handleChangeRecipeContent = (id, value) => {
     setRecipeContent(prevRecipeContent => {
@@ -503,7 +507,7 @@ const handleViewCreateNewRecipe = () => {
     } else if (checkInputNumberTimeAmountPrepare === false || checkInputNumberTimeAmountCook === false || checkInputNumberAmountPeopleEat === false) {
       showSnackbar('Thời gian hoặc số người phục vụ phải là số nguyên !', "error");
     } else if (checkEmpty === true) {
-      showSnackbar('Nguyên liệu và cách làm không được bỏ trống !', "error");
+      showSnackbar('Nguyên liệu, định lượng hoặc cách làm, ảnh bước làm không được bỏ trống !', "error");
     } else {
       try {
         const response = await createRecipe(Cookies.get('userId'),featuredImage, introduction, videoCooking, title, timeAmountPrepare, timeAmountCook, amountPeopleEat, recipeContentDataSend, isFree, recipeCost, countryId,recipeIngredientDataSend);
@@ -630,10 +634,12 @@ const handleViewCreateNewRecipe = () => {
             />
       </Grid>
       
-      <Grid item xs={6}>
+      <Grid item xs={5}>
       <TextField required id="outlined-size-small" size="small" sx={{ width: '100%',}} placeholder="Nhập định lượng (đơn vị là gam)" onChange={(event) => handleChangeRecipeIngredientUnit(0, event.target.value)}/>
       </Grid>
-
+      <Grid item xs={1}>
+      
+      </Grid>
             </Grid>
             <Grid container spacing={2} sx={{marginTop: '1%'}}>
             <Grid item xs={6}>
@@ -652,9 +658,12 @@ const handleViewCreateNewRecipe = () => {
               renderInput={(params) => <TextField {...params} label="Chọn nguyên liệu" sx={{ borderRadius: '15px' }} />}
             />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={5}>
             <TextField required id="outlined-size-small" size="small" sx={{ width: '100%',}} placeholder="Nhập định lượng (đơn vị là gam)" onChange={(event) => handleChangeRecipeIngredientUnit(1, event.target.value)}/>
             </Grid>
+            <Grid item xs={1}>
+      
+      </Grid>
             </Grid>
 
             {rowsNL.map((rowsNL, index) => (
@@ -680,7 +689,7 @@ const handleViewCreateNewRecipe = () => {
 
             <Grid container spacing={2}>
               <Grid item xs={8}>
-              <TextField required id="outlined-required" sx={{ width: '100%'}} placeholder="Ghi chi tiết cách làm" onChange={(event) => handleChangeRecipeContent(0, event.target.value)}/>
+              <TextField required id="outlined-required" sx={{ width: '100%'}} placeholder="Ghi chi tiết cách làm món ăn (Hệ thống đã tự hiển thị số cách)" onChange={(event) => handleChangeRecipeContent(0, event.target.value)}/>
               </Grid>
               <Grid item xs={4}>
               <input
@@ -701,7 +710,7 @@ const handleViewCreateNewRecipe = () => {
 
             <Grid container spacing={2} sx={{marginTop: '1%'}}>
               <Grid item xs={8}>
-              <TextField required id="outlined-required" sx={{ width: '100%'}} placeholder="Ghi chi tiết cách làm" onChange={(event) => handleChangeRecipeContent(1, event.target.value)}/>
+              <TextField required id="outlined-required" sx={{ width: '100%'}} placeholder="Ghi chi tiết cách làm món ăn (Hệ thống đã tự hiển thị số cách)" onChange={(event) => handleChangeRecipeContent(1, event.target.value)}/>
               </Grid>
               <Grid item xs={4}>
               <input
