@@ -174,12 +174,9 @@ function RecipeDetail() {
         setdata(response.data);
         console.log("rating", response.data.recipeRating);
         setdata1(response.data.recipeIngredients);
-<<<<<<< Updated upstream
         console.log("nguyenlieu", response.data.recipeIngredients);
         console.log("data", response);
-=======
         
->>>>>>> Stashed changes
       } else {
         console.error("Can not Load news! ");
       }
@@ -230,11 +227,7 @@ function RecipeDetail() {
               {moment(data?.createDate).format("DD/MM/YYYY")}
             </Typography>
             <Rating
-<<<<<<< Updated upstream
               name="half-rating-read"
-=======
-              name="half-rating"
->>>>>>> Stashed changes
               defaultValue={data?.recipeRating}
               precision={0.5}
               readOnly
