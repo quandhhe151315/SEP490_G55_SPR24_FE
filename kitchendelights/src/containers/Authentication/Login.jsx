@@ -42,15 +42,7 @@ const Login = () => {
         if (response.status === 200) {
           Cookies.set('jwt', response.data, { expires: 7 });
           showSnackbar('Login successful!', "success");
-          const decoded = jwtDecode(response.data);
-          if(decoded.role === "Administrator" || decoded.role === "Moderator"){
-          
-            goToDashboard();
-          }
-          else{
-            goToHomePage();
-          }
-
+          goToHomePage();
         } else {
           
         }
