@@ -44,6 +44,7 @@ import CommentSection from "../../containers/BoxComment/CommentSection";
 import Cookies from "js-cookie";
 import Footer from "../../components/Footer/Footer.jsx";
 import RandomRecipes from "./RandomRecipe";
+import EmbedVideo from "../../components/Video/EmbedVideo.jsx";
 function RecipeDetail() {
   const navigate = useNavigate();
   const [data, setdata] = useState();
@@ -330,13 +331,12 @@ function RecipeDetail() {
           <Card>
             <CardContent>
               <div className="video-container ">
-                {data && data?.videoLink ? ( // Kiểm tra xem có dữ liệu video và embedUrl không
+                {data && data?.videoLink ? (
                   <>
                     <iframe
                       width="100%"
                       height="400"
-                      // src={data?.videoLink}
-                      src="https://www.youtube.com/embed/oHlKAMKi24E?controls=0"
+                      src={data?.videoLink.replace("/watch?v=", "/embed/")}
                       title="YouTube video player"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     ></iframe>
