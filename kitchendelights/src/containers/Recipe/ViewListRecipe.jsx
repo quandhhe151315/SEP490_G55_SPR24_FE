@@ -111,7 +111,7 @@ function ViewListRecipes() {
       const response = await addToCart(userId, recipeId);
 
       if (response.status === 200) {
-        toast.success("Thêm vào giỏ hàng thành công");
+        // toast.success("Thêm vào giỏ hàng thành công");
         getListCarts(userId);
         setloadingflag(!loadingflag);
       } else {

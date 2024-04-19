@@ -165,7 +165,6 @@ function RecipeDetail() {
         setdata1(response.data.recipeIngredients);
         console.log("nguyenlieu", response.data.recipeIngredients);
         console.log("data", response);
-        
       } else {
         console.error("Can not Load news! ");
       }
@@ -391,7 +390,14 @@ function RecipeDetail() {
               </Grid>
             </Grid>
 
-            <Typography sx={{ fontSize: 25, fontWeight: "bold", marginTop: 5 }}>
+            <Typography
+              sx={{
+                fontSize: 25,
+                fontWeight: "bold",
+                marginTop: 5,
+                marginBottom: 2,
+              }}
+            >
               Nguyên liệu
             </Typography>
             {/* {data1.map((item) => {
@@ -407,16 +413,20 @@ function RecipeDetail() {
 
             {data1.map((item) => {
               return (
-                <Grid container spacing={2}>
+                <Grid
+                  container
+                  spacing={{ xs: 2, md: 3 }}
+                  columns={{ xs: 4, sm: 8, md: 12 }}
+                >
                   <Grid item xs={2}>
-                    <Typography variant="body1">
-                      {item.ingredientName}
+                    <Typography variant="body1" fontWeight={"bold"}>
+                      {item.ingredientName} :
                     </Typography>
                   </Grid>
-                  <Grid item xs={2}>
+                  <Grid item xs={0}>
                     <Typography variant="body1">{item.unitValue}</Typography>
                   </Grid>
-                  <Grid item xs={2}>
+                  <Grid item xs={6}>
                     <Typography variant="body1">
                       {item.ingredientUnit}
                     </Typography>
@@ -424,7 +434,7 @@ function RecipeDetail() {
                 </Grid>
               );
             })}
-            <Typography sx={{ fontSize: 25, fontWeight: "bold" }}>
+            <Typography sx={{ fontSize: 25, fontWeight: "bold", marginTop: 5 }}>
               Cách làm
             </Typography>
             <CardContent>

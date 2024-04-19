@@ -80,7 +80,7 @@ export default function CartDetail() {
       const response = await removeCart(userId, recipeId);
 
       if (response.status === 200) {
-        toast.success("Xoá thành công ");
+        // toast.success("Xoá thành công ");
 
         setloading(!loading);
       } else {
