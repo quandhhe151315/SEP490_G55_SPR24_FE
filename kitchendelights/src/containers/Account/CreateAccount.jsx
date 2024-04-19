@@ -58,12 +58,12 @@ export default function CreateAccount() {
         const response = await createAccount(userName,firstName,middleName,lastName,email,phone,password,"Avatar Default",1,role);
         if (response.status === 200) {
           goToListAccount();
-          showSnackbar('Tạo tài khoản thành công!', "success");
+          showSnackbar('Tạo tài khoản thành công !', "success");
         } else {
 
         }
       } catch (error) {
-        showSnackbar('Tạo tài khoản thất bại!', "error");
+        showSnackbar('Tạo tài khoản thất bại ! Vui lòng thử lại', "error");
       }
     }
   };

@@ -32,7 +32,7 @@ export default function BlogLatest() {
           width={"100%"}
           xs={8}
         >
-          {slicedBlogList?.map((item, index) => (
+          {slicedBlogList?.filter(item => item.blogStatus === 1).map((item, index) => (
             <Grid item xs={12} key={`${item?.blogId}+${index}`}>
               <BlogHomeItem
                 title={item?.blogTitle}

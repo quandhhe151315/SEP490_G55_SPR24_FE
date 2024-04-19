@@ -115,9 +115,9 @@ function ListCategoryDashboard() {
                 <TableHead>
                   <TableRow>
                     <StyledTableCell align="left" style={{ width: '15%' }}>ID</StyledTableCell>
-                    <StyledTableCell align="left" style={{ width: '30%' }}>Category Name</StyledTableCell>
-                    <StyledTableCell align="left" style={{ width: '30%' }}>Parent Name</StyledTableCell>
-                    <StyledTableCell align="left" style={{ width: '25%', paddingLeft: '60px' }}>Actions</StyledTableCell>
+                    <StyledTableCell align="left" style={{ width: '30%' }}>Tên Category</StyledTableCell>
+                    <StyledTableCell align="left" style={{ width: '30%' }}>Tên category cha</StyledTableCell>
+                    <StyledTableCell align="left" style={{ width: '25%', paddingLeft: '60px' }}>Hoạt động</StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -131,11 +131,11 @@ function ListCategoryDashboard() {
                         <StyledTableCell>
                           <Button onClick={() => {
                             goToUpdateCategory(category.categoryId);
-                          }}>Update</Button>
+                          }}>Cập nhật</Button>
                           <Button disabled={isParent} onClick={() => {
                             setSelectedCategoryId(category.categoryId);
                             handleOpen(true);
-                          }}>Delete</Button>
+                          }}>Xóa</Button>
                         </StyledTableCell>
                       </StyledTableRow>
                     );

@@ -242,8 +242,8 @@ const getCategoryByParentId = () => {
   return axios.get("/Category/GetCategoryByParentId?categoryType=true");
 };
 
-const listUsers = () => {
-  return axios.get("/User/List");
+const listUsers = (id) => {
+  return axios.get(`/User/List?id=${id}`);
 };
 
 const getBlogList = (params) => {
@@ -342,6 +342,12 @@ const getNumberUserCreatedInThisMonth = () => {
 const getNumberRecipeCreatedInThisMonth = () => {
   return axios.get("/Recipe/GetNumberRecipeCreatedInThisMonth");
 };
+const getNumberOfRecipesAreBoughtInThisMonth = () => {
+  return axios.get("/Payment/GetNumberOfRecipesAreBoughtInThisMonth");
+};
+const getNumberOfUserEachRole = () => {
+  return axios.get("/User/GetNumberOfUserEachRole");
+};
 
 export {
   login,
@@ -401,4 +407,6 @@ export {
   getRecipeBought,
   UpdateReview,
   RemoveReview,
+  getNumberOfRecipesAreBoughtInThisMonth,
+  getNumberOfUserEachRole,
 };

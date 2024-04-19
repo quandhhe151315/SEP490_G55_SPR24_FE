@@ -12,18 +12,20 @@ import MessageData from "./MessageData";
 export default function BlogList() {
   const [categorySelect, setCategorySelect] = useState();
   const [searchKey, setSearchKey] = useState("");
-  const [sortKey,setSortKey] = useState('');
+  const [sortKey, setSortKey] = useState("");
   const { blogList } = useGetBlogList({
     id: "",
     category: categorySelect,
     search: searchKey,
-    sort: sortKey
+    sort: sortKey,
   });
   const blogsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
   const indexOfLastBlog = currentPage * blogsPerPage;
   const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
-  const currentBlogs = blogList?.slice(indexOfFirstBlog, indexOfLastBlog);
+  const currentBlogs = blogList
+    ?.filter((item) => item?.blogStatus === 1)
+    ?.slice(indexOfFirstBlog, indexOfLastBlog);
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
@@ -31,7 +33,7 @@ export default function BlogList() {
     <div style={{ backgroundColor: "#F9F9F9" }}>
       <PrimarySearchAppBar />
       <Stack width={"100%"} bgcolor={"#F9F9F9"} minHeight={"100vh"}>
-        <Stack sx={{ marginX: "auto", width: "80%"}}>
+        <Stack sx={{ marginX: "auto", width: "80%" }}>
           <Stack
             sx={{
               display: "flex",
@@ -42,7 +44,9 @@ export default function BlogList() {
           >
             <Stack>
               <a href="/blog/create">
-                <Button variant="contained" sx={{bgcolor:"#ff5e00"}}>Đăng Blog</Button>
+                <Button variant="contained" sx={{ bgcolor: "#ff5e00" }}>
+                  Đăng Blog
+                </Button>
               </a>
             </Stack>
           </Stack>
@@ -62,7 +66,7 @@ export default function BlogList() {
                 mx={0}
                 width={"100%"}
               >
-                {currentBlogs?.map((item, index) => {
+                {currentBlogs?.filter(item => item.blogStatus === 1).map((item, index) => {
                   return (
                     <Grid item xs={4} key={`${item?.blogId}+${index}`}>
                       <BlogItem

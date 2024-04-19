@@ -164,7 +164,11 @@ export default function MarketplaceManagement() {
   ];
 
   const handleCreateNewMarketplace = async () => {
-    try {
+    if(newMarketplaceName === '' || newMarketplaceLogo === ''){
+      showSnackbar('Tên cửa hàng hoặc Logo không được để trống !', "error");
+    }
+    else{
+      try {
         const response = await createMarketplace(newMarketplaceName, newMarketplaceLogo);
         if (response.status === 200) {
           showSnackbar('Tạo cửa hàng mới thành công!', "success");
@@ -174,6 +178,8 @@ export default function MarketplaceManagement() {
       } catch (error) {
         showSnackbar('Tạo cửa hàng mới thất bại!', "error");
       }
+    }
+    
   }
 
   const handleImageChange = async (event) => {

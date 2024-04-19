@@ -73,19 +73,25 @@ export default function EditFormModal({
     control,
     reset,
   } = useForm();
+  const [imgUrl, setImgUrl] = useState("");
   React.useEffect(() => {
     const currentBlog = blogLists?.find((item) => item?.blogId === id);
-    console.log(currentBlog);
+    setImgUrl(currentBlog?.blogImage);
     reset({
       ...blogList,
       blogTitle: currentBlog?.blogTitle,
       blogContent: currentBlog?.blogContent,
       blogImage: currentBlog?.blogImage,
-      categoryId: currentBlog?.categoyId,
+      categoryId: currentBlog?.categoryId,
     });
   }, [blogList, blogLists]);
   const userId = Cookies.get("userId");
   const onSubmit = async (data) => {
+    if (!imgUrl && !files?.[0]) {
+      setOpenSnackBar(true);
+      setContentSnackbar("Vui lòng nhập ảnh !");
+      return;
+    }
     if (!data?.blogTitle || !data?.blogContent) {
       setOpenSnackBar(true);
       setContentSnackbar("Vui lòng nhập đầy đủ tiêu đề và nội dung !");
@@ -138,7 +144,7 @@ export default function EditFormModal({
             setStatusPostBlog(res.status);
             setOpenSnackBar(true);
             reset({});
-            setContentSnackbar("Đăng blog thành công");
+            setContentSnackbar("Sua blog thành công");
             handleClose();
             setFiles([]);
           }
@@ -169,7 +175,7 @@ export default function EditFormModal({
                     control={control}
                     name="categoryId"
                     render={({ field: { onChange, onBlur, value, ref } }) => (
-                      <Select onChange={onChange} value={value}>
+                      <Select onChange={onChange} value={value} inputRef={ref}>
                         {categoriesList?.map((item, index) => {
                           return (
                             <MenuItem
@@ -214,18 +220,44 @@ export default function EditFormModal({
                   )}
                 />
               </Stack>
+
               {isChangeImage ? (
-                <label htmlFor="choose_image" style={{}}>
+                <>
+                  <label
+                    htmlFor="choose_image"
+                    style={{ display: "inline-block", marginBottom: "10px" }}
+                  >
+                    <Button
+                      variant="contained"
+                      component="span"
+                      sx={{
+                        backgroundColor: "#ff5e00",
+                        "&:hover": {
+                          backgroundColor: "#FFCF96",
+                        },mt:8
+                      }}
+                    >
+                      {files?.[0]?.name ? (
+                        <Typography>{files?.[0]?.name}</Typography>
+                      ) : (
+                        <>Chọn ảnh</>
+                      )}
+                    </Button>
+                  </label>
                   <input
                     type="file"
                     accept="image/*"
                     id="choose_image"
-                    style={{ overflow: "hidden", marginTop: "80px" }}
+                    multiple={false}
+                    style={{ display: "none" }}
                     onChange={(event) => {
-                      setFiles(event?.target?.files);
+                      if (!!event?.target?.files?.[0]?.name) {
+                        console.log(234);
+                        setFiles(event?.target?.files);
+                      }
                     }}
                   />
-                </label>
+                </>
               ) : (
                 <Stack
                   width={200}
@@ -248,7 +280,10 @@ export default function EditFormModal({
                       color: "#ffffff",
                       cursor: "pointer",
                     }}
-                    onClick={() => setIsChangeImage(true)}
+                    onClick={() => {
+                      setIsChangeImage(true);
+                      setImgUrl("");
+                    }}
                   >
                     X
                   </Stack>

@@ -135,13 +135,13 @@ function ListRecipeDashBoard() {
                                 <TableHead>
                                     <TableRow>
                                         <StyledTableCell align="left" style={{ width: '5%' }}>ID</StyledTableCell>
-                                        <StyledTableCell align="left" style={{ width: '20%', paddingLeft: '35px' }}>Recipe Title</StyledTableCell>
-                                        <StyledTableCell align="left" style={{ width: '20%', paddingLeft: '40px' }}>Creator</StyledTableCell>
-                                        <StyledTableCell align="left" style={{ width: '10%', paddingLeft: '5px' }}>Rating</StyledTableCell>
-                                        <StyledTableCell align="left" style={{ width: '10%', paddingLeft: '25px' }}>Status</StyledTableCell>
-                                        <StyledTableCell align="left" style={{ width: '10%' }}>Price</StyledTableCell>
-                                        <StyledTableCell align="left" style={{ width: '10%', paddingLeft: '5px' }}>Created Date</StyledTableCell>
-                                        <StyledTableCell align="left" style={{ width: '10%', paddingLeft: '60px' }}>Actions</StyledTableCell>
+                                        <StyledTableCell align="left" style={{ width: '20%', paddingLeft: '25px' }}>Tên công thức</StyledTableCell>
+                                        <StyledTableCell align="left" style={{ width: '20%', paddingLeft: '30px' }}>Tên người đăng</StyledTableCell>
+                                        <StyledTableCell align="left" style={{ width: '10%', paddingLeft: '5px' }}>Đánh giá</StyledTableCell>
+                                        <StyledTableCell align="left" style={{ width: '10%', paddingLeft: '25px' }}>Trạng thái</StyledTableCell>
+                                        <StyledTableCell align="left" style={{ width: '10%', paddingLeft: '28px' }}>Giá</StyledTableCell>
+                                        <StyledTableCell align="left" style={{ width: '10%', paddingLeft: '5px' }}>Ngày đăng</StyledTableCell>
+                                        <StyledTableCell align="left" style={{ width: '10%', paddingLeft: '60px' }}>Hoạt động</StyledTableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -153,27 +153,27 @@ function ListRecipeDashBoard() {
                                             <StyledTableCell align="left">{recipe.recipeTitle}</StyledTableCell>
                                             <StyledTableCell align="left">{recipe.userName}</StyledTableCell>
                                             <StyledTableCell align="left">{recipe.recipeRating}</StyledTableCell>
-                                            <StyledTableCell align="left">{recipe.recipeStatus !== null && recipe.recipeStatus === 1 ? 'Approved' : 'Not Approved'}</StyledTableCell>
-                                            <StyledTableCell align="left">{recipe.recipePrice !== null && recipe.recipePrice !== undefined ? recipe.recipePrice : 'Free'}</StyledTableCell>
+                                            <StyledTableCell align="left">{recipe.recipeStatus !== null && recipe.recipeStatus === 1 ? 'Đã duyệt' : 'Chưa duyệt'}</StyledTableCell>
+                                            <StyledTableCell align="left">{recipe.recipePrice !== null && recipe.recipePrice !== undefined ? recipe.recipePrice : 'Miễn phí'}</StyledTableCell>
                                             <StyledTableCell align="left">{new Date(recipe.createDate).toLocaleDateString()}</StyledTableCell>
                                             <StyledTableCell>
                                                 {recipe.recipeStatus === 1 ? (
-                                                    <Button sx={{paddingRight:'45px'}} onClick={() => {
+                                                    <Button sx={{paddingRight:'27px'}} onClick={() => {
                                                         setSelectedRecipeId(recipe.recipeId);
                                                         handleOpenApprove(true);
-                                                    }}>Edit</Button>
+                                                    }}>Sửa</Button>
                                                 ) : (
                                                     <Button onClick={() => {
                                                         setSelectedRecipeId(recipe.recipeId);
                                                         handleOpenApprove(true);
                                                     }}>
-                                                        Approve
+                                                        Duyệt
                                                     </Button>
                                                 )}
                                                 <Button onClick={() => {
                                                     setSelectedRecipeId(recipe.recipeId);
                                                     handleOpen(true);
-                                                }}>Delete</Button>
+                                                }}>Xóa</Button>
                                             </StyledTableCell>
                                         </StyledTableRow>
                                     ))}
@@ -195,7 +195,7 @@ function ListRecipeDashBoard() {
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Bạn có chắc chắn muốn xóa category này?
+                        Bạn có chắc chắn muốn xóa Công thức này?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

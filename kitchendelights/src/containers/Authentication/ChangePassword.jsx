@@ -71,17 +71,17 @@ function ChangePassword() {
                                     <Grid container direction="column">
                                         <Grid item xs container direction="row">
                                             <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '10%' }}>Nhập mật khẩu cũ: </Typography>
-                                            <TextField size='small' type="input" value={password} onChange={(e) => setPassword(e.target.value)} sx={{ width: '30%', height: '10px', fontSize: '16px', fontWeight: 'bold', marginTop: '3%', marginLeft: '10%' }} />
+                                            <TextField size='small' type="password" value={password} onChange={(e) => setPassword(e.target.value)} sx={{ width: '30%', height: '10px', fontSize: '16px', fontWeight: 'bold', marginTop: '3%', marginLeft: '10%' }} />
                                         </Grid>
 
                                         <Grid item xs container direction="row">
                                             <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '10%' }}>Nhập mật khẩu mới: </Typography>
-                                            <TextField size='small' type="input" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} sx={{ width: '30%', height: '10px', fontSize: '16px', fontWeight: 'bold', marginTop: '3%', marginLeft: '9%' }} />
+                                            <TextField size='small' type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} sx={{ width: '30%', height: '10px', fontSize: '16px', fontWeight: 'bold', marginTop: '3%', marginLeft: '9%' }} />
                                         </Grid>
 
                                         <Grid item xs container direction="row">
                                             <Typography sx={{ fontSize: '16px', fontWeight: 'bold', marginTop: '40px', marginLeft: '10%' }}>Nhập lại mật khẩu mới: </Typography>
-                                            <TextField size='small' type="input" value={reNewPassword} onChange={(e) => setReNewPassword(e.target.value)} sx={{ width: '30%', height: '10px', fontSize: '16px', fontWeight: 'bold', marginTop: '3%', marginLeft: '7%' }} />
+                                            <TextField size='small' type="password" value={reNewPassword} onChange={(e) => setReNewPassword(e.target.value)} sx={{ width: '30%', height: '10px', fontSize: '16px', fontWeight: 'bold', marginTop: '3%', marginLeft: '7%' }} />
                                         </Grid>
                                     </Grid>
 

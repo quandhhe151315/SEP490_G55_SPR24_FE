@@ -113,7 +113,7 @@ export default function BlogListItem() {
                 </TableCell>
 
                 <TableCell>
-                  {item?.blogStatus === 2 ? "Đã phê duyệt" : "Chưa phê duyệt"}
+                  {item?.blogStatus === 1 ? "Đã phê duyệt" : "Chưa phê duyệt"}
                 </TableCell>
                 <TableCell>
                   <div
@@ -133,7 +133,7 @@ export default function BlogListItem() {
                         setOpenStatusId(item?.blogId);
                       }}
                     >
-                      {item?.blogStatus != 2 ? (
+                      {item?.blogStatus != 0 ? (
                         <DoneIcon style={{ color: "green" }} />
                       ) : (
                         <ClearIcon style={{ color: "red" }} />

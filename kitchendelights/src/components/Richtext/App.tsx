@@ -25,6 +25,8 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import { useSnackbar } from '../Snackbar/Snackbar.jsx';
 import { useNavigate } from 'react-router-dom';
 import { uploadImage } from '../../services/BlogServices.jsx';
+import Button from '@mui/material/Button';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const AppCreateNews = ({title, setContent, handleCreateNews}) => {
   const systemSettingsPrefersDarkMode = useMediaQuery(
@@ -79,7 +81,8 @@ const AppCreateRecipe = () => {
 
   const navigate = useNavigate();
   let contentRecipes =
-  '<h2><span style="font-size: 18px">' + introduction + '</span></h2><p></p><ul><li><p><span style="font-size: 18px">Thời gian chuẩn bị: ' + timeAmountPrepare + ' phút</span></p><p></p></li><li><p><span style="font-size: 18px">Thời gian nấu: '+ timeAmountCook +' phút</span></p><p></p></li><li><p><span style="font-size: 18px">Khẩu phần ăn: '+ amountPeopleEat +' người</span></p></li></ul><p></p>'
+
+  '<p style="text-align: center">Ảnh giới thiệu</p><img height="auto" style="text-align: center; aspect-ratio: 1.74672 / 1" src='+featuredImage+' alt="Ảnh" width="500"></li></ul><p></p><h2><span style="font-size: 18px">' + introduction + '</span></h2><p></p><ul><li><p><span style="font-size: 18px">Thời gian chuẩn bị: ' + timeAmountPrepare + ' phút</span></p><p></p></li><li><p><span style="font-size: 18px">Thời gian nấu: '+ timeAmountCook +' phút</span></p><p></p></li><li><p><span style="font-size: 18px">Khẩu phần ăn: '+ amountPeopleEat +' người</span></p></li></ul><p></p>'
   +'<h4><strong><span style="color: rgb(255, 71, 0); font-size: 30px">Nguyên liệu chế biến:</span></strong></h4></br>';
 
   type RecipeContent = {
@@ -191,6 +194,7 @@ const AppCreateRecipe = () => {
   }, []);
   
   const rteRef = useRef<RichTextEditorRef>(null);
+
   const handleAddRowClickNL = () => {
     handleCreateNewRecipeIngredientView();
     handleCreateNewRecipeIngredientDataSend();
@@ -212,14 +216,40 @@ const AppCreateRecipe = () => {
               renderInput={(params) => <TextField {...params} label="Chọn nguyên liệu" sx={{ borderRadius: '15px' }}/>}
             />
       </Grid>
-      <Grid item xs={6}>
+      <Grid item xs={5}>
           <TextField required id="outlined-size-small" size="small" sx={{ width: '100%',}} placeholder="Nhập định lượng (đơn vị là gam)" onChange={(event) => handleChangeRecipeIngredientUnit(recipeIngredientLength + 1, event.target.value)}/>
       </Grid>
+      <Grid item xs={1}>
+          <Button sx={{color: 'red', marginLeft: '10%'}} onClick={() => handleDeleteRowNL(recipeIngredientLength + 1)}> 
+                  <DeleteIcon fontSize='large'/>
+                </Button>
+      </Grid>
+      
   </Grid>
     ]);
     setRecipeIngredientLength(recipeIngredientLength + 1);
     setRecipeIngredientDataSendLength(recipeIngredientDataSendLength + 1);
   };
+
+  const handleDeleteRowNL = (position) => {
+    const newRowsNL = [];
+    for (let i = 0; i < rowsNL.length; i++) {
+      if (i !== position) {
+        newRowsNL.push(rowsNL[i]);
+      }
+    }
+    setRowsNL(newRowsNL);
+    setRecipeIngredientLength(recipeIngredientLength);
+    setRecipeIngredientDataSendLength(recipeIngredientDataSendLength);
+    handleDeleteNewRecipeIngredient(position);
+  };
+
+  const handleDeleteNewRecipeIngredient = (position) => {
+    setRecipeIngredientView(prevRecipeIngre => {
+      const newArray = prevRecipeIngre.slice(0, position);
+      return newArray;
+    });
+  }
 
   const handleChangeRecipeIngredientName = (id,ingredientId, value) => {
     setRecipeIngredientDataSend(prevRecipeIngre => {
@@ -282,7 +312,7 @@ const AppCreateRecipe = () => {
     setRowsBL(prevRows => [...prevRows, 
     <Grid container spacing={2} sx={{marginTop: '2px', marginLeft: '2px'}}>
       <Grid item xs={8}>
-      <TextField required id="outlined-required" sx={{ width: '100%'}} placeholder="Ghi chi tiết cách làm" onChange={(event) => handleChangeRecipeContent(recipeLength + 1, event.target.value)}/>
+      <TextField required id="outlined-required" sx={{ width: '100%'}} placeholder="Ghi chi tiết cách làm món ăn (Hệ thống đã tự hiển thị số cách)" onChange={(event) => handleChangeRecipeContent(recipeLength + 1, event.target.value)}/>
       </Grid>
 
               <Grid item xs={4}>
@@ -299,13 +329,40 @@ const AppCreateRecipe = () => {
     `${nameImage[recipeLength + 1]?.RecipeImageURL.slice(0, 40)}...` :
     (nameImage[recipeLength + 1]?.RecipeImageURL || 'Chọn ảnh')}
                 </label>
+
+                  {/* Fix lỗi 48 trong buglist */}
+                <Button sx={{color: 'red', marginLeft: '10%'}} onClick={() => handleDeleteRowBL(recipeLength + 1)}> 
+                  <DeleteIcon fontSize='large'/>
+                </Button>
+
               </Grid>
 
     </Grid>
     ]);
-    
+    console.log(rowsBL.length);
     setRecipeLength(recipeLength + 1);
   };
+
+  const handleDeleteRowBL = (position) => {
+    // recipeIngredientView
+    const newRowsBL = [];
+    for (let i = 0; i < rowsBL.length; i++) {
+
+      if (i !== position) {
+        newRowsBL.push(rowsBL[i]);
+      }
+    }
+    setRowsBL(newRowsBL);
+    setRecipeLength(recipeLength);
+    handleDeleteNewRecipeContent(position);
+  };
+
+  const handleDeleteNewRecipeContent = (position) => {
+    setRecipeContent(prevRecipeIngre => {
+      const newArray = prevRecipeIngre.slice(0, position);
+      return newArray;
+    });
+  }
 
   const handleChangeRecipeContent = (id, value) => {
     setRecipeContent(prevRecipeContent => {
@@ -375,10 +432,14 @@ const AppCreateRecipe = () => {
 const handleFeaturesImageChange = async (event) => {
   const file = event.target.files[0];
   if (file) {
-    
+    // submittedContent
+
     setFeaturedImageName(file.name);
     if (file.type.startsWith('image/')) {
       const resFeaturedImage = await uploadImage(file, "recipe");
+
+      
+      
       setFeaturedImage(resFeaturedImage);
     } else {
     }
@@ -388,6 +449,7 @@ const handleFeaturesImageChange = async (event) => {
  let recipeContentSend = '</br><h4><strong><span style="color: rgb(255, 71, 0); font-size: 30px">Cách làm:</span></strong></h4></br>';
  const [recipeContentDataSend, setRecipeContentDataSend] = useState('')
 const handleViewCreateNewRecipe = () => {
+  
     for (let index = 0; index < recipeIngredientView.length; index ++) {
       contentRecipes += '<ul><li><p><span style="font-size: 18px">'+recipeIngredientView[index].ingredientName+' '+recipeIngredientView[index].unitValue+' gam</span></p></li></ul></br>';
     };
@@ -396,9 +458,9 @@ const handleViewCreateNewRecipe = () => {
 
     let num = 1;
     for (let index = 0; index < recipeContent.length; index ++) {
-      contentRecipes += '<p><strong><span style="font-size: 18px">Bước '+ num +': </span></strong><span style="font-size: 18px">'+ recipeContent[index].RecipeStepContent +'</span></p><p></p><img height="auto" style="text-align: center; aspect-ratio: 1.74672 / 1" src='+recipeContent[index].RecipeImage+' alt="Ảnh" width="700"></li></ul><p></p>';
+      contentRecipes += '<p><strong><span style="font-size: 18px">Bước '+ num +': </span></strong><span style="font-size: 18px">'+ recipeContent[index].RecipeStepContent +'</span></p><p></p><img height="auto" style="text-align: center; aspect-ratio: 1.74672 / 1" src='+recipeContent[index].RecipeImage+' alt="Ảnh" width="500"></li></ul><p></p>';
 
-      recipeContentSend += '<p><strong><span style="font-size: 18px">Bước '+ num +': </span></strong><span style="font-size: 18px">'+ recipeContent[index].RecipeStepContent +'</span></p><p></p><img height="auto" style="text-align: center; aspect-ratio: 1.74672 / 1" src="'+imageSendToData[index].recipeImageFile+'" alt="Ảnh" width="700"></li></ul><p></p>';
+      recipeContentSend += '<p><strong><span style="font-size: 18px">Bước '+ num +': </span></strong><span style="font-size: 18px">'+ recipeContent[index].RecipeStepContent +'</span></p><p></p><img height="auto" style="text-align: center; aspect-ratio: 1.74672 / 1" src="'+imageSendToData[index].recipeImageFile+'" alt="Ảnh" width="500"></li></ul><p></p>';
       
       num ++;
     };
@@ -445,7 +507,7 @@ const handleViewCreateNewRecipe = () => {
     } else if (checkInputNumberTimeAmountPrepare === false || checkInputNumberTimeAmountCook === false || checkInputNumberAmountPeopleEat === false) {
       showSnackbar('Thời gian hoặc số người phục vụ phải là số nguyên !', "error");
     } else if (checkEmpty === true) {
-      showSnackbar('Nguyên liệu và cách làm không được bỏ trống !', "error");
+      showSnackbar('Nguyên liệu, định lượng hoặc cách làm, ảnh bước làm không được bỏ trống !', "error");
     } else {
       try {
         const response = await createRecipe(Cookies.get('userId'),featuredImage, introduction, videoCooking, title, timeAmountPrepare, timeAmountCook, amountPeopleEat, recipeContentDataSend, isFree, recipeCost, countryId,recipeIngredientDataSend);
@@ -572,10 +634,12 @@ const handleViewCreateNewRecipe = () => {
             />
       </Grid>
       
-      <Grid item xs={6}>
+      <Grid item xs={5}>
       <TextField required id="outlined-size-small" size="small" sx={{ width: '100%',}} placeholder="Nhập định lượng (đơn vị là gam)" onChange={(event) => handleChangeRecipeIngredientUnit(0, event.target.value)}/>
       </Grid>
-
+      <Grid item xs={1}>
+      
+      </Grid>
             </Grid>
             <Grid container spacing={2} sx={{marginTop: '1%'}}>
             <Grid item xs={6}>
@@ -594,9 +658,12 @@ const handleViewCreateNewRecipe = () => {
               renderInput={(params) => <TextField {...params} label="Chọn nguyên liệu" sx={{ borderRadius: '15px' }} />}
             />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={5}>
             <TextField required id="outlined-size-small" size="small" sx={{ width: '100%',}} placeholder="Nhập định lượng (đơn vị là gam)" onChange={(event) => handleChangeRecipeIngredientUnit(1, event.target.value)}/>
             </Grid>
+            <Grid item xs={1}>
+      
+      </Grid>
             </Grid>
 
             {rowsNL.map((rowsNL, index) => (
@@ -622,7 +689,7 @@ const handleViewCreateNewRecipe = () => {
 
             <Grid container spacing={2}>
               <Grid item xs={8}>
-              <TextField required id="outlined-required" sx={{ width: '100%'}} placeholder="Ghi chi tiết cách làm" onChange={(event) => handleChangeRecipeContent(0, event.target.value)}/>
+              <TextField required id="outlined-required" sx={{ width: '100%'}} placeholder="Ghi chi tiết cách làm món ăn (Hệ thống đã tự hiển thị số cách)" onChange={(event) => handleChangeRecipeContent(0, event.target.value)}/>
               </Grid>
               <Grid item xs={4}>
               <input
@@ -633,28 +700,29 @@ const handleViewCreateNewRecipe = () => {
         onChange={(event) => handleFileChange(event, 0)}
       />
                 <label htmlFor="upload-file-0" className="custom-upload-button">
-                {nameImage[0].RecipeImageURL && nameImage[0].RecipeImageURL.length > 40 ?
-    `${nameImage[0].RecipeImageURL.slice(0, 40)}...` :
+                {nameImage[0].RecipeImageURL && nameImage[0].RecipeImageURL.length > 10 ?
+    `${nameImage[0].RecipeImageURL.slice(0, 10)}...` :
     (nameImage[0].RecipeImageURL || 'Chọn ảnh')}
                 </label>
+                
               </Grid>
             </Grid>
 
             <Grid container spacing={2} sx={{marginTop: '1%'}}>
               <Grid item xs={8}>
-              <TextField required id="outlined-required" sx={{ width: '100%'}} placeholder="Ghi chi tiết cách làm" onChange={(event) => handleChangeRecipeContent(1, event.target.value)}/>
+              <TextField required id="outlined-required" sx={{ width: '100%'}} placeholder="Ghi chi tiết cách làm món ăn (Hệ thống đã tự hiển thị số cách)" onChange={(event) => handleChangeRecipeContent(1, event.target.value)}/>
               </Grid>
               <Grid item xs={4}>
               <input
         type="file"
         accept="image/*"
         id="upload-file-1"
-        style={{ display: 'none' }}
+        style={{ display: 'none'}}
         onChange={(event) => handleFileChange(event, 1)}
       />
                 <label htmlFor="upload-file-1" className="custom-upload-button" >
-                {nameImage[1].RecipeImageURL && nameImage[1].RecipeImageURL.length > 40 ?
-    `${nameImage[1].RecipeImageURL.slice(0, 40)}...` :
+                {nameImage[1].RecipeImageURL && nameImage[1].RecipeImageURL.length > 10 ?
+    `${nameImage[1].RecipeImageURL.slice(0, 10)}...` :
     (nameImage[1].RecipeImageURL || 'Chọn ảnh')}
                 </label>
               </Grid>

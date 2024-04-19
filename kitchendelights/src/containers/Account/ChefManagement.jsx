@@ -242,7 +242,7 @@ const handleCloseDialog = () => {
         <DialogContent>
         <CardMedia
                             component={"img"}
-                            height={600}
+                            height={300}
                             image={imageToShow}
                             alt="green iguana"
                           />

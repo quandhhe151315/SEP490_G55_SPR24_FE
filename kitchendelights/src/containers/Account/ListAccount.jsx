@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { listUsers } from "../../services/ApiServices";
 import { banOrUnbanAccount } from "../../services/UserServices";
 import { useSnackbar } from "../../components/Snackbar/Snackbar";
+import Cookies from 'js-cookie';
 
 export default function ListAccount() {
   const navigate = useNavigate();
@@ -17,20 +18,23 @@ export default function ListAccount() {
 
   const getListUser = async () => {
     try {
-      const response = await listUsers();
+      const response = await listUsers(Cookies.get('userId'));
       if (response.status === 200) {
         setData(response.data);
-        console.log("Load news successful! ");
+        console.log("Load user successful! ");
       } else {
-        console.error("Can not Load news! ");
       }
     } catch (error) {
-      console.error("Can not load news data!", error);
+      console.error("Can not load user data!", error);
     }
   };
 
+  const [isSomethingChange, setIsSomethingChange] = useState(false);
   useEffect(() => {
     getListUser();
+  }, [isSomethingChange]);
+
+  useEffect(() => {
     setRows(
       data.map((item) => ({
         id: item.userId,
@@ -55,6 +59,7 @@ export default function ListAccount() {
       const response = await banOrUnbanAccount(id);
       if (response.status === 200) {
         showSnackbar("Ban tài khoản thành công!", "success");
+        setIsSomethingChange(!isSomethingChange);
       } else {
       }
     } catch (error) {

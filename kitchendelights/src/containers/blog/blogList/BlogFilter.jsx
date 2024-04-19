@@ -58,7 +58,7 @@ export default function BlogFilter({ setSearchKey, setSortKey }) {
           placeholder="Tìm kiếm bài viết"
         ></input>
         <Button
-          sx={{ mr: 30, bgcolor: "#ff5e00",width: "100px",
+          sx={{ mr: 24, bgcolor: "#ff5e00",width: "100px",
           height: "40px"}}
           variant="contained" 
           onClick={() => setSearchKey(searchKeyInput)}

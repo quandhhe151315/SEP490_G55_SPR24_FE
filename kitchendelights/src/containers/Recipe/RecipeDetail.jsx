@@ -165,6 +165,7 @@ function RecipeDetail() {
         setdata1(response.data.recipeIngredients);
         console.log("nguyenlieu", response.data.recipeIngredients);
         console.log("data", response);
+        
       } else {
         console.error("Can not Load news! ");
       }

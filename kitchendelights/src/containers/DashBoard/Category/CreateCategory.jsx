@@ -31,6 +31,10 @@ function CreateCategory() {
     }
 
     const handleCreatCategory = async () => {
+        if(categoryName.trim() === '') {
+            toast.error('Tên category không được để trống');
+            return;
+        }
         try {
             console.log(categoryId, categoryName, categoryType, parentId);
             const response = await postCreateCategory(categoryId, categoryName, categoryType, parentId);
