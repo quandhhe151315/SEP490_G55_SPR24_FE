@@ -249,9 +249,23 @@ export default function ImgMediaCard() {
                   rowSpacing={2}
                   columnSpacing={{ xs: 1, sm: 2, md: 3 }}
                 >
-                  {data.map((ele) => {
-                    return (
-                      <Grid item xs={6}>
+                  {data.length === 0 ? (
+                    <Grid item xs={12}>
+                      {" "}
+                      {/* Đảm bảo chiếm hết cả hàng nếu không có phần tử */}
+                      <Typography
+                        id="modal-modal-title"
+                        variant="h6"
+                        component="h6"
+                        paragraph={true}
+                        fontWeight="bold"
+                      >
+                        Bạn chưa sở hữu mã giảm giá nào
+                      </Typography>
+                    </Grid>
+                  ) : (
+                    data.map((ele, index) => (
+                      <Grid item xs={6} key={index}>
                         <Card
                           sx={{ border: "1px solid #ccc", p: 2 }}
                           className="voucher-item"
@@ -261,8 +275,8 @@ export default function ImgMediaCard() {
                           <p>Giảm giá {ele.discountPercentage}%</p>
                         </Card>
                       </Grid>
-                    );
-                  })}
+                    ))
+                  )}
                 </Grid>
               </Box>
             </Typography>

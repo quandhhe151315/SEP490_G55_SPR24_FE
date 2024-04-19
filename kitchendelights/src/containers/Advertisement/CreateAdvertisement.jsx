@@ -26,6 +26,7 @@ function CreateAdvertisement() {
         reader.readAsDataURL(file);
       } else {
         toast.error("Vui lòng chỉ chọn file ảnh!");
+        setImage(null);
       }
     }
   };

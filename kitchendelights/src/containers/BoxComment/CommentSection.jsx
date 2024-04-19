@@ -7,16 +7,108 @@ import {
   TextField,
   Button,
   Rating,
+  IconButton,
+  Menu,
+  MenuItem,
+  InputAdornment,
+  Stack,
 } from "@mui/material";
 import { formatDistanceToNow } from "date-fns";
 import StarIcon from "@mui/icons-material/Star";
-import { CreateReview, GetReviewByRecipeId } from "../../services/ApiServices";
+import SendIcon from "@mui/icons-material/Send";
+import {
+  CreateReview,
+  GetReviewByRecipeId,
+  RemoveReview,
+  UpdateReview,
+} from "../../services/ApiServices";
 import { useNavigate } from "react-router-dom";
 import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import { toast } from "react-toastify";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import Cookies from "js-cookie";
 
-const Comment = ({ avatarSrc, username, content, timestamp, rating }) => {
+const Comment = ({
+  avatarSrc,
+  username,
+  content,
+  timestamp,
+  rating,
+  recipeId,
+  ratingId,
+  loading,
+  setLoading,
+  userID,
+  ratingValue,
+  ratingContent,
+}) => {
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const getUserIdFromCookie = () => {
+    const cookies = document.cookie.split("; ");
+    for (const cookie of cookies) {
+      const [name, value] = cookie.split("=");
+      if (name === "userId") {
+        return value;
+      }
+    }
+    return null;
+  };
+  const [ratingIdValue, setRatingIdValue] = useState(0);
+  const [ratingvalue, setratingvalue] = useState(rating);
+  const [contentValue, setContentValue] = useState(content);
+  const role = Cookies.get("role");
+  const check = ["Moderator", "Writer", "Chef", "users", undefined].includes(
+    role
+  );
+  console.log("role", check);
+  const uId = getUserIdFromCookie();
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleEdit = async () => {
+    try {
+      const response = await UpdateReview(
+        ratingIdValue,
+        recipeId,
+        ratingvalue,
+        contentValue
+      );
+
+      if (response.status === 200) {
+        toast.success("Cập nhật thành công ");
+        setLoading(!loading);
+        setRatingIdValue(0);
+      } else {
+        toast.error("Khoong load dc list");
+      }
+    } catch (error) {
+      console.error("ko xoá dc", error);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      const response = await RemoveReview(recipeId, ratingId);
+
+      if (response.status === 200) {
+        toast.success("Xoá thành công ");
+        handleMenuClose();
+        setLoading(!loading);
+      } else {
+        toast.error("Khoong load dc list");
+      }
+    } catch (error) {
+      console.error("ko xoá dc", error);
+    }
+  };
+
   return (
     <Paper
       sx={{
@@ -36,20 +128,69 @@ const Comment = ({ avatarSrc, username, content, timestamp, rating }) => {
           {rating !== undefined && (
             <Typography variant="caption" color="textSecondary">
               <Rating
-                value={rating}
+                onChange={(e) => setratingvalue(e?.target.value)}
+                value={ratingIdValue && uId == userID ? ratingvalue : rating}
                 precision={0.5}
-                readOnly
+                readOnly={uId != userID}
                 emptyIcon={<StarIcon fontSize="inherit" />}
                 icon={<StarIcon fontSize="inherit" />}
               />
             </Typography>
           )}
-          <Typography variant="body1" gutterBottom>
-            {content}
-          </Typography>
+
+          {ratingIdValue ? (
+            <TextField
+              sx={{
+                display: "block",
+              }}
+              value={uId == userID ? contentValue : content}
+              onChange={(e) => setContentValue(e?.target?.value)}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <Stack
+                    // onClick={() => {
+                    //   handleUpdateNewComment(item);
+                    // }}
+                    >
+                      <SendIcon onClick={handleEdit} />
+                    </Stack>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          ) : (
+            <Typography variant="body1" gutterBottom>
+              {content}
+            </Typography>
+          )}
           <Typography variant="caption" color="textSecondary">
             {formatDistanceToNow(new Date(timestamp), { addSuffix: true })}
           </Typography>
+        </Grid>
+        <Grid
+          item
+          hidden={
+            (role === "users" && userID != uId) ||
+            ["Moderator", "Writer", "Chef", undefined].includes(role)
+          }
+        >
+          <IconButton onClick={handleMenuOpen}>
+            <MoreVertIcon />
+          </IconButton>
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleMenuClose}
+          >
+            {userID == uId ? (
+              <MenuItem onClick={() => setRatingIdValue(ratingId)}>
+                Sửa
+              </MenuItem>
+            ) : null}
+
+            <MenuItem onClick={handleDelete}>Xoá</MenuItem>
+          </Menu>
         </Grid>
       </Grid>
     </Paper>
@@ -68,17 +209,24 @@ const getUserIdFromCookie = () => {
 };
 const userId = getUserIdFromCookie();
 
-const ListComment = ({ comments }) => {
+const ListComment = ({ comments, loading, setLoading }) => {
   return (
     <div>
       {comments.map((comment, index) => (
         <Comment
           key={index}
+          loading={loading}
+          setLoading={setLoading}
+          ratingId={comment.ratingId}
+          recipeId={comment.recipeId}
           avatarSrc={comment.avatar}
           username={comment.username}
           content={comment.ratingContent}
           timestamp={comment.createDate}
           rating={comment.ratingValue}
+          userID={comment.userId}
+          ratingValue={comment.ratingValue}
+          ratingContent={comment.ratingContent}
         />
       ))}
     </div>
@@ -128,11 +276,11 @@ const PostComment = ({ recipeId, loading, setLoading }) => {
           setRating(0);
           setNewComment("");
           setLoading(!loading);
+          toast.success("Đăng thành công");
         } else {
-          toast.error("Lỗi tải danh sách bình luận");
         }
       } catch (error) {
-        toast.error("Lỗi tải danh sách bình luận");
+        toast.error("Bạn không được phép đánh giá nữa. ");
       }
     }
   };
@@ -195,6 +343,7 @@ const CommentSection = ({ recipeId }) => {
     } catch (error) {}
   };
   useEffect(() => {
+    debugger;
     if (recipeId) {
       getListComment();
     }
@@ -227,9 +376,13 @@ const CommentSection = ({ recipeId }) => {
         variant="h5"
         sx={{ marginTop: 3, fontWeight: "bold" }}
       >
-        Bình luận ({comments.length})
+        Đánh giá ({comments.length})
       </Typography>
-      <ListComment comments={currentComments} />
+      <ListComment
+        comments={currentComments}
+        loading={loading}
+        setLoading={setLoading}
+      />
       <div
         style={{
           display: "flex",

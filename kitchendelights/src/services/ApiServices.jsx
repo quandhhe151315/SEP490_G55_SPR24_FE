@@ -104,6 +104,21 @@ const CreateReview = (recipeId, userId, ratingValue, ratingContent) => {
 const GetReviewByRecipeId = (id) => {
   return axios.get(`/Review/Get?id=${id}`);
 };
+
+const UpdateReview = (ratingId, recipeId, ratingValue, ratingContent) => {
+  return axios.put("/Review/Update", {
+    ratingId,
+    recipeId,
+    ratingValue,
+    ratingContent,
+  });
+};
+
+const RemoveReview = (recipeId, ratingId) => {
+  return axios.delete(
+    `/Review/Delete?recipeId=${recipeId}&ratingId=${ratingId}`
+  );
+};
 // comment rating
 
 const changeMyProfile = (
@@ -390,6 +405,8 @@ export {
   getRecipeByUserId,
   checkUserRecipe,
   getRecipeBought,
+  UpdateReview,
+  RemoveReview,
   getNumberOfRecipesAreBoughtInThisMonth,
   getNumberOfUserEachRole,
 };

@@ -72,7 +72,7 @@ function ViewListRecipes() {
   const [paidRecipes, setPaidRecipes] = useState([]);
   const [currentPageFree, setCurrentPageFree] = useState(1);
   const [currentPagePaid, setCurrentPagePaid] = useState(1);
-  const recipesPerPage = 2;
+  const recipesPerPage = 8;
 
   const paginateRecipes = (recipes, currentPage) => {
     const startIndex = (currentPage - 1) * recipesPerPage;
@@ -104,7 +104,7 @@ function ViewListRecipes() {
   const handleAddToCart = async (recipeId) => {
     if (!isUserLoggedIn()) {
       navigate("/Login");
-      toast.error("Vui lòng đăng nhập để mua hàng"); // Chuyển hướng đến trang login nếu chưa đăng nhập
+      toast.error("Vui lòng đăng nhập để mua công thức "); // Chuyển hướng đến trang login nếu chưa đăng nhập
       return;
     }
     try {
@@ -166,7 +166,7 @@ function ViewListRecipes() {
   const getHistoryPayments = async () => {
     try {
       const response = await getHistoryPayment(id);
-      debugger;
+
       if (response.status === 200) {
         setHistory(response.data);
         const recipeIds = new Set();
@@ -187,12 +187,13 @@ function ViewListRecipes() {
   };
 
   const GoToCreateRecipe = () => {
-    if (Cookies.get("userFullname") !== "") {
+    if (
+      Cookies.get("userFullname") !== "" &&
+      (role === "Chef" || role === "Administrator" || role === "Moderator")
+    ) {
       navigate("/CreateRecipe");
     } else {
-      showSnackbar(
-        "Vui lòng thêm họ tên ở trang thông tin cá nhân để tiếp tục và thử lại !"
-      );
+      showSnackbar(" Trở thành đầu bếp để có thể tạo công thức bạn nhé !!!");
     }
   };
 
@@ -240,25 +241,29 @@ function ViewListRecipes() {
             </Grid>
 
             <Grid xs={4}>
-              {(role === "Chef" ||
-                role === "Administrator" ||
-                role === "Moderator") && (
-                <Button
-                  variant="contained"
-                  sx={{
-                    bgcolor: "#ff5e00",
-                    marginTop: "20px",
-                    borderRadius: "15px",
-                    width: "100%",
-                    height: "42px",
-                    color: "white",
-                    marginLeft: "350px",
-                  }}
-                  onClick={GoToCreateRecipe}
-                >
-                  Tạo công thức nấu ăn
-                </Button>
-              )}
+              <Button
+                variant="contained"
+                sx={{
+                  bgcolor: "#ff5e00",
+                  marginTop: "20px",
+                  borderRadius: "15px",
+                  width: "100%",
+                  height: "42px",
+                  color: "white",
+                  marginLeft: "350px",
+                  whiteSpace: "nowrap",
+                }}
+                onClick={GoToCreateRecipe}
+                // disabled={
+                //   !(
+                //     role === "Chef" ||
+                //     role === "Administrator" ||
+                //     role === "Moderator"
+                //   )
+                // }
+              >
+                Tạo công thức nấu ăn
+              </Button>
             </Grid>
           </Grid>
         </Box>

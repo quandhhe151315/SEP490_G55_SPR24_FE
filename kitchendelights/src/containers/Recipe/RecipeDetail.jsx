@@ -20,9 +20,12 @@ import Checkbox from "@mui/material/Checkbox";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import AddRecipeToMenuDialog from "../Menu/AddRecipeToMenu";
 import { toast } from "react-toastify";
-
+import { Grid, Paper } from "@mui/material";
+import TextField from "@mui/material/TextField";
 import { RichTextReadOnly } from "mui-tiptap";
+import { InputNumber } from "antd";
 import useExtensions from "../../components/Richtext/useExtension.ts";
+import { Unstable_NumberInput as NumberInput } from "@mui/base/Unstable_NumberInput";
 import {
   createRecipe,
   listAllIngredient,
@@ -95,20 +98,6 @@ function RecipeDetail() {
   //   }
   // };
 
-  const videoTopPosition = 400;
-  const [scrollPosition, setScrollPosition] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollPosition(window.scrollY);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
   const getListMenu = async () => {
     try {
       const response = await getMenuByUserIdAndCheckExistRecipe(id, rId);
@@ -213,11 +202,11 @@ function RecipeDetail() {
       {!printMode && (
         <Typography sx={{ marginLeft: 35 }}>
           <Stack direction="row" spacing={1}>
-            <Avatar
+            {/* <Avatar
               sx={{ width: 20, height: 20 }}
               alt="Remy Sharp"
               src="../assets/images/news1.jpg"
-            />
+            /> */}
             <Typography sx={{ fontSize: 14 }}> {data?.userName}</Typography>
             <Button
               sx={{ height: 14 }}
@@ -366,25 +355,43 @@ function RecipeDetail() {
           </Card>
 
           <CardContent>
-            <RichTextReadOnly
-              content={data?.recipeContent}
-              extensions={extensions}
-            />
-          </CardContent>
-          <CardContent>
-            <Stack direction="row" spacing={2}>
-              <Typography sx={{ color: "gray" }}>
-                Thời gian chuẩn bị{" "}
-              </Typography>
-              <Typography sx={{ color: "gray" }}>Thời gian nấu </Typography>
-              <Typography sx={{ color: "gray" }}>Số người phục vụ </Typography>
-            </Stack>
-            <Stack direction="row" spacing={12}>
-              <Typography>{data?.preparationTime}</Typography>
-              <Typography>{data?.cookTime} </Typography>
-              <Typography>{data?.recipeServe}</Typography>
-            </Stack>
-            <Typography sx={{ fontSize: 25, fontWeight: "bold" }}>
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <Typography variant="body1" fontWeight={"bold"}>
+                  Thời gian chuẩn bị:
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography variant="body1">
+                  {data?.preparationTime} phút
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography variant="body1" fontWeight={"bold"}>
+                  Thời gian nấu:
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography variant="body1">{data?.cookTime} phút</Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography variant="body1" fontWeight={"bold"}>
+                  Số người phục vụ:
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                {/* <InputNumber
+                  min={1}
+                  defaultValue={data?.recipeServe}
+                  // value={data?.recipeServe}
+                /> */}
+                <Typography variant="body1">
+                  {data?.recipeServe} người
+                </Typography>
+              </Grid>
+            </Grid>
+
+            <Typography sx={{ fontSize: 25, fontWeight: "bold", marginTop: 5 }}>
               Nguyên liệu
             </Typography>
             {/* {data1.map((item) => {
@@ -397,27 +404,38 @@ function RecipeDetail() {
                 </div>
               );
             })} */}
-            <FormGroup>
-              <FormControlLabel
-                control={<Checkbox defaultChecked />}
-                label={data1?.ingredientName}
-              />
-              <FormControlLabel
-                control={<Checkbox />}
-                label="150g únalted butters, melted"
-              />
-              <FormControlLabel
-                control={<Checkbox />}
-                label="175g únalted butter, nelted"
-              />
-            </FormGroup>
+
+            {data1.map((item) => {
+              return (
+                <Grid container spacing={2}>
+                  <Grid item xs={2}>
+                    <Typography variant="body1">
+                      {item.ingredientName}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={2}>
+                    <Typography variant="body1">{item.unitValue}</Typography>
+                  </Grid>
+                  <Grid item xs={2}>
+                    <Typography variant="body1">
+                      {item.ingredientUnit}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              );
+            })}
             <Typography sx={{ fontSize: 25, fontWeight: "bold" }}>
               Cách làm
             </Typography>
-
-            <Typography gutterBottom variant="h6" component="div">
+            <CardContent>
+              <RichTextReadOnly
+                content={data?.recipeContent}
+                extensions={extensions}
+              />
+            </CardContent>
+            {/* <Typography gutterBottom variant="h6" component="div">
               {data?.recipeContent}
-            </Typography>
+            </Typography> */}
             {!printMode && (
               <Typography
                 color="#ff5e00"
