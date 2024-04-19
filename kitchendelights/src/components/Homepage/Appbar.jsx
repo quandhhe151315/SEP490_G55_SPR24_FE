@@ -151,9 +151,10 @@ export default function PrimarySearchAppBar() {
     Cookies.remove("jwt");
     Cookies.remove("userId");
     Cookies.remove("role");
+    Cookies.remove("userFullname");
     setUserIdExist(false);
     setRole("");
-    navigate("/KitchenDelights");
+    navigate("/Login");
   };
 
   const menuId = "primary-search-account-menu";

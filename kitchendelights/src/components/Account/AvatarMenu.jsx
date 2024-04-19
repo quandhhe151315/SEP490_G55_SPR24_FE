@@ -52,6 +52,7 @@ function AvatarMenu({ handleClick, onMenuSelect }) {
     Cookies.remove("jwt");
     Cookies.remove("userId");
     Cookies.remove("role");
+    Cookies.remove("userFullname");
     navigate("/KitchenDelights");
   };
 
