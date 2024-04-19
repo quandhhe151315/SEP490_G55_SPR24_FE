@@ -123,8 +123,8 @@ function ListRecipeDashBoard() {
         <div>
             <Box sx={{ display: 'flex' }}>
                 <DashboardMenu dashboardTitle={"Quản lý công thức"} />
-                <Grid sx={{ marginLeft: '30px', marginTop: '80px' }}>
-                    <Paper elevation={2} sx={{ borderRadius: '15px', border: '1px solid #bfb8b8', width: '1200px', height: '650px', backgroundColor: '#FFFFFF' }}>
+                <Grid sx={{ marginLeft: '10px', marginTop: '80px' }}>
+                    <Paper elevation={2} sx={{ borderRadius: '15px', border: '1px solid #bfb8b8', width: '1210px', height: '650px', backgroundColor: '#FFFFFF' }}>
                         <Typography sx={{ fontSize: '24px', fontWeight: '', marginLeft: '10%', marginTop: '30px', color: '#4A5568' }}>
                             Danh sách Recipe
                         </Typography>
@@ -135,13 +135,13 @@ function ListRecipeDashBoard() {
                                 <TableHead>
                                     <TableRow>
                                         <StyledTableCell align="left" style={{ width: '5%' }}>ID</StyledTableCell>
-                                        <StyledTableCell align="left" style={{ width: '20%', paddingLeft: '25px' }}>Tên công thức</StyledTableCell>
-                                        <StyledTableCell align="left" style={{ width: '20%', paddingLeft: '30px' }}>Tên người đăng</StyledTableCell>
-                                        <StyledTableCell align="left" style={{ width: '10%', paddingLeft: '5px' }}>Đánh giá</StyledTableCell>
-                                        <StyledTableCell align="left" style={{ width: '10%', paddingLeft: '25px' }}>Trạng thái</StyledTableCell>
+                                        <StyledTableCell align="left" style={{ width: '25%', paddingLeft: '25px' }}>Tên công thức</StyledTableCell>
+                                        <StyledTableCell align="left" style={{ width: '20%', paddingLeft: '15px' }}>Tên người đăng</StyledTableCell>
+                                        <StyledTableCell align="left" style={{ width: '10%', paddingLeft: '0px' }}>Đánh giá</StyledTableCell>
+                                        <StyledTableCell align="left" style={{ width: '10%', paddingLeft: '20px' }}>Trạng thái</StyledTableCell>
                                         <StyledTableCell align="left" style={{ width: '10%', paddingLeft: '28px' }}>Giá</StyledTableCell>
-                                        <StyledTableCell align="left" style={{ width: '10%', paddingLeft: '5px' }}>Ngày đăng</StyledTableCell>
-                                        <StyledTableCell align="left" style={{ width: '10%', paddingLeft: '60px' }}>Hoạt động</StyledTableCell>
+                                        <StyledTableCell align="left" style={{ width: '10%', paddingLeft: '15px' }}>Ngày đăng</StyledTableCell>
+                                        <StyledTableCell align="left" style={{ width: '5%', paddingLeft: '45px' }}>Hoạt động</StyledTableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>

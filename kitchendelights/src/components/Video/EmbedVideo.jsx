@@ -6,7 +6,7 @@ import ReactPlayer from 'react-player/youtube';
 
 const EmbedVideo = (props) => {
   return (
-    <ReactPlayer url={props.url} />
+    <ReactPlayer width={820} height={450} url={props.url} controls={true}/>
   );
 }
 

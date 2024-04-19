@@ -22,7 +22,7 @@ const Login = () => {
   }
 
   const goToDashboard = () => {
-    navigate('/DashBoardMenu');
+    navigate('/KitchenDelights');
   }
 
   const goToRegisterPage = () => {
