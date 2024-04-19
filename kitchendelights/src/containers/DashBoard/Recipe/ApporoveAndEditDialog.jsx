@@ -154,8 +154,8 @@ function ApporoveDialog({ open, handleClose, recipeId }) {
                                     image={recipe.featuredImage}
                                     alt={recipe.recipeTitle}
                                 />
-                                <Box sx={{ height: 340, width: 560, marginLeft: '20%', marginTop: '10px' }}>
-                                    <EmbedVideo url={recipe.videoLink} />
+                                <Box sx={{ height: 500, width: 850, marginLeft: '10%', marginTop: '10px' }}>
+                                    <EmbedVideo url={recipe.videoLink + "?controls=1"} />
 
                                 </Box>
 
