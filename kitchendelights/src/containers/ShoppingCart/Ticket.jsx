@@ -13,6 +13,7 @@ import {
   createVoucher,
 } from "../../services/ApiServices";
 import { voucherCode } from "../../store";
+import { toast } from "react-toastify";
 export default function Ticket() {
   const [data, setdata] = useState([]);
   const cart = data;
@@ -34,7 +35,7 @@ export default function Ticket() {
   };
   const id = getUserIdFromCookie();
   const userId = getUserIdFromCookie();
-  const type = "recipe";
+  const type = "purchase";
   useEffect(() => {
     getListCarts(id);
   }, [id]);
@@ -95,6 +96,7 @@ export default function Ticket() {
   useEffect(() => {
     if (check) {
       createVouchers();
+      toast.success("Chúc mừng bạn đã nhận được voucher giảm giá!");
     }
   }, [check]);
   const createVouchers = async () => {
