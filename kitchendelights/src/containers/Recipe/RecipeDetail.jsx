@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import Appbar from "../../components/Homepage/Appbar";
 import Typography from "@mui/material/Typography";
-import { Box, Button, InputAdornment, Tooltip } from "@mui/material";
+import { Box, Button } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import { useNavigate, useParams } from "react-router-dom";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
@@ -13,13 +14,23 @@ import ShareIcon from "@mui/icons-material/Share";
 import CardMedia from "@mui/material/CardMedia";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import AddRecipeToMenuDialog from "../Menu/AddRecipeToMenu";
 import { toast } from "react-toastify";
-import { Grid } from "@mui/material";
+import { Grid, Paper } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { RichTextReadOnly } from "mui-tiptap";
+import { InputNumber } from "antd";
 import useExtensions from "../../components/Richtext/useExtension.ts";
+import { Unstable_NumberInput as NumberInput } from "@mui/base/Unstable_NumberInput";
+import {
+  createRecipe,
+  listAllIngredient,
+  listAllCountry,
+} from "../../services/ApiServices.jsx";
 import {
   getRecipeById,
   getMenuByUserIdAndCheckExistRecipe,
@@ -27,19 +38,33 @@ import {
 import moment from "moment";
 import CreateNewMenuDialog from "../Menu/CreateNewMenu";
 import GetInformationJWT from "../../components/JWT/GetInformationJWT";
+import { getMenus } from "../../services/ApiServices";
 import { addRecipeToBookMark } from "../../services/ApiServices";
 import CommentSection from "../../containers/BoxComment/CommentSection";
+import Cookies from "js-cookie";
+import Footer from "../../components/Footer/Footer.jsx";
+import RandomRecipes from "./RandomRecipe";
 import EmbedVideo from "../../components/Video/EmbedVideo.jsx";
-import GradeOutlinedIcon from '@mui/icons-material/GradeOutlined';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import GradeOutlinedIcon from "@mui/icons-material/GradeOutlined";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 function RecipeDetail() {
   const navigate = useNavigate();
   const [data, setdata] = useState();
   const [data1, setdata1] = useState([]);
-  const [peopleCount, setPeopleCount] = useState(1);
   const { recipeId } = useParams();
-
   const commentRef = useRef(null);
+  const [person, setPerson] = useState(1);
+
+  const handleChange = (value) => {
+    setPerson(value);
+    const dataNew = data1.map((x) => ({
+      ...x,
+      ingredientName: x.ingredientName,
+      unitValue: x.unitPersonValue * value,
+    }));
+    setdata1(dataNew);
+  };
+
   const getUserIdFromCookie = () => {
     const cookies = document.cookie.split("; ");
     for (const cookie of cookies) {
@@ -50,7 +75,6 @@ function RecipeDetail() {
     }
     return null;
   };
-
   const uId = getUserIdFromCookie();
 
   const rId = recipeId;
@@ -150,11 +174,9 @@ function RecipeDetail() {
       const response = await getRecipeById(recipeId);
       if (response.status === 200) {
         setdata(response.data);
-        setPeopleCount(response.data.recipeServe);
         console.log("rating", response.data.recipeRating);
         setdata1(response.data.recipeIngredients);
-        console.log("nguyenlieu", response.data.recipeIngredients);
-        console.log("data", response);
+        setPerson(response.data.recipeServe);
       } else {
         console.error("Can not Load news! ");
       }
@@ -167,13 +189,11 @@ function RecipeDetail() {
     commentRef.current.scrollIntoView({ behavior: "smooth" });
   };
 
-
-
   const handlePeopleCountChange = (event) => {
     let value = event.target.value;
-    if(value > 20){
+    if (value > 20) {
       value = 20;
-    }else if(value < 1){
+    } else if (value < 1) {
       value = 1;
     }
     setPeopleCount(value);
@@ -334,6 +354,9 @@ function RecipeDetail() {
               <div className="video-container ">
                 {data && data?.videoLink ? (
                   <>
+                    <Box width="100%" height="400">
+                      <EmbedVideo>{data?.videoLink}</EmbedVideo>
+                    </Box>
                     {/* <iframe
                       width="100%"
                       height="400"
@@ -341,11 +364,6 @@ function RecipeDetail() {
                       title="YouTube video player"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     ></iframe> */}
-                    <Box
-                      width="850"
-                      height="400">
-                      <EmbedVideo url={data?.videoLink} />
-                    </Box>
                   </>
                 ) : (
                   <CardMedia
@@ -362,37 +380,32 @@ function RecipeDetail() {
           <CardContent>
             <Grid container spacing={2}>
               <Grid item xs={6}>
-                <Typography variant="body1" fontWeight={"bold"}>
+                <Typography variant="body1" fontWeight="bold">
                   Thời gian chuẩn bị:
                 </Typography>
               </Grid>
               <Grid item xs={6}>
-                <span style={{ display: 'flex', alignItems: 'center' }}>
-                  <Typography variant="body1" style={{ marginRight: '42px' }}>
-                    {data?.preparationTime}
-                  </Typography>
-                  <Typography>phút</Typography>
-                </span>
+                <Typography variant="body1">
+                  {data?.preparationTime} phút
+                </Typography>
               </Grid>
               <Grid item xs={6}>
-                <Typography variant="body1" fontWeight={"bold"}>
+                <Typography variant="body1" fontWeight="bold">
                   Thời gian nấu:
                 </Typography>
               </Grid>
               <Grid item xs={6}>
-                <span style={{ display: 'flex', alignItems: 'center' }}>
-                  <Typography variant="body1" style={{ marginRight: '42px' }}>{data?.cookTime}</Typography>
-                  <Typography variant="body1"> phút</Typography>
-                </span>
+                <Typography variant="body1">{data?.cookTime} phút</Typography>
               </Grid>
-              <Grid item xs={6}>
-                <Typography variant="body1" fontWeight={"bold"}>
+              <Grid item xs={4}>
+                <Typography variant="body1" fontWeight="bold">
                   Số người phục vụ:
                 </Typography>
               </Grid>
+              <Grid item xs={2}>
+                <InputNumber min={1} value={person} onChange={handleChange} />
+              </Grid>
               <Grid item xs={6}>
-
-
                 {/* <NumericInput
                   min={1}
                   max={20}
@@ -401,7 +414,6 @@ function RecipeDetail() {
                   style={{ input:{width:'60px'} }}
                 /> */}
 
-
                 <TextField
                   type="number"
                   value={peopleCount}
@@ -409,17 +421,27 @@ function RecipeDetail() {
                   inputProps={{ min: 1, max: 20 }}
                   variant="standard"
                   InputProps={{
-                    endAdornment: (<InputAdornment position="end">
-                      <Typography style={{ color: 'black' }}>người</Typography>
-                    </InputAdornment>
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Typography style={{ color: "black" }}>
+                          người
+                        </Typography>
+                      </InputAdornment>
                     ),
                     disableUnderline: true,
                   }}
                 />
                 <Tooltip title="Bạn có thể tùy chỉnh số người để xem được lượng nguyên liệu cần dùng">
-                  <InfoOutlinedIcon sx={{height:'16px', width:'16px', marginLeft:'30px', marginTop:'8px'}}/>
+                  <InfoOutlinedIcon
+                    sx={{
+                      height: "16px",
+                      width: "16px",
+                      marginLeft: "30px",
+                      marginTop: "8px",
+                    }}
+                  />
                 </Tooltip>
-                
+
                 {/* <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <Typography>{peopleCount}</Typography>
                   <IconButton size="small" onClick={() => setPeopleCount(prevCount => Math.max(prevCount - 1, 1))}>
@@ -432,7 +454,6 @@ function RecipeDetail() {
 
                   <Typography>người</Typography>
                 </Box> */}
-
               </Grid>
             </Grid>
 
@@ -446,33 +467,58 @@ function RecipeDetail() {
             >
               Nguyên liệu
             </Typography>
+            {/* {data1.map((item) => {
+              return (
+                <div key={item.ingredientId}>
+                  <p>Ingredient ID: {item.ingredientId}</p>
+                  <p>Ingredient Name: {item.ingredientName}</p>
+                  <p>Unit Value: {item.unitValue}</p>
+                  <p>Ingredient Unit: {item.ingredientUnit}</p>
+                </div>
+              );
+            })} */}
 
             {data1.map((item) => {
-              const adjustedUnitValue = Math.round(item.unitValue * peopleCount / data?.recipeServe);
-              const roundedValue = adjustedUnitValue > 200 ? Math.round(adjustedUnitValue / 10) * 10 : Math.round(adjustedUnitValue);
               return (
                 <Grid
                   container
                   spacing={{ xs: 2, md: 3 }}
                   columns={{ xs: 4, sm: 8, md: 12 }}
                 >
-                  <Grid item xs={2}>
+                  <Grid item xs={4}>
                     <Typography variant="body1" fontWeight={"bold"}>
-                      {item.ingredientName} :
+                      {item.ingredientName}:
                     </Typography>
                   </Grid>
                   <Grid item xs={0}>
-                    <Typography variant="body1">{roundedValue}</Typography>
+                    <Typography width={60} variant="body1">
+                      {item.unitValue}
+                    </Typography>
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={2}>
                     <Typography variant="body1">
                       {item.ingredientUnit}
                     </Typography>
                   </Grid>
+                  <Grid item xs={4}>
+                    <a
+                      href={item.ingredientMarketplaces.marketplaceLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <img
+                        src={item.ingredientMarketplaces.marketplaceLogo}
+                        alt="Logo"
+                        style={{ width: 40, height: 40 }}
+                      />
+                    </a>
+                  </Grid>
                 </Grid>
               );
             })}
-
+            <Typography sx={{ fontSize: 25, fontWeight: "bold", marginTop: 5 }}>
+              Cách làm
+            </Typography>
             <CardContent>
               <RichTextReadOnly
                 content={data?.recipeContent}
