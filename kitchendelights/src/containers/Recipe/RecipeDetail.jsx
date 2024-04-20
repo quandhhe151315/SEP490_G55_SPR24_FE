@@ -448,8 +448,9 @@ function RecipeDetail() {
             </Typography>
 
             {data1.map((item) => {
-              const adjustedUnitValue = Math.round(item.unitValue * peopleCount / data?.recipeServe);
-              const roundedValue = adjustedUnitValue > 200 ? Math.round(adjustedUnitValue / 10) * 10 : Math.round(adjustedUnitValue);
+              const adjustedUnitValue = Math.ceil(item.unitValue * peopleCount / data?.recipeServe);
+              let roundedValue = adjustedUnitValue > 200 ? Math.ceil(adjustedUnitValue / 10) * 10 : Math.round(adjustedUnitValue);
+              
               return (
                 <Grid
                   container
