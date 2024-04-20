@@ -449,7 +449,7 @@ function RecipeDetail() {
 
             {data1.map((item) => {
               const adjustedUnitValue = Math.ceil(item.unitValue * peopleCount / data?.recipeServe);
-              let roundedValue = adjustedUnitValue > 200 ? Math.ceil(adjustedUnitValue / 10) * 10 : Math.round(adjustedUnitValue);
+              const roundedValue = adjustedUnitValue > 200 ? Math.ceil(adjustedUnitValue / 10) * 10 : Math.round(adjustedUnitValue);
               
               return (
                 <Grid
