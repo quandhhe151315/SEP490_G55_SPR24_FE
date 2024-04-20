@@ -196,7 +196,7 @@ const deleteRecipe = (id) => {
   return axios.delete(`/Recipe/DeleteRecipe?recipeId=${id}`);
 };
 const getAllCategory = () => {
-  return axios.get("/Category/GetAllCategoy");
+  return axios.get("/Category/GetAllCategoy?categoryType=1");
 };
 
 const deleteCategory = (id) => {
