@@ -50,8 +50,20 @@ function RecipeDetail() {
   const [data, setdata] = useState();
   const [data1, setdata1] = useState([]);
   const { recipeId } = useParams();
-
   const commentRef = useRef(null);
+  const [person, setPerson] = useState(1);
+  const [logo, setLogo] = useState([]);
+
+  const handleChange = (value) => {
+    setPerson(value);
+    const dataNew = data1.map((x) => ({
+      ...x,
+      ingredientName: x.ingredientName,
+      unitValue: x.unitPersonValue * value,
+    }));
+    setdata1(dataNew);
+  };
+
   const getUserIdFromCookie = () => {
     const cookies = document.cookie.split("; ");
     for (const cookie of cookies) {
@@ -62,7 +74,6 @@ function RecipeDetail() {
     }
     return null;
   };
-
   const uId = getUserIdFromCookie();
 
   const rId = recipeId;
@@ -164,8 +175,8 @@ function RecipeDetail() {
         setdata(response.data);
         console.log("rating", response.data.recipeRating);
         setdata1(response.data.recipeIngredients);
-        console.log("nguyenlieu", response.data.recipeIngredients);
-        console.log("data", response);
+        setPerson(response.data.recipeServe);
+        setLogo(response.data.recipeIngredients.ingredientMarketplaces);
       } else {
         console.error("Can not Load news! ");
       }
@@ -333,13 +344,16 @@ function RecipeDetail() {
               <div className="video-container ">
                 {data && data?.videoLink ? (
                   <>
-                    <iframe
+                    <Box width="100%" height="400">
+                      <EmbedVideo>{data?.videoLink}</EmbedVideo>
+                    </Box>
+                    {/* <iframe
                       width="100%"
                       height="400"
                       src={data?.videoLink.replace("/watch?v=", "/embed/")}
                       title="YouTube video player"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    ></iframe>
+                    ></iframe> */}
                   </>
                 ) : (
                   <CardMedia
@@ -356,7 +370,7 @@ function RecipeDetail() {
           <CardContent>
             <Grid container spacing={2}>
               <Grid item xs={6}>
-                <Typography variant="body1" fontWeight={"bold"}>
+                <Typography variant="body1" fontWeight="bold">
                   Thời gian chuẩn bị:
                 </Typography>
               </Grid>
@@ -366,27 +380,23 @@ function RecipeDetail() {
                 </Typography>
               </Grid>
               <Grid item xs={6}>
-                <Typography variant="body1" fontWeight={"bold"}>
+                <Typography variant="body1" fontWeight="bold">
                   Thời gian nấu:
                 </Typography>
               </Grid>
               <Grid item xs={6}>
                 <Typography variant="body1">{data?.cookTime} phút</Typography>
               </Grid>
-              <Grid item xs={6}>
-                <Typography variant="body1" fontWeight={"bold"}>
+              <Grid item xs={4}>
+                <Typography variant="body1" fontWeight="bold">
                   Số người phục vụ:
                 </Typography>
               </Grid>
+              <Grid item xs={2}>
+                <InputNumber min={1} value={person} onChange={handleChange} />
+              </Grid>
               <Grid item xs={6}>
-                {/* <InputNumber
-                  min={1}
-                  defaultValue={data?.recipeServe}
-                  // value={data?.recipeServe}
-                /> */}
-                <Typography variant="body1">
-                  {data?.recipeServe} người
-                </Typography>
+                <Typography variant="body1">người</Typography>
               </Grid>
             </Grid>
 
@@ -418,18 +428,33 @@ function RecipeDetail() {
                   spacing={{ xs: 2, md: 3 }}
                   columns={{ xs: 4, sm: 8, md: 12 }}
                 >
-                  <Grid item xs={2}>
+                  <Grid item xs={4}>
                     <Typography variant="body1" fontWeight={"bold"}>
-                      {item.ingredientName} :
+                      {item.ingredientName}:
                     </Typography>
                   </Grid>
                   <Grid item xs={0}>
-                    <Typography variant="body1">{item.unitValue}</Typography>
+                    <Typography width={60} variant="body1">
+                      {item.unitValue}
+                    </Typography>
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={2}>
                     <Typography variant="body1">
                       {item.ingredientUnit}
                     </Typography>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <a
+                      href={logo?.marketplaceLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <img
+                        src={logo?.marketplaceLogo}
+                        alt="Logo"
+                        style={{ width: 40, height: 40 }}
+                      />
+                    </a>
                   </Grid>
                 </Grid>
               );

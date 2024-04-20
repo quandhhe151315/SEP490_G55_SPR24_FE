@@ -343,7 +343,6 @@ const CommentSection = ({ recipeId }) => {
     } catch (error) {}
   };
   useEffect(() => {
-    debugger;
     if (recipeId) {
       getListComment();
     }
