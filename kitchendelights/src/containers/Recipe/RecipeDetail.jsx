@@ -170,7 +170,13 @@ function RecipeDetail() {
 
 
   const handlePeopleCountChange = (event) => {
-    setPeopleCount(event.target.value);
+    let value = event.target.value;
+    if(value > 20){
+      value = 20;
+    }else if(value < 1){
+      value = 1;
+    }
+    setPeopleCount(value);
   };
 
   const extensions = useExtensions({
