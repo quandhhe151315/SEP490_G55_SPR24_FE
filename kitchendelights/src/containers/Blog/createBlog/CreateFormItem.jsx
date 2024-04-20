@@ -21,14 +21,16 @@ import { createBlog } from "../../../services/ApiServices.jsx";
 import { useGetAllCategory } from "../../../hook/useGetAllCategory.js";
 import { uploadImage } from "../../../services/BlogServices.jsx";
 import { useGetCategoryByParentId } from "../../../hook/useGetCategoryByParentId.js";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateFormItem() {
+  const navigate = useNavigate();
   const [files, setFiles] = useState();
   const { categoryByParentId } = useGetCategoryByParentId({
     categoryType: false,
   });
   const { categoryByParentId: categoriesList } = useGetCategoryByParentId({
-    categoryType: true,
+    categoryType: false,
     parentId: categoryByParentId?.[0]?.categoryId,
   });
   const [statusPostBlog, setStatusPostBlog] = useState();
@@ -157,7 +159,7 @@ export default function CreateFormItem() {
               justifyContent: "center",
               alignItems: "center",
               marginTop: 4,
-              position: "relative",// Đặt position: relative; cho container của nút
+              position: "relative", // Đặt position: relative; cho container của nút
             }}
           >
             <label
@@ -165,8 +167,8 @@ export default function CreateFormItem() {
               style={{
                 display: "inline-block",
                 marginBottom: "10px",
-                position: "absolute", 
-                left: 0, 
+                position: "absolute",
+                left: 0,
               }}
             >
               <Button
@@ -210,7 +212,8 @@ export default function CreateFormItem() {
                 backgroundColor: "#ff5e00",
                 "&:hover": {
                   backgroundColor: "#FFCF96",
-                },mt:10
+                },
+                mt: 10,
               }}
             >
               <CreateIcon sx={{ marginRight: "6px", fontSize: "16px" }} />

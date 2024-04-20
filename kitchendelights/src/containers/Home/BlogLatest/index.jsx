@@ -46,7 +46,6 @@ export default function BlogLatest() {
             </Grid>
           ))}
         </Grid>
-        <AdBanner/>
         {/* <Grid item xs={4}>
         {showAd && (
           <div style={{ position: "relative" }}>

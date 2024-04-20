@@ -7,7 +7,7 @@ export default function CategoriesList({ categorySelect, setCategorySelect }) {
     categoryType: false,
   });
   const { categoryByParentId: categoriesItem } = useGetCategoryByParentId({
-    categoryType: true,
+    categoryType: false,
     parentId: categoryByParentId?.[0]?.categoryId,
   });
   return (

@@ -58,7 +58,7 @@ export default function EditFormModal({
     categoryType: false,
   });
   const { categoryByParentId: categoriesList } = useGetCategoryByParentId({
-    categoryType: true,
+    categoryType: false,
     parentId: categoryByParentId?.[0]?.categoryId,
   });
   const [files, setFiles] = useState();
