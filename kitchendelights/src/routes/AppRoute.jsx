@@ -71,11 +71,9 @@ function AppRoute() {
     {
       path: "/CreateNews",
       element: <CreateNews />,
+      
       loader: async () => {
-        if (Cookies.get("userIdExist") !== true) {
-          return redirect("/403");
-        }
-        else if(Cookies.get("role") !== "Writer"){
+        if(Cookies.get("userIdExist") == true || Cookies.get("role") !== "Writer"){
           return redirect("/403");
         }
         return null;
@@ -93,10 +91,7 @@ function AppRoute() {
       path: "/DetailMarketplace/:id",
       element: <DetailMarketplace />,
       loader: async () => {
-        if (Cookies.get("userIdExist") !== true) {
-          return redirect("/403");
-        }
-        else if(Cookies.get("role") !== "Administrator" || Cookies.get("role") !== "Moderator"){
+        if(Cookies.get("userIdExist") == true || Cookies.get("role") !== "Administrator" && Cookies.get("role") !== "Moderator"){
           return redirect("/403");
         }
         return null;
@@ -111,7 +106,7 @@ function AppRoute() {
       path: "/MyProfile",
       element: <MyProfile />,
       loader: async () => {
-          if (Cookies.get("userIdExist") !== true) {
+          if (Cookies.get("userIdExist") == true) {
             return redirect("/403");
           }
           return null;
@@ -121,7 +116,7 @@ function AppRoute() {
       path: "/ChangeMyProfile",
       element: <ChangeMyProfile />,
       loader: async () => {
-        if (Cookies.get("userIdExist") !== true) {
+        if (Cookies.get("userIdExist") == true) {
           return redirect("/403");
         }
         return null;
@@ -131,7 +126,7 @@ function AppRoute() {
       path: "/ChangePassword",
       element: <ChangePassword />,
       loader: async () => {
-        if (Cookies.get("userIdExist") !== true) {
+        if(Cookies.get("userIdExist") == true ){
           return redirect("/403");
         }
         return null;
@@ -205,10 +200,7 @@ function AppRoute() {
       path: "/CreateAccount",
       element: <CreateAccount />,
       loader: async () => {
-        if (Cookies.get("userIdExist") !== true) {
-          return redirect("/403");
-        }
-        else if(Cookies.get("role") !== "Administrator"){
+        if(Cookies.get("userIdExist") == true || Cookies.get("role") !== "Administrator" && Cookies.get("role") !== "Moderator"){
           return redirect("/403");
         }
         return null;
@@ -222,10 +214,7 @@ function AppRoute() {
       path: "/ListAccount",
       element: <ListAccount />,
       loader: async () => {
-        if (Cookies.get("userIdExist") !== true) {
-          return redirect("/403");
-        }
-        else if(Cookies.get("role") !== "Administrator" || Cookies.get("role") !== "Moderator"){
+        if(Cookies.get("userIdExist") == true || Cookies.get("role") !== "Administrator" && Cookies.get("role") !== "Moderator"){
           return redirect("/403");
         }
         return null;
@@ -249,10 +238,7 @@ function AppRoute() {
       path: "/Dashboard",
       element: <DashboardMenu />,
       loader: async () => {
-        if (Cookies.get("userIdExist") !== true) {
-          return redirect("/403");
-        }
-        else if(Cookies.get("role") !== "Administrator" || Cookies.get("role") !== "Moderator"){
+        if(Cookies.get("userIdExist") == true || Cookies.get("role") !== "Administrator" && Cookies.get("role") !== "Moderator"){
           return redirect("/403");
         }
         return null;
@@ -291,10 +277,7 @@ function AppRoute() {
       path: "/ListNews",
       element: <ListNews />,
       loader: async () => {
-        if (Cookies.get("userIdExist") !== true) {
-          return redirect("/403");
-        }
-        else if(Cookies.get("role") !== "Administrator" || Cookies.get("role") !== "Moderator"){
+        if(Cookies.get("userIdExist") == true || Cookies.get("role") !== "Administrator" && Cookies.get("role") !== "Moderator"){
           return redirect("/403");
         }
         return null;
@@ -321,10 +304,7 @@ function AppRoute() {
       path: "/DashBoardMenu",
       element: <DashBoard />,
       loader: async () => {
-        if (Cookies.get("userIdExist") !== true) {
-          return redirect("/403");
-        }
-        else if(Cookies.get("role") !== "Administrator" || Cookies.get("role") !== "Moderator"){
+        if(Cookies.get("userIdExist") == true || Cookies.get("role") !== "Administrator" && Cookies.get("role") !== "Moderator"){
           return redirect("/403");
         }
         return null;
@@ -334,10 +314,7 @@ function AppRoute() {
       path: "/ChangeRole/:userId",
       element: <ChangeRole />,
       loader: async () => {
-        if (Cookies.get("userIdExist") !== true) {
-          return redirect("/403");
-        }
-        else if(Cookies.get("role") !== "Administrator" || Cookies.get("role") !== "Moderator"){
+        if(Cookies.get("userIdExist") == true || Cookies.get("role") !== "Administrator" && Cookies.get("role") !== "Moderator"){
           return redirect("/403");
         }
         return null;
@@ -372,25 +349,21 @@ function AppRoute() {
       path: "/CreateRecipe",
       element: <CreateRecipe />,
       loader: async () => {
-        if (Cookies.get("userIdExist") !== true) {
-          return redirect("/403");
-        }
-        else if(Cookies.get("role") !== "Chef"){
+        if(Cookies.get("userIdExist") == true || Cookies.get("role") !== "Chef"){
           return redirect("/403");
         }
         return null;
       }
+      
     },
     { path: "/Login", element: <Login /> },
     { path: "/Register", element: <Register /> },
 
     { path: "/BecomeChef", 
       element: <BecomeChef />,
+      
       loader: async () => {
-        if (Cookies.get("userIdExist") !== true) {
-          return redirect("/403");
-        }
-        else if(Cookies.get("role") !== "users"){
+        if(Cookies.get("userIdExist") == true || Cookies.get("role") !== "users" ){
           return redirect("/403");
         }
         return null;
@@ -402,10 +375,7 @@ function AppRoute() {
       path: "/Marketplace",
       element: <MarketplaceManagement />,
       loader: async () => {
-        if (Cookies.get("userIdExist") !== true) {
-          return redirect("/403");
-        }
-        else if(Cookies.get("role") !== "Administrator"){
+        if(Cookies.get("userIdExist") == true || Cookies.get("role") !== "Administrator" && Cookies.get("role") !== "Moderator"){
           return redirect("/403");
         }
         return null;
@@ -415,10 +385,7 @@ function AppRoute() {
       path: "/ChefVerificationManagement",
       element: <ChefManagement />,
       loader: async () => {
-        if (Cookies.get("userIdExist") !== true) {
-          return redirect("/403");
-        }
-        else if(Cookies.get("role") !== "Administrator" || Cookies.get("role") !== "Moderator"){
+        if(Cookies.get("userIdExist") == true || Cookies.get("role") !== "Administrator" && Cookies.get("role") !== "Moderator"){
           return redirect("/403");
         }
         return null;
