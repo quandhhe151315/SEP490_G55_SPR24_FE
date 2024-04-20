@@ -152,6 +152,7 @@ export default function PrimarySearchAppBar() {
     Cookies.remove("userId");
     Cookies.remove("role");
     Cookies.remove("userFullname");
+    Cookies.remove("userIdExist");
     setUserIdExist(false);
     setRole("");
     navigate("/Login");

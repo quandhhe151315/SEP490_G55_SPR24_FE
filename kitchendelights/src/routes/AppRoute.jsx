@@ -62,7 +62,7 @@ function AppRoute() {
   const userId = Cookies.get("userId");
   const { profile } = useGetProfile(userId);
   const roleId = profile?.role?.roleId;
-  console.log(roleId);
+
   const router = createBrowserRouter([
     {
       path: "/KitchenDelights",
@@ -71,6 +71,15 @@ function AppRoute() {
     {
       path: "/CreateNews",
       element: <CreateNews />,
+      loader: async () => {
+        if (Cookies.get("userIdExist") !== true) {
+          return redirect("/403");
+        }
+        else if(Cookies.get("role") !== "Writer"){
+          return redirect("/403");
+        }
+        return null;
+      }
     },
     {
       path: "/ViewListNews",
@@ -83,6 +92,15 @@ function AppRoute() {
     {
       path: "/DetailMarketplace/:id",
       element: <DetailMarketplace />,
+      loader: async () => {
+        if (Cookies.get("userIdExist") !== true) {
+          return redirect("/403");
+        }
+        else if(Cookies.get("role") !== "Administrator" || Cookies.get("role") !== "Moderator"){
+          return redirect("/403");
+        }
+        return null;
+      }
     },
     {
       path: "/ViewListRecipes",
@@ -92,14 +110,32 @@ function AppRoute() {
     {
       path: "/MyProfile",
       element: <MyProfile />,
+      loader: async () => {
+          if (Cookies.get("userIdExist") !== true) {
+            return redirect("/403");
+          }
+          return null;
+        }
     },
     {
       path: "/ChangeMyProfile",
       element: <ChangeMyProfile />,
+      loader: async () => {
+        if (Cookies.get("userIdExist") !== true) {
+          return redirect("/403");
+        }
+        return null;
+      }
     },
     {
       path: "/ChangePassword",
       element: <ChangePassword />,
+      loader: async () => {
+        if (Cookies.get("userIdExist") !== true) {
+          return redirect("/403");
+        }
+        return null;
+      }
     },
     {
       path: "/blog",
@@ -168,6 +204,15 @@ function AppRoute() {
     {
       path: "/CreateAccount",
       element: <CreateAccount />,
+      loader: async () => {
+        if (Cookies.get("userIdExist") !== true) {
+          return redirect("/403");
+        }
+        else if(Cookies.get("role") !== "Administrator"){
+          return redirect("/403");
+        }
+        return null;
+      }
     },
     {
       path: "/BookMark/",
@@ -177,14 +222,14 @@ function AppRoute() {
       path: "/ListAccount",
       element: <ListAccount />,
       loader: async () => {
-        if (!!roleId) {
-          if (roleId !== 1 && roleId !== 2) {
-            return redirect("/403");
-          }
-          return null;
+        if (Cookies.get("userIdExist") !== true) {
+          return redirect("/403");
+        }
+        else if(Cookies.get("role") !== "Administrator" || Cookies.get("role") !== "Moderator"){
+          return redirect("/403");
         }
         return null;
-      },
+      }
     },
     {
       path: "/ViewListCategory",
@@ -203,6 +248,15 @@ function AppRoute() {
     {
       path: "/Dashboard",
       element: <DashboardMenu />,
+      loader: async () => {
+        if (Cookies.get("userIdExist") !== true) {
+          return redirect("/403");
+        }
+        else if(Cookies.get("role") !== "Administrator" || Cookies.get("role") !== "Moderator"){
+          return redirect("/403");
+        }
+        return null;
+      }
     },
     {
       path: "/Menu",
@@ -237,14 +291,14 @@ function AppRoute() {
       path: "/ListNews",
       element: <ListNews />,
       loader: async () => {
-        if (!!roleId) {
-          if (roleId !== 1 && roleId !== 2) {
-            return redirect("/403");
-          }
-          return null;
+        if (Cookies.get("userIdExist") !== true) {
+          return redirect("/403");
+        }
+        else if(Cookies.get("role") !== "Administrator" || Cookies.get("role") !== "Moderator"){
+          return redirect("/403");
         }
         return null;
-      },
+      }
     },
     {
       path: "/comment/test",
@@ -254,40 +308,40 @@ function AppRoute() {
       path: "/comment/list",
       element: <ListCommentDashboard />,
       loader: async () => {
-        if (!!roleId) {
-          if (roleId !== 1 && roleId !== 2) {
-            return redirect("/403");
-          }
-          return null;
+        if (Cookies.get("userIdExist") !== true) {
+          return redirect("/403");
+        }
+        else if(Cookies.get("role") !== "Administrator" || Cookies.get("role") !== "Moderator"){
+          return redirect("/403");
         }
         return null;
-      },
+      }
     },
     {
       path: "/DashBoardMenu",
       element: <DashBoard />,
       loader: async () => {
-        if (!!roleId) {
-          if (roleId !== 1 && roleId !== 2) {
-            return redirect("/403");
-          }
-          return null;
+        if (Cookies.get("userIdExist") !== true) {
+          return redirect("/403");
+        }
+        else if(Cookies.get("role") !== "Administrator" || Cookies.get("role") !== "Moderator"){
+          return redirect("/403");
         }
         return null;
-      },
+      }
     },
     {
       path: "/ChangeRole/:userId",
       element: <ChangeRole />,
       loader: async () => {
-        if (!!roleId) {
-          if (roleId !== 1 && roleId !== 2) {
-            return redirect("/403");
-          }
-          return null;
+        if (Cookies.get("userIdExist") !== true) {
+          return redirect("/403");
+        }
+        else if(Cookies.get("role") !== "Administrator" || Cookies.get("role") !== "Moderator"){
+          return redirect("/403");
         }
         return null;
-      },
+      }
     },
     {
       path: "/blog/management",
@@ -318,44 +372,57 @@ function AppRoute() {
       path: "/CreateRecipe",
       element: <CreateRecipe />,
       loader: async () => {
-        if (!!roleId) {
-          if (roleId !== 1 && roleId !== 2) {
-            return redirect("/403");
-          }
-          return null;
+        if (Cookies.get("userIdExist") !== true) {
+          return redirect("/403");
+        }
+        else if(Cookies.get("role") !== "Chef"){
+          return redirect("/403");
         }
         return null;
-      },
+      }
     },
     { path: "/Login", element: <Login /> },
     { path: "/Register", element: <Register /> },
-    { path: "/BecomeChef", element: <BecomeChef /> },
+
+    { path: "/BecomeChef", 
+      element: <BecomeChef />,
+      loader: async () => {
+        if (Cookies.get("userIdExist") !== true) {
+          return redirect("/403");
+        }
+        else if(Cookies.get("role") !== "users"){
+          return redirect("/403");
+        }
+        return null;
+      }
+    },
+
     { path: "/ForgotPassword", element: <ForgotPassword/> },
     {
       path: "/Marketplace",
       element: <MarketplaceManagement />,
       loader: async () => {
-        if (!!roleId) {
-          if (roleId !== 1 && roleId !== 2) {
-            return redirect("/403");
-          }
-          return null;
+        if (Cookies.get("userIdExist") !== true) {
+          return redirect("/403");
+        }
+        else if(Cookies.get("role") !== "Administrator"){
+          return redirect("/403");
         }
         return null;
-      },
+      }
     },
     {
       path: "/ChefVerificationManagement",
       element: <ChefManagement />,
       loader: async () => {
-        if (!!roleId) {
-          if (roleId !== 1 && roleId !== 2) {
-            return redirect("/403");
-          }
-          return null;
+        if (Cookies.get("userIdExist") !== true) {
+          return redirect("/403");
+        }
+        else if(Cookies.get("role") !== "Administrator" || Cookies.get("role") !== "Moderator"){
+          return redirect("/403");
         }
         return null;
-      },
+      }
     },
     { path: "/", element: <Navigate to="/KitchenDelights" /> },
     {
