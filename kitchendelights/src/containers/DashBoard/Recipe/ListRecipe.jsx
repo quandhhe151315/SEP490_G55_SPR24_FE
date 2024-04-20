@@ -154,16 +154,10 @@ function ListRecipeDashBoard() {
                 <DashboardMenu dashboardTitle={"Quản lý công thức"} />
                 <Grid sx={{ marginLeft: '10px', marginTop: '80px' }}>
                     <Paper elevation={2} sx={{ borderRadius: '15px', border: '1px solid #bfb8b8', width: '1210px', height: '700px', backgroundColor: '#FFFFFF' }}>
-                        <Typography sx={{ fontSize: '24px', fontWeight: '', marginLeft: '10%', marginTop: '15px', color: '#4A5568' }}>
+                        <Typography sx={{ fontSize: '24px', fontWeight: '', marginLeft: '5%', marginTop: '15px', color: '#4A5568' }}>
                             Danh sách Recipe
                         </Typography>
-                        {/* <DisplayStyledInputBase
-                            value={searchText}
-                            onChange={(e) => setSearchText(e.target.value)}
-                            placeholder="Tìm công thức bạn muốn"
-                            inputProps={{ "aria-label": "search" }}
-                            sx={{ color: "rgba(0, 0, 0, 0.54)" }}
-                        /> */}
+                        
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
                             <TextField
                                 sx={{

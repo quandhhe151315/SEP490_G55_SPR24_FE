@@ -18,6 +18,10 @@ import UpdateCategory from "./UpdateCategory";
 import DashboardMenu from "../../../components/Dashboard/Menu/DashboardMenu"
 import { getAllCategory, deleteCategory } from "../../../services/ApiServices";
 import { toast } from "react-toastify";
+import TextField from '@mui/material/TextField';
+import SearchIcon from '@mui/icons-material/Search';
+import Pagination from '@mui/material/Pagination';
+
 
 
 
@@ -29,6 +33,13 @@ function ListCategoryDashboard() {
 
   const [categories, setCategories] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState('');
+  const [searchText, setSearchText] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const categoriesPerPage = 6;
+
+  const indexOfLastCategory = currentPage * categoriesPerPage;
+  const indexOfFirstCategory = indexOfLastCategory - categoriesPerPage;
+  const currentCategories = categories.slice(indexOfFirstCategory, indexOfLastCategory);
 
   const handleOpen = () => {
     setOpen(true);
@@ -105,12 +116,52 @@ function ListCategoryDashboard() {
       <Box sx={{ display: 'flex' }}>
         <DashboardMenu dashboardTitle={"Quản lý Category"} />
         <Grid sx={{ marginTop: '80px', marginLeft: '80px' }}>
-          <Paper elevation={2} sx={{ borderRadius: '15px', border: '1px solid #bfb8b8', width: '1100px', height: '650px', backgroundColor: '#FFFFFF' }}>
-            <Typography sx={{ fontSize: '24px', fontWeight: '', marginLeft: '10%', marginTop: '30px', color: '#4A5568' }}>
+          <Paper elevation={2} sx={{ borderRadius: '15px', border: '1px solid #bfb8b8', width: '1100px', height: '700px', backgroundColor: '#FFFFFF' }}>
+            <Typography sx={{ fontSize: '24px', fontWeight: '', marginLeft: '5%', marginTop: '30px', color: '#4A5568' }}>
               Danh sách category
             </Typography>
-            <CategoryButton text='Tạo category mới' height='auto' width='auto' marginLeft='70%' marginTop='10px' onClick={goToCreateCategory}></CategoryButton>
-            <TableContainer sx={{ marginTop: '20px', maxHeight: '500px' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <TextField
+                sx={{
+                  marginLeft: '10%',
+                  marginTop: '5px',
+                  width: '50%',
+
+                  borderRadius: '15px',
+                  '& .MuiOutlinedInput-root': {
+                    '& fieldset': {
+                      borderRadius: '15px',
+                    },
+                  },
+                }}
+                size="small"
+                label="Tìm kiếm công thức"
+                value={searchText}
+                onChange={(event) => {
+                  setSearchText(event.target.value)
+                  if (event.target.value === '') {
+                    
+                  }
+                }}
+              />
+
+              <SearchIcon
+                sx={{
+                  bgcolor: "#553C9A",
+                  borderRadius: "15px",
+                  marginLeft: "16px",
+                  width: "48px",
+                  height: "48px",
+                  color: "white",
+                  marginTop: "5px",
+                }}
+                onClick={() => getAllCategory()}
+              />
+
+              <CategoryButton text='Tạo category mới' height='auto' width='auto' marginLeft='15%' marginTop='10px' onClick={goToCreateCategory}></CategoryButton>
+            </Box>
+
+            <TableContainer sx={{ marginTop: '20px', maxHeight: '600px' }}>
               <Table sx={{ minWidth: 1000 }} aria-label="customized table">
                 <TableHead>
                   <TableRow>
@@ -121,7 +172,7 @@ function ListCategoryDashboard() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {categories.map((category) => {
+                  {currentCategories.map((category) => {
                     const isParent = categories.some(otherCategory => otherCategory.parentId === category.categoryId);
                     return (
                       <StyledTableRow key={category.categoryId}>
@@ -142,6 +193,20 @@ function ListCategoryDashboard() {
                   })}
                 </TableBody>
               </Table>
+              <Box display="flex" justifyContent="center">
+                                <Pagination
+                                    count={Math.ceil(categories.length / categoriesPerPage)}
+                                    page={currentPage}
+                                    onChange={(event, value) => setCurrentPage(value)}
+                                    color="secondary"
+                                    sx={{
+                                        marginTop: 4,
+                                        "& .Mui-selected": {
+                                            backgroundColor: "#FF642F",
+                                        },
+                                        marginBottom: 4,
+                                    }} />
+                            </Box>
             </TableContainer>
           </Paper>
         </Grid>
