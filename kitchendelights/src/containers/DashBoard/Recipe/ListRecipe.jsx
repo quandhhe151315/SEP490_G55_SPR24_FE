@@ -28,6 +28,7 @@ import { TextField } from "@mui/material";
 import { searchRecipe } from "../../../services/RecipeServices";
 import { debounce } from "lodash";
 import SearchIcon from '@mui/icons-material/Search';
+import Pagination from '@mui/material/Pagination';
 
 function ListRecipeDashBoard() {
 
@@ -39,7 +40,13 @@ function ListRecipeDashBoard() {
     const [Recipes, setRecipes] = useState([]);
     const [selectedRecipeId, setSelectedRecipeId] = useState('');
     const [searchText, setSearchText] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const recipesPerPage = 6;
 
+    const filteredRecipes = Recipes.filter(recipe => recipe.recipeStatus !== 0);
+    const indexOfLastRecipe = currentPage * recipesPerPage;
+    const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
+    const currentRecipes = filteredRecipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
 
     const goToCreateNewRecipe = () => {
         navigate('/CreateRecipe')
@@ -146,7 +153,7 @@ function ListRecipeDashBoard() {
             <Box sx={{ display: 'flex' }}>
                 <DashboardMenu dashboardTitle={"Quản lý công thức"} />
                 <Grid sx={{ marginLeft: '10px', marginTop: '80px' }}>
-                    <Paper elevation={2} sx={{ borderRadius: '15px', border: '1px solid #bfb8b8', width: '1210px', height: '650px', backgroundColor: '#FFFFFF' }}>
+                    <Paper elevation={2} sx={{ borderRadius: '15px', border: '1px solid #bfb8b8', width: '1210px', height: '700px', backgroundColor: '#FFFFFF' }}>
                         <Typography sx={{ fontSize: '24px', fontWeight: '', marginLeft: '10%', marginTop: '15px', color: '#4A5568' }}>
                             Danh sách Recipe
                         </Typography>
@@ -157,47 +164,47 @@ function ListRecipeDashBoard() {
                             inputProps={{ "aria-label": "search" }}
                             sx={{ color: "rgba(0, 0, 0, 0.54)" }}
                         /> */}
-                        <Box sx={{ display: 'flex', alignItems:'center' }}>
-                                <TextField
-                                    sx={{
-                                        marginLeft: '10%',
-                                        marginTop: '5px',
-                                        width: '50%',
-                                        
-                                        borderRadius: '15px',
-                                        '& .MuiOutlinedInput-root': {
-                                            '& fieldset': {
-                                                borderRadius: '15px',
-                                            },
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <TextField
+                                sx={{
+                                    marginLeft: '10%',
+                                    marginTop: '5px',
+                                    width: '50%',
+
+                                    borderRadius: '15px',
+                                    '& .MuiOutlinedInput-root': {
+                                        '& fieldset': {
+                                            borderRadius: '15px',
                                         },
-                                    }}
-                                    size="small"
-                                    label="Tìm kiếm công thức"
-                                    value={searchText}
-                                    onChange={(event) => {
-                                        setSearchText(event.target.value)
-                                        if (event.target.value === '') {
-                                            getListRecipe('');
-                                        }
-                                    }}
-                                />
-                            
-                                <SearchIcon
-                                    sx={{
-                                        bgcolor: "#553C9A",
-                                        borderRadius: "15px",
-                                        marginLeft: "16px",
-                                        width: "48px",
-                                        height: "48px",
-                                        color: "white",
-                                        marginTop: "5px",
-                                    }}
-                                    onClick={() => getListRecipe(searchText)}
-                                />
-                            
-                                <CategoryButton text='Tạo Recipe mới' height='auto' width='auto' marginLeft='15%' onClick={goToCreateNewRecipe}></CategoryButton>
-                            </Box>
-                        <TableContainer sx={{ marginTop: '20px', maxHeight: '500px', overflow: 'auto', whiteSpace: 'nowrap' }}>
+                                    },
+                                }}
+                                size="small"
+                                label="Tìm kiếm công thức"
+                                value={searchText}
+                                onChange={(event) => {
+                                    setSearchText(event.target.value)
+                                    if (event.target.value === '') {
+                                        getListRecipe('');
+                                    }
+                                }}
+                            />
+
+                            <SearchIcon
+                                sx={{
+                                    bgcolor: "#553C9A",
+                                    borderRadius: "15px",
+                                    marginLeft: "16px",
+                                    width: "48px",
+                                    height: "48px",
+                                    color: "white",
+                                    marginTop: "5px",
+                                }}
+                                onClick={() => getListRecipe(searchText)}
+                            />
+
+                            <CategoryButton text='Tạo Recipe mới' height='auto' width='auto' marginLeft='15%' onClick={goToCreateNewRecipe}></CategoryButton>
+                        </Box>
+                        <TableContainer sx={{ marginTop: '20px', maxHeight: '600px', overflow: 'auto', whiteSpace: 'nowrap' }}>
                             <Table sx={{ minWidth: 1000 }} aria-label="customized table">
                                 <TableHead>
                                     <TableRow>
@@ -212,7 +219,7 @@ function ListRecipeDashBoard() {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {Recipes.filter(recipe => recipe.recipeStatus !== 0).map((recipe) => (
+                                    {currentRecipes.map((recipe) => (
 
                                         <StyledTableRow key={recipe.recipeid}>
 
@@ -246,6 +253,20 @@ function ListRecipeDashBoard() {
                                     ))}
                                 </TableBody>
                             </Table>
+                            <Box display="flex" justifyContent="center">
+                                <Pagination
+                                    count={Math.ceil(Recipes.length / recipesPerPage)}
+                                    page={currentPage}
+                                    onChange={(event, value) => setCurrentPage(value)}
+                                    color="secondary"
+                                    sx={{
+                                        marginTop: 4,
+                                        "& .Mui-selected": {
+                                            backgroundColor: "#FF642F",
+                                        },
+                                        marginBottom: 4,
+                                    }} />
+                            </Box>
                         </TableContainer>
                     </Paper>
                 </Grid>
