@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Grid,
   Typography,
@@ -11,18 +11,26 @@ import {
 import { useGetBlogList } from "../../../hook/useGetBlogList";
 import Cookies from "js-cookie";
 import BlogHomeItem from "../../Home/BlogLatest/BlogHomeItem";
-
+import EditIcon from "@mui/icons-material/Edit";
+import { Stack } from "@mui/system";
+import EditFormModal from "../../DashBoard/BlogManagent/EditFormModal";
 export default function BlogItemUser() {
   const userId = Cookies.get("userId");
   const { blogList } = useGetBlogList({ userId });
+  const [blogLists, setBlogList] = useState();
+  useEffect(() => {
+    setBlogList(blogList);
+  }, [blogList]);
   const blogsPerPage = 3;
   const [currentPage, setCurrentPage] = useState(1);
   const indexOfLastBlog = currentPage * blogsPerPage;
   const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
-  const currentBlogs = blogList?.slice(indexOfFirstBlog, indexOfLastBlog);
+  const currentBlogs = blogLists?.slice(indexOfFirstBlog, indexOfLastBlog);
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
+  const [open, setOpen] = React.useState(false);
+  const [editId, setEditId] = useState("");
   return (
     <Grid
       container
@@ -47,7 +55,21 @@ export default function BlogItemUser() {
           ?.slice(0, 6)
           ?.filter((item) => item.blogStatus === 1)
           .map((item, index) => (
-            <Grid item xs={12} key={`${item?.blogId}+${index}`}>
+            <Grid
+              item
+              xs={12}
+              key={`${item?.blogId}+${index}`}
+              sx={{ position: "relative" }}
+            >
+              <Stack
+                sx={{ position: "absolute", mt: 1, right: 0, mr: 2,cursor:'pointer' }}
+                onClick={() => {
+                  setOpen(true);
+                  setEditId(item?.blogId);
+                }}
+              >
+                <EditIcon />
+              </Stack>
               <BlogHomeItem
                 title={item?.blogTitle}
                 id={item?.blogId}
@@ -72,6 +94,13 @@ export default function BlogItemUser() {
           },
           marginBottom: 4,
         }}
+      />
+      <EditFormModal
+        openModal={open}
+        setOpenModal={setOpen}
+        id={editId}
+        setBlogList={setBlogList}
+        blogLists={blogLists}
       />
     </Grid>
   );
