@@ -175,7 +175,7 @@ function RecipeDetail() {
         console.log("rating", response.data.recipeRating);
         setdata1(response.data.recipeIngredients);
         setPerson(response.data.recipeServe);
-        setLogo(response.data.recipeIngredients.ingredientMarketplaces);
+        // setLogo(response.data.recipeIngredients.ingredientMarketplaces);
         // const gamOnePerson = response.data.recipeIngredients.map((x) => ({
         //   unitValue: x.unitValue / response.data.recipeServe,
         // }));
