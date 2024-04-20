@@ -52,7 +52,6 @@ function RecipeDetail() {
   const { recipeId } = useParams();
   const commentRef = useRef(null);
   const [person, setPerson] = useState(1);
-  const [logo, setLogo] = useState([]);
 
   const handleChange = (value) => {
     setPerson(value);
@@ -177,6 +176,10 @@ function RecipeDetail() {
         setdata1(response.data.recipeIngredients);
         setPerson(response.data.recipeServe);
         setLogo(response.data.recipeIngredients.ingredientMarketplaces);
+        // const gamOnePerson = response.data.recipeIngredients.map((x) => ({
+        //   unitValue: x.unitValue / response.data.recipeServe,
+        // }));
+        // setGamOnePerson(gamOnePerson);
       } else {
         console.error("Can not Load news! ");
       }
@@ -445,12 +448,12 @@ function RecipeDetail() {
                   </Grid>
                   <Grid item xs={4}>
                     <a
-                      href={logo?.marketplaceLink}
+                      href={item.ingredientMarketplaces.marketplaceLink}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
                       <img
-                        src={logo?.marketplaceLogo}
+                        src={item.ingredientMarketplaces.marketplaceLogo}
                         alt="Logo"
                         style={{ width: 40, height: 40 }}
                       />

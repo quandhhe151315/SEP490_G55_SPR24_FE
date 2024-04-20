@@ -52,6 +52,8 @@ function AvatarMenu({ handleClick, onMenuSelect }) {
     Cookies.remove("jwt");
     Cookies.remove("userId");
     Cookies.remove("role");
+    Cookies.remove("userFullname");
+    Cookies.remove("userIdExist");
     navigate("/KitchenDelights");
   };
 
@@ -204,7 +206,7 @@ function AvatarMenu({ handleClick, onMenuSelect }) {
 
 
 
-      {(role === "user") && (
+      {(role === "users") && (
         <>
         <Paper
         sx={{

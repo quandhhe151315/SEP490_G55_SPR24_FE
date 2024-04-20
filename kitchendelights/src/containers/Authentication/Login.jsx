@@ -21,10 +21,6 @@ const Login = () => {
     navigate('/');
   }
 
-  const goToDashboard = () => {
-    navigate('/DashBoardMenu');
-  }
-
   const goToRegisterPage = () => {
     navigate('/Register');
   }
@@ -41,16 +37,13 @@ const Login = () => {
         const response = await login(email, password);
         if (response.status === 200) {
           Cookies.set('jwt', response.data, { expires: 7 });
-          showSnackbar('Login successful!', "success");
-          const decoded = jwtDecode(response.data);
-          if(decoded.role === "Administrator" || decoded.role === "Moderator"){
           
-            goToDashboard();
-          }
-          else{
-            goToHomePage();
-          }
-
+          const decoded = jwtDecode(Cookies.get('jwt'));
+          Cookies.set('userIdExist', true, { expires: 7 });
+          Cookies.set('userId', decoded.id, { expires: 7 });
+          Cookies.set('role', decoded.role, { expires: 7 });
+          showSnackbar('Login successful!', "success");
+          goToHomePage();
         } else {
           
         }

@@ -52,6 +52,7 @@
     "react-infinite-scroll-component": "^6.1.0",
     "react-markdown": "^9.0.1",
     "react-material-ui-carousel": "^3.4.2",
+    "react-numeric-input": "^2.2.3",
     "react-player": "^2.15.1",
     "react-quill": "^2.0.0",
     "react-router-dom": "^6.21.3",

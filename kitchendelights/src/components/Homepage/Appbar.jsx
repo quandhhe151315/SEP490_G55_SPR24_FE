@@ -151,9 +151,11 @@ export default function PrimarySearchAppBar() {
     Cookies.remove("jwt");
     Cookies.remove("userId");
     Cookies.remove("role");
+    Cookies.remove("userFullname");
+    Cookies.remove("userIdExist");
     setUserIdExist(false);
     setRole("");
-    navigate("/KitchenDelights");
+    navigate("/Login");
   };
 
   const menuId = "primary-search-account-menu";
@@ -212,7 +214,7 @@ export default function PrimarySearchAppBar() {
                   fontWeight="bold"
                   sx={{ color: "#ff5e00", textTransform: "uppercase", mb: 2 }}
                 >
-                  KitchenDelights
+                  Kitchen Delights
                 </Typography>
               </Grid>
               <Grid item xs={6}>
