@@ -31,7 +31,7 @@ import { addRecipeToBookMark } from "../../services/ApiServices";
 import CommentSection from "../../containers/BoxComment/CommentSection";
 import EmbedVideo from "../../components/Video/EmbedVideo.jsx";
 import GradeOutlinedIcon from '@mui/icons-material/GradeOutlined';
-
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 function RecipeDetail() {
   const navigate = useNavigate();
   const [data, setdata] = useState();
@@ -170,7 +170,13 @@ function RecipeDetail() {
 
 
   const handlePeopleCountChange = (event) => {
-    setPeopleCount(event.target.value);
+    let value = event.target.value;
+    if(value > 20){
+      value = 20;
+    }else if(value < 1){
+      value = 1;
+    }
+    setPeopleCount(value);
   };
 
   const extensions = useExtensions({
@@ -411,7 +417,7 @@ function RecipeDetail() {
                   }}
                 />
                 <Tooltip title="Bạn có thể tùy chỉnh số người để xem được lượng nguyên liệu cần dùng">
-                  <GradeOutlinedIcon sx={{height:'14px', width:'14px', marginLeft:'30px', marginTop:'8px'}}/>
+                  <InfoOutlinedIcon sx={{height:'16px', width:'16px', marginLeft:'30px', marginTop:'8px'}}/>
                 </Tooltip>
                 
                 {/* <Box sx={{ display: 'flex', alignItems: 'center' }}>
