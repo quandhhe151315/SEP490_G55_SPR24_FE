@@ -32,7 +32,7 @@ function HomePage() {
         </Grid>
         <Box sx={{ width: "100%", marginX: "auto", mt: 6 }}>
           <RecipeItemList
-            title={"Công thức yêu thích"}
+            title={"Công thức đánh giá cao"}
             recipeItemLists={allRecipebyRating}
           />
         </Box>

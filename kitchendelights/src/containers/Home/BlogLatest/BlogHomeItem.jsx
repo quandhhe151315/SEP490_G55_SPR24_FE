@@ -46,23 +46,9 @@ export default function BlogHomeItem({
             <Grid xs={8} item>
               <Stack justifyContent={"space-between"} height={"100%"}>
                 <Stack height={"60px"} px={1}>
-                  <Typography fontSize={20} fontWeight={600}>
+                  <Typography fontSize={24} fontWeight={600} mt={2}>
                     {title}
                   </Typography>
-                  <Stack >
-                    <Typography
-                      sx={{
-                        display: "-webkit-box",
-                        overflow: "hidden",
-                        WebkitBoxOrient: "vertical",
-                        WebkitLineClamp: 3,
-                      }}
-                      WebkitLineClamp={1}
-                      variant="body1"
-                    >
-                     <div dangerouslySetInnerHTML={{ __html: content }}></div>
-                    </Typography>
-                  </Stack>
                 </Stack>
 
                 <Stack
