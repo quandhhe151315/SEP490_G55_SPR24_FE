@@ -190,45 +190,45 @@ function AvatarMenu({ handleClick, onMenuSelect }) {
         </MenuList>
       </Paper>
 
-      <Paper sx={{ maxHeight:'500px', overflow:'auto', width: 250, maxWidth: '100%', marginTop: '20px', border: '1px solid #bfb8b8' }}>
-            <MenuList>
-                    <MenuItem>
-                        <ListItemIcon>
-                            <KeyboardDoubleArrowDownIcon fontSize="small" />
-                        </ListItemIcon>
-                        <ListItemText>Menu của bạn</ListItemText>
-                    </MenuItem>
-                </MenuList>
-                <MenuListItems handleClick={handleClick} onMenuSelect={onMenuSelect}/>
-            </Paper>
+      <Paper sx={{ maxHeight: '500px', overflow: 'auto', width: 250, maxWidth: '100%', marginTop: '20px', border: '1px solid #bfb8b8' }}>
+        <MenuList>
+          <MenuItem>
+            <ListItemIcon>
+              <KeyboardDoubleArrowDownIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>Menu của bạn</ListItemText>
+          </MenuItem>
+        </MenuList>
+        <MenuListItems handleClick={handleClick} onMenuSelect={onMenuSelect} />
+      </Paper>
 
-      
+
 
 
 
       {(role === "users") && (
         <>
-        <Paper
-        sx={{
-          width: 250,
-          maxWidth: "100%",
-          marginTop: "20px",
-          border: "1px solid #bfb8b8",
-        }}
-      >
-        <MenuList>
-          <MenuItem onClick={goToBecomeChef}>
-            <ListItemIcon>
-              <ContactsIcon fontSize="small" sx={{ color: "#ff5e00" }} />
-            </ListItemIcon>
-            <ListItemText>Trở thành đầu bếp</ListItemText>
-          </MenuItem>
-        </MenuList> 
-        </Paper>
+          <Paper
+            sx={{
+              width: 250,
+              maxWidth: "100%",
+              marginTop: "20px",
+              border: "1px solid #bfb8b8",
+            }}
+          >
+            <MenuList>
+              <MenuItem onClick={goToBecomeChef}>
+                <ListItemIcon>
+                  <ContactsIcon fontSize="small" sx={{ color: "#ff5e00" }} />
+                </ListItemIcon>
+                <ListItemText>Trở thành đầu bếp</ListItemText>
+              </MenuItem>
+            </MenuList>
+          </Paper>
         </>
       )}
 
-      
+
 
       <Paper
         sx={{
