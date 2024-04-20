@@ -162,6 +162,8 @@ const PersonalListItems = () => {
     Cookies.remove("jwt");
     Cookies.remove("userId");
     Cookies.remove("role");
+    Cookies.remove("userFullname");
+    Cookies.remove("userIdExist");
     navigate("/KitchenDelights");
   };
 
