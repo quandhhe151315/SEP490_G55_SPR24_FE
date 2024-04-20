@@ -175,15 +175,6 @@ function RecipeDetail() {
         console.log("rating", response.data.recipeRating);
         setdata1(response.data.recipeIngredients);
         setPerson(response.data.recipeServe);
-<<<<<<< Updated upstream
-        // setLogo(response.data.recipeIngredients.ingredientMarketplaces);
-=======
-
->>>>>>> Stashed changes
-        // const gamOnePerson = response.data.recipeIngredients.map((x) => ({
-        //   unitValue: x.unitValue / response.data.recipeServe,
-        // }));
-        // setGamOnePerson(gamOnePerson);
       } else {
         console.error("Can not Load news! ");
       }
