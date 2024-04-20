@@ -23,6 +23,11 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import ApporoveDialog from "./ApporoveAndEditDialog";
 import { toast } from "react-toastify";
+import InputBase from '@mui/material/InputBase';
+import { TextField } from "@mui/material";
+import { searchRecipe } from "../../../services/RecipeServices";
+import { debounce } from "lodash";
+import SearchIcon from '@mui/icons-material/Search';
 
 function ListRecipeDashBoard() {
 
@@ -33,7 +38,7 @@ function ListRecipeDashBoard() {
     const [openEdit, setOpenEdit] = useState(false);
     const [Recipes, setRecipes] = useState([]);
     const [selectedRecipeId, setSelectedRecipeId] = useState('');
-
+    const [searchText, setSearchText] = useState('');
 
 
     const goToCreateNewRecipe = () => {
@@ -102,9 +107,9 @@ function ListRecipeDashBoard() {
         }
     }
 
-    const getListRecipe = async () => {
+    const getListRecipe = async (searchText) => {
         try {
-            const response = await getRecipes();
+            const response = await searchRecipe(searchText);
             if (response.status === 200) {
                 setRecipes(response.data);
             } else {
@@ -115,9 +120,26 @@ function ListRecipeDashBoard() {
         }
     }
 
+    // const DisplayStyledInputBase = styled(InputBase)(({ theme }) => ({
+    //     color: "black",
+    //     "& .MuiInputBase-input": {
+    //       padding: theme.spacing(0, 1, 1, 0),
+    //       paddingLeft: `calc(1em + ${theme.spacing(1)})`,
+    //       transition: theme.transitions.create("width"),
+    //       width: "calc(100% - 48px)",
+    //       [theme.breakpoints.up("md")]: {
+    //         width: "61.5ch",
+    //         marginTop: "2ch",
+    //       },
+    //     },
+    //   }));
+
+
     useEffect(() => {
-        getListRecipe();
+        getListRecipe(searchText);
     }, [openApprove]);
+
+
 
     return (
         <div>
@@ -125,11 +147,56 @@ function ListRecipeDashBoard() {
                 <DashboardMenu dashboardTitle={"Quản lý công thức"} />
                 <Grid sx={{ marginLeft: '10px', marginTop: '80px' }}>
                     <Paper elevation={2} sx={{ borderRadius: '15px', border: '1px solid #bfb8b8', width: '1210px', height: '650px', backgroundColor: '#FFFFFF' }}>
-                        <Typography sx={{ fontSize: '24px', fontWeight: '', marginLeft: '10%', marginTop: '30px', color: '#4A5568' }}>
+                        <Typography sx={{ fontSize: '24px', fontWeight: '', marginLeft: '10%', marginTop: '15px', color: '#4A5568' }}>
                             Danh sách Recipe
                         </Typography>
-                        <CategoryButton text='Tạo Recipe mới' height='auto' width='auto' marginLeft='70%' marginTop='10px' onClick={goToCreateNewRecipe}></CategoryButton>
-
+                        {/* <DisplayStyledInputBase
+                            value={searchText}
+                            onChange={(e) => setSearchText(e.target.value)}
+                            placeholder="Tìm công thức bạn muốn"
+                            inputProps={{ "aria-label": "search" }}
+                            sx={{ color: "rgba(0, 0, 0, 0.54)" }}
+                        /> */}
+                        <Box sx={{ display: 'flex', alignItems:'center' }}>
+                                <TextField
+                                    sx={{
+                                        marginLeft: '10%',
+                                        marginTop: '5px',
+                                        width: '50%',
+                                        
+                                        borderRadius: '15px',
+                                        '& .MuiOutlinedInput-root': {
+                                            '& fieldset': {
+                                                borderRadius: '15px',
+                                            },
+                                        },
+                                    }}
+                                    size="small"
+                                    label="Tìm kiếm công thức"
+                                    value={searchText}
+                                    onChange={(event) => {
+                                        setSearchText(event.target.value)
+                                        if (event.target.value === '') {
+                                            getListRecipe('');
+                                        }
+                                    }}
+                                />
+                            
+                                <SearchIcon
+                                    sx={{
+                                        bgcolor: "#553C9A",
+                                        borderRadius: "15px",
+                                        marginLeft: "16px",
+                                        width: "48px",
+                                        height: "48px",
+                                        color: "white",
+                                        marginTop: "5px",
+                                    }}
+                                    onClick={() => getListRecipe(searchText)}
+                                />
+                            
+                                <CategoryButton text='Tạo Recipe mới' height='auto' width='auto' marginLeft='15%' onClick={goToCreateNewRecipe}></CategoryButton>
+                            </Box>
                         <TableContainer sx={{ marginTop: '20px', maxHeight: '500px', overflow: 'auto', whiteSpace: 'nowrap' }}>
                             <Table sx={{ minWidth: 1000 }} aria-label="customized table">
                                 <TableHead>
@@ -158,7 +225,7 @@ function ListRecipeDashBoard() {
                                             <StyledTableCell align="left">{new Date(recipe.createDate).toLocaleDateString()}</StyledTableCell>
                                             <StyledTableCell>
                                                 {recipe.recipeStatus === 1 ? (
-                                                    <Button sx={{paddingRight:'27px'}} onClick={() => {
+                                                    <Button sx={{ paddingRight: '27px' }} onClick={() => {
                                                         setSelectedRecipeId(recipe.recipeId);
                                                         handleOpenApprove(true);
                                                     }}>Sửa</Button>
