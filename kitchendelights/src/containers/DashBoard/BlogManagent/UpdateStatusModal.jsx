@@ -73,9 +73,9 @@ export default function UpdateStatusModal({
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleUpdateStatus}>Dong y</Button>
+          <Button onClick={handleUpdateStatus}>Dồng Ý</Button>
           <Button onClick={() => setOpenUpdateStatus(false)} autoFocus>
-            Huy
+            Hủy
           </Button>
         </DialogActions>
       </Dialog>
