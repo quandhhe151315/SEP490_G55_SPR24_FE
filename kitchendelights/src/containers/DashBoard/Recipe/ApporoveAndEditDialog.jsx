@@ -190,9 +190,14 @@ function ApporoveDialog({ open, handleClose, recipeId }) {
                                     Nguyên Liệu
                                 </Typography>
                                 {ingredients.map((ingredient, index) => (
-                                    <Typography key={index} sx={{ marginLeft: '5%', marginTop: '10px' }}>
-                                        {ingredient.ingredientName} : {ingredient.unitValue} {ingredient.ingredientUnit}
-                                    </Typography>
+                                    // <Typography key={index} sx={{ marginLeft: '5%', marginTop: '10px' }}>
+                                    //     {ingredient.ingredientName} : {ingredient.unitValue} {ingredient.ingredientUnit}
+                                    // </Typography>
+                                    <Box key={index} sx={{display:'flex', justifyContent:'space-between', marginLeft:'5%', marginTop:'10px', maxWidth:'30%', padding:'0 10px'}}>
+                                        <Typography sx={{flex: 1, textAlign:'left'}}>{ingredient.ingredientName}</Typography>
+                                        <Typography sx={{flex: 0.2, textAlign:'center'}}>{ingredient.unitValue}</Typography>
+                                        <Typography sx={{flex: 0.2, textAlign:'right'}}>{ingredient.ingredientUnit}</Typography>
+                                    </Box>
                                 ))}
 
                                 {/* Cách làm */}
