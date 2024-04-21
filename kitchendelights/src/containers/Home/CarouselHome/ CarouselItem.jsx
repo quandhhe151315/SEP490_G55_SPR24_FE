@@ -10,7 +10,7 @@ export default function CarouselItem(props) {
   return (
     <Carousel>
       {allRecipebyRating?.map((item, i) => {
-        if (i < 4) {
+        if (i < 6) {
           return <Item key={i} image={item?.featuredImage} />;
         }
       })}

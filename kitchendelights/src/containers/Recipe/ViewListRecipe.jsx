@@ -72,7 +72,7 @@ function ViewListRecipes() {
   const [paidRecipes, setPaidRecipes] = useState([]);
   const [currentPageFree, setCurrentPageFree] = useState(1);
   const [currentPagePaid, setCurrentPagePaid] = useState(1);
-  const recipesPerPage = 8;
+  const recipesPerPage = 12;
 
   const paginateRecipes = (recipes, currentPage) => {
     const startIndex = (currentPage - 1) * recipesPerPage;

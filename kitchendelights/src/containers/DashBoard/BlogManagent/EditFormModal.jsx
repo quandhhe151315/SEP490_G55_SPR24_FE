@@ -115,7 +115,7 @@ export default function EditFormModal({
               setStatusPostBlog(res.status);
               setOpenSnackBar(true);
               reset({});
-              setContentSnackbar("Sua blog thành công");
+              setContentSnackbar("Sửa blog thành công");
               handleClose();
               setFiles([]);
             }
@@ -144,7 +144,7 @@ export default function EditFormModal({
             setStatusPostBlog(res.status);
             setOpenSnackBar(true);
             reset({});
-            setContentSnackbar("Sua blog thành công");
+            setContentSnackbar("Sửa blog thành công");
             handleClose();
             setFiles([]);
           }

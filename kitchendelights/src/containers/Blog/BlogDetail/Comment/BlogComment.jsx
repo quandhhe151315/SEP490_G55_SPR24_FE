@@ -171,7 +171,7 @@ export default function BlogComment() {
         >
           {statusPostComment < 400
             ? "Bình luận thành công"
-            : "Đã có lỗi xảy ra"}
+            : "Yêu cầu đăng nhập để bình luận"}
         </Alert>
       </Snackbar>
     </Stack>

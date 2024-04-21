@@ -14,7 +14,7 @@ export default function NewsItem({ item }) {
         />
       </Stack>
       <Stack>
-        <Typography variant="h7" fontWeight={"bold"} style={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' }}>
+        <Typography fontWeight={"bold"} style={{fontSize:'14px', overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical',fontFamily:'Arial' }}>
          {item?.newsTitle}
         </Typography>
       </Stack>
