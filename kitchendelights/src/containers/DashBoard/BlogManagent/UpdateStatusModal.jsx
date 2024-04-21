@@ -5,7 +5,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { deleteBlog, updateBlog } from "../../../services/BlogServices";
+import { deleteBlog, updateBlog, updateBlogByStatus } from "../../../services/BlogServices";
 import { Alert, Snackbar } from "@mui/material";
 import { useGetBlogList } from "../../../hook/useGetBlogList";
 
@@ -30,9 +30,9 @@ export default function UpdateStatusModal({
   const [openSnackbar, setOpenSnackBar] = React.useState(false);
   const [contentSnackbar, setContentSnackbar] = React.useState("");
   const handleUpdateStatus = async () => {
-    await updateBlog({
-      ...blogItem,
-      blogStatus: blogItem?.blogStatus === 0 ? 2 : 0,
+    await updateBlogByStatus({
+      id: blogItem?.blogId,
+      status: blogItem?.blogStatus=== 1 ? 2 : 1,
     })
       .then((res) => {
         const newBlogList = blogList?.map((item) => {
@@ -44,7 +44,7 @@ export default function UpdateStatusModal({
         setBlogList(newBlogList);
         setStatusPostBlog(res.status);
         setOpenSnackBar(true);
-        setContentSnackbar("Phê duyệt thành công");
+        setContentSnackbar("Chỉnh sửa thành công");
         handleClose();
       })
       .catch((er) => {

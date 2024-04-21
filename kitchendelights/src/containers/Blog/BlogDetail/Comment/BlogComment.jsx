@@ -60,7 +60,7 @@ export default function BlogComment() {
               userName: `${profile?.lastName} ${profile?.middleName} ${profile?.firstName}`,
               commentStatus: 1,
               createDate: dayjs().toISOString(),
-              // commentId: firstCommentId - 1,
+              commentId: res?.data,
             },
           ]);
         }
@@ -87,8 +87,8 @@ export default function BlogComment() {
   return (
     <Stack mt={4}>
       <Stack>
-        <Typography fontSize={22} fontWeight={600} sx={{color:'#ff5e00'}}>
-          Bình luận 
+        <Typography fontSize={22} fontWeight={600} sx={{ color: "#ff5e00" }}>
+          Bình luận
         </Typography>
       </Stack>
       <Divider sx={{ width: "100%", mt: 1 }} />
@@ -99,7 +99,7 @@ export default function BlogComment() {
             item={item}
             delComment={delComment}
             setDelComment={setDelComment}
-            commentLists={commentList}
+            commentLists={commentLists}
             setCommentLists={setCommentList}
           />
         ))}
@@ -133,30 +133,37 @@ export default function BlogComment() {
         }}
       >
         <Divider sx={{ my: 1 }} />
-        <textarea
-          minRows={8}
-          maxRows={12}
-          style={{
-            borderRadius: "12px",
-            borderColor: "#ccc",
-            outline: "none",
-            marginTop: "12px",
-            padding: "8px",
-            width: "100%",
-            height: "200px",
-          }}
-          placeholder="Bình luận về bài viết"
-          onChange={(e) => setContent(e.target.value)}
-          value={content}
-        />
-        <Button
-          variant="contained"
-          sx={{ mt: 1,bgcolor:"#ff5e00" }}
-          onClick={postComment}
-          disabled={!content} 
-        >
-          Bình luận bài viết
-        </Button>
+        {!!profile?.userId && (
+          <textarea
+            minRows={8}
+            maxRows={12}
+            style={{
+              borderRadius: "12px",
+              borderColor: "#ccc",
+              outline: "none",
+              marginTop: "12px",
+              padding: "8px",
+              width: "100%",
+              height: "200px",
+            }}
+            placeholder="Bình luận về bài viết"
+            onChange={(e) => setContent(e.target.value)}
+            value={content}
+            disabled={!profile?.userId}
+          />
+        )}
+        {profile?.userId ? (
+          <Button
+            variant="contained"
+            sx={{ mt: 1, bgcolor: "#ff5e00" }}
+            onClick={postComment}
+            disabled={!content}
+          >
+            Bình luận bài viết
+          </Button>
+        ) : (
+          <Typography>Đăng nhập để bình luận</Typography>
+        )}
       </Stack>
       <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}

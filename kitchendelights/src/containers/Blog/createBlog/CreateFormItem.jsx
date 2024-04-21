@@ -75,6 +75,7 @@ export default function CreateFormItem() {
               setOpenSnackBar(true);
               reset({});
               setContentSnackbar("Đăng blog thành công");
+              navigate("/blog");
             }
           })
           .catch((e) => {
