@@ -133,7 +133,7 @@ export default function BlogListItem() {
                         setOpenStatusId(item?.blogId);
                       }}
                     >
-                      {item?.blogStatus != 0 ? (
+                      {item?.blogStatus !== 1 ? (
                         <DoneIcon style={{ color: "green" }} />
                       ) : (
                         <ClearIcon style={{ color: "red" }} />
