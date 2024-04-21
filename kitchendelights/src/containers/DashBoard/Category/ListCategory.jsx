@@ -70,10 +70,12 @@ function ListCategoryDashboard() {
   }));
 
   const goToUpdateCategory = (categoryId) => {
+    localStorage.setItem('currentPage', currentPage);
     navigate(`/UpdateCategory/${categoryId}`);
   };
 
   const goToCreateCategory = () => {
+    localStorage.setItem('currentPage', currentPage);
     navigate('/CreateCategory')
   };
 
@@ -110,6 +112,14 @@ function ListCategoryDashboard() {
   useEffect(() => {
     getListCategory();
   }, [selectedCategoryId]);
+
+  useEffect(() => {
+    const savedPage = localStorage.getItem('currentPage');
+    if(savedPage) {
+      setCurrentPage(Number(savedPage));
+      localStorage.removeItem('currentPage');
+    }
+  }, []);
 
   return (
     <div>
