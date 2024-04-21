@@ -19,6 +19,7 @@ import { toast } from "react-toastify";
 import { Grid } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { RichTextReadOnly } from "mui-tiptap";
+import StarIcon from "@mui/icons-material/Star";
 import useExtensions from "../../components/Richtext/useExtension.ts";
 import {
   getRecipeById,
@@ -30,8 +31,8 @@ import GetInformationJWT from "../../components/JWT/GetInformationJWT";
 import { addRecipeToBookMark } from "../../services/ApiServices";
 import CommentSection from "../../containers/BoxComment/CommentSection";
 import EmbedVideo from "../../components/Video/EmbedVideo.jsx";
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-
+import GradeOutlinedIcon from "@mui/icons-material/GradeOutlined";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 function RecipeDetail() {
   const navigate = useNavigate();
   const [data, setdata] = useState();
@@ -167,14 +168,12 @@ function RecipeDetail() {
     commentRef.current.scrollIntoView({ behavior: "smooth" });
   };
 
-
-
   const handlePeopleCountChange = (event) => {
     let value = event.target.value;
-    if(value > 20){
+    if (value > 20) {
       value = 20;
-    }else if(value < 1){
-      value = 1;
+    } else if (value < 1) {
+      value = 0;
     }
     setPeopleCount(value);
   };
@@ -202,26 +201,23 @@ function RecipeDetail() {
       <Typography sx={{ height: 10 }} />
       {!printMode && (
         <Typography sx={{ marginLeft: 35 }}>
-          <Stack direction="row" spacing={1}>
+          <Stack direction="row" spacing={2}>
             {/* <Avatar
               sx={{ width: 20, height: 20 }}
               alt="Remy Sharp"
               src="../assets/images/news1.jpg"
             /> */}
-            <Typography sx={{ fontSize: 14 }}> {data?.userName}</Typography>
-            <Button
-              sx={{ height: 14 }}
-              endIcon={<CalendarTodayIcon />}
-            ></Button>
-            <Typography sx={{ fontSize: 14 }}>
+            <Typography sx={{ fontSize: 16 }}> {data?.userName}</Typography>
+
+            <CalendarTodayIcon sx={{ color: "blue" }} />
+
+            <Typography sx={{ fontSize: 16 }}>
               {moment(data?.createDate).format("DD/MM/YYYY")}
             </Typography>
-            <Rating
-              name="half-rating-read"
-              defaultValue={data?.recipeRating}
-              precision={0.5}
-              readOnly
-            ></Rating>
+            <Typography sx={{ fontSize: 16 }}>
+              Đánh giá: {data?.recipeRating}
+            </Typography>
+            <StarIcon sx={{ color: "#f1c40f" }}></StarIcon>
             <Typography sx={{ height: 30 }} />
           </Stack>
           <Stack direction="row" spacing={2}>
@@ -341,9 +337,7 @@ function RecipeDetail() {
                       title="YouTube video player"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     ></iframe> */}
-                    <Box
-                      width="850"
-                      height="400">
+                    <Box width="850" height="400">
                       <EmbedVideo url={data?.videoLink} />
                     </Box>
                   </>
@@ -366,9 +360,9 @@ function RecipeDetail() {
                   Thời gian chuẩn bị:
                 </Typography>
               </Grid>
-              <Grid item xs={6}>
-                <span style={{ display: 'flex', alignItems: 'center' }}>
-                  <Typography variant="body1" style={{ marginRight: '42px' }}>
+              <Grid item xs={2}>
+                <span style={{ display: "flex", alignItems: "center" }}>
+                  <Typography variant="body1" style={{ marginRight: "10px" }}>
                     {data?.preparationTime}
                   </Typography>
                   <Typography>phút</Typography>
@@ -380,19 +374,19 @@ function RecipeDetail() {
                 </Typography>
               </Grid>
               <Grid item xs={6}>
-                <span style={{ display: 'flex', alignItems: 'center' }}>
-                  <Typography variant="body1" style={{ marginRight: '42px' }}>{data?.cookTime}</Typography>
+                <span style={{ display: "flex", alignItems: "center" }}>
+                  <Typography variant="body1" style={{ marginRight: "10px" }}>
+                    {data?.cookTime}
+                  </Typography>
                   <Typography variant="body1"> phút</Typography>
                 </span>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={4}>
                 <Typography variant="body1" fontWeight={"bold"}>
                   Số người phục vụ:
                 </Typography>
               </Grid>
-              <Grid item xs={6}>
-
-
+              <Grid marginLeft={14} item xs={6}>
                 {/* <NumericInput
                   min={1}
                   max={20}
@@ -401,25 +395,34 @@ function RecipeDetail() {
                   style={{ input:{width:'60px'} }}
                 /> */}
 
-
                 <TextField
                   type="number"
                   value={peopleCount}
                   onChange={handlePeopleCountChange}
-                  inputProps={{ min: 1, max: 20 }}
+                  inputProps={{ min: 0, max: 20 }}
                   variant="standard"
                   InputProps={{
-                    endAdornment: (<InputAdornment position="end">
-                      <Typography style={{ color: 'black' }}>người</Typography>
-                    </InputAdornment>
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Typography style={{ color: "black" }}>
+                          người
+                        </Typography>
+                      </InputAdornment>
                     ),
                     disableUnderline: true,
                   }}
                 />
                 <Tooltip title="Bạn có thể tùy chỉnh số người để xem được lượng nguyên liệu cần dùng">
-                  <InfoOutlinedIcon sx={{height:'16px', width:'16px', marginLeft:'30px', marginTop:'8px'}}/>
+                  <InfoOutlinedIcon
+                    sx={{
+                      height: "16px",
+                      width: "16px",
+                      marginLeft: "30px",
+                      marginTop: "8px",
+                    }}
+                  />
                 </Tooltip>
-                
+
                 {/* <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <Typography>{peopleCount}</Typography>
                   <IconButton size="small" onClick={() => setPeopleCount(prevCount => Math.max(prevCount - 1, 1))}>
@@ -432,7 +435,6 @@ function RecipeDetail() {
 
                   <Typography>người</Typography>
                 </Box> */}
-
               </Grid>
             </Grid>
 
@@ -448,18 +450,22 @@ function RecipeDetail() {
             </Typography>
 
             {data1.map((item) => {
-              const adjustedUnitValue = Math.ceil(item.unitValue * peopleCount / data?.recipeServe);
-              const roundedValue = adjustedUnitValue > 200 ? Math.ceil(adjustedUnitValue / 10) * 10 : Math.round(adjustedUnitValue);
-              
+              const adjustedUnitValue = Math.round(
+                (item.unitValue * peopleCount) / data?.recipeServe
+              );
+              const roundedValue =
+                adjustedUnitValue > 200
+                  ? Math.round(adjustedUnitValue / 10) * 10
+                  : Math.round(adjustedUnitValue);
               return (
                 <Grid
                   container
                   spacing={{ xs: 2, md: 3 }}
                   columns={{ xs: 4, sm: 8, md: 12 }}
                 >
-                  <Grid item xs={2}>
+                  <Grid item xs={3}>
                     <Typography variant="body1" fontWeight={"bold"}>
-                      {item.ingredientName} :
+                      {item.ingredientName}:
                     </Typography>
                   </Grid>
                   <Grid item xs={0}>
