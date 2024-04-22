@@ -471,10 +471,29 @@ function RecipeDetail() {
                   <Grid item xs={0}>
                     <Typography variant="body1">{roundedValue}</Typography>
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={2}>
                     <Typography variant="body1">
                       {item.ingredientUnit}
                     </Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    {item.ingredientMarketplaces.map((x) => (
+                      <a
+                        href={x.marketplaceLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ marginRight: 20 }}
+                      >
+                        <img
+                          src={x.marketplaceLogo}
+                          alt="logo"
+                          style={{
+                            width: "30px",
+                            height: "30px",
+                          }}
+                        />
+                      </a>
+                    ))}
                   </Grid>
                 </Grid>
               );
