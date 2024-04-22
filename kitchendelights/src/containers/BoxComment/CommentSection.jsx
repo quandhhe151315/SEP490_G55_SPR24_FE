@@ -16,6 +16,7 @@ import {
 import { formatDistanceToNow } from "date-fns";
 import StarIcon from "@mui/icons-material/Star";
 import SendIcon from "@mui/icons-material/Send";
+import moment from "moment";
 import {
   CreateReview,
   GetReviewByRecipeId,
@@ -162,7 +163,7 @@ const Comment = ({
             </Typography>
           )}
           <Typography variant="caption" color="textSecondary">
-            {formatDistanceToNow(new Date(timestamp), { addSuffix: true })}
+            {moment(timestamp).format("DD/MM/YYYY")}
           </Typography>
         </Grid>
         <Grid
