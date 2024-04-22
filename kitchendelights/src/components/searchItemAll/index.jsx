@@ -13,7 +13,7 @@ export default function SearchItemAll() {
   const searchName = queryParams.get("searchName");
 
   const { recipList } = useGetRecipeByFilter({
-  searchName: searchName
+    searchName: searchName,
   });
   const { blogList } = useGetBlogList({
     search: searchName,
@@ -22,7 +22,12 @@ export default function SearchItemAll() {
     return (
       <div>
         <PrimarySearchAppBar />
-        <Box width={"85%"} marginX={"auto"} height={"600px"} sx={{color:"#ff5e00",textTransform:'uppercase'}}>
+        <Box
+          width={"85%"}
+          marginX={"auto"}
+          height={"600px"}
+          sx={{ color: "#ff5e00", textTransform: "uppercase" }}
+        >
           Không tìm thấy công thức nấu ăn nào
         </Box>
       </div>
@@ -30,41 +35,64 @@ export default function SearchItemAll() {
   }
   return (
     <div>
-      <PrimarySearchAppBar  />
+      <PrimarySearchAppBar />
       <Box width={"85%"} marginX={"auto"}>
         <Box sx={{ width: "100%", marginX: "auto" }}>
-          <Typography fontSize={28} fontWeight={600}>Danh sach recip</Typography>
+          <Box sx={{ display: "flex" }}>
+            <Typography
+              fontSize={28}
+              fontWeight={600}
+              sx={{ textTransform: "uppercase", color: "#ff5e00" }}
+            >
+              công thức tìm thấy cho từ khoá
+            </Typography>
+            <Typography variant="h4" sx={{ ml: 2 }}>
+              "{searchName}"
+            </Typography>
+          </Box>
+
           <RecipeItemList title={""} recipeItemLists={recipList} />
         </Box>
-        <Box sx={{ width: "100%", marginX: "auto", mt:6 }}>
-          <Typography fontWeight={600} fontSize={28}>Danh sach blog</Typography>
-           <Grid
-                container
-                columnSpacing={3}
-                rowSpacing={3}
-                mt={2}
-                height={"100%"}
-                mx={0}
-                width={"100%"}
-              >
-                {blogList?.map((item, index) => {
-                  return (
-                    <Grid item xs={4} key={`${item?.blogId}+${index}`}>
-                      <BlogItem
-                        title={item?.blogTitle}
-                        id={item?.blogId}
-                        content={item?.blogContent}
-                        createDate={item?.createDate}
-                        userName={item?.userName}
-                        blogImage={item?.blogImage}
-                        commentCount={item?.commentCount}
-                      />
-                    </Grid>
-                  );
-                })}
-              </Grid>
+        <Box sx={{ width: "100%", marginX: "auto", mt: 6 }}>
+          <Box sx={{ display: "flex" }}>
+            <Typography
+              fontWeight={600}
+              fontSize={28}
+              sx={{ textTransform: "uppercase",color:'#ff5e00' }}
+            >
+              Blog tìm thấy cho từ khoá
+            </Typography>
+            <Typography variant="h4" sx={{ ml: 2 }}>
+              "{searchName}"
+            </Typography>
+          </Box>
+
+          <Grid
+            container
+            columnSpacing={3}
+            rowSpacing={3}
+            mt={2}
+            height={"100%"}
+            mx={0}
+            width={"100%"}
+          >
+            {blogList?.map((item, index) => {
+              return (
+                <Grid item xs={4} key={`${item?.blogId}+${index}`}>
+                  <BlogItem
+                    title={item?.blogTitle}
+                    id={item?.blogId}
+                    content={item?.blogContent}
+                    createDate={item?.createDate}
+                    userName={item?.userName}
+                    blogImage={item?.blogImage}
+                    commentCount={item?.commentCount}
+                  />
+                </Grid>
+              );
+            })}
+          </Grid>
         </Box>
-       
       </Box>
     </div>
   );
