@@ -130,7 +130,7 @@ export default function Ticket() {
             ) : (
               <h1 style={{ color: "red" }}>Thanh Toán thất bại !</h1>
             )}
-            <table>
+            {/* <table>
               <tbody>
                 {queryParams.map(([key, value]) => (
                   <tr key={key}>
@@ -139,7 +139,7 @@ export default function Ticket() {
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </table> */}
 
             {valvnp_TransactionStatusue === "00" ? (
               <Button

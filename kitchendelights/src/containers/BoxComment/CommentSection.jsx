@@ -62,10 +62,7 @@ const Comment = ({
   const [ratingvalue, setratingvalue] = useState(rating);
   const [contentValue, setContentValue] = useState(content);
   const role = Cookies.get("role");
-  const check = ["Moderator", "Writer", "Chef", "users", undefined].includes(
-    role
-  );
-  console.log("role", check);
+
   const uId = getUserIdFromCookie();
 
   const handleMenuClose = () => {
