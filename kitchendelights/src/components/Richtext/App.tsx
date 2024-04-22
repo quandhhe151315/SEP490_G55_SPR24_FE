@@ -81,14 +81,12 @@ const AppCreateRecipe = () => {
 
   const navigate = useNavigate();
   let contentRecipes =
-
   '<p style="text-align: center">Ảnh giới thiệu</p><img height="auto" style="text-align: center; aspect-ratio: 1.74672 / 1" src='+featuredImage+' alt="Ảnh" width="500"></li></ul><p></p><h2><span style="font-size: 18px">' + introduction + '</span></h2><p></p><ul><li><p><span style="font-size: 18px">Thời gian chuẩn bị: ' + timeAmountPrepare + ' phút</span></p><p></p></li><li><p><span style="font-size: 18px">Thời gian nấu: '+ timeAmountCook +' phút</span></p><p></p></li><li><p><span style="font-size: 18px">Khẩu phần ăn: '+ amountPeopleEat +' người</span></p></li></ul><p></p>'
   +'<h4><strong><span style="color: rgb(255, 71, 0); font-size: 30px">Nguyên liệu chế biến:</span></strong></h4></br>';
 
   type RecipeContent = {
     RecipeStepContent: string,
     RecipeImage: string,
-
   };
   const [recipeContent, setRecipeContent] = useState<Array<RecipeContent>>(
     Array.from({ length: 2 }, (_, index) => ({ RecipeStepContent: '', RecipeImage: '' }))
@@ -110,9 +108,10 @@ const AppCreateRecipe = () => {
   type RecipeIngredientView = {
     ingredientName: string,
     unitValue: number,
+    unit: string,
   };
   const [recipeIngredientView, setRecipeIngredientView] = useState<Array<RecipeIngredientView>>(
-    Array.from({ length: 2 }, (_, index) => ({ ingredientName: '', unitValue: 0 }))
+    Array.from({ length: 2 }, (_, index) => ({ ingredientName: '', unitValue: 0, unit: '' }))
   );
   const [recipeIngredientLength, setRecipeIngredientLength] = useState(1);
 
@@ -120,7 +119,6 @@ const AppCreateRecipe = () => {
   const [nameImage, setNameImage] = useState(
     Array.from({ length: 2 }, (_, index) => ({ RecipeImageURL: '' }))
   );
-
   //
 
 
@@ -146,7 +144,6 @@ const AppCreateRecipe = () => {
     setImageSendToData(prevRecipeIngre => [...prevRecipeIngre,{ recipeImageNumber: 0, recipeImageFile: '' }]);
   }
   //
-
 
   // data Ingredient
   type Ingredient = {
@@ -206,10 +203,10 @@ const AppCreateRecipe = () => {
               size="small"
               options={dataIngredients}
               getOptionLabel={(option) => option.ingredientName}
-              onChange={(event, option) => handleChangeRecipeIngredientName(recipeIngredientLength+1, option?.ingredientId, option?.ingredientName)}
+              onChange={(event, option) => handleChangeRecipeIngredientName(recipeIngredientLength+1, option?.ingredientId, option?.ingredientName, option?.ingredientUnit)}
               renderOption={(props, option) => (
                 <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
-                  {option.ingredientName}
+                  {option.ingredientName} ( {option.ingredientUnit} )
                 </Box>
               )}
               sx={{ width: '100%' }}
@@ -241,7 +238,9 @@ const AppCreateRecipe = () => {
     setRowsNL(newRowsNL);
     setRecipeIngredientLength(recipeIngredientLength);
     setRecipeIngredientDataSendLength(recipeIngredientDataSendLength);
+    
     handleDeleteNewRecipeIngredient(position);
+    handleDeleteNewRecipeIngredientDataSend(position);
   };
 
   const handleDeleteNewRecipeIngredient = (position) => {
@@ -251,7 +250,14 @@ const AppCreateRecipe = () => {
     });
   }
 
-  const handleChangeRecipeIngredientName = (id,ingredientId, value) => {
+  const handleDeleteNewRecipeIngredientDataSend = (position) => {
+    setRecipeIngredientDataSend(prevRecipeIngre => {
+      const newArray = prevRecipeIngre.slice(0, position);
+      return newArray;
+    });
+  }
+
+  const handleChangeRecipeIngredientName = (id,ingredientId, value, unit) => {
     setRecipeIngredientDataSend(prevRecipeIngre => {
       if (prevRecipeIngre.length > 0) {
         const updatedRecipeIngre = [...prevRecipeIngre];
@@ -266,6 +272,7 @@ const AppCreateRecipe = () => {
       if (prevRecipeIngre.length > 0) {
         const updatedRecipeIngre = [...prevRecipeIngre];
         updatedRecipeIngre[id].ingredientName = value;
+        updatedRecipeIngre[id].unit = unit;
         return updatedRecipeIngre;
       } else {
 
@@ -299,7 +306,7 @@ const AppCreateRecipe = () => {
   }
 
   const handleCreateNewRecipeIngredientView = () => {
-    setRecipeIngredientView(prevRecipeIngre => [...prevRecipeIngre,{ ingredientName: '', unitValue: 0 }]);
+    setRecipeIngredientView(prevRecipeIngre => [...prevRecipeIngre,{ ingredientName: '', unitValue: 0, unit: '' }]);
   }
 
   const handleCreateNewRecipeIngredientDataSend = () => {
@@ -339,15 +346,12 @@ const AppCreateRecipe = () => {
 
     </Grid>
     ]);
-    console.log(rowsBL.length);
     setRecipeLength(recipeLength + 1);
   };
 
   const handleDeleteRowBL = (position) => {
-    // recipeIngredientView
     const newRowsBL = [];
     for (let i = 0; i < rowsBL.length; i++) {
-
       if (i !== position) {
         newRowsBL.push(rowsBL[i]);
       }
@@ -415,14 +419,13 @@ const AppCreateRecipe = () => {
         const resRecipeImage = await uploadImage(file, "recipe");
         handleChangeRecipeImageData(id, resRecipeImage);
 
-        // console.log(resRecipeImage);
-
         handleChangeRecipeImage(id,  URL.createObjectURL(file));
         setNameImage(prevNameImage => {
           const updatedNameImage = [...prevNameImage];
           updatedNameImage[id] = { RecipeImageURL: file.name };
           return updatedNameImage;
         });
+        showSnackbar('Chọn ảnh thành công !', "success");
       } else {
       }
     }
@@ -432,14 +435,9 @@ const AppCreateRecipe = () => {
 const handleFeaturesImageChange = async (event) => {
   const file = event.target.files[0];
   if (file) {
-    // submittedContent
-
     setFeaturedImageName(file.name);
     if (file.type.startsWith('image/')) {
       const resFeaturedImage = await uploadImage(file, "recipe");
-
-      
-      
       setFeaturedImage(resFeaturedImage);
     } else {
     }
@@ -451,7 +449,7 @@ const handleFeaturesImageChange = async (event) => {
 const handleViewCreateNewRecipe = () => {
   
     for (let index = 0; index < recipeIngredientView.length; index ++) {
-      contentRecipes += '<ul><li><p><span style="font-size: 18px">'+recipeIngredientView[index].ingredientName+' '+recipeIngredientView[index].unitValue+' gam</span></p></li></ul></br>';
+      contentRecipes += '<ul><li><p><span style="font-size: 18px">'+recipeIngredientView[index].ingredientName+' '+recipeIngredientView[index].unitValue+ ' '+recipeIngredientView[index].unit +'</span></p></li></ul></br>';
     };
 
     contentRecipes += '</br><h4><strong><span style="color: rgb(255, 71, 0); font-size: 30px">Cách làm:</span></strong></h4></br>';
@@ -466,7 +464,6 @@ const handleViewCreateNewRecipe = () => {
     };
   }
 
-  
   const checkIngredientAndContentChange = () => {
     let checkEmpty = false;
     for (let index = 0; index < recipeIngredientDataSend.length; index ++) {
@@ -611,7 +608,7 @@ const handleViewCreateNewRecipe = () => {
               Nguyên liệu
             </Typography>
             <Typography sx={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '1%'}}>
-            Nhập một thành phần trên mỗi dòng. Bao gồm số lượng (ví dụ: cốc, thìa) và bất kỳ chế phẩm đặc biệt nào (ví dụ: rây, làm mềm, cắt nhỏ). Sử dụng các tiêu đề tùy chọn để sắp xếp các phần khác nhau của công thức (ví dụ: Bánh, Kem phủ kem, Nước sốt).
+            Chọn nguyên liệu thích hợp cho công thức, khi chọn sẽ hiện đơn vị tương ứng (ví dụ chọn nguyên liệu "đường" thì đơn vị tương ứng sẽ là "thìa"). Nhập định lượng cần cho nguyên liệu này (ví dụ: 1 thìa).
             </Typography>
             <Typography sx={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '1%'}}>
             Hãy ấn nút “thêm dòng nguyên liệu” để hiện thêm nguyên liệu và nhập định lượng cần dùng cho từng bước. 
@@ -623,19 +620,19 @@ const handleViewCreateNewRecipe = () => {
               size="small"
               options={dataIngredients}
               getOptionLabel={(option) => option.ingredientName}
-              onChange={(event, option) => handleChangeRecipeIngredientName(0, option?.ingredientId, option?.ingredientName)}
+              onChange={(event, option) => handleChangeRecipeIngredientName(0, option?.ingredientId, option?.ingredientName, option?.ingredientUnit)}
               renderOption={(props, option) => (
                 <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
-                  {option.ingredientName}
+                  {option.ingredientName} ( {option.ingredientUnit} )
                 </Box>
               )}
               sx={{ width: '100%' }}
               renderInput={(params) => <TextField {...params} label="Chọn nguyên liệu" sx={{ borderRadius: '15px' }}/>}
             />
       </Grid>
-      
+      {/* ${option.ingredientName} */}
       <Grid item xs={5}>
-      <TextField required id="outlined-size-small" size="small" sx={{ width: '100%',}} placeholder="Nhập định lượng (đơn vị là gam)" onChange={(event) => handleChangeRecipeIngredientUnit(0, event.target.value)}/>
+      <TextField required id="outlined-size-small" size="small" sx={{ width: '100%',}} placeholder={`Nhập định lượng (đơn vị là )`} onChange={(event) => handleChangeRecipeIngredientUnit(0, event.target.value)}/>
       </Grid>
       <Grid item xs={1}>
       
@@ -648,10 +645,10 @@ const handleViewCreateNewRecipe = () => {
               size="small"
               options={dataIngredients}
               getOptionLabel={(option) => option.ingredientName}
-              onChange={(event, option) => handleChangeRecipeIngredientName(1, option?.ingredientId, option?.ingredientName)}
+              onChange={(event, option) => handleChangeRecipeIngredientName(1, option?.ingredientId, option?.ingredientName, option?.ingredientUnit)}
               renderOption={(props, option) => (
                 <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
-                  {option.ingredientName}
+                  {option.ingredientName} ( {option.ingredientUnit} )
                 </Box>
               )}
               sx={{ width: '100%' }}
@@ -659,7 +656,7 @@ const handleViewCreateNewRecipe = () => {
             />
             </Grid>
             <Grid item xs={5}>
-            <TextField required id="outlined-size-small" size="small" sx={{ width: '100%',}} placeholder="Nhập định lượng (đơn vị là gam)" onChange={(event) => handleChangeRecipeIngredientUnit(1, event.target.value)}/>
+            <TextField required id="outlined-size-small" size="small" sx={{ width: '100%',}} placeholder="Nhập định lượng cần (gram)" onChange={(event) => handleChangeRecipeIngredientUnit(1, event.target.value)}/>
             </Grid>
             <Grid item xs={1}>
       
@@ -671,7 +668,7 @@ const handleViewCreateNewRecipe = () => {
                 {rowsNL}
               </Grid>
             ))}
-            <ClassicButton text="Thêm dòng nguyên liệu" top="1%" width="20%" onClick={handleAddRowClickNL} />
+            <ClassicButton text="Thêm dòng nguyên liệu" top="1%" width="30%" onClick={handleAddRowClickNL} />
           </Grid>
         </Grid>
 
