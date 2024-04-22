@@ -68,12 +68,12 @@ function RecipeDetail() {
   const [id, setId] = useState("");
   const [listMenu, setListMenu] = useState([]);
   const [printMode, setPrintMode] = useState(false);
-  const shareToFacebook = () => {
-    window.open(
-      "https://www.facebook.com/sharer/sharer.php?u=https://your-website-url.com",
-      "_blank"
-    );
-  };
+  // const shareToFacebook = () => {
+  //   window.open(
+  //     `https://www.facebook.com/sharer/sharer.php?u=https://${data?.recipeTitle}.com`,
+  //     "_blank"
+  //   );
+  // };
 
   // const getListMenu = async () => {
   //   try {
@@ -266,7 +266,7 @@ function RecipeDetail() {
             >
               In
             </Button>
-            <Button
+            {/* <Button
               size="small"
               variant="contained"
               sx={{
@@ -280,7 +280,7 @@ function RecipeDetail() {
               onClick={shareToFacebook}
             >
               Chia sẻ
-            </Button>
+            </Button> */}
 
             {/*nút add to menu*/}
             <Button
