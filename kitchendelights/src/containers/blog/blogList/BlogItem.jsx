@@ -101,7 +101,7 @@ export default function BlogItem({
                 height={24}
                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/600px-Good_Food_Display_-_NCI_Visuals_Online.jpg"
               />
-              <Typography>{userName}</Typography>
+              <Typography sx={{fontWeight:'bold'}}>{userName}</Typography>
             </Stack>
             <Stack
               sx={{
@@ -111,7 +111,7 @@ export default function BlogItem({
                 alignItems: "center",
               }}
             >
-              <Typography>{commentCount} thao luan</Typography>
+              <Typography>{commentCount} thảo luận</Typography>
             </Stack>
           </Stack>
         </CardContent>

@@ -257,7 +257,7 @@ export default function PrimarySearchAppBar() {
                 </Button>
               </Grid>
               <Grid item xs={2}>
-                <IconButton aria-label="cart">
+                <IconButton aria-label="cart" sx={{marginLeft:'25px'}}>
                   <StyledBadge
                     badgeContent={recipeCountNumber}
                     color="secondary"
@@ -291,7 +291,7 @@ export default function PrimarySearchAppBar() {
             >
               <CategoryButton goToPage={goToHomePage} text={"Trang chủ"} />
               <CategoryButton goToPage={goToRepice} text={"Công thức nấu ăn"} />
-              <IngredientHoverBtn />
+              
               <CategoryHoverItem />
               <BtnHandleHoverItem />
               <CategoryButton goToPage={goToNews} text={"Tin tức"} />

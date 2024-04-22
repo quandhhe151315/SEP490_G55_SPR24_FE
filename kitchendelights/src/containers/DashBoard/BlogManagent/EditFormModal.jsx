@@ -74,6 +74,8 @@ export default function EditFormModal({
     reset,
   } = useForm();
   const [imgUrl, setImgUrl] = useState("");
+  const [categoryId, setCategoryId] = useState("");
+  console.log(categoryId);
   React.useEffect(() => {
     const currentBlog = blogLists?.find((item) => item?.blogId === id);
     setImgUrl(currentBlog?.blogImage);
@@ -84,8 +86,10 @@ export default function EditFormModal({
       blogImage: currentBlog?.blogImage,
       categoryId: currentBlog?.categoryId,
     });
+    setCategoryId(currentBlog?.categoryId);
   }, [blogList, blogLists]);
   const userId = Cookies.get("userId");
+
   const onSubmit = async (data) => {
     if (!imgUrl && !files?.[0]) {
       setOpenSnackBar(true);
@@ -101,7 +105,11 @@ export default function EditFormModal({
       await uploadImage(files?.[0], "blog").then((res) => {
         updateBlog({
           ...data,
+          categoryName: categoriesList?.filter(
+            (item) => item?.categoryId === data?.categoryId
+          )?.[0]?.categoryName,
           blogImage: res,
+          categoryId: categoryId,
         })
           .then((res) => {
             if (res?.status) {
@@ -115,7 +123,8 @@ export default function EditFormModal({
               setStatusPostBlog(res.status);
               setOpenSnackBar(true);
               reset({});
-              setContentSnackbar("Sua blog thành công");
+              setContentSnackbar("Sửa blog thành công");
+              setCategoryId("");
               handleClose();
               setFiles([]);
             }
@@ -124,12 +133,17 @@ export default function EditFormModal({
             setStatusPostBlog(e?.response?.status);
             setOpenSnackBar(true);
             reset({});
+            setCategoryId("");
             setContentSnackbar("Đã có lỗi xảy ra");
           });
       });
     } else {
       await updateBlog({
         ...data,
+        categoryName: categoriesList?.filter(
+          (item) => item?.categoryId === categoryId
+        )?.[0]?.categoryName,
+        categoryId: categoryId,
       })
         .then((res) => {
           if (res.status) {
@@ -139,12 +153,12 @@ export default function EditFormModal({
               }
               return item;
             });
-            console.log(newBlogList);
             setBlogList(newBlogList);
             setStatusPostBlog(res.status);
             setOpenSnackBar(true);
             reset({});
-            setContentSnackbar("Sua blog thành công");
+            setContentSnackbar("Sửa blog thành công");
+            setCategoryId("");
             handleClose();
             setFiles([]);
           }
@@ -153,6 +167,7 @@ export default function EditFormModal({
           setStatusPostBlog(e?.response?.status);
           setOpenSnackBar(true);
           reset({});
+          setCategoryId("");
           setContentSnackbar("Đã có lỗi xảy ra");
         });
     }
@@ -175,7 +190,14 @@ export default function EditFormModal({
                     control={control}
                     name="categoryId"
                     render={({ field: { onChange, onBlur, value, ref } }) => (
-                      <Select onChange={onChange} value={value} inputRef={ref}>
+                      <Select
+                        onChange={(e) => {
+                          onChange(e.target.value);
+                          setCategoryId(e.target.value);
+                        }}
+                        value={value}
+                        inputRef={ref}
+                      >
                         {categoriesList?.map((item, index) => {
                           return (
                             <MenuItem
@@ -234,7 +256,8 @@ export default function EditFormModal({
                         backgroundColor: "#ff5e00",
                         "&:hover": {
                           backgroundColor: "#FFCF96",
-                        },mt:8
+                        },
+                        mt: 8,
                       }}
                     >
                       {files?.[0]?.name ? (

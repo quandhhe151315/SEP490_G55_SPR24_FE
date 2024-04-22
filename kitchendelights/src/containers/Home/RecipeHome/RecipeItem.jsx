@@ -88,6 +88,11 @@ export default function RecipeItem({ item }) {
             </div>
             <CardContent>
               <Typography
+              sx={{
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+                textOverflow: "ellipsis",
+              }}
                 gutterBottom
                 variant="h5"
                 component="div"
@@ -115,8 +120,11 @@ export default function RecipeItem({ item }) {
                   sx={{ color: "#ff5e00", mr: 2 }}
                 />
                 <Stack direction={"row"} columnGap={1.5}>
-                  <Stack direction={"row"} gap={1} onClick={()=>handleAddToCart(item?.recipeId)}>
-                    <Typography>20</Typography>
+                  <Stack
+                    direction={"row"}
+                    gap={1}
+                    onClick={() => handleAddToCart(item?.recipeId)}
+                  >
                     <ShoppingCartIcon sx={{ color: "#ff5e00" }} width={16} />
                   </Stack>
                 </Stack>
@@ -144,6 +152,11 @@ export default function RecipeItem({ item }) {
             </div>
             <CardContent>
               <Typography
+              sx={{
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+                textOverflow: "ellipsis",
+              }}
                 gutterBottom
                 variant="h5"
                 component="div"

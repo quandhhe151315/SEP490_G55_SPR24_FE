@@ -86,10 +86,10 @@ function ApporoveDialog({ open, handleClose, recipeId }) {
             const response = await updateStatusRecipe(recipeId, 1);
             if (response.status === 200) {
                 handleClose();
-                console.log('approve thanh cong');
+                console.log('Duyệt thành công');
                 toast.success('Duyệt công thức thành công');
             } else {
-                console.log('approve that bai');
+                console.log('Duyệt thành công');
                 toast.error('Duyệt công thức thất bại');
             }
 
@@ -190,9 +190,14 @@ function ApporoveDialog({ open, handleClose, recipeId }) {
                                     Nguyên Liệu
                                 </Typography>
                                 {ingredients.map((ingredient, index) => (
-                                    <Typography key={index} sx={{ marginLeft: '5%', marginTop: '10px' }}>
-                                        {ingredient.ingredientName} : {ingredient.unitValue} {ingredient.ingredientUnit}
-                                    </Typography>
+                                    // <Typography key={index} sx={{ marginLeft: '5%', marginTop: '10px' }}>
+                                    //     {ingredient.ingredientName} : {ingredient.unitValue} {ingredient.ingredientUnit}
+                                    // </Typography>
+                                    <Box key={index} sx={{display:'flex', justifyContent:'space-between', marginLeft:'5%', marginTop:'10px', maxWidth:'30%', padding:'0 10px'}}>
+                                        <Typography sx={{flex: 1, textAlign:'left'}}>{ingredient.ingredientName}</Typography>
+                                        <Typography sx={{flex: 0.2, textAlign:'center'}}>{ingredient.unitValue}</Typography>
+                                        <Typography sx={{flex: 0.2, textAlign:'right'}}>{ingredient.ingredientUnit}</Typography>
+                                    </Box>
                                 ))}
 
                                 {/* Cách làm */}
@@ -207,10 +212,21 @@ function ApporoveDialog({ open, handleClose, recipeId }) {
                         <Typography variant="h5" sx={{ marginTop: '25px', marginLeft: '20px' }}>
                             Chọn category cho công thức này
                         </Typography>
-                        <Box sx={{ width: '90%', marginLeft: '5%', marginTop: '30px' }}>
+                        <Box sx={{ width: '95%', marginLeft: '5%', marginTop: '30px' }}>
                             <Grid container spacing={2}>
                                 {Object.entries(categoryByParentId).map(([parentId, categories], index) => (
                                     <Grid sx={{ marginTop: '10px' }} item xs={3} key={index}>
+                                        <Box
+                                        sx={{
+                                            marginTop:'10px',
+                                            border: '1px solid gray',
+                                            borderRadius: '5px',
+                                            padding: '10px',
+                                        }}
+                                        >
+                                        <Typography variant="h6">
+                                            {categories[0]?.parentName}
+                                        </Typography>
                                         {categories.map((category) => (
                                             <CategoryCheckbox
                                                 category={category}
@@ -218,6 +234,7 @@ function ApporoveDialog({ open, handleClose, recipeId }) {
                                                 selectedCategoriesRef={selectedCategoriesRef}
                                             />
                                         ))}
+                                        </Box>
                                     </Grid>
                                 ))}
                             </Grid>
@@ -226,11 +243,12 @@ function ApporoveDialog({ open, handleClose, recipeId }) {
                     </Box>
                 </DialogContent>
                 <DialogActions>
-                    <Button sx={{marginRight:'30px'}} onClick={handleClose}>Cancel</Button>
-                    <Button sx={{marginRight:'70px'}} onClick={() => {
+                    
+                    <Button sx={{marginRight:'30px'}} onClick={() => {
                         handleApproveRecipe();
 
-                    }}>{recipe.recipeStatus === 1 ? 'Save' : 'Approve'}</Button>
+                    }}>{recipe.recipeStatus === 1 ? 'Lưu' : 'Duyệt'}</Button>
+                    <Button sx={{marginRight:'70px'}} onClick={handleClose}>Hủy</Button>
                 </DialogActions>
             </Dialog>
         </div>

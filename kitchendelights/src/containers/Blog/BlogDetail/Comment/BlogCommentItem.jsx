@@ -30,6 +30,7 @@ export default function BlogCommentItem({
   commentLists,
   setCommentLists,
 }) {
+  console.log(commentLists);
   const [showReplySection, setShowReplySection] = useState(false);
   const userId = Cookies.get("userId");
   const isMyBlog = item?.userId === Number(userId);
@@ -116,7 +117,7 @@ export default function BlogCommentItem({
         });
     } else {
       setOpenSnackBar(true);
-      setContentSnackbar("Xoá bình luận thất bại !");
+      setContentSnackbar("Chỉnh sửa bình luận thất bại !");
     }
     setIsUpdateComment(-1);
   };
@@ -141,39 +142,42 @@ export default function BlogCommentItem({
                 {dayjs(item?.createDate)?.format("DD-MM-YYYY hh:mm")}
               </Typography>
               <Stack>
-                <Button
-                  id="fade-button"
-                  aria-controls={open ? "fade-menu" : undefined}
-                  aria-haspopup="true"
-                  aria-expanded={open ? "true" : undefined}
-                  onClick={handleClick}
-                >
-                  <MoreHorizIcon />
-                </Button>
-                <Menu
-                  id="fade-menu"
-                  MenuListProps={{
-                    "aria-labelledby": "fade-button",
-                  }}
-                  anchorEl={anchorEl}
-                  open={open}
-                  onClose={handleClose}
-                  TransitionComponent={Fade}
-                >
-                  {isMyBlog && (
-                    <MenuItem
-                      onClick={() => handleDeleteComment(item?.commentId)}
-                    >
-                      Xoá
-                    </MenuItem>
-                  )}
-                  {isMyBlog && (
-                    <MenuItem onClick={() => handleUpdateComment(item)}>
-                      Chỉnh sửa
-                    </MenuItem>
-                  )}
-                  <MenuItem onClick={handleClose}>Phản hồi</MenuItem>
-                </Menu>
+                {userId && (
+                  <Button
+                    id="fade-button"
+                    aria-controls={open ? "fade-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? "true" : undefined}
+                    onClick={handleClick}
+                  >
+                    <MoreHorizIcon />
+                  </Button>
+                )}
+                {userId && (
+                  <Menu
+                    id="fade-menu"
+                    MenuListProps={{
+                      "aria-labelledby": "fade-button",
+                    }}
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    TransitionComponent={Fade}
+                  >
+                    {isMyBlog && (
+                      <MenuItem
+                        onClick={() => handleDeleteComment(item?.commentId)}
+                      >
+                        Xoá
+                      </MenuItem>
+                    )}
+                    {isMyBlog && (
+                      <MenuItem onClick={() => handleUpdateComment(item)}>
+                        Chỉnh sửa
+                      </MenuItem>
+                    )}
+                  </Menu>
+                )}
               </Stack>
             </Stack>
           </Box>

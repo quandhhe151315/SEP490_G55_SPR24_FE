@@ -159,42 +159,53 @@ function AppRoute() {
       path: "/AdsManagement",
       element: <ViewAdvertisement />,
       loader: async () => {
-        if (!!roleId) {
-          if (roleId !== 1 && roleId !== 2) {
-            return redirect("/403");
-          }
-          return null;
+        if(Cookies.get("userIdExist") == true || Cookies.get("role") !== "Administrator" && Cookies.get("role") !== "Moderator"){
+          return redirect("/403");
         }
         return null;
-      },
+      }
     },
 
     {
       path: "/CreateAdvertisement",
       element: <CreateAdvertisement />,
+      loader: async () => {
+        if(Cookies.get("userIdExist") == true || Cookies.get("role") !== "Administrator" && Cookies.get("role") !== "Moderator"){
+          return redirect("/403");
+        }
+        return null;
+      }
     },
 
     {
       path: "/UpdateAdvertisement/:advertisementId",
       element: <UpdateAdvertisement />,
+      loader: async () => {
+        if(Cookies.get("userIdExist") == true || Cookies.get("role") !== "Administrator" && Cookies.get("role") !== "Moderator"){
+          return redirect("/403");
+        }
+        return null;
+      }
     },
     {
       path: "/CreateCategory",
       element: <CreateCategory />,
       loader: async () => {
-        if (!!roleId) {
-          if (roleId !== 1 && roleId !== 2) {
-            return redirect("/403");
-          }
-          return null;
-        }else{
+        if(Cookies.get("userIdExist") == true || Cookies.get("role") !== "Administrator" && Cookies.get("role") !== "Moderator"){
           return redirect("/403");
         }
-      },
+        return null;
+      }
     },
     {
       path: "/UpdateCategory/:CategoryId",
       element: <UpdateCategory />,
+      loader: async () => {
+        if(Cookies.get("userIdExist") == true || Cookies.get("role") !== "Administrator" && Cookies.get("role") !== "Moderator"){
+          return redirect("/403");
+        }
+        return null;
+      }
     },
     {
       path: "/CreateAccount",
@@ -224,14 +235,11 @@ function AppRoute() {
       path: "/ViewListCategory",
       element: <ListCategoryDashboard />,
       loader: async () => {
-        if (!!roleId) {
-          if (roleId !== 1 && roleId !== 2) {
-            return redirect("/403");
-          }
-          return null;
+        if(Cookies.get("userIdExist") == true || Cookies.get("role") !== "Administrator" && Cookies.get("role") !== "Moderator"){
+          return redirect("/403");
         }
         return null;
-      },
+      }
     },
 
     {
@@ -264,14 +272,11 @@ function AppRoute() {
       path: "/ListRecipeDashBoard",
       element: <ListRecipeDashBoard />,
       loader: async () => {
-        if (!!roleId) {
-          if (roleId !== 1 && roleId !== 2) {
-            return redirect("/403");
-          }
-          return null;
+        if(Cookies.get("userIdExist") == true || Cookies.get("role") !== "Administrator" && Cookies.get("role") !== "Moderator"){
+          return redirect("/403");
         }
         return null;
-      },
+      }
     },
     {
       path: "/ListNews",
@@ -291,10 +296,7 @@ function AppRoute() {
       path: "/comment/list",
       element: <ListCommentDashboard />,
       loader: async () => {
-        if (Cookies.get("userIdExist") !== true) {
-          return redirect("/403");
-        }
-        else if(Cookies.get("role") !== "Administrator" || Cookies.get("role") !== "Moderator"){
+        if(Cookies.get("userIdExist") == true || Cookies.get("role") !== "Administrator" && Cookies.get("role") !== "Moderator"){
           return redirect("/403");
         }
         return null;
@@ -324,22 +326,15 @@ function AppRoute() {
       path: "/blog/management",
       element: <ListBlogDashboard />,
       loader: async () => {
-        if (!!roleId) {
-          if (roleId !== 1 && roleId !== 2) {
-            return redirect("/403");
-          }
-          return null;
+        if(Cookies.get("userIdExist") == true || Cookies.get("role") !== "Administrator" && Cookies.get("role") !== "Moderator"){
+          return redirect("/403");
         }
         return null;
-      },
+      }
     },
     {
       path: "/ViewDetailMenu/:menuId",
       element: <ViewDetailMenu />,
-    },
-    {
-      path: "/DenyAccess",
-      element: <DenyAccess />,
     },
     {
       path: "/MyRecipe",
