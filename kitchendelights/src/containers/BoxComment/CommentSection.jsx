@@ -16,6 +16,7 @@ import {
 import { formatDistanceToNow } from "date-fns";
 import StarIcon from "@mui/icons-material/Star";
 import SendIcon from "@mui/icons-material/Send";
+import moment from "moment";
 import {
   CreateReview,
   GetReviewByRecipeId,
@@ -62,10 +63,7 @@ const Comment = ({
   const [ratingvalue, setratingvalue] = useState(rating);
   const [contentValue, setContentValue] = useState(content);
   const role = Cookies.get("role");
-  const check = ["Moderator", "Writer", "Chef", "users", undefined].includes(
-    role
-  );
-  console.log("role", check);
+
   const uId = getUserIdFromCookie();
 
   const handleMenuClose = () => {
@@ -165,7 +163,7 @@ const Comment = ({
             </Typography>
           )}
           <Typography variant="caption" color="textSecondary">
-            {formatDistanceToNow(new Date(timestamp), { addSuffix: true })}
+            {moment(timestamp).format("DD/MM/YYYY")}
           </Typography>
         </Grid>
         <Grid

@@ -8,6 +8,7 @@ import Paper from "@mui/material/Paper";
 import Appbar from "../../components/Homepage/Appbar";
 import AvatarMenu from "../../components/Account/AvatarMenu";
 import Box from "@mui/material/Box";
+import moment from "moment";
 import Grid from "@mui/material/Unstable_Grid2";
 export default function HistoryPayment() {
   const [data, setdata] = useState([]);
@@ -58,6 +59,10 @@ export default function HistoryPayment() {
 
       headerName: "Ngày mua",
       width: isSmallScreen ? 125 : 250,
+      valueFormatter: (params) => {
+        // Format ngày dưới dạng "DD/MM/YYYY"
+        return moment(params.value).format("DD/MM/YYYY");
+      },
     },
   ];
   return (
