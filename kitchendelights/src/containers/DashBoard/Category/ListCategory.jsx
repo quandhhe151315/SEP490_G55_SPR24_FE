@@ -131,44 +131,7 @@ function ListCategoryDashboard() {
               Danh sách category
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <TextField
-                sx={{
-                  marginLeft: '10%',
-                  marginTop: '5px',
-                  width: '50%',
-
-                  borderRadius: '15px',
-                  '& .MuiOutlinedInput-root': {
-                    '& fieldset': {
-                      borderRadius: '15px',
-                    },
-                  },
-                }}
-                size="small"
-                label="Tìm kiếm công thức"
-                value={searchText}
-                onChange={(event) => {
-                  setSearchText(event.target.value)
-                  if (event.target.value === '') {
-                    
-                  }
-                }}
-              />
-
-              <SearchIcon
-                sx={{
-                  bgcolor: "#553C9A",
-                  borderRadius: "15px",
-                  marginLeft: "16px",
-                  width: "48px",
-                  height: "48px",
-                  color: "white",
-                  marginTop: "5px",
-                }}
-                onClick={() => getAllCategory()}
-              />
-
-              <CategoryButton text='Tạo category mới' height='auto' width='auto' marginLeft='15%' marginTop='10px' onClick={goToCreateCategory}></CategoryButton>
+              <CategoryButton text='Tạo category mới' height='auto' width='auto' marginLeft='70%' marginTop='20px' onClick={goToCreateCategory}></CategoryButton>
             </Box>
 
             <TableContainer sx={{ marginTop: '20px', maxHeight: '600px' }}>
