@@ -196,7 +196,6 @@ function ListRecipeDashBoard() {
                                 onClick={() => getListRecipe(searchText)}
                             />
 
-                            <CategoryButton text='Tạo Recipe mới' height='auto' width='auto' marginLeft='15%' onClick={goToCreateNewRecipe}></CategoryButton>
                         </Box>
                         <TableContainer sx={{ marginTop: '20px', maxHeight: '600px', overflow: 'auto', whiteSpace: 'nowrap' }}>
                             <Table sx={{ minWidth: 1000 }} aria-label="customized table">
