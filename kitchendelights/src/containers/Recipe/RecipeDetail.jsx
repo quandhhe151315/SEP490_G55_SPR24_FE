@@ -452,7 +452,7 @@ function RecipeDetail() {
             </Typography>
 
             {data1.map((item, index) => {
-              const adjustedUnitValue = Math.round(
+              const adjustedUnitValue = Math.ceil(
                 (item.unitValue * peopleCount) / data?.recipeServe
               );
               const roundedValue =
