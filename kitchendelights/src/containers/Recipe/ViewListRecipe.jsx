@@ -143,7 +143,7 @@ function ViewListRecipes() {
         }
       } else {
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const getListCarts = async (id) => {
@@ -183,7 +183,7 @@ function ViewListRecipes() {
       } else {
         console.error("Can not Load cart! ");
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const GoToCreateRecipe = () => {
@@ -230,7 +230,7 @@ function ViewListRecipes() {
                   sx={{
                     bgcolor: "#ff5e00",
                     borderRadius: "15px",
-                    marginLeft: "16px",
+                    marginLeft: "24px",
                     width: "48px",
                     height: "42px",
                     color: "white",
@@ -254,13 +254,13 @@ function ViewListRecipes() {
                   whiteSpace: "nowrap",
                 }}
                 onClick={GoToCreateRecipe}
-                // disabled={
-                //   !(
-                //     role === "Chef" ||
-                //     role === "Administrator" ||
-                //     role === "Moderator"
-                //   )
-                // }
+              // disabled={
+              //   !(
+              //     role === "Chef" ||
+              //     role === "Administrator" ||
+              //     role === "Moderator"
+              //   )
+              // }
               >
                 Tạo công thức nấu ăn
               </Button>
@@ -399,7 +399,7 @@ function ViewListRecipes() {
               onClick={() => setCurrentPageFree((prevPage) => prevPage + 1)}
               disabled={
                 paginateRecipes(freeRecipes, currentPageFree).length <
-                  recipesPerPage ||
+                recipesPerPage ||
                 paginateRecipes(freeRecipes, currentPageFree + 1).length === 0
               }
             >
@@ -544,7 +544,7 @@ function ViewListRecipes() {
               onClick={() => setCurrentPagePaid((prevPage) => prevPage + 1)}
               disabled={
                 paginateRecipes(paidRecipes, currentPagePaid).length <
-                  recipesPerPage ||
+                recipesPerPage ||
                 paginateRecipes(paidRecipes, currentPagePaid + 1).length === 0
               }
             >

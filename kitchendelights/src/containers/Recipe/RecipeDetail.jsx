@@ -33,6 +33,7 @@ import CommentSection from "../../containers/BoxComment/CommentSection";
 import EmbedVideo from "../../components/Video/EmbedVideo.jsx";
 import GradeOutlinedIcon from "@mui/icons-material/GradeOutlined";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import { width } from "@mui/system";
 function RecipeDetail() {
   const navigate = useNavigate();
   const [data, setdata] = useState();
@@ -365,7 +366,7 @@ function RecipeDetail() {
                   <Typography variant="body1" style={{ marginRight: "10px" }}>
                     {data?.preparationTime}
                   </Typography>
-                  <Typography sx={{marginLeft:'32px'}}>phút</Typography>
+                  <Typography sx={{ marginLeft: '32px' }}>phút</Typography>
                 </span>
               </Grid>
               <Grid item xs={6}>
@@ -378,7 +379,7 @@ function RecipeDetail() {
                   <Typography variant="body1" style={{ marginRight: "10px" }}>
                     {data?.cookTime}
                   </Typography>
-                  <Typography variant="body1" sx={{marginLeft:'32px'}}> phút</Typography>
+                  <Typography variant="body1" sx={{ marginLeft: '32px' }}> phút</Typography>
                 </span>
               </Grid>
               <Grid item xs={4}>
@@ -396,7 +397,7 @@ function RecipeDetail() {
                 /> */}
 
                 <TextField
-                sx={{ marginLeft: "26px" }}
+                  sx={{ marginLeft: "26px" }}
                   type="number"
                   value={peopleCount}
                   onChange={handlePeopleCountChange}
@@ -464,32 +465,36 @@ function RecipeDetail() {
                   spacing={{ xs: 2, md: 3 }}
                   columns={{ xs: 4, sm: 8, md: 12 }}
                 >
-                  <Grid item xs={6}>
-                    <Box key={index} sx={{ display: 'flex', justifyContent: 'space-between', marginLeft: '5%', marginTop: '10px', maxWidth: '95%', padding: '0 10px' }}>
-                      <Typography sx={{ flex: 1, textAlign: 'left' }}>{item.ingredientName}</Typography>
-                      <Typography sx={{ flex: 0.2, textAlign: 'center' }}>{roundedValue}</Typography>
-                      <Typography sx={{ flex: 0.2, textAlign: 'right' }}>{item.ingredientUnit}</Typography>
-                    </Box>
+                  <Grid item xs={3}>
+                    <Typography xs={{ width: '100' }} variant="body1" fontWeight={"bold"}>
+                      {item.ingredientName}:
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={0}>
+                    <Typography width={15} variant="body1">{roundedValue}</Typography>
+                  </Grid>
+                  <Grid item xs={2}>
+                    <Typography width={10} variant="body1">
+                      {item.ingredientUnit}
+                    </Typography>
                   </Grid>
                   <Grid item xs={6}>
                     {item.ingredientMarketplaces.map((x) => (
-                      <Box sx={{marginLeft:'5%', marginTop:'5px'}}>
-                        <a
-                          href={x.marketplaceLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          style={{ marginRight: 20 }}
-                        >
-                          <img
-                            src={x.marketplaceLogo}
-                            alt="logo"
-                            style={{
-                              width: "30px",
-                              height: "30px",
-                            }}
-                          />
-                        </a>
-                      </Box>
+                      <a
+                        href={x.marketplaceLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ marginRight: 20 }}
+                      >
+                        <img
+                          src={x.marketplaceLogo}
+                          alt="logo"
+                          style={{
+                            width: "30px",
+                            height: "30px",
+                          }}
+                        />
+                      </a>
                     ))}
                   </Grid>
                 </Grid>
