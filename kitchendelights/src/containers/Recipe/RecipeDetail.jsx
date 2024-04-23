@@ -173,7 +173,7 @@ function RecipeDetail() {
     if (value > 20) {
       value = 20;
     } else if (value < 1) {
-      value = 0;
+      value = 1;
     }
     setPeopleCount(value);
   };
@@ -365,7 +365,7 @@ function RecipeDetail() {
                   <Typography variant="body1" style={{ marginRight: "10px" }}>
                     {data?.preparationTime}
                   </Typography>
-                  <Typography>phút</Typography>
+                  <Typography sx={{marginLeft:'32px'}}>phút</Typography>
                 </span>
               </Grid>
               <Grid item xs={6}>
@@ -378,7 +378,7 @@ function RecipeDetail() {
                   <Typography variant="body1" style={{ marginRight: "10px" }}>
                     {data?.cookTime}
                   </Typography>
-                  <Typography variant="body1"> phút</Typography>
+                  <Typography variant="body1" sx={{marginLeft:'32px'}}> phút</Typography>
                 </span>
               </Grid>
               <Grid item xs={4}>
@@ -396,6 +396,7 @@ function RecipeDetail() {
                 /> */}
 
                 <TextField
+                sx={{ marginLeft: "26px" }}
                   type="number"
                   value={peopleCount}
                   onChange={handlePeopleCountChange}
@@ -449,7 +450,7 @@ function RecipeDetail() {
               Nguyên liệu
             </Typography>
 
-            {data1.map((item) => {
+            {data1.map((item, index) => {
               const adjustedUnitValue = Math.round(
                 (item.unitValue * peopleCount) / data?.recipeServe
               );
@@ -463,36 +464,32 @@ function RecipeDetail() {
                   spacing={{ xs: 2, md: 3 }}
                   columns={{ xs: 4, sm: 8, md: 12 }}
                 >
-                  <Grid item xs={3}>
-                    <Typography variant="body1" fontWeight={"bold"}>
-                      {item.ingredientName}:
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={0}>
-                    <Typography variant="body1">{roundedValue}</Typography>
-                  </Grid>
-                  <Grid item xs={2}>
-                    <Typography variant="body1">
-                      {item.ingredientUnit}
-                    </Typography>
+                  <Grid item xs={6}>
+                    <Box key={index} sx={{ display: 'flex', justifyContent: 'space-between', marginLeft: '5%', marginTop: '10px', maxWidth: '95%', padding: '0 10px' }}>
+                      <Typography sx={{ flex: 1, textAlign: 'left' }}>{item.ingredientName}</Typography>
+                      <Typography sx={{ flex: 0.2, textAlign: 'center' }}>{roundedValue}</Typography>
+                      <Typography sx={{ flex: 0.2, textAlign: 'right' }}>{item.ingredientUnit}</Typography>
+                    </Box>
                   </Grid>
                   <Grid item xs={6}>
                     {item.ingredientMarketplaces.map((x) => (
-                      <a
-                        href={x.marketplaceLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{ marginRight: 20 }}
-                      >
-                        <img
-                          src={x.marketplaceLogo}
-                          alt="logo"
-                          style={{
-                            width: "30px",
-                            height: "30px",
-                          }}
-                        />
-                      </a>
+                      <Box sx={{marginLeft:'5%', marginTop:'5px'}}>
+                        <a
+                          href={x.marketplaceLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ marginRight: 20 }}
+                        >
+                          <img
+                            src={x.marketplaceLogo}
+                            alt="logo"
+                            style={{
+                              width: "30px",
+                              height: "30px",
+                            }}
+                          />
+                        </a>
+                      </Box>
                     ))}
                   </Grid>
                 </Grid>
