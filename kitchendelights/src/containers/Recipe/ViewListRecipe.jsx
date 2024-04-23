@@ -189,7 +189,7 @@ function ViewListRecipes() {
   const GoToCreateRecipe = () => {
     if (
       Cookies.get("userFullname") !== "" &&
-      (role === "Chef" || role === "Administrator" || role === "Moderator")
+      (role === "Chef")
     ) {
       navigate("/CreateRecipe");
     } else {

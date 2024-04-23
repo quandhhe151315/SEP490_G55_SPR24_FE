@@ -157,7 +157,7 @@ function ListRecipeDashBoard() {
                         <Typography sx={{ fontSize: '24px', fontWeight: '', marginLeft: '5%', marginTop: '15px', color: '#4A5568' }}>
                             Danh sách Recipe
                         </Typography>
-                        
+
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
                             <TextField
                                 sx={{
@@ -196,7 +196,6 @@ function ListRecipeDashBoard() {
                                 onClick={() => getListRecipe(searchText)}
                             />
 
-                            <CategoryButton text='Tạo Recipe mới' height='auto' width='auto' marginLeft='15%' onClick={goToCreateNewRecipe}></CategoryButton>
                         </Box>
                         <TableContainer sx={{ marginTop: '20px', maxHeight: '600px', overflow: 'auto', whiteSpace: 'nowrap' }}>
                             <Table sx={{ minWidth: 1000 }} aria-label="customized table">
